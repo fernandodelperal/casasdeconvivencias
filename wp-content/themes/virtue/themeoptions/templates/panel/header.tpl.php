@@ -8,10 +8,12 @@
      * @version:    3.5.4.18
      */
 
+
 ?>
 <div id="redux-header">
     <?php if ( ! empty( $this->parent->args['display_name'] ) ) { ?>
         <div class="display_header">
+
 
             <h2><?php echo wp_kses_post( $this->parent->args['display_name'] ); ?></h2>
 

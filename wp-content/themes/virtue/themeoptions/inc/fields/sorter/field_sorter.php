@@ -14,7 +14,7 @@
              *
              * @since Redux_Options 1.0.0
              */
-            function __construct( $field = array(), $value = '', $parent ) {
+            function __construct( $field = array(), $value = '', $parent = null ) {
                 $this->parent = $parent;
                 $this->field  = $field;
                 $this->value  = $value;
@@ -82,7 +82,7 @@
                 }
 
                 $temp = $this->replace_id_with_slug( $temp );
-                
+
                 if ( $this->is_value_empty( $this->value ) ) {
                     if ( ! empty( $this->field['options'] ) ) {
                         $this->value = $this->field['options'];
@@ -92,7 +92,9 @@
                 $sortlists = $this->value;
                 if ( ! empty( $sortlists ) ) {
                     foreach ( $sortlists as $section => $arr ) {
-                        $sortlists[ $section ] = $this->replace_id_with_slug( $arr );
+                        $arr = $this->replace_id_with_slug( $arr );
+                        $sortlists[ $section ] = $arr;
+                        $this->value[$section] = $arr;
                     }
                 }
 
@@ -161,13 +163,12 @@
 
                                 echo '<input class="sorter-placebo" type="hidden" name="' . esc_attr($this->field['name']) . '[' . $group . '][placebo]' . esc_attr($this->field['name_suffix']) . '" value="placebo">';
 
-                                if ( $key != "placebo" ) {
-
-                                    //echo '<li id="' . $key . '" class="sortee">';
-                                    echo '<li id="sortee-' . esc_attr($key) . '" class="sortee" data-id="' . esc_attr($key) . '">';
-                                    echo '<input class="position ' . esc_attr($this->field['class']) . '" type="hidden" name="' . esc_attr($this->field['name'] . '[' . $group . '][' . $key . ']' . $this->field['name_suffix']) . '" value="' . esc_attr($list) . '">';
-                                    echo esc_html($list);
-                                    echo '</li>';
+                                if ( $key != "placebo" && ! is_array( $list ) ) {
+									//echo '<li id="' . $key . '" class="sortee">';
+									echo '<li id="sortee-' . esc_attr($key) . '" class="sortee" data-id="' . esc_attr($key) . '">';
+									echo '<input class="position ' . esc_attr($this->field['class']) . '" type="hidden" name="' . esc_attr($this->field['name'] . '[' . $group . '][' . $key . ']' . $this->field['name_suffix']) . '" value="' . esc_attr($list) . '">';
+									echo esc_html($list);
+									echo '</li>';
                                 }
                             }
 

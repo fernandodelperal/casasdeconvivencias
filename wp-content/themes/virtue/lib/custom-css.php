@@ -45,10 +45,13 @@ function virtue_custom_css() {
 		$menu_margin_bottom = '#nav-main {margin-bottom:10px;}';
 	}
 	// Typography.
-	if ( ! empty( $virtue['font_h1'] ) ) {
-		$font_family = '.headerfont, .tp-caption {font-family:' . esc_attr( $virtue['font_h1']['font-family'] ) . ';} .topbarmenu ul li {font-family:' . esc_attr( $virtue['font_primary_menu']['font-family'] ) . ';}';
+	if ( isset( $virtue['font_h1'] ) && ! empty( $virtue['font_h1'] ) ) {
+		$font_family = '.headerfont, .tp-caption {font-family:' . esc_attr( $virtue['font_h1']['font-family'] ) . ';}';
 	} else {
 		$font_family = '';
+	}
+	if ( isset( $virtue['font_primary_menu'] ) && ! empty( $virtue['font_primary_menu'] ) ) {
+		$font_family .= '.topbarmenu ul li {font-family:' . esc_attr( $virtue['font_primary_menu']['font-family'] ) . ';}';
 	}
 
 //Basic Styling

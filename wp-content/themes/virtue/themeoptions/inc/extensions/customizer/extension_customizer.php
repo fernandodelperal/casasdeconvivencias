@@ -40,7 +40,7 @@
             private $parent;
             private $orig_options = array();
             private static $post_values = array();
-            public static $version = "2.0.0";
+            public static $version = "2.0.1";
             private $options = array();
 
             /**
@@ -200,7 +200,6 @@
                     }
 
                 }
-
                 return $data;
             }
 
@@ -276,7 +275,7 @@
                 }
 
                 require_once dirname( __FILE__ ) . '/inc/customizer_fields.php';
-                require_once dirname( __FILE__ ) . '/inc/customizer_devs.php';
+                //require_once dirname( __FILE__ ) . '/inc/customizer_devs.php';
 
                 do_action( "redux/extension/customizer/control/includes" );
 
@@ -442,6 +441,21 @@
                         if ( ! isset( $section['subsection'] ) || ( isset( $section['subsection'] ) && $section['subsection'] != true ) ) {
                             $panel = "";
                         }
+                        if('header_settings' == $section['id']) {
+                        	$this->add_panel( $section['id'], array(
+	                            'priority'    => $section['priority'],
+	                            'capability'  => $section['permissions'],
+	                            //'theme_supports' => '',
+	                            'title'       => $section['title'],
+	                            'section'     => $section,
+	                            'opt_name'    => $this->parent->args['opt_name'],
+	                            'description' => '',
+	                        ), $wp_customize );
+                        	$panel = $section['id'];
+                        } else if('logo_settings' == $section['id'] || 'mobile_header_settings' == $section['id'] || 'topbar_header_settings' == $section['id'] || 'transparent_header_options' == $section['id'] || 'home_header_section' == $section['id'] || 'page_title' == $section['id'] ) {
+                        	$panel = 'header_settings';
+                        }
+                        //error_log($section['id']);
                         $this->add_section( $section['id'], array(
                             'title'       => $section['title'],
                             'priority'    => $section['priority'],
@@ -549,13 +563,17 @@
                         }
 
                         $wp_customize->add_control( new $class_name( $wp_customize, $option['id'], array(
-                            'label'          => $option['title'],
-                            'section'        => $section['id'],
-                            'settings'       => $option['id'],
-                            'type'           => 'redux-' . $option['type'],
-                            'field'          => $option,
-                            'ReduxFramework' => $this->parent,
-                            'priority'       => $option['priority'],
+                            'label'           => $option['title'],
+                            'section'         => $section['id'],
+                            'settings'        => $option['id'],
+                            'type'            => 'redux-' . $option['type'],
+                            'field'           => $option,
+                            'ReduxFramework'  => $this->parent,
+                            'active_callback' => ( isset( $option['required'] ) && class_exists( 'Redux_Customizer_Active_Callback' ) ) ? array(
+                                'Redux_Customizer_Active_Callback',
+                                'evaluate'
+                            ) : '__return_true',
+                            'priority'        => $option['priority'],
                         ) ) );
 
                         $section['fields'][ $skey ]['name'] = $option['id'];
@@ -576,7 +594,7 @@
 
             }
 
-            public function add_section( $id, $args = array(), $wp_customize ) {
+            public function add_section( $id, $args = array(), $wp_customize = null ) {
 
                 if ( is_a( $id, 'WP_Customize_Section' ) ) {
                     $section = $id;
@@ -599,7 +617,7 @@
              * @param WP_Customize_Panel|string $id   Customize Panel object, or Panel ID.
              * @param array                     $args Optional. Panel arguments. Default empty array.
              */
-            public function add_panel( $id, $args = array(), $wp_customize ) {
+            public function add_panel( $id, $args = array(), $wp_customize = null ) {
                 if ( is_a( $id, 'WP_Customize_Panel' ) ) {
                     $panel = $id;
                 } else {

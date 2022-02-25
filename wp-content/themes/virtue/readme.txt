@@ -16,7 +16,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 = Is there theme documentation? =
 
-Yes, go here: http://docs.kadencethemes.com/virtue/
+Yes, go here: https://docs.kadencewp.com/virtue-free/
 
 = Is there demo content available? =
 
@@ -29,6 +29,13 @@ Yes, go here: https://wordpress.org/support/theme/virtue
 == Changelog ==
 
 = Theme Name: Virtue =
+
+= Version 3.4.6 | 17th January 2022 =
+* Update: WC Templates
+* Update: PHP 8 support.
+
+= Version 3.4.5 | 17th May 2021 =
+* Update: WC Templates
 
 = Version 3.4.4 | 24th November 2020 =
 * Fix: Theme options bug.

@@ -1530,6 +1530,7 @@ var confirmOnPageExit = function( e ) {
 };
 
 function redux_change( variable ) {
+    variable = jQuery(variable);
 
     jQuery( 'body' ).trigger( 'check_dependencies', variable );
 
@@ -1537,8 +1538,15 @@ function redux_change( variable ) {
         jQuery( '#redux-compiler-hook' ).val( 1 );
     }
 
+//    var test = jQuery( variable ).parents( '.redux-field-container:first' );
+//    if ( test.hasClass( 'redux-container-typography' ) && redux.field_objects.typography ) {
+//        redux.field_objects.typography.change( test );
+//    }
+
     var rContainer = jQuery( variable ).parents( '.redux-container:first' );
+
     var parentID = jQuery( variable ).closest( '.redux-group-tab' ).attr( 'id' );
+
     // Let's count down the errors now. Fancy.  ;)
     var id = parentID.split( '_' );
     id = id[0];
@@ -1613,12 +1621,6 @@ function redux_change( variable ) {
     }
     // Don't show the changed value notice while save_notice is visible.
     if ( rContainer.find( '.saved_notice:visible' ).length > 0 ) {
-        return;
-    }
-
-
-    if ( redux.customizer ) {
-        redux.customizer.save( variable, rContainer, parentID );
         return;
     }
 
@@ -1793,3 +1795,19 @@ function colorNameToHex( colour ) {
     return colour;
 }
 
+function redux_hook( object, functionName, callback, before ) {
+    (function( originalFunction ) {
+        object[functionName] = function() {
+
+            if ( before === true ) {
+                callback.apply( this, [returnValue, originalFunction, arguments] );
+            }
+            var returnValue = originalFunction.apply( this, arguments );
+            if ( before !== true ) {
+                callback.apply( this, [returnValue, originalFunction, arguments] );
+            }
+
+            return returnValue;
+        };
+    }( object[functionName] ));
+}

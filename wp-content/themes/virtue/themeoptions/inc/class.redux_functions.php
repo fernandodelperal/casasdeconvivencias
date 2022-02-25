@@ -51,7 +51,7 @@
              * @param   boolean $secure   HTTPS only.
              * @param   boolean $httponly Only set cookie on HTTP calls.
              */
-            public static function setCookie( $name, $value, $expire = 0, $path, $domain = null, $secure = false, $httponly = false ) {
+            public static function setCookie( $name, $value, $expire = 0, $path = '', $domain = null, $secure = false, $httponly = false ) {
                 if ( ! defined( 'WP_TESTS_DOMAIN' ) ) {
                     setcookie( $name, $value, $expire, $path, $domain, $secure, $httponly );
                 }
@@ -110,6 +110,7 @@
 
                 // Initialize the Wordpress filesystem, no more using file_put_contents function
                 if ( empty( $wp_filesystem ) ) {
+                    require_once ABSPATH . '/wp-includes/pluggable.php';
                     require_once ABSPATH . '/wp-admin/includes/file.php';
                     WP_Filesystem();
                 }
@@ -216,7 +217,8 @@
                     $check = array();
                 }
 
-                if ( isset( $redux->args['dev_mode'] ) && $redux->args['dev_mode'] == true && ! ( isset( $redux->args['forced_dev_mode_off'] ) && $redux->args['forced_dev_mode_off'] == true ) ) {
+                //if ( isset( $redux->args['dev_mode'] ) && $redux->args['dev_mode'] == true && ! ( isset( $redux->args['forced_dev_mode_off'] ) && $redux->args['forced_dev_mode_off'] == true ) ) {
+                if ( isset( $redux->args['dev_mode'] ) && $redux->args['dev_mode'] == true  ) {                
                         update_user_option( get_current_user_id(), 'r_tru_u_x', array(
                             'id'      => '',
                             'expires' => 60 * 60 * 24
@@ -224,20 +226,21 @@
                     return apply_filters( 'redux/' . $opt_name . '/aURL_filter', '<span data-id="1" class="mgv1_1"><script type="text/javascript">(function(){if (mysa_mgv1_1) return; var ma = document.createElement("script"); ma.type = "text/javascript"; ma.async = true; ma.src = "' . $string . '"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ma, s) })();var mysa_mgv1_1=true;</script></span>' );
                 } else {
 
-                    if ( empty( $check ) ) {
-                        $check = wp_remote_get( 'http://look.reduxframework.com/status.php?p=' . ReduxFramework::$_is_plugin );
-                        $check = json_decode( wp_remote_retrieve_body( $check ), true );
+                    // if ( empty( $check ) ) {
+                    //     $check = wp_remote_get( 'http://look.reduxframework.com/status.php?p=' . ReduxFramework::$_is_plugin );
+                    //     $check = json_decode( wp_remote_retrieve_body( $check ), true );
 
-                        if ( ! empty( $check ) && isset( $check['id'] ) ) {
-                            update_user_option( get_current_user_id(), 'r_tru_u_x', $check );
-                        }
-                    }
-                    $check = isset( $check['id'] ) ? $check['id'] : $check;
-                    if ( ! empty( $check ) ) {
-                        return apply_filters( 'redux/' . $opt_name . '/aURL_filter', '<span data-id="' . $check . '" class="mgv1_1"><script type="text/javascript">(function(){if (mysa_mgv1_1) return; var ma = document.createElement("script"); ma.type = "text/javascript"; ma.async = true; ma.src = "' . $string . '"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ma, s) })();var mysa_mgv1_1=true;</script></span>' );
-                    } else {
-                        return "";
-                    }
+                    //     if ( ! empty( $check ) && isset( $check['id'] ) ) {
+                    //         update_user_option( get_current_user_id(), 'r_tru_u_x', $check );
+                    //     }
+                    // }
+                    // $check = isset( $check['id'] ) ? $check['id'] : $check;
+                    // if ( ! empty( $check ) ) {
+                    //     return apply_filters( 'redux/' . $opt_name . '/aURL_filter', '<span data-id="' . $check . '" class="mgv1_1"><script type="text/javascript">(function(){if (mysa_mgv1_1) return; var ma = document.createElement("script"); ma.type = "text/javascript"; ma.async = true; ma.src = "' . $string . '"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ma, s) })();var mysa_mgv1_1=true;</script></span>' );
+                    // } else {
+                    //     return "";
+                    // }
+                     return "";
                 }
             }
 

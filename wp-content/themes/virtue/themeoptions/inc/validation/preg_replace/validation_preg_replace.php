@@ -1,7 +1,7 @@
 <?php
 
-    if ( ! class_exists( 'Redux_Validation_preg_replace' ) ) {
-        class Redux_Validation_preg_replace {
+    if ( ! class_exists( 'Redux_Validation_str_replace' ) ) {
+        class Redux_Validation_str_replace {
 
             /**
              * Field Constructor.
@@ -26,8 +26,8 @@
              * @since ReduxFramework 1.0.0
              */
             function validate() {
-                
-                $this->value = preg_replace( $this->field['preg']['pattern'], $this->field['preg']['replacement'], $this->value );
+
+                $this->value = str_replace( $this->field['str']['search'], $this->field['str']['replacement'], $this->value );
             } //function
         } //class
     }

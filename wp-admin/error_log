@@ -7392,3 +7392,5 @@ Stack trace:
 #4 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-direct-checkout/includes/qlwcdc.php(22): QLWCDC->__construct()
 #5 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-direct-checkout/i in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-direct-checkout/includes/install.php on line 50
 [25-Feb-2022 05:54:35 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/themes/virtue-child/functions.php on line 496
+[25-Feb-2022 05:59:41 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/themes/virtue-child/functions.php on line 496
+[25-Feb-2022 06:05:22 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/themes/virtue-child/functions.php on line 496

@@ -14,7 +14,7 @@ if ( ! class_exists( 'ReduxFramework_select' ) ) {
          *
          * @since ReduxFramework 1.0.0
          */
-        public function __construct( $field = array(), $value = '', $parent ) {
+        public function __construct( $field = array(), $value = '', $parent = null ) {
             $this->parent = $parent;
             $this->field  = $field;
             $this->value  = $value;
@@ -96,7 +96,7 @@ if ( ! class_exists( 'ReduxFramework_select' ) ) {
                     foreach ( $this->value as $value ) {
                         $this->field['options'][ $value ] = $origOption[ $value ];
                     }
-
+            
                     if ( count( $this->field['options'] ) < count( $origOption ) ) {
                         foreach ( $origOption as $key => $value ) {
                             if ( ! in_array( $key, $this->field['options'] ) ) {

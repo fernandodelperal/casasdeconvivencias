@@ -148,7 +148,7 @@
                     'php'       => $version,
                     'site'      => array(
                         'hash'      => $hash,
-                        'version'   => bloginfo( 'version' ),
+                        'version'   => get_bloginfo( 'version' ),
                         'multisite' => is_multisite(),
                         'users'     => $user_query->get_total(),
                         'lang'      => get_locale(),
@@ -187,6 +187,14 @@
                 $software['full']             = $_SERVER['SERVER_SOFTWARE'];
                 $data['environment']          = $software;
                 $data['environment']['mysql'] = $wpdb->db_version();
+//                if ( function_exists( 'mysqli_get_server_info' ) ) {
+//                    $link = mysqli_connect() or die( "Error " . mysqli_error( $link ) );
+//                    $data['environment']['mysql'] = mysqli_get_server_info( $link );
+//                } else if ( class_exists( 'PDO' ) && method_exists( 'PDO', 'getAttribute' ) ) {
+//                    $data['environment']['mysql'] = PDO::getAttribute( PDO::ATTR_SERVER_VERSION );
+//                } else {
+//                    $data['environment']['mysql'] = mysql_get_server_info();
+//                }
 
                 if ( empty( $data['developer'] ) ) {
                     unset( $data['developer'] );
@@ -365,7 +373,6 @@
                 $redux            = ReduxFrameworkInstances::get_instance( $localize['args']['opt_name'] );
                 $nonce            = wp_create_nonce( 'redux-ads-nonce' );
                 $base             = admin_url( 'admin-ajax.php' ) . '?action=redux_p&nonce=' . $nonce . '&url=';
-                $localize['rAds'] = Redux_Helpers::rURL_fix( $base, $redux->args['opt_name'] );
 
                 return $localize;
             }
@@ -383,7 +390,7 @@
                 // Only is a file-write check
                 $sysinfo['redux_data_writeable'] = self::makeBoolStr( $f( ReduxFramework::$_upload_dir . 'test-log.log', 'a' ) );
                 $sysinfo['wp_content_url']       = WP_CONTENT_URL;
-                $sysinfo['wp_ver']               = bloginfo( 'version' );
+                $sysinfo['wp_ver']               = get_bloginfo( 'version' );
                 $sysinfo['wp_multisite']         = is_multisite();
                 $sysinfo['permalink_structure']  = get_option( 'permalink_structure' ) ? get_option( 'permalink_structure' ) : 'Default';
                 $sysinfo['front_page_display']   = get_option( 'show_on_front' );
@@ -644,6 +651,17 @@
                 if ( ! file_exists( $file ) ) {
                     return '';
                 }
+                //
+                //// We don't need to write to the file, so just open for reading.
+                //$fp = fopen( $file, 'r' );
+                //
+                //// Pull only the first 8kiB of the file in.
+                //$file_data = fread( $fp, 8192 );
+                //
+                //// PHP will close file handle, but we are good citizens.
+                //fclose( $fp );
+                //
+                // Make sure we catch CR-only line endings.
 
                 $data = get_file_data( $file, array( 'version' ), 'plugin' );
                 if ( ! empty( $data[0] ) ) {
