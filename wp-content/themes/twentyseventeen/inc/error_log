@@ -1,0 +1,4 @@
+[04-Dec-2021 08:34:48 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function add_action() in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/themes/twentyseventeen/inc/icon-functions.php:22
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/themes/twentyseventeen/inc/icon-functions.php on line 22

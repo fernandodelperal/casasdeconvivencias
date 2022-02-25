@@ -1,0 +1,4 @@
+[04-Dec-2021 04:35:49 UTC] PHP Fatal error:  Uncaught Error: Class 'IXR_Server' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/IXR/class-IXR-introspectionserver.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/IXR/class-IXR-introspectionserver.php on line 9

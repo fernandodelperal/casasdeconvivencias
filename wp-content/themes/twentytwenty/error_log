@@ -1,0 +1,4 @@
+[04-Dec-2021 08:49:28 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function language_attributes() in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/themes/twentytwenty/header.php:14
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/themes/twentytwenty/header.php on line 14

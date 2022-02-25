@@ -1,0 +1,12 @@
+#map {
+        height: 400px;
+        width: 100%;
+       }
+
+.google_calandar_img{
+	max-width:16px !important;
+}
+
+.add_to_google_calandar{
+margin:10px 0px;
+}

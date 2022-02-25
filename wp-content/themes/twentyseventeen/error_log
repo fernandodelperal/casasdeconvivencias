@@ -1,0 +1,23 @@
+[27-Sep-2021 11:14:23 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/themes/twentyseventeen/404.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/themes/twentyseventeen/404.php on line 13
+[03-Oct-2021 04:04:25 UTC] PHP Notice:  Undefined index: wp_version in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/themes/twentyseventeen/functions.php on line 15
+[03-Oct-2021 04:04:25 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_template_directory() in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/themes/twentyseventeen/functions.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/themes/twentyseventeen/functions.php on line 16
+[23-Oct-2021 23:08:06 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/themes/twentyseventeen/404.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/themes/twentyseventeen/404.php on line 13
+[26-Oct-2021 03:15:01 UTC] PHP Notice:  Undefined index: wp_version in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/themes/twentyseventeen/functions.php on line 15
+[26-Oct-2021 03:15:01 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_template_directory() in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/themes/twentyseventeen/functions.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/themes/twentyseventeen/functions.php on line 16
+[03-Dec-2021 19:42:17 UTC] PHP Notice:  Undefined index: wp_version in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/themes/twentyseventeen/functions.php on line 15
+[03-Dec-2021 19:42:17 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_template_directory() in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/themes/twentyseventeen/functions.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/themes/twentyseventeen/functions.php on line 16

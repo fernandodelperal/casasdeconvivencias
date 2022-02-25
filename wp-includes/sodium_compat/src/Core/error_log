@@ -1,0 +1,12 @@
+[04-Dec-2021 10:26:12 UTC] PHP Fatal error:  Uncaught Error: Class 'ParagonIE_Sodium_Core_Curve25519_H' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/src/Core/Curve25519.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/src/Core/Curve25519.php on line 16
+[04-Dec-2021 10:57:42 UTC] PHP Fatal error:  Uncaught Error: Class 'ParagonIE_Sodium_Core_Util' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/src/Core/Poly1305.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/src/Core/Poly1305.php on line 10
+[04-Dec-2021 11:02:02 UTC] PHP Fatal error:  Uncaught Error: Class 'ParagonIE_Sodium_Core_Salsa20' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/src/Core/HSalsa20.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/src/Core/HSalsa20.php on line 10

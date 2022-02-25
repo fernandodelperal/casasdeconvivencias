@@ -1,0 +1,32 @@
+[03-Dec-2021 20:13:19 UTC] PHP Fatal error:  Uncaught Error: Class 'ParagonIE_Sodium_Core32_Util' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/src/Core32/ChaCha20.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/src/Core32/ChaCha20.php on line 10
+[03-Dec-2021 21:12:18 UTC] PHP Fatal error:  Uncaught Error: Class 'ParagonIE_Sodium_Core_Util' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/src/Core32/BLAKE2b.php:12
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/src/Core32/BLAKE2b.php on line 12
+[03-Dec-2021 22:33:24 UTC] PHP Fatal error:  Uncaught Error: Class 'ParagonIE_Sodium_Core32_Util' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/src/Core32/Salsa20.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/src/Core32/Salsa20.php on line 10
+[04-Dec-2021 04:55:00 UTC] PHP Fatal error:  Uncaught Error: Class 'ParagonIE_Sodium_Core32_Util' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/src/Core32/SipHash.php:12
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/src/Core32/SipHash.php on line 12
+[04-Dec-2021 04:55:25 UTC] PHP Fatal error:  Uncaught Error: Class 'ParagonIE_Sodium_Core32_Util' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/src/Core32/SipHash.php:12
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/src/Core32/SipHash.php on line 12
+[04-Dec-2021 04:55:34 UTC] PHP Fatal error:  Uncaught Error: Class 'ParagonIE_Sodium_Core32_Util' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/src/Core32/SipHash.php:12
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/src/Core32/SipHash.php on line 12
+[04-Dec-2021 05:12:07 UTC] PHP Fatal error:  Uncaught Error: Class 'ParagonIE_Sodium_Core32_HChaCha20' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/src/Core32/XChaCha20.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/src/Core32/XChaCha20.php on line 10
+[04-Dec-2021 10:47:16 UTC] PHP Fatal error:  Uncaught Error: Class 'ParagonIE_Sodium_Core32_Curve25519_H' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/src/Core32/Curve25519.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/src/Core32/Curve25519.php on line 16

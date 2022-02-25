@@ -1,0 +1,571 @@
+{
+  "create": [
+    {
+      "name": "Curso de Retiro",
+      "type": "simple",
+      "virtual": true,
+      "sku": "0900",
+      "regular_price": "4350",
+
+      "manage_stock": true,
+      "stock_quantity": 25,
+      "backorders": "no",
+      "sold_individually": true,
+
+
+
+      "meta_data": [
+        {
+          "key": "Fechas",
+          "value": "7 al 10 de marzo de 2019"
+        },
+        {
+          "key": "event_datetime",
+          "value": "2019-03-07 00:00"
+        },
+        {
+          "key": "event_end_date",
+          "value": "2019-03-10 00:00"
+        },
+        {
+          "key": "expire_product",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "Convivencias de formación",
+      "type": "simple",
+      "virtual": true,
+      "sku": "0899",
+      "regular_price": "6700",
+
+      "manage_stock": true,
+      "stock_quantity": 25,
+      "backorders": "no",
+      "sold_individually": true,
+
+
+
+      "meta_data": [
+        {
+          "key": "Fechas",
+          "value": "18 al 24 de marzo de 2019"
+        },
+        {
+          "key": "event_datetime",
+          "value": "2019-03-18 00:00"
+        },
+        {
+          "key": "event_end_date",
+          "value": "2019-03-24 00:00"
+        },
+        {
+          "key": "expire_product",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "Curso de Retiro",
+      "type": "simple",
+      "virtual": true,
+      "sku": "0898",
+      "regular_price": "4350",
+
+      "manage_stock": true,
+      "stock_quantity": 25,
+      "backorders": "no",
+      "sold_individually": true,
+
+
+
+      "meta_data": [
+        {
+          "key": "Fechas",
+          "value": "25 al 28 de abril de 2019"
+        },
+        {
+          "key": "event_datetime",
+          "value": "2019-04-25 00:00"
+        },
+        {
+          "key": "event_end_date",
+          "value": "2019-04-28 00:00"
+        },
+        {
+          "key": "expire_product",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "Convivencias de formación",
+      "type": "simple",
+      "virtual": true,
+      "sku": "0897",
+      "regular_price": "6700",
+
+      "manage_stock": true,
+      "stock_quantity": 25,
+      "backorders": "no",
+      "sold_individually": true,
+
+
+
+      "meta_data": [
+        {
+          "key": "Fechas",
+          "value": "30 de abril al 5 de mayo de 2019"
+        },
+        {
+          "key": "event_datetime",
+          "value": "2019-04-30 00:00"
+        },
+        {
+          "key": "event_end_date",
+          "value": "2019-05-05 00:00"
+        },
+        {
+          "key": "expire_product",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "Curso de Retiro",
+      "type": "simple",
+      "virtual": true,
+      "sku": "0896",
+      "regular_price": "4350",
+
+      "manage_stock": true,
+      "stock_quantity": 25,
+      "backorders": "no",
+      "sold_individually": true,
+
+
+
+      "meta_data": [
+        {
+          "key": "Fechas",
+          "value": "16 al 19 de mayo de 2019"
+        },
+        {
+          "key": "event_datetime",
+          "value": "2019-05-16 00:00"
+        },
+        {
+          "key": "event_end_date",
+          "value": "2019-05-19 00:00"
+        },
+        {
+          "key": "expire_product",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "Curso de Retiro (Profesionales jóvenes)",
+      "type": "simple",
+      "virtual": true,
+      "sku": "0895",
+      "regular_price": "3700",
+
+      "manage_stock": true,
+      "stock_quantity": 25,
+      "backorders": "no",
+      "sold_individually": true,
+
+
+
+      "meta_data": [
+        {
+          "key": "Fechas",
+          "value": "6 al 9 de junio de 2019"
+        },
+        {
+          "key": "event_datetime",
+          "value": "2019-06-06 00:00"
+        },
+        {
+          "key": "event_end_date",
+          "value": "2019-06-09 00:00"
+        },
+        {
+          "key": "expire_product",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "Convivencias de formación",
+      "type": "simple",
+      "virtual": true,
+      "sku": "0894",
+      "regular_price": "6700",
+
+      "manage_stock": true,
+      "stock_quantity": 25,
+      "backorders": "no",
+      "sold_individually": true,
+
+
+
+      "meta_data": [
+        {
+          "key": "Fechas",
+          "value": "18 al 23 de junio de 2019"
+        },
+        {
+          "key": "event_datetime",
+          "value": "2019-06-18 00:00"
+        },
+        {
+          "key": "event_end_date",
+          "value": "2019-06-23 00:00"
+        },
+        {
+          "key": "expire_product",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "Curso de Retiro (de lunes a jueves)",
+      "type": "simple",
+      "virtual": true,
+      "sku": "0893",
+      "regular_price": "4350",
+
+      "manage_stock": true,
+      "stock_quantity": 25,
+      "backorders": "no",
+      "sold_individually": true,
+
+
+
+      "meta_data": [
+        {
+          "key": "Fechas",
+          "value": "1 al 4 de julio de 2019"
+        },
+        {
+          "key": "event_datetime",
+          "value": "2019-07-01 00:00"
+        },
+        {
+          "key": "event_end_date",
+          "value": "2019-07-04 00:00"
+        },
+        {
+          "key": "expire_product",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "Curso de estudios",
+      "type": "simple",
+      "virtual": true,
+      "sku": "0892",
+      "regular_price": "8100",
+
+      "manage_stock": true,
+      "stock_quantity": 25,
+      "backorders": "no",
+      "sold_individually": true,
+
+
+
+      "meta_data": [
+        {
+          "key": "Fechas",
+          "value": "25 al 28 de julio de 2018"
+        },
+        {
+          "key": "event_datetime",
+          "value": "2019-07-25 00:00"
+        },
+        {
+          "key": "event_end_date",
+          "value": "2019-07-28 00:00"
+        },
+        {
+          "key": "expire_product",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "Convivencias de formación",
+      "type": "simple",
+      "virtual": true,
+      "sku": "0891",
+      "regular_price": "6700",
+
+      "manage_stock": true,
+      "stock_quantity": 25,
+      "backorders": "no",
+      "sold_individually": true,
+
+
+
+      "meta_data": [
+        {
+          "key": "Fechas",
+          "value": "6 al 11 de agosto de 2019"
+        },
+        {
+          "key": "event_datetime",
+          "value": "2019-08-06 00:00"
+        },
+        {
+          "key": "event_end_date",
+          "value": "2019-08-11 00:00"
+        },
+        {
+          "key": "expire_product",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "Curso de Retiro",
+      "type": "simple",
+      "virtual": true,
+      "sku": "0890",
+      "regular_price": "4350",
+
+      "manage_stock": true,
+      "stock_quantity": 25,
+      "backorders": "no",
+      "sold_individually": true,
+
+
+
+      "meta_data": [
+        {
+          "key": "Fechas",
+          "value": "29 de agosto al 1 de setiembre de 2019"
+        },
+        {
+          "key": "event_datetime",
+          "value": "2019-08-29 00:00"
+        },
+        {
+          "key": "event_end_date",
+          "value": "2019-09-01 00:00"
+        },
+        {
+          "key": "expire_product",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "Convivencias de formación",
+      "type": "simple",
+      "virtual": true,
+      "sku": "0889",
+      "regular_price": "6700",
+
+      "manage_stock": true,
+      "stock_quantity": 25,
+      "backorders": "no",
+      "sold_individually": true,
+
+
+
+      "meta_data": [
+        {
+          "key": "Fechas",
+          "value": "10 al 15 de setiembre de 2019"
+        },
+        {
+          "key": "event_datetime",
+          "value": "2019-09-10 00:00"
+        },
+        {
+          "key": "event_end_date",
+          "value": "2019-09-15 00:00"
+        },
+        {
+          "key": "expire_product",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "Curso de Retiro",
+      "type": "simple",
+      "virtual": true,
+      "sku": "0888",
+      "regular_price": "4350",
+
+      "manage_stock": true,
+      "stock_quantity": 25,
+      "backorders": "no",
+      "sold_individually": true,
+
+
+
+      "meta_data": [
+        {
+          "key": "Fechas",
+          "value": "26 al 29 de setiembre de 2019"
+        },
+        {
+          "key": "event_datetime",
+          "value": "2019-09-26 00:00"
+        },
+        {
+          "key": "event_end_date",
+          "value": "2019-09-29 00:00"
+        },
+        {
+          "key": "expire_product",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "Convivencias de formación",
+      "type": "simple",
+      "virtual": true,
+      "sku": "0887",
+      "regular_price": "6700",
+
+      "manage_stock": true,
+      "stock_quantity": 25,
+      "backorders": "no",
+      "sold_individually": true,
+
+
+
+      "meta_data": [
+        {
+          "key": "Fechas",
+          "value": "9 al 14 de octubre de 2019"
+        },
+        {
+          "key": "event_datetime",
+          "value": "2019-10-09 00:00"
+        },
+        {
+          "key": "event_end_date",
+          "value": "2019-10-14 00:00"
+        },
+        {
+          "key": "expire_product",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "Curso de Retiro",
+      "type": "simple",
+      "virtual": true,
+      "sku": "0886",
+      "regular_price": "4350",
+
+      "manage_stock": true,
+      "stock_quantity": 25,
+      "backorders": "no",
+      "sold_individually": true,
+
+
+
+      "meta_data": [
+        {
+          "key": "Fechas",
+          "value": "24 al 27 de octubre de 2019"
+        },
+        {
+          "key": "event_datetime",
+          "value": "2019-10-24 00:00"
+        },
+        {
+          "key": "event_end_date",
+          "value": "2019-10-27 00:00"
+        },
+        {
+          "key": "expire_product",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "Curso de Retiro",
+      "type": "simple",
+      "virtual": true,
+      "sku": "0885",
+      "regular_price": "4350",
+
+      "manage_stock": true,
+      "stock_quantity": 25,
+      "backorders": "no",
+      "sold_individually": true,
+
+
+
+      "meta_data": [
+        {
+          "key": "Fechas",
+          "value": "7 al 10 de noviembre de 2019"
+        },
+        {
+          "key": "event_datetime",
+          "value": "2019-11-07 00:00"
+        },
+        {
+          "key": "event_end_date",
+          "value": "2019-11-10 00:00"
+        },
+        {
+          "key": "expire_product",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "Curso de Retiro",
+      "type": "simple",
+      "virtual": true,
+      "sku": "0884",
+      "regular_price": "4350",
+
+      "manage_stock": true,
+      "stock_quantity": 25,
+      "backorders": "no",
+      "sold_individually": true,
+
+
+
+      "meta_data": [
+        {
+          "key": "Fechas",
+          "value": "28 de noviembre al 1 de diciembre de 2019"
+        },
+        {
+          "key": "event_datetime",
+          "value": "2019-11-28 00:00"
+        },
+        {
+          "key": "event_end_date",
+          "value": "2019-12-01 00:00"
+        },
+        {
+          "key": "expire_product",
+          "value": 1
+        }
+      ]
+    }
+  ]
+}
+  //"backorders": "no", //yes si se puede sobre pedir
+  //"expire_product",//1 significa que expira en la fecha de fin
+  // capacidad cruz de piedra: 25
+  //el precio con punto
+
+

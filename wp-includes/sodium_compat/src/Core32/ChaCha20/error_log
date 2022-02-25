@@ -1,0 +1,8 @@
+[04-Dec-2021 14:00:52 UTC] PHP Fatal error:  Uncaught Error: Class 'ParagonIE_Sodium_Core32_ChaCha20_Ctx' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/src/Core32/ChaCha20/IetfCtx.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/src/Core32/ChaCha20/IetfCtx.php on line 10
+[04-Dec-2021 21:47:01 UTC] PHP Fatal error:  Uncaught Error: Class 'ParagonIE_Sodium_Core32_ChaCha20_Ctx' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/src/Core32/ChaCha20/IetfCtx.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/src/Core32/ChaCha20/IetfCtx.php on line 10

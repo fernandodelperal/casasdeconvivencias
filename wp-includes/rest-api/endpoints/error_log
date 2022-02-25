@@ -1,0 +1,16 @@
+[03-Dec-2021 16:24:02 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_REST_Controller' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/rest-api/endpoints/class-wp-rest-plugins-controller.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/rest-api/endpoints/class-wp-rest-plugins-controller.php on line 17
+[03-Dec-2021 16:54:06 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_REST_Revisions_Controller' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/rest-api/endpoints/class-wp-rest-autosaves-controller.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/rest-api/endpoints/class-wp-rest-autosaves-controller.php on line 18
+[03-Dec-2021 21:44:14 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_REST_Controller' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/rest-api/endpoints/class-wp-rest-settings-controller.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/rest-api/endpoints/class-wp-rest-settings-controller.php on line 17
+[04-Dec-2021 10:22:00 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_REST_Controller' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/rest-api/endpoints/class-wp-rest-search-controller.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/rest-api/endpoints/class-wp-rest-search-controller.php on line 17

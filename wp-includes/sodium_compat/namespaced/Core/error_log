@@ -1,0 +1,4 @@
+[04-Dec-2021 08:26:01 UTC] PHP Fatal error:  Uncaught Error: Class 'ParagonIE_Sodium_Core_Ed25519' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/namespaced/Core/Ed25519.php:4
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/namespaced/Core/Ed25519.php on line 4

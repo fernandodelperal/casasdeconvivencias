@@ -1,0 +1,20 @@
+[03-Dec-2021 22:30:47 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function _deprecated_file() in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/theme-compat/sidebar.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/theme-compat/sidebar.php on line 9
+[04-Dec-2021 07:47:14 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function _deprecated_file() in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/theme-compat/footer.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/theme-compat/footer.php on line 9
+[04-Dec-2021 10:10:43 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function post_class() in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/theme-compat/embed-content.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/theme-compat/embed-content.php on line 13
+[04-Dec-2021 10:11:09 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function post_class() in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/theme-compat/embed-content.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/theme-compat/embed-content.php on line 13
+[04-Dec-2021 11:58:31 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function _deprecated_file() in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/theme-compat/header.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/theme-compat/header.php on line 9

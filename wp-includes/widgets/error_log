@@ -1,0 +1,124 @@
+[05-Oct-2021 04:43:40 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php on line 17
+[05-Oct-2021 05:05:02 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php on line 17
+[09-Oct-2021 00:25:59 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php on line 17
+[09-Oct-2021 01:16:15 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php on line 17
+[09-Oct-2021 06:17:22 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php on line 17
+[14-Oct-2021 20:19:35 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php on line 17
+[16-Oct-2021 10:46:07 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php on line 17
+[18-Oct-2021 05:53:45 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php on line 17
+[19-Oct-2021 17:11:57 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php on line 17
+[25-Oct-2021 01:14:59 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php on line 17
+[25-Oct-2021 03:35:21 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php on line 17
+[05-Nov-2021 23:18:52 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php on line 17
+[06-Nov-2021 11:47:09 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php on line 17
+[19-Nov-2021 18:27:57 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php on line 17
+[19-Nov-2021 20:43:53 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php on line 17
+[19-Nov-2021 21:32:43 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php on line 17
+[20-Nov-2021 00:48:15 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php on line 17
+[03-Dec-2021 19:27:51 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-recent-posts.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-recent-posts.php on line 17
+[03-Dec-2021 19:27:55 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-recent-posts.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-recent-posts.php on line 17
+[03-Dec-2021 20:51:23 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-recent-comments.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-recent-comments.php on line 17
+[04-Dec-2021 00:57:38 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-media.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-media.php on line 17
+[04-Dec-2021 04:34:09 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-categories.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-categories.php on line 17
+[04-Dec-2021 05:30:27 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-meta.php:19
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-meta.php on line 19
+[04-Dec-2021 05:30:30 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-meta.php:19
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-meta.php on line 19
+[04-Dec-2021 07:47:41 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-text.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-text.php on line 17
+[04-Dec-2021 09:45:38 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-custom-html.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-custom-html.php on line 17
+[04-Dec-2021 12:52:52 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-tag-cloud.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-tag-cloud.php on line 17
+[04-Dec-2021 13:01:26 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget_Media' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-media-video.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-media-video.php on line 18
+[07-Dec-2021 02:57:45 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php on line 17
+[13-Dec-2021 17:55:59 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php on line 17
+[13-Feb-2022 06:55:17 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Widget' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/widgets/class-wp-widget-block.php on line 17

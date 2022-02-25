@@ -1,0 +1,20 @@
+[16-Oct-2021 10:41:13 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Block_Supports' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/block-supports/border.php:170
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/block-supports/border.php on line 170
+[16-Oct-2021 10:41:21 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Block_Supports' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/block-supports/duotone.php:426
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/block-supports/duotone.php on line 426
+[16-Oct-2021 10:41:30 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function add_filter() in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/block-supports/elements.php:71
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/block-supports/elements.php on line 71
+[16-Oct-2021 10:41:37 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Block_Supports' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/block-supports/layout.php:99
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/block-supports/layout.php on line 99
+[16-Oct-2021 10:41:47 UTC] PHP Fatal error:  Uncaught Error: Class 'WP_Block_Supports' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/block-supports/spacing.php:89
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/block-supports/spacing.php on line 89

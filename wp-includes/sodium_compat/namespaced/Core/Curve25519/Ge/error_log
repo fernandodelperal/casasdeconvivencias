@@ -1,0 +1,4 @@
+[04-Dec-2021 08:07:05 UTC] PHP Fatal error:  Uncaught Error: Class 'ParagonIE_Sodium_Core_Curve25519_Ge_Precomp' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/namespaced/Core/Curve25519/Ge/Precomp.php:4
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/sodium_compat/namespaced/Core/Curve25519/Ge/Precomp.php on line 4
