@@ -523,7 +523,7 @@ class WC_TuCuota extends WC_Payment_Gateway
 
                         // actividades con plan de pago especial
                         //1609 y 10 es combo elcasco varones 2021, indiv y compartida. 261 es test product
-                        if (in_array($product_id, [261, 1609, 1610])) {
+                        if (in_array($product_id, [261, 1609, 1610, 2123])) {
                             $special_interest = 0;
                             $special_installment = 9;
                             $final_amount = number_format($amount + $amount * $special_interest / 100, 2, ',', ' ');
