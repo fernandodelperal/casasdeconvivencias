@@ -493,44 +493,47 @@ function bbloomer_unset_gateway_by_category($available_gateways)
 {
     global $woocommerce;
     $unset = 'nada';
-    foreach ($woocommerce->cart->cart_contents as $key => $values) {
-        $terms = get_the_terms($values['product_id'], 'product_cat');
-        foreach ($terms as $term) {
-            $term2 = get_term_by('id', $term->term_id, 'product_cat');
-            if ($term2->name == 'sin_tarjetas') {
-                $unset = "sin_tarjetas";
-
-            } elseif ($term2->name == 'combo') {
-                $unset = "sin_combo";
-
-            } elseif ($term2->name == 'sin_efectivo') {
-                $unset = "sin_efectivo";
-
+    if ( ! empty( $woocommerce->cart->cart_contents ) ){
+        foreach ($woocommerce->cart->cart_contents as $key => $values) {
+            $terms = get_the_terms($values['product_id'], 'product_cat');
+            foreach ($terms as $term) {
+                $term2 = get_term_by('id', $term->term_id, 'product_cat');
+                if ($term2->name == 'sin_tarjetas') {
+                    $unset = "sin_tarjetas";
+    
+                } elseif ($term2->name == 'combo') {
+                    $unset = "sin_combo";
+    
+                } elseif ($term2->name == 'sin_efectivo') {
+                    $unset = "sin_efectivo";
+    
+                }
             }
         }
+        if ($unset == 'sin_tarjetas') {
+            unset($available_gateways['cheque']);
+            unset($available_gateways['woo-mercado-pago-basic']);
+            unset($available_gateways['other_payment']);
+            unset($available_gateways['woo-tucuota']);
+        } elseif ($unset == 'sin_efectivo') {
+            unset($available_gateways['cod']);
+        } elseif ($unset == 'sin_combo') {
+            unset($available_gateways['other_payment']);
+        }
+        return $available_gateways;
+    
+        if ($unset == 'sin_tarjetas') {
+            unset($available_gateways['cheque']);
+            unset($available_gateways['woo-mercado-pago-basic']);
+            unset($available_gateways['other_payment']);
+            unset($available_gateways['woo-tucuota']);
+        } elseif ($unset == 'sin_efectivo') {
+            unset($available_gateways['cod']);
+        }
+        return $available_gateways;
+        }
     }
-    if ($unset == 'sin_tarjetas') {
-        unset($available_gateways['cheque']);
-        unset($available_gateways['woo-mercado-pago-basic']);
-        unset($available_gateways['other_payment']);
-        unset($available_gateways['woo-tucuota']);
-    } elseif ($unset == 'sin_efectivo') {
-        unset($available_gateways['cod']);
-    } elseif ($unset == 'sin_combo') {
-        unset($available_gateways['other_payment']);
-    }
-    return $available_gateways;
-
-    if ($unset == 'sin_tarjetas') {
-        unset($available_gateways['cheque']);
-        unset($available_gateways['woo-mercado-pago-basic']);
-        unset($available_gateways['other_payment']);
-        unset($available_gateways['woo-tucuota']);
-    } elseif ($unset == 'sin_efectivo') {
-        unset($available_gateways['cod']);
-    }
-    return $available_gateways;
-}
+    
 
 add_filter('auth_cookie_expiration', 'keep_me_logged_in_for_1_year');
 
