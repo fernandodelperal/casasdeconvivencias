@@ -3,8 +3,6 @@ require 'tucuota.php';
 
 class WC_TuCuota extends WC_Payment_Gateway
 {
-    //TAREAS: AGREGAR FIN DE MES
-    //SANDBOX - validación available cuotas no mayor igual a uno
 
     public function __construct()
     {
@@ -214,25 +212,6 @@ class WC_TuCuota extends WC_Payment_Gateway
         global $woocommerce;
         $order = new WC_Order($order_id);
 
-        // corregir esto para que no permita avanzar si no es VD en cuota 0, ahora frena todo en cuota 0
-        // $marca = $_POST[$this->id . '-marca'];
-        // if (($_POST[$this->id . '-cuotas'] == 0) && ($marca != "visa-debito")) {
-        //     return array(
-        //         'result' => 'failure',
-        //     );
-        // }
-
-        // Mark as on-hold (we're awaiting the cheque)
-        // $order->update_status('on-hold', __('Awaiting payment', 'woocommerce-tucuota'));
-        // Reduce stock levels
-        // wc_reduce_stock_levels($order_id);
-
-        //por las dudas
-
-        // $post = get_post($post_id);
-        // $checkout = $woocommerce->checkout();
-        // $author = get_userdata($post->post_author);
-        // $title = get_the_title();
 
         $items = $woocommerce->cart->get_cart();
 
@@ -244,17 +223,9 @@ class WC_TuCuota extends WC_Payment_Gateway
         $name = $woocommerce->customer->get_billing_last_name() . ', ' . $woocommerce->customer->get_billing_first_name();
         $email = $woocommerce->customer->get_billing_email();
 
-        //siempre anda en sandbox, corregir
-        // $token = $this->sandbox_mode ? $this->get_option('token_tucuota_sandbox') : $this->get_option('token_tucuota_live');
-        // $uri_request = $this->sandbox_mode ? 'https://sandbox.tucuota.com/api/subscriptions' : 'https://api.tucuota.com/api/subscriptions';
 
         $token = $this->get_option('token_tucuota_live');
-        $uri_request = 'https://tucuota.com/api/subscriptions';
-        // $uri_request = 'https://sandbox.tucuota.com/api/subscriptions';
-        // if ($_SERVER["SERVER_ADDR"] == '127.0.0.1') {
-        //     $uri_request = 'https://sandbox.tucuota.com/api/subscriptions';
-        // }
-
+        
         $quotas = $_POST[$this->id . '-cuotas'];
         $nid_property = 'interest_quota_' . $quotas;
         $interest = $this->{$nid_property};
@@ -278,7 +249,7 @@ class WC_TuCuota extends WC_Payment_Gateway
 
         //save customer
 
-        $response_customer = (new WP_Http)->request('https://tucuota.com/api/customers', [
+        $response_customer = (new WP_Http)->request('https://api.tucuota.com/v1/customers', [
             'method' => 'POST',
             'headers' => [
                 "Authorization" => "Bearer $token",
@@ -295,7 +266,28 @@ class WC_TuCuota extends WC_Payment_Gateway
         $data_customer = json_decode($body_customer)->data;
         $customer_id = $data_customer->id;
 
-        $request = (new WP_Http)->request($uri_request, [
+
+        //save payment_method (tokenize)
+
+        $response_payment_method = (new WP_Http)->request('https://api.tucuota.com/v1/payment_methods', [
+            'method' => 'POST',
+            'headers' => [
+                "Authorization" => "Bearer $token",
+                // "Api-Version" => "$version",
+            ],
+            'body' => [
+                'type' => 'card',
+                'card' => [
+                    'number' => $number,
+                ]
+            ],
+        ]);
+
+        $body_payment_method = wp_remote_retrieve_body($response_payment_method);
+        $data_payment_method = json_decode($body_payment_method)->data;
+        $payment_method_id = $data_payment_method->id;
+
+        $request = (new WP_Http)->request('https://api.tucuota.com/v1/subscriptions', [
             'method' => 'POST',
             'headers' => [
                 "Authorization" => "Bearer $token",
@@ -305,8 +297,7 @@ class WC_TuCuota extends WC_Payment_Gateway
             'body' => [
                 'amount' => $final_price / $quotas,
                 'description' => 'Orden ' . $order->id . ' - Actividad ' . $product_id . ' - ' . $product_title,
-                // 'payment_method_id' => 'PMyjVWKvxk57',
-                'payment_method_number' => $number,
+                'payment_method_id' => $payment_method_id,
                 'interval_unit' => "monthly",
                 'interval' => 1,
                 'day_of_month' => $day_of_month,
@@ -315,33 +306,6 @@ class WC_TuCuota extends WC_Payment_Gateway
             ],
         ]);
 
-        // echo $request['body'];
-
-        // usando clase tucuota a medias
-        // $token = $this->get_option('token_tucuota_sandbox');
-        //         $tc = new TuCuota($token);
-
-        //         $data = [
-        //             'method' => 'POST',
-        //             'body' => [
-        //                 'amount' => 332,
-        //                 'description' => 'WPTESTMMM',
-        //                 // 'payment_method_id' => 'PMyjVWKvxk57',
-        //                 'payment_method_number' => $_POST[$this->id . '-admin-note'],
-        //                 'payment_method_brand' => 'visa-credito',
-        //                 'interval_unit' => "monthly",
-        //                 'interval' => 1,
-        //                 'day_of_month' => 2,
-        //                 'count' => 3,
-        //                 'customer_id' => 'mmmm',
-        //                 'name' => 'prueba mmm',
-        //                 'customer_email' => 'mmm@mmm.com',
-        //             ],
-        //         ];
-
-        //         $uri = 'https://sandbox.tucuota.com/api/subscriptions';
-        //         $new = $tc->request($uri, $data);
-        //         return $new;
 
         //save subscription_id for future updates
         $body = wp_remote_retrieve_body($request);
