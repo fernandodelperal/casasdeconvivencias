@@ -1,5 +1,7 @@
 <?php
 
+use NSL\Notices;
+
 class NextendSocialUserData {
 
     /** @var array */
@@ -37,10 +39,12 @@ class NextendSocialUserData {
             $registerFlowPage = NextendSocialLogin::getRegisterFlowPage();
             if ($registerFlowPage !== false) {
                 if (!is_page($registerFlowPage)) {
-                    wp_redirect(add_query_arg(array(
-                        'loginSocial' => $this->provider->getId()
-                    ), get_permalink($registerFlowPage)));
-                    exit;
+                    if (get_permalink() !== get_permalink($registerFlowPage)) {
+                        wp_redirect(add_query_arg(array(
+                            'loginSocial' => $this->provider->getId()
+                        ), get_permalink($registerFlowPage)));
+                        exit;
+                    }
                 }
                 $this->isCustomRegisterFlow = true;
 
@@ -67,11 +71,12 @@ class NextendSocialUserData {
         $this->userData = apply_filters('nsl_registration_user_data', $this->userData, $this->provider, $this->errors);
 
         if ($this->errors->get_error_code() != '') {
+            $this->provider->deleteLoginPersistentData();
             if ($this->errors->get_error_message() != '') {
-                \NSL\Notices::addError($this->errors->get_error_message());
+                Notices::addError($this->errors->get_error_message());
             }
 
-            wp_redirect( site_url( 'wp-login.php' ) );
+            wp_redirect(NextendSocialLogin::enableNoticeForUrl(site_url('wp-login.php')));
             exit();
         }
     }
@@ -97,6 +102,19 @@ class NextendSocialUserData {
             ));
             throw new NSLContinuePageRenderException('CUSTOM_REGISTER_FLOW');
         } else {
+
+            /**
+             * Jetpack removes our "Register" button in our Register flow, so we need to remove their scripts from there.
+             * @url https://wordpress.org/plugins/jetpack/
+             */
+            if (defined('JETPACK__PLUGIN_FILE')) {
+                if (class_exists('Jetpack_SSO') && method_exists('Jetpack_SSO', 'get_instance')) {
+                    remove_action('login_enqueue_scripts', array(
+                        Jetpack_SSO::get_instance(),
+                        'login_enqueue_scripts'
+                    ));
+                }
+            }
 
             if (!function_exists('login_header')) {
 
@@ -131,7 +149,7 @@ class NextendSocialUserData {
                 require_once(dirname(__FILE__) . '/compat-wp-login.php');
             }
 
-            login_header(__('Registration Form'), '<p class="message register">' . __('Register For This Site!') . '</p>', $this->errors);
+            login_header(__('Registration Form'), '<p class="message register">' . __('Register For This Site') . '</p>', $this->errors);
 
             echo $this->render_registration_form();
 
@@ -171,18 +189,20 @@ class NextendSocialUserData {
         } else {
             $postUrl = add_query_arg('loginSocial', $this->provider->getId(), NextendSocialLogin::getLoginUrl('login_post'));
         }
+
         ob_start();
         ?>
         <form name="registerform" id="registerform" action="<?php echo esc_url($postUrl); ?>" method="post">
             <input type="hidden" name="submit" value="1"/>
 
-            <?php do_action('nsl_registration_form_start', $this->userData); ?>
+            <?php do_action('nsl_registration_form_start', $this->userData, $this->provider); ?>
 
-            <?php do_action('nsl_registration_form_end', $this->userData); ?>
+            <?php do_action('nsl_registration_form_end', $this->userData, $this->provider); ?>
 
             <br class="clear"/>
             <p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
-                                     class="button button-primary button-large" value="<?php esc_attr_e('Register'); ?>"/></p>
+                                     class="button button-primary button-large" value="<?php echo esc_attr_x('Register', 'Register form submit button label', 'nextend-facebook-connect'); ?>"/>
+            </p>
         </form>
         <?php
         return ob_get_clean();

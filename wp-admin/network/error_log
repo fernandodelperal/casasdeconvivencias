@@ -1,0 +1,37 @@
+[11-Mar-2022 02:39:34 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for explat. Args: explat..
+[11-Mar-2022 02:39:34 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for experimental. Args: experimental..
+[11-Mar-2022 02:39:34 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for customer-effort-score. Args: customer-effort-score..
+[11-Mar-2022 02:39:34 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for notices. Args: notices..
+[11-Mar-2022 02:39:34 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for number. Args: number..
+[11-Mar-2022 02:39:34 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for tracks. Args: tracks..
+[11-Mar-2022 02:39:34 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for date. Args: date..
+[11-Mar-2022 02:39:34 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for components. Args: components..
+[11-Mar-2022 02:39:34 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for app. Args: app..
+[11-Mar-2022 02:39:34 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for csv-export. Args: csv-export..
+[11-Mar-2022 02:39:34 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for data. Args: data..
+[11-Mar-2022 02:39:34 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for currency. Args: currency..
+[11-Mar-2022 02:39:34 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for navigation. Args: navigation..
+[11-Mar-2022 02:40:13 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for explat. Args: explat..
+[11-Mar-2022 02:40:13 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for experimental. Args: experimental..
+[11-Mar-2022 02:40:13 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for customer-effort-score. Args: customer-effort-score..
+[11-Mar-2022 02:40:13 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for notices. Args: notices..
+[11-Mar-2022 02:40:13 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for number. Args: number..
+[11-Mar-2022 02:40:13 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for tracks. Args: tracks..
+[11-Mar-2022 02:40:13 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for date. Args: date..
+[11-Mar-2022 02:40:13 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for components. Args: components..
+[11-Mar-2022 02:40:13 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for app. Args: app..
+[11-Mar-2022 02:40:13 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for csv-export. Args: csv-export..
+[11-Mar-2022 02:40:13 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for data. Args: data..
+[11-Mar-2022 02:40:13 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for currency. Args: currency..
+[11-Mar-2022 02:40:13 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for navigation. Args: navigation..
+[12-Mar-2022 16:00:02 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/network/admin.php(13): require_once('/home/huerqrts/...')
+#8 /home/ in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222

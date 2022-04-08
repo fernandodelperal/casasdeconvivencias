@@ -3,7 +3,7 @@ require_once NSL_PATH . '/includes/oauth2.php';
 
 class NextendSocialProviderFacebookClient extends NextendSocialOauth2 {
 
-    const DEFAULT_GRAPH_VERSION = 'v3.2';
+    const DEFAULT_GRAPH_VERSION = 'v7.0';
 
     private $isTest = false;
 
@@ -27,10 +27,12 @@ class NextendSocialProviderFacebookClient extends NextendSocialOauth2 {
 
     public function getEndpointAuthorization() {
 
-        if (preg_match('/Android|iPhone|iP[ao]d|Mobile/', $_SERVER['HTTP_USER_AGENT'])) {
-            $endpointAuthorization = 'https://m.facebook.com/';
-        } else {
-            $endpointAuthorization = 'https://www.facebook.com/';
+        $endpointAuthorization = 'https://www.facebook.com/';
+
+        if (!empty($_SERVER['HTTP_USER_AGENT'])) {
+            if (preg_match('/Android|iPhone|iP[ao]d|Mobile/', $_SERVER['HTTP_USER_AGENT'])) {
+                $endpointAuthorization = 'https://m.facebook.com/';
+            }
         }
 
         $endpointAuthorization .= self::DEFAULT_GRAPH_VERSION . '/dialog/oauth';

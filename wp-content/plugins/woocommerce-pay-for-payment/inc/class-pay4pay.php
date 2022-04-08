@@ -37,9 +37,9 @@ class Pay4Pay {
 	}
 
 	private function __construct() {
-		if ( version_compare( WC_VERSION, '3.2', '<' )) { 
+		if ( version_compare( WC_VERSION, '3.2', '<' )) {
 			add_action( 'woocommerce_calculate_totals', array( $this, 'calculate_pay4payment' ), 99 );
-		}		
+		}
 		add_action( 'woocommerce_cart_calculate_fees', array( $this, 'add_pay4payment' ), ( PHP_INT_MAX - 1 ), 1 );
 		add_action( 'woocommerce_review_order_after_submit', array( $this, 'print_autoload_js' ) );
 		add_action( 'admin_init', array( $this, 'check_wc_version' ) );
@@ -59,7 +59,7 @@ class Pay4Pay {
 
 	public static function wc_version_notice() {
 		?><div class="error"><p><?php
-			printf( __( 'WooCommerce Pay4Payment requires at least WooCommerce %s. Please update!', 'woocommerce-pay-for-payment' ), self::$required_wc_version );
+			printf( __( 'Pay for Payment for WooCommerce requires at least WooCommerce %s. Please update!', 'woocommerce-pay-for-payment' ), self::$required_wc_version );
 		?></p></div><?php
 	}
 
@@ -78,7 +78,7 @@ jQuery(document).ready(function($){
 
 	public function add_pay4payment( $cart ) {
 		if ( version_compare( WC_VERSION, '3.2', '>' )) {
-			$this->_fee = NULL; 
+			$this->_fee = NULL;
 			$this->calculate_pay4payment();
 		}
 		if ( ! is_null( $this->_fee ) ) {
@@ -92,14 +92,26 @@ jQuery(document).ready(function($){
 	}
 
 	public function calculate_pay4payment() {
+
 		if ( ! is_null( $this->_fee ) ) {
 			return;
 		}
-		
+
+		$cart = WC()->cart;
+
+		/**
+		 * Check the cart value & shipping value if the cost is 0 don't add the fee
+		 * @since 2.0.11
+		 * @version 2.0.12
+		 */
+		if ( $cart->subtotal == 0 && $cart->shipping_total == 0) {
+			return;
+		}
+
 		if ( ( $current_gateway = $this->get_current_gateway() ) && ( $settings = $this->get_current_gateway_settings() ) ) {
 			$settings = wp_parse_args( $settings, self::get_default_settings() );
 			$chosen_methods =  WC()->session->get( 'chosen_shipping_methods' );
-				
+
 			/**
 			 * Check if COD is enabled for current shipping method
 			 * @since 2.0.9
@@ -108,8 +120,8 @@ jQuery(document).ready(function($){
 			if ( $current_gateway->id == 'cod' && ! empty( $settings['enable_for_methods'] ) ) {
 				$chosen_methods_type = explode( ':', $chosen_methods[0] ); // solves problem with "any" type of method selected
 				if ( ! in_array( $chosen_methods[0], $settings['enable_for_methods'] ) && ! in_array( $chosen_methods_type[0], $settings['enable_for_methods'] ) ) {
-					return;	
-				} 
+					return;
+				}
 			}
 
 			$disable_on_free_shipping	= 'yes' == $settings['pay4pay_disable_on_free_shipping'];
@@ -132,17 +144,17 @@ jQuery(document).ready(function($){
 			 */
 			global $woocommerce;
 			if ( $woocommerce->customer->is_vat_exempt() ) {
-				$taxable = false;									
+				$taxable = false;
 			}
 
 			if ( $settings['pay4pay_charges_fixed'] || $settings['pay4pay_charges_percentage'] ) {
-				$cart = WC()->cart;
+
 				if ( is_null( $chosen_methods ) ) {
 					$chosen_methods[]=null;
 				}
 
 				if ( ( ! $disable_on_free_shipping || ! preg_grep( '/^free_shipping.*/', $chosen_methods ) ) && ( ! $disable_on_zero_shipping || $cart->shipping_total > 0 ) ) {
-					$cost = floatval( $settings['pay4pay_charges_fixed'] );
+					$cost = floatval( apply_filters( 'woocommerce_pay4pay_charges_fixed', $settings['pay4pay_charges_fixed'], $current_gateway ) );
 
 					//  √ $this->cart_contents_total + √ $this->tax_total + √ $this->shipping_tax_total + $this->shipping_total + $this->fee_total,
 					$calculation_base = 0;
@@ -157,10 +169,10 @@ jQuery(document).ready(function($){
 							$calculation_base += $cart->fee_total;
 
 						if ( $include_coupons ) {
-							if ( version_compare( WC_VERSION, '3.2', '>' )) { 
-								$calculation_base -= $cart->get_total_discount() + $cart->discount_cart;
+							if ( version_compare( WC_VERSION, '3.2', '>' )) {
+								$calculation_base -= (float) $cart->get_total_discount() + (float) $cart->discount_cart;
 							} else {
-								$calculation_base -= $cart->discount_total + $cart->discount_cart;
+								$calculation_base -= (float) $cart->discount_total + (float) $cart->discount_cart;
 							}
 						}
 
@@ -169,8 +181,8 @@ jQuery(document).ready(function($){
 							if ( $include_shipping )
 								$calculation_base += $cart->shipping_tax_total;
 						}
-						
-						$cost += $calculation_base * ( $percent / 100 );		
+
+						$cost += $calculation_base * ( $percent / 100 );
 
 					}
 
@@ -194,15 +206,34 @@ jQuery(document).ready(function($){
 
 						// apply min + max before tax calculation
 						// some people may like to use the plugin to apply a discount, so we need to handle negative values correctly
-						if ( $settings['pay4pay_charges_percentage'] ) {							
-							$min_cost = !empty( $settings['pay4pay_charges_minimum'] ) ? $settings['pay4pay_charges_minimum'] : -INF;
-							$max_cost = !empty( $settings['pay4pay_charges_maximum'] ) && (bool) $settings['pay4pay_charges_maximum'] ? $settings['pay4pay_charges_maximum'] : INF;
+						if ( $settings['pay4pay_charges_percentage'] ) {
+							$min_cost = !empty( $settings['pay4pay_charges_minimum'] ) ? apply_filters( 'woocommerce_pay4pay_charges_minimum', $settings['pay4pay_charges_minimum'], $current_gateway ) : -INF;
+							$max_cost = !empty( $settings['pay4pay_charges_maximum'] ) && (bool) $settings['pay4pay_charges_maximum'] ? apply_filters( 'woocommerce_pay4pay_charges_maximum', $settings['pay4pay_charges_maximum'], $current_gateway ) : INF;
 							$cost = max( $min_cost, $cost );
 							$cost = min( $max_cost, $cost );
 						}
 
 						// WooCommerce Fee is always ex taxes. We need to subtract taxes, WC will add them again later.
 						if ( $taxable && $include_taxes ) {
+
+							// Apply the highest tax in the cart (see #65)
+							if ( $tax_class === 'inherit' ) {
+								$highestTaxRate = 0;
+								if ( $cart->get_cart() ) {
+									foreach ( $cart->get_cart() as $item ) {
+										if ( !$item['line_tax'] || !$item['line_total'] ) {
+											$itemTaxRate = 0;
+										} else {
+											$itemTaxRate = $item['line_tax'] / $item['line_total'];
+										}
+
+										if ( $itemTaxRate >= $highestTaxRate ) {
+											$highestTaxRate = $itemTaxRate;
+											$tax_class = $item['data']->tax_class;
+										}
+									}
+								}
+							}
 
 							$tax_rates = WC_Tax::get_rates( $tax_class );
 
@@ -214,7 +245,7 @@ jQuery(document).ready(function($){
 						}
 
 						$cost = apply_filters( "woocommerce_pay4pay_{$current_gateway->id}_amount", $cost, $calculation_base, $current_gateway, $taxable, $include_taxes, $tax_class );
-						$cost = round( $cost, 2 );
+						$cost = round($cost, \wc_get_rounding_precision());
 
 						$this->_fee = (object) array(
 							'fee_title' => $fee_title,
@@ -222,11 +253,10 @@ jQuery(document).ready(function($){
 							'taxable'   => $taxable,
 							'tax_class' => $tax_class,
 						);
-						
-						if ( version_compare( WC_VERSION, '3.2', '<' )) { 
+
+						if ( version_compare( WC_VERSION, '3.2', '<' )) {
 							$cart->calculate_totals();
-						}	
-						//$cart->calculate_totals();						
+						}
 
 						return;
 					}
@@ -272,21 +302,15 @@ jQuery(document).ready(function($){
 		if ( $current_gateway = $this->get_current_gateway() ) {
 			$defaults = self::get_default_settings();
 			$settings = $current_gateway->settings + $defaults;
-			return $settings;
+			return apply_filters('(float) ', $settings, $current_gateway);
 		}
 		return false;
 	}
 
 	public function get_woocommerce_tax_classes() {
-		// I can't believe it really works like this!
-		$tax_classes = array_filter( array_map( 'trim', explode( "\n", get_option( 'woocommerce_tax_classes' ) ) ) );
-		$tax_class_options = array();
-		$tax_class_options[''] = __( 'Standard', 'woocommerce' );
-		if ( $tax_classes ) {
-			foreach ( $tax_classes as $class ) {
-				$tax_class_options[ sanitize_title( $class ) ] = esc_attr( $class );
-			}
-		}
+
+		$tax_class_options = array('inherit' => __('Payment fee tax class based on cart items', 'woocommerce-pay-for-payment')) +  \wc_get_product_tax_class_options(); // Since 3.0
+
 		return $tax_class_options;
 	}
 }

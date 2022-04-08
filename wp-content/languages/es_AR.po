@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 5.9.x - Development package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-01-12 15:14:43+0000\n"
+"PO-Revision-Date: 2022-02-28 00:39:08+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -260,9 +260,64 @@ msgctxt "block description"
 msgid "Display content in multiple columns, with blocks added to each column."
 msgstr "Muestra el contenido en múltiples columnas, con bloques agregados a cada columna."
 
-#: wp-includes/js/dist/edit-site.js:7684 wp-admin/site-editor.php:27
+#: wp-includes/js/dist/edit-site.js:8457 wp-admin/site-editor.php:27
 msgid "Editor (beta)"
 msgstr "Editor (beta)"
+
+#: wp-includes/js/dist/block-library.js:21868 wp-admin/network/sites.php:122
+#: wp-admin/network/sites.php:209
+msgid "Confirm"
+msgstr "Confirmar"
+
+#: wp-includes/wp-db.php:3353
+msgid "Could not strip invalid text."
+msgstr "No se pudo eliminar el texto no válido."
+
+#: wp-includes/wp-db.php:2911
+msgid "Could not retrieve table charset."
+msgstr "No se pudo recuperar la tabla de caracteres."
+
+#. translators: %s: Database fields where the error occurred.
+#: wp-includes/wp-db.php:2584
+msgid "WordPress database error: Processing the values for the following fields failed: %s. The supplied values may be too long or contain invalid data."
+msgstr "Error en la base de datos de WordPress: falló el procesamiento de los valores de los siguientes campos: %s. Los valores ingresados pueden ser demasiado largos o contener datos no válidos."
+
+#. translators: %s: Database field where the error occurred.
+#: wp-includes/wp-db.php:2578
+msgid "WordPress database error: Processing the value for the following field failed: %s. The supplied value may be too long or contains invalid data."
+msgstr "Error en la base de datos de WordPress: Falló el procesamiento del valor del siguiente campo: %s. El valor ingresado puede ser demasiado largo o contener datos no válidos."
+
+#: wp-includes/wp-db.php:2040
+msgid "WordPress database error: Could not perform query because it contains invalid data."
+msgstr "Error en la base de datos de WordPress: no se pudo realizar la consulta porque contiene datos no válidos."
+
+#. translators: 1: 'wp-edit-post', 2: 'wp-edit-widgets', 3:
+#. 'wp-customize-widgets'.
+#: wp-includes/widgets.php:2098
+msgid "\"%1$s\" style should not be enqueued together with the new widgets editor (%2$s or %3$s)."
+msgstr "El estilo \"%1$s\" no debe ponerse en cola junto con el nuevo editor de widgets (%2$s o %3$s)."
+
+#. translators: 1: 'wp-editor', 2: 'wp-edit-widgets', 3:
+#. 'wp-customize-widgets'.
+#: wp-includes/widgets.php:2085
+msgid "\"%1$s\" script should not be enqueued together with the new widgets editor (%2$s or %3$s)."
+msgstr "El script \"%1$s\" no debe ponerse en cola junto con el nuevo editor de widgets (%2$s o %3$s)."
+
+#: wp-includes/taxonomy.php:665
+msgid "The description is not prominent by default; however, some themes may show it."
+msgstr "De forma predeterminada la descripción no se muestra, sin embargo, hay algunos temas que pueden mostrarla."
+
+#: wp-includes/taxonomy.php:664
+msgid "Assign a parent term to create a hierarchy. The term Jazz, for example, would be the parent of Bebop and Big Band."
+msgstr "Asigná un termino principal para crear jerarquías. Por ejemplo, el término \"Jazz\" sería el principal de \"Bebop\" y \"Big Band\"."
+
+#: wp-includes/taxonomy.php:663
+msgid "The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens."
+msgstr "El \"slug\" es la versión amigable de la URL para el nombre. Suele estar en todo en minúsculas y contiene solo letras, números y guiones."
+
+#: wp-includes/taxonomy.php:662
+msgid "The name is how it appears on your site."
+msgstr "El nombre es como aparece en el sitio."
 
 #: wp-includes/taxonomy.php:213
 msgid "Template Part Area"
@@ -271,6 +326,22 @@ msgstr "Área de la parte de plantilla"
 #: wp-includes/taxonomy.php:212
 msgid "Template Part Areas"
 msgstr "Áreas de la parte de plantilla"
+
+#: wp-includes/script-loader.php:886
+msgid "The server cannot process the image. This can happen if the server is busy or does not have enough resources to complete the task. Uploading a smaller image may help. Suggested maximum size is 2560 pixels."
+msgstr "El servidor no puede procesar la imagen. Esto puede ocurrir si el servidor está ocupado o no tiene suficientes recursos para completar la tarea. Puede ayudar el subir una imagen más pequeña. El tamaño máximo sugerido es de 2560 píxeles."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-users-controller.php:1590
+msgid "Limit result set to users who have published posts."
+msgstr "Limita el conjunto de resultados a los usuarios tienen entradas publicadas."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-users-controller.php:1574
+msgid "Limit result set to users matching at least one specific capability provided. Accepts csv list or single capability."
+msgstr "Limita el conjunto de resultados a usuarios que coincidan, al menos, con una capacidad específica proporcionada. Acepta listas en CSV o una única capacidad."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-users-controller.php:205
+msgid "Sorry, you are not allowed to filter users by capability."
+msgstr "Lo siento, no tenés permisos para filtrar usuarios por capacidad."
 
 #: wp-includes/rest-api/endpoints/class-wp-rest-url-details-controller.php:270
 msgid "Unable to retrieve body from response at this URL."
@@ -288,6 +359,26 @@ msgstr "Lo siento, no tenés permisos para procesar urls remotas."
 msgid "Invalid URL"
 msgstr "URL no válida"
 
+#. translators: 1: HTML meta tag, 2: HTML meta tag.
+#: wp-includes/rest-api/endpoints/class-wp-rest-url-details-controller.php:111
+msgid "The Open Graph image link of the %1$s or %2$s element from the URL."
+msgstr "El enlace de la imagen Open Graph del elemento %1$s o %2$s de la URL."
+
+#. translators: %s: HTML meta tag.
+#: wp-includes/rest-api/endpoints/class-wp-rest-url-details-controller.php:101
+msgid "The content of the %s element from the URL."
+msgstr "El contenido del elemento %s de la URL."
+
+#. translators: %s: HTML link tag.
+#: wp-includes/rest-api/endpoints/class-wp-rest-url-details-controller.php:90
+msgid "The favicon image link of the %s element from the URL."
+msgstr "El enlace de la imagen del favicon del elemento %s de la URL."
+
+#. translators: %s: HTML title tag.
+#: wp-includes/rest-api/endpoints/class-wp-rest-url-details-controller.php:80
+msgid "The contents of the %s element from the URL."
+msgstr "Los contenidos del elemento %s de la URL."
+
 #: wp-includes/rest-api/endpoints/class-wp-rest-url-details-controller.php:46
 msgid "The URL to process."
 msgstr "La URL a procesar."
@@ -296,6 +387,66 @@ msgstr "La URL a procesar."
 msgid "Where the template part is intended for use (header, footer, etc.)"
 msgstr "Dónde se pretende usar la parte de la plantilla (cabecera, pie de página, etc.)"
 
+#: wp-includes/rest-api/endpoints/class-wp-rest-templates-controller.php:881
+msgid "Whether a template is a custom template."
+msgstr "Si una plantilla es una plantilla personalizada."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-templates-controller.php:872
+msgid "The ID for the author of the template."
+msgstr "El ID del autor de la plantilla."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-templates-controller.php:839
+msgid "HTML title for the template, transformed for display."
+msgstr "Título HTML para la plantilla, transformado para su visualización."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-templates-controller.php:834
+msgid "Title for the template, as it exists in the database."
+msgstr "Título para la plantilla, tal como existe en la base de datos."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-templates-controller.php:820
+msgid "Version of the content block format used by the template."
+msgstr "Versión del formato del bloque de contenido usado por la plantilla."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-templates-controller.php:815
+msgid "Content for the template, as it exists in the database."
+msgstr "Contenido para la plantilla, tal como existe en la base de datos."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-templates-controller.php:803
+msgid "Source of a customized template"
+msgstr "Origen de una plantilla personalizada"
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-templates-controller.php:792
+msgid "Type of template."
+msgstr "Tipo de plantilla."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-templates-controller.php:748
+msgid "Post type to get the templates for."
+msgstr "Tipo de contenido para el que obtener las plantillas."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-templates-controller.php:744
+msgid "Limit to the specified template part area."
+msgstr "Limitar al área de la parte especificada de la plantilla."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-taxonomies-controller.php:377
+msgid "REST namespace route for the taxonomy."
+msgstr "Espacio de nombre de la ruta REST para la taxonomía."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-post-types-controller.php:371
+msgid "Whether to make the post type is available for selection in navigation menus."
+msgstr "Si hacer que el tipo de contenido esté disponible para seleccionarlo en los menús de navegación."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-post-types-controller.php:367
+msgid "Whether to generate a default UI for managing this post type."
+msgstr "Si se genera una interfaz de usuario por defecto para gestionar este tipo de contenido."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-post-types-controller.php:361
+msgid "The visibility settings for the post type."
+msgstr "Los ajustes de visibilidad para el tipo de contenido."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-post-types-controller.php:355
+msgid "REST route's namespace for the post type."
+msgstr "Espacio de nombre de la ruta REST para el tipo de contenido."
+
 #: wp-includes/rest-api/endpoints/class-wp-rest-menus-controller.php:561
 msgid "Whether to automatically add top level pages to this menu."
 msgstr "Si querés agregar automáticamente las páginas de nivel superior a este menú."
@@ -303,6 +454,19 @@ msgstr "Si querés agregar automáticamente las páginas de nivel superior a est
 #: wp-includes/rest-api/endpoints/class-wp-rest-menus-controller.php:527
 msgid "The locations assigned to the menu."
 msgstr "Las ubicaciones asignadas al menú."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-menus-controller.php:383
+msgid "The menu cannot be deleted."
+msgstr "El menú no se puede borrar."
+
+#. translators: %s: force=true
+#: wp-includes/rest-api/endpoints/class-wp-rest-menus-controller.php:373
+msgid "Menus do not support trashing. Set '%s' to delete."
+msgstr "Los menús no se pueden enviar a la papelera. Establecé \"%s\" para borrarlos."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-menus-controller.php:103
+msgid "Sorry, you are not allowed to view menus."
+msgstr "Lo siento, no tenés permisos para ver los menús."
 
 #: wp-includes/rest-api/endpoints/class-wp-rest-menu-locations-controller.php:240
 msgid "The ID of the assigned menu."
@@ -356,6 +520,10 @@ msgstr "La etiqueta única usada para describir este tipo de elemento del menú.
 msgid "The target attribute of the link element for this menu item."
 msgstr "El atributo de destino del elemento del enlace de este elemento del menú."
 
+#: wp-includes/rest-api/endpoints/class-wp-rest-menu-items-controller.php:828
+msgid "The database ID of the original object this menu item represents, for example the ID for posts or the term_id for categories."
+msgstr "El ID de la base de datos del objeto original que representa este elemento del menú. Por ejemplo, el ID para las entradas o el `term_id` para las categorías."
+
 #: wp-includes/rest-api/endpoints/class-wp-rest-menu-items-controller.php:819
 msgid "The type of object originally represented, such as \"category\", \"post\", or \"attachment\"."
 msgstr "El tipo de objeto representado originalmente, tal como “categoría”, “entrada” o “adjunto”."
@@ -404,10 +572,169 @@ msgstr "Título para el objeto, tal y como está en la base de datos."
 msgid "Get linked object."
 msgstr "Obtener el objeto enlazado."
 
+#: wp-includes/rest-api/endpoints/class-wp-rest-menu-items-controller.php:454
+msgid "The url is required when using a custom menu item type."
+msgstr "La URL es necesaria cuando se usa un tipo de elemento de menú personalizado."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-menu-items-controller.php:451
+msgid "The title is required when using a custom menu item type."
+msgstr "El título es necesario cuando se usa un tipo de elemento de menú personalizado."
+
 #. translators: %s: force=true
 #: wp-includes/rest-api/endpoints/class-wp-rest-menu-items-controller.php:288
 msgid "Menu items do not support trashing. Set '%s' to delete."
 msgstr "Los elementos del menú no se pueden enviar a la papelera. Establecé \"%s\" para borrarlos."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-global-styles-controller.php:529
+msgid "Sorry, you are not allowed to access the global styles on this site."
+msgstr "Lo siento, no tenés permisos para acceder a los estilos globales de este sitio."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-global-styles-controller.php:495
+msgid "Title for the global styles variation, as it exists in the database."
+msgstr "Título para la variación de estilos globales, tal y como existe en la base de datos."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-global-styles-controller.php:489
+msgid "Title of the global styles variation."
+msgstr "Título de la variación de estilos globales."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-global-styles-controller.php:484
+msgid "Global settings."
+msgstr "Ajustes globales."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-global-styles-controller.php:479
+msgid "Global styles."
+msgstr "Estilos globales."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-global-styles-controller.php:473
+msgid "ID of global styles config."
+msgstr "ID de la configuración de estilos globales."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-global-styles-controller.php:373
+msgid "No global styles config exist with that id."
+msgstr "No existe ninguna configuración de estilos globales con ese id."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-global-styles-controller.php:135
+msgid "Sorry, you are not allowed to view this global style."
+msgstr "Lo siento, no tenés permisos para ver este estilo global."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-global-styles-controller.php:127
+#: wp-includes/rest-api/endpoints/class-wp-rest-global-styles-controller.php:190
+msgid "Sorry, you are not allowed to edit this global style."
+msgstr "Lo siento, no tenés permisos para editar este estilo global."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-global-styles-controller.php:59
+msgid "The theme identifier"
+msgstr "El identificador del tema"
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-edit-site-export-controller.php:59
+msgid "Sorry, you are not allowed to export templates and template parts."
+msgstr "Lo siento, no tenés permisos para exportar plantillas y partes de plantillas."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-block-types-controller.php:544
+msgid "Public facing and editor style handle."
+msgstr "Gestión de la visibilidad pública y del editor del estilo."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-block-types-controller.php:523
+msgid "Public facing and editor script handle."
+msgstr "Gestión de la visibilidad pública y del editor del script."
+
+#: wp-includes/rest-api/endpoints/class-wp-rest-block-directory-controller.php:277
+msgid "The date when the block was last updated."
+msgstr "La fecha de la última actualización del bloque."
+
+#: wp-includes/post.php:3154
+msgctxt "file type group"
+msgid "Video"
+msgstr "Video"
+
+#: wp-includes/post.php:3145
+msgctxt "file type group"
+msgid "Audio"
+msgstr "Audio"
+
+#: wp-includes/post.php:502
+msgid "Navigation menus that can be inserted into your site."
+msgstr "Menús de navegación que se pueden insertar en el sitio."
+
+#: wp-includes/post.php:500
+msgid "Navigation Menus list"
+msgstr "Lista de menús de navegación"
+
+#: wp-includes/post.php:499
+msgid "Navigation Menus list navigation"
+msgstr "Navegación por la lista de menús de navegación"
+
+#: wp-includes/post.php:498
+msgid "Filter Navigation Menu list"
+msgstr "Filtrar la lista de menú de navegación"
+
+#: wp-includes/post.php:497
+msgid "Uploaded to this Navigation Menu"
+msgstr "Subido a este menú de navegación"
+
+#: wp-includes/post.php:496
+msgid "Insert into Navigation Menu"
+msgstr "Insertar en el menú de navegación"
+
+#: wp-includes/post.php:495
+msgid "Navigation Menu archives"
+msgstr "Archivos de menús de navegación"
+
+#: wp-includes/post.php:494
+msgid "No Navigation Menu found in Trash."
+msgstr "No se encontró ningún menú de navegación en la papelera."
+
+#: wp-includes/post.php:493
+msgid "No Navigation Menu found."
+msgstr "No se encontró ningún menú de navegación."
+
+#: wp-includes/post.php:492
+msgid "Parent Navigation Menu:"
+msgstr "Menú de navegación superior:"
+
+#: wp-includes/post.php:491
+msgid "Search Navigation Menus"
+msgstr "Buscar menús de navegación"
+
+#: wp-includes/post.php:489
+msgid "View Navigation Menu"
+msgstr "Ver menú de navegación"
+
+#: wp-includes/post.php:488
+msgid "Edit Navigation Menu"
+msgstr "Editar menú de navegación"
+
+#: wp-includes/post.php:487
+msgid "New Navigation Menu"
+msgstr "Nuevo menú de navegación"
+
+#: wp-includes/post.php:486
+msgid "Add New Navigation Menu"
+msgstr "Agregar nuevo menú de navegación"
+
+#: wp-includes/post.php:485
+msgctxt "Navigation Menu"
+msgid "Add New"
+msgstr "Agregar nuevo"
+
+#: wp-includes/post.php:484
+msgctxt "post type singular name"
+msgid "Navigation Menu"
+msgstr "Menú de navegación"
+
+#: wp-includes/post.php:483
+msgctxt "post type general name"
+msgid "Navigation Menus"
+msgstr "Menús de navegación"
+
+#: wp-includes/post.php:455
+msgid "Global styles to include in themes."
+msgstr "Estilos globales para incluir en los temas."
+
+#: wp-includes/post.php:454
+msgctxt "post type general name"
+msgid "Global Styles"
+msgstr "Estilos globales"
 
 #: wp-includes/post.php:415
 msgid "Template parts to include in your templates."
@@ -453,7 +780,7 @@ msgstr "Parte de plantilla padre:"
 msgid "Search Template Parts"
 msgstr "Buscar partes de plantilla"
 
-#: wp-includes/post.php:403 wp-includes/js/dist/edit-site.js:5780
+#: wp-includes/post.php:403 wp-includes/js/dist/edit-site.js:6553
 msgid "Template Parts"
 msgstr "Partes de plantilla"
 
@@ -478,6 +805,99 @@ msgctxt "Template Part"
 msgid "Add New"
 msgstr "Agregar nuevo"
 
+#: wp-includes/post.php:397
+msgctxt "post type singular name"
+msgid "Template Part"
+msgstr "Parte de plantilla"
+
+#: wp-includes/post.php:396
+msgctxt "post type general name"
+msgid "Template Parts"
+msgstr "Partes de plantilla"
+
+#: wp-includes/post.php:337
+msgctxt "post type singular name"
+msgid "Template"
+msgstr "Plantilla"
+
+#: wp-includes/post.php:336
+msgctxt "post type general name"
+msgid "Templates"
+msgstr "Plantillas"
+
+#. translators: %s: Link to the login page.
+#: wp-includes/ms-functions.php:545 wp-includes/user.php:3117
+msgid "<strong>Error:</strong> This email address is already registered. <a href=\"%s\">Log in</a> with this address or choose another one."
+msgstr "<strong>Error:</strong> Esta dirección de correo electrónico ya está registrada. <a href=\"%s\">Iniciá sesión</a> con esta dirección o eligí otra."
+
+#: wp-includes/media.php:4474
+#: wp-admin/includes/class-wp-media-list-table.php:154
+msgctxt "media items"
+msgid "Unattached"
+msgstr "Sin adjuntar"
+
+#. translators: 1: Function name, 2: A variable type, like "boolean" or
+#. "integer".
+#: wp-includes/functions.php:8299
+msgid "%1$s only accepts a non-empty path string, received %2$s."
+msgstr "%1$s solo acepta una cadena de ruta no vacía. Se recibió %2$s."
+
+#. translators: 1: Path to the JSON file, 2: Error message.
+#: wp-includes/functions.php:4494
+msgid "Error when decoding a JSON file at path %1$s: %2$s"
+msgstr "Error al descifrar un archivo JSON en la ruta %1$s: %2$s"
+
+#. translators: %s: Path to the JSON file.
+#: wp-includes/functions.php:4480
+msgid "File %s doesn't exist!"
+msgstr "¡El archivo %s no existe!"
+
+#: wp-includes/functions.php:2850 wp-includes/script-loader.php:878
+#: wp-includes/js/dist/media-utils.js:664 wp-admin/includes/file.php:934
+msgid "Sorry, you are not allowed to upload this file type."
+msgstr "Lo siento, no tenés permisos para subir este tipo de archivos."
+
+#. translators: 1: Option name, 2: Error code.
+#: wp-includes/formatting.php:4957
+msgid "Could not sanitize the %1$s option. Error code: %2$s"
+msgstr "No se pudo limpiar la opción %1$s. Código de error: %2$s"
+
+#. translators: %s: URL to the themes page (also it activates the theme).
+#: wp-includes/customize/class-wp-customize-theme-control.php:267
+#: wp-admin/includes/theme.php:1017
+msgid "However, you can still <a href=\"%s\">activate this theme</a>, and use the Site Editor to customize it."
+msgstr "Sin embargo todavía podés <a href=\"%s\">activar este tema</a> y usar el editor del sitio para personalizarlo."
+
+#: wp-includes/customize/class-wp-customize-theme-control.php:260
+#: wp-admin/includes/theme.php:1011
+msgid "This theme doesn't support Customizer."
+msgstr "Este tema no es compatible con el personalizador."
+
+#: wp-includes/comment.php:3552
+msgid "<strong>Error</strong>: Please fill the required fields."
+msgstr "<strong>Error</strong>: Por favor, rellená los campos obligatorios."
+
+#: wp-includes/class-wp-block-styles-registry.php:68
+msgid "Block style name must not contain any spaces."
+msgstr "El nombre del estilo del bloque no debe contener espacios."
+
+#. translators: %s: Template part slug.
+#. translators: %s: Template part slug
+#: wp-includes/blocks/template-part.php:113
+#: wp-includes/js/dist/block-library.js:39552
+msgid "Template part has been deleted or is unavailable: %s"
+msgstr "La parte de la plantilla fue borrada o no está disponible: %s"
+
+#: wp-includes/blocks/post-navigation-link.php:64
+msgctxt "label before the title of the previous post"
+msgid "Previous:"
+msgstr "Anterior:"
+
+#: wp-includes/blocks/post-navigation-link.php:64
+msgctxt "label before the title of the next post"
+msgid "Next:"
+msgstr "Siguiente:"
+
 #: wp-includes/blocks/post-navigation-link.php:34
 msgctxt "label for previous post link"
 msgid "Previous"
@@ -488,40 +908,195 @@ msgctxt "label for next post link"
 msgid "Next"
 msgstr "Siguiente"
 
+#: wp-includes/blocks/navigation.php:555
+#: wp-includes/js/dist/block-library.js:21516
+msgid "Close menu"
+msgstr "Cerrar el menú"
+
+#: wp-includes/blocks/navigation.php:554
+#: wp-includes/js/dist/block-library.js:21486
+msgid "Open menu"
+msgstr "Abrir el menú"
+
+#. translators: Accessibility text. %s: Parent page title.
+#: wp-includes/blocks/navigation-submenu.php:193
+#: wp-includes/blocks/page-list.php:184
+msgid "%s submenu"
+msgstr "Submenú de %s"
+
+#: wp-includes/blocks/navigation-link.php:286
+msgid "A link to a post format"
+msgstr "Un enlace a un formato de entrada"
+
+#: wp-includes/blocks/navigation-link.php:285
+msgid "Post Format Link"
+msgstr "Enlace a formato de entrada"
+
+#: wp-includes/blocks/calendar.php:22
+msgid "The calendar block is hidden because there are no published posts."
+msgstr "El bloque de calendario está oculto porque no hay ninguna entrada publicada."
+
+#: wp-includes/block-template-utils.php:924
+msgid "Unable to open export file (archive) for writing."
+msgstr "No fue posible abrir el archivo de exportación (comprimido) para poder escribir en él."
+
+#: wp-includes/block-template-utils.php:916
+msgid "Zip Export not supported."
+msgstr "ZIP de exportación no compatible."
+
+#. translators: %1$s: Template area type, %2$s: the uncategorized template area
+#. value.
+#: wp-includes/block-template-utils.php:216
+msgid "\"%1$s\" is not a supported wp_template_part area value and has been added as \"%2$s\"."
+msgstr "\"%1$s\" no es un valor de área `wp_template_part` compatible y fue agregado como \"%2$s\"."
+
+#: wp-includes/block-template-utils.php:178
+msgid "Displays when no content is found."
+msgstr "Se muestra cuando no se encuentra ningún contenido."
+
 #: wp-includes/block-template-utils.php:177
 msgctxt "Template name"
 msgid "404"
 msgstr "404"
+
+#: wp-includes/block-template-utils.php:174
+msgid "Displays the privacy policy page."
+msgstr "Muestra la página de política de privacidad."
+
+#: wp-includes/block-template-utils.php:170
+msgid "Template used to display search results."
+msgstr "Plantilla usada para mostrar los resultados de búsqueda."
+
+#: wp-includes/block-template-utils.php:169
+msgctxt "Template name"
+msgid "Search"
+msgstr "Buscar"
+
+#: wp-includes/block-template-utils.php:166
+msgid "Displays individual media items or attachments."
+msgstr "Muestra elementos de medios individuales o adjuntos."
+
+#: wp-includes/block-template-utils.php:162
+msgid "Displays latest posts with single post tag."
+msgstr "Muestra las últimas entradas con una única etiqueta de entradas."
+
+#: wp-includes/block-template-utils.php:161
+msgctxt "Template name"
+msgid "Tag"
+msgstr "Etiqueta"
+
+#: wp-includes/block-template-utils.php:158
+msgid "Displays posts from a specific date."
+msgstr "Muestra entradas de una fecha específica."
+
+#: wp-includes/block-template-utils.php:157
+msgctxt "Template name"
+msgid "Date"
+msgstr "Fecha"
+
+#: wp-includes/block-template-utils.php:154
+msgid "Displays latest posts from a single post taxonomy."
+msgstr "Muestra las últimas entradas de una única taxonomía de entradas."
+
+#: wp-includes/block-template-utils.php:153
+msgctxt "Template name"
+msgid "Taxonomy"
+msgstr "Taxonomía"
+
+#: wp-includes/block-template-utils.php:150
+msgid "Displays latest posts in single post category."
+msgstr "Muestra las últimas entradas de una única categoría de entradas."
+
+#: wp-includes/block-template-utils.php:149
+msgctxt "Template name"
+msgid "Category"
+msgstr "Categoría"
+
+#: wp-includes/block-template-utils.php:146
+msgid "Displays latest posts written by a single author."
+msgstr "Muestra las últimas entradas escritas por un único autor."
+
+#: wp-includes/block-template-utils.php:145
+msgctxt "Template name"
+msgid "Author"
+msgstr "Autor"
+
+#: wp-includes/block-template-utils.php:142
+msgid "Displays post categories, tags, and other archives."
+msgstr "Muestra los archivos de categorías, etiquetas y otros archivos de entradas."
 
 #: wp-includes/block-template-utils.php:141
 msgctxt "Template name"
 msgid "Archive"
 msgstr "Archivo"
 
+#: wp-includes/block-template-utils.php:138
+msgid "Displays a single page."
+msgstr "Muestra una única página."
+
 #: wp-includes/block-template-utils.php:137
 msgctxt "Template name"
 msgid "Page"
 msgstr "Página"
+
+#: wp-includes/block-template-utils.php:134
+msgid "Displays a single post."
+msgstr "Muestra una única entrada."
+
+#: wp-includes/block-template-utils.php:133
+msgctxt "Template name"
+msgid "Single Post"
+msgstr "Entrada individual"
+
+#: wp-includes/block-template-utils.php:130
+msgid "Displays a single post or page."
+msgstr "Muestra una única entrada o página."
 
 #: wp-includes/block-template-utils.php:129
 msgctxt "Template name"
 msgid "Singular"
 msgstr "Individual"
 
+#: wp-includes/block-template-utils.php:126
+msgid "Displays as the site's home page."
+msgstr "Se muestra como la página de inicio del sitio."
+
 #: wp-includes/block-template-utils.php:125
 msgctxt "Template name"
 msgid "Front Page"
 msgstr "Página de inicio"
+
+#: wp-includes/block-template-utils.php:122
+msgid "Displays as the site's home page, or as the Posts page when a static home page isn't set."
+msgstr "Se muestra como la página de inicio del sitio, o como la página de entradas, cuando no está configurada una página de inicio estática. "
 
 #: wp-includes/block-template-utils.php:121
 msgctxt "Template name"
 msgid "Home"
 msgstr "Inicio"
 
+#: wp-includes/block-template-utils.php:118
+msgid "Displays posts."
+msgstr "Muestra las entradas."
+
 #: wp-includes/block-template-utils.php:117
 msgctxt "Template name"
 msgid "Index"
 msgstr "Índice"
+
+#: wp-includes/block-template-utils.php:87
+#: wp-includes/js/dist/block-library.js:39638
+msgid "The Footer template defines a page area that typically contains site credits, social links, or any other combination of blocks."
+msgstr "La plantilla de pie de página define un área de la página que normalmente contiene los agradecimientos del sitio, enlaces sociales o cualquier otra combinación de bloques."
+
+#: wp-includes/block-template-utils.php:78
+#: wp-includes/js/dist/block-library.js:39629
+msgid "The Header template defines a page area that typically contains a title, logo, and main navigation."
+msgstr "La plantilla de encabezado define un área de la página que normalmente contiene un título, logotipo y la navegación principal."
+
+#: wp-includes/block-template-utils.php:69
+msgid "General templates often perform a specific role like displaying post content, and are not tied to any particular area."
+msgstr "Las plantillas generales a menudo cumplen funciones específicas, como mostrar contenido de entradas, y no están atadas a ningún área en particular."
 
 #: wp-includes/admin-bar.php:432
 msgid "Edit site"
@@ -1450,7 +2025,7 @@ msgid "Type / to choose a block"
 msgstr "Tecleá / para elegir un bloque"
 
 #: wp-includes/js/dist/block-editor.js:45357
-#: wp-includes/js/dist/edit-site.js:3947 wp-includes/js/dist/edit-site.js:4820
+#: wp-includes/js/dist/edit-site.js:4720 wp-includes/js/dist/edit-site.js:5593
 #: wp-admin/includes/class-wp-screen.php:1204 wp-admin/includes/theme.php:342
 #: wp-admin/includes/theme.php:378 wp-admin/index.php:70
 msgid "Layout"
@@ -1999,7 +2574,7 @@ msgctxt "Template"
 msgid "Add New"
 msgstr "Agregar nuevo"
 
-#: wp-includes/post.php:343 wp-includes/js/dist/edit-site.js:5772
+#: wp-includes/post.php:343 wp-includes/js/dist/edit-site.js:6545
 msgid "Templates"
 msgstr "Plantillas"
 
@@ -4231,7 +4806,7 @@ msgstr "Vista de cuadrícula"
 #: wp-includes/js/dist/block-library.js:17910
 #: wp-includes/js/dist/block-library.js:29878
 #: wp-includes/js/dist/block-library.js:32595
-#: wp-includes/js/dist/edit-post.js:6798 wp-includes/js/dist/edit-site.js:7024
+#: wp-includes/js/dist/edit-post.js:6798 wp-includes/js/dist/edit-site.js:7797
 #: wp-includes/js/dist/edit-widgets.js:3083
 #: wp-admin/includes/class-wp-media-list-table.php:44
 msgid "List view"
@@ -5111,7 +5686,7 @@ msgid "Sorry, you are not allowed to view autosaves of this post."
 msgstr "Lo siento, no tenés permisos para ver los autoguardados de esta entrada."
 
 #: wp-includes/js/dist/block-library.js:39166
-#: wp-includes/js/dist/edit-post.js:8143 wp-includes/js/dist/edit-site.js:6076
+#: wp-includes/js/dist/edit-post.js:8143 wp-includes/js/dist/edit-site.js:6849
 #: wp-admin/options-privacy.php:268
 msgid "Create"
 msgstr "Crear"
@@ -5213,7 +5788,7 @@ msgstr "Elemento agregado."
 #: wp-includes/widgets/class-wp-widget-custom-html.php:318 wp-login.php:648
 #: wp-includes/js/dist/components.js:48318
 #: wp-includes/js/dist/customize-widgets.js:805
-#: wp-includes/js/dist/edit-post.js:4107 wp-includes/js/dist/edit-site.js:2200
+#: wp-includes/js/dist/edit-post.js:4107 wp-includes/js/dist/edit-site.js:2973
 #: wp-includes/js/dist/edit-widgets.js:2677 wp-includes/js/dist/editor.js:7332
 #: wp-admin/includes/class-wp-privacy-policy-content.php:364
 #: wp-admin/includes/class-wp-site-health.php:753
@@ -8224,6 +8799,10 @@ msgstr "Número de entradas publicadas con el término."
 msgid "Unique identifier for the user."
 msgstr "Identificador único del usuario."
 
+#: wp-includes/rest-api/endpoints/class-wp-rest-templates-controller.php:464
+msgid "The template cannot be deleted."
+msgstr "No se pueden borrar la plantilla."
+
 #: wp-includes/rest-api/endpoints/class-wp-rest-users-controller.php:100
 #: wp-includes/rest-api/endpoints/class-wp-rest-users-controller.php:140
 msgid "Required to be true, as users do not support trashing."
@@ -10470,7 +11049,7 @@ msgid "Hide header image"
 msgstr "Ocultar imagen de encabezado"
 
 #: wp-includes/class-wp-customize-manager.php:5163
-#: wp-includes/js/dist/edit-post.js:5713 wp-includes/js/dist/edit-site.js:5867
+#: wp-includes/js/dist/edit-post.js:5713 wp-includes/js/dist/edit-site.js:6640
 #: wp-includes/js/dist/editor.js:8893 wp-admin/includes/template.php:2343
 msgid "Site Icon"
 msgstr "Ícono del sitio"
@@ -11458,7 +12037,7 @@ msgstr "Color personalizado"
 #: wp-includes/js/dist/block-library.js:33336
 #: wp-includes/js/dist/block-library.js:33340
 #: wp-includes/js/dist/block-library.js:36286
-#: wp-includes/js/dist/edit-site.js:3600
+#: wp-includes/js/dist/edit-site.js:4373
 msgid "Color"
 msgstr "Color"
 
@@ -12203,7 +12782,7 @@ msgstr "Crear una nueva lista de reproducción"
 #: wp-includes/customize/class-wp-customize-themes-panel.php:70
 #: wp-includes/media.php:4450 wp-includes/js/dist/components.js:54130
 #: wp-includes/js/dist/edit-post.js:4430 wp-includes/js/dist/edit-post.js:5738
-#: wp-includes/js/dist/edit-site.js:6405 wp-admin/includes/ms.php:49
+#: wp-includes/js/dist/edit-site.js:7178 wp-admin/includes/ms.php:49
 #: wp-admin/theme-install.php:60
 msgid "Back"
 msgstr "Volver"
@@ -12263,7 +12842,7 @@ msgstr "Más herramientas"
 #: wp-includes/js/dist/block-editor.js:11716
 #: wp-includes/js/dist/block-library.js:21691
 #: wp-includes/js/dist/customize-widgets.js:785
-#: wp-includes/js/dist/edit-post.js:4036 wp-includes/js/dist/edit-site.js:2186
+#: wp-includes/js/dist/edit-post.js:4036 wp-includes/js/dist/edit-site.js:2959
 #: wp-includes/js/dist/edit-widgets.js:2657 wp-admin/menu.php:345
 #: wp-admin/tools.php:43
 msgid "Tools"
@@ -12302,7 +12881,7 @@ msgstr "Encabezado de celda"
 #: wp-includes/block-template-utils.php:86
 #: wp-includes/js/dist/block-library.js:39637
 #: wp-includes/js/dist/customize-widgets.js:3979
-#: wp-includes/js/dist/edit-post.js:3146 wp-includes/js/dist/edit-site.js:10547
+#: wp-includes/js/dist/edit-post.js:3146 wp-includes/js/dist/edit-site.js:11320
 #: wp-includes/js/dist/edit-widgets.js:4917
 msgid "Footer"
 msgstr "Pie de página"
@@ -12471,8 +13050,8 @@ msgstr "Borrar formatos"
 #. translators: Text label for the Block Settings Sidebar tab.
 #: wp-includes/widgets/class-wp-widget-block.php:45
 #: wp-includes/js/dist/edit-post.js:6860 wp-includes/js/dist/edit-post.js:6879
-#: wp-includes/js/dist/edit-post.js:6881 wp-includes/js/dist/edit-site.js:5388
-#: wp-includes/js/dist/edit-site.js:5403 wp-includes/js/dist/edit-site.js:5405
+#: wp-includes/js/dist/edit-post.js:6881 wp-includes/js/dist/edit-site.js:6161
+#: wp-includes/js/dist/edit-site.js:6176 wp-includes/js/dist/edit-site.js:6178
 #: wp-includes/js/dist/edit-widgets.js:2209
 msgid "Block"
 msgstr "Bloque"
@@ -12568,6 +13147,10 @@ msgstr "https://es.wordpress.org/support/forum/comunidad/peticiones-y-feedback/"
 #: wp-includes/admin-bar.php:175
 msgid "https://wordpress.org/support/"
 msgstr "https://es.wordpress.org/support/"
+
+#: wp-login.php:370 wp-admin/includes/class-wp-users-list-table.php:306
+msgid "Change"
+msgstr "Cambiar"
 
 #: wp-includes/js/dist/editor.js:6931 wp-admin/includes/ajax-actions.php:2192
 #: wp-admin/includes/class-wp-posts-list-table.php:1909
@@ -13387,7 +13970,7 @@ msgid "Header Text Color"
 msgstr "Color del texto del encabezado"
 
 #: wp-includes/class-wp-customize-manager.php:5227
-#: wp-includes/js/dist/edit-site.js:3944 wp-includes/js/dist/edit-site.js:4417
+#: wp-includes/js/dist/edit-site.js:4717 wp-includes/js/dist/edit-site.js:5190
 msgid "Colors"
 msgstr "Colores"
 
@@ -13634,9 +14217,9 @@ msgstr "Hoja de estilo"
 #: wp-includes/class-wp-xmlrpc-server.php:566
 #: wp-includes/js/dist/edit-post.js:5382 wp-includes/js/dist/edit-post.js:6861
 #: wp-includes/js/dist/edit-post.js:6873 wp-includes/js/dist/edit-post.js:6874
-#: wp-includes/js/dist/edit-post.js:8252 wp-includes/js/dist/edit-site.js:5385
-#: wp-includes/js/dist/edit-site.js:5396 wp-includes/js/dist/edit-site.js:5398
-#: wp-includes/js/dist/edit-site.js:8536
+#: wp-includes/js/dist/edit-post.js:8252 wp-includes/js/dist/edit-site.js:6158
+#: wp-includes/js/dist/edit-site.js:6169 wp-includes/js/dist/edit-site.js:6171
+#: wp-includes/js/dist/edit-site.js:9309
 #: wp-admin/includes/class-wp-posts-list-table.php:1810
 #: wp-admin/includes/meta-boxes.php:979
 msgid "Template"
@@ -13828,6 +14411,10 @@ msgstr "Y"
 msgctxt "monthly archives date format"
 msgid "F Y"
 msgstr "F Y"
+
+#: wp-includes/block-patterns.php:108
+msgid "Featured"
+msgstr "Destacado"
 
 #. translators: Double prime, for example in 9" (nine inches).
 #: wp-includes/formatting.php:94
@@ -15835,7 +16422,7 @@ msgstr "Pantalla completa"
 
 #: wp-includes/admin-bar.php:1036 wp-includes/js/dist/block-editor.js:42864
 #: wp-includes/js/dist/block-library.js:22312
-#: wp-includes/js/dist/edit-site.js:4363 wp-includes/js/dist/edit-site.js:4673
+#: wp-includes/js/dist/edit-site.js:5136 wp-includes/js/dist/edit-site.js:5446
 #: wp-includes/js/dist/format-library.js:1698
 #: wp-admin/includes/class-custom-background.php:65 wp-admin/menu.php:238
 msgid "Background"
@@ -15907,7 +16494,7 @@ msgstr "Espacio vertical"
 #: wp-includes/class-wp-editor.php:1222
 #: wp-includes/js/dist/block-editor.js:12496
 #: wp-includes/js/dist/block-editor.js:12554
-#: wp-includes/js/dist/edit-site.js:3753
+#: wp-includes/js/dist/edit-site.js:4526
 msgid "Dimensions"
 msgstr "Dimensiones"
 
@@ -15915,7 +16502,7 @@ msgstr "Dimensiones"
 #: wp-includes/js/dist/block-editor.js:12499
 #: wp-includes/js/dist/block-editor.js:12557
 #: wp-includes/js/dist/block-editor.js:42397
-#: wp-includes/js/dist/edit-site.js:3584
+#: wp-includes/js/dist/edit-site.js:4357
 msgid "Border"
 msgstr "Borde"
 
@@ -16614,8 +17201,8 @@ msgstr "Agregar párrafos automáticamente"
 #: wp-includes/widgets/class-wp-widget-text.php:43
 #: wp-includes/js/dist/block-editor.js:42860
 #: wp-includes/js/dist/block-library.js:22308 wp-includes/js/dist/blocks.js:247
-#: wp-includes/js/dist/edit-site.js:4214 wp-includes/js/dist/edit-site.js:4244
-#: wp-includes/js/dist/edit-site.js:4385 wp-includes/js/dist/edit-site.js:4725
+#: wp-includes/js/dist/edit-site.js:4987 wp-includes/js/dist/edit-site.js:5017
+#: wp-includes/js/dist/edit-site.js:5158 wp-includes/js/dist/edit-site.js:5498
 #: wp-includes/js/dist/format-library.js:1695
 msgid "Text"
 msgstr "Texto"
@@ -16933,7 +17520,7 @@ msgstr "Título:"
 #: wp-includes/js/dist/components.js:47093
 #: wp-includes/js/dist/components.js:51508
 #: wp-includes/js/dist/edit-post.js:6419 wp-includes/js/dist/edit-post.js:6548
-#: wp-includes/js/dist/edit-site.js:4481 wp-includes/js/dist/edit-site.js:4535
+#: wp-includes/js/dist/edit-site.js:5254 wp-includes/js/dist/edit-site.js:5308
 #: wp-admin/js/color-picker.js:149
 msgid "Default"
 msgstr "Predeterminado"
@@ -16976,7 +17563,7 @@ msgid "Site Title"
 msgstr "Título del sitio"
 
 #: wp-includes/taxonomy.php:194 wp-includes/js/dist/blocks.js:259
-#: wp-includes/js/dist/edit-site.js:4475 wp-includes/js/dist/edit-site.js:4529
+#: wp-includes/js/dist/edit-site.js:5248 wp-includes/js/dist/edit-site.js:5302
 #: wp-admin/includes/class-wp-ms-themes-list-table.php:331
 msgid "Theme"
 msgstr "Tema"
@@ -16991,7 +17578,7 @@ msgstr "Primera entrada"
 #: wp-includes/js/dist/block-library.js:33927
 #: wp-includes/js/dist/customize-widgets.js:3973
 #: wp-includes/js/dist/edit-post.js:3140 wp-includes/js/dist/edit-post.js:8401
-#: wp-includes/js/dist/edit-site.js:5608 wp-includes/js/dist/edit-site.js:10541
+#: wp-includes/js/dist/edit-site.js:6381 wp-includes/js/dist/edit-site.js:11314
 #: wp-includes/js/dist/edit-widgets.js:2215
 #: wp-includes/js/dist/edit-widgets.js:4911 wp-admin/includes/ms.php:1082
 #: wp-admin/menu.php:359 wp-admin/options.php:22 wp-admin/network/menu.php:109
@@ -17052,7 +17639,7 @@ msgstr "Seguridad de la contraseña"
 #. translators: Network menu item.
 #: wp-includes/admin-bar.php:401 wp-includes/admin-bar.php:542
 #: wp-includes/admin-bar.php:649 wp-includes/deprecated.php:2812
-#: wp-includes/deprecated.php:2814 wp-includes/js/dist/edit-site.js:5757
+#: wp-includes/deprecated.php:2814 wp-includes/js/dist/edit-site.js:6530
 #: wp-admin/index.php:33 wp-admin/menu.php:24 wp-admin/my-sites.php:128
 #: wp-admin/user/menu.php:10
 #: wp-admin/includes/class-wp-ms-sites-list-table.php:708
@@ -17080,7 +17667,7 @@ msgstr "<strong>Error</strong>: ingresá un nombre de usuario."
 #: wp-includes/js/dist/block-library.js:27590
 #: wp-includes/js/dist/block-library.js:33094
 #: wp-includes/js/dist/block-library.js:36617
-#: wp-includes/js/dist/edit-site.js:3590
+#: wp-includes/js/dist/edit-site.js:4363
 #: wp-includes/js/dist/format-library.js:611 wp-admin/options-media.php:62
 msgid "Width"
 msgstr "Ancho"
@@ -17138,7 +17725,7 @@ msgstr "Negro"
 #: wp-includes/customize/class-wp-customize-nav-menus-panel.php:82
 #: wp-includes/customize/class-wp-customize-themes-panel.php:83
 #: wp-includes/js/dist/customize-widgets.js:801
-#: wp-includes/js/dist/edit-post.js:4103 wp-includes/js/dist/edit-site.js:2196
+#: wp-includes/js/dist/edit-post.js:4103 wp-includes/js/dist/edit-site.js:2969
 #: wp-includes/js/dist/edit-widgets.js:2673 wp-admin/customize.php:233
 #: wp-admin/includes/class-wp-screen.php:976
 msgid "Help"
@@ -17190,8 +17777,8 @@ msgstr "Elegir"
 #: wp-includes/js/dist/customize-widgets.js:715
 #: wp-includes/js/dist/edit-post.js:4842 wp-includes/js/dist/edit-post.js:5497
 #: wp-includes/js/dist/edit-post.js:5870 wp-includes/js/dist/edit-post.js:8110
-#: wp-includes/js/dist/edit-site.js:1905 wp-includes/js/dist/edit-site.js:6008
-#: wp-includes/js/dist/edit-site.js:8158
+#: wp-includes/js/dist/edit-site.js:2678 wp-includes/js/dist/edit-site.js:6781
+#: wp-includes/js/dist/edit-site.js:8931
 #: wp-includes/js/dist/edit-widgets.js:2592
 #: wp-includes/js/dist/reusable-blocks.js:459
 #: wp-admin/includes/class-wp-theme-install-list-table.php:394
@@ -17213,8 +17800,8 @@ msgid "Email: %s"
 msgstr "Correo electrónico: %s"
 
 #: wp-includes/widgets/class-wp-widget-links.php:29
-#: wp-includes/js/dist/edit-site.js:4219 wp-includes/js/dist/edit-site.js:4248
-#: wp-includes/js/dist/edit-site.js:4407 wp-includes/js/dist/edit-site.js:4778
+#: wp-includes/js/dist/edit-site.js:4992 wp-includes/js/dist/edit-site.js:5021
+#: wp-includes/js/dist/edit-site.js:5180 wp-includes/js/dist/edit-site.js:5551
 #: wp-admin/includes/class-wp-terms-list-table.php:200
 #: wp-admin/link-manager.php:50 wp-admin/menu.php:80
 msgid "Links"
@@ -17345,6 +17932,12 @@ msgstr "Aceptar"
 msgid "Image URL"
 msgstr "URL de la imagen"
 
+#: wp-includes/js/dist/edit-site.js:9022 wp-includes/js/dist/edit-site.js:9315
+#: wp-admin/includes/media.php:2584
+#: wp-admin/includes/class-wp-ms-sites-list-table.php:370
+msgid "Actions"
+msgstr "Acciones"
+
 #. translators: Default privacy policy heading.
 #: wp-includes/block-template-utils.php:165
 #: wp-includes/class-wp-editor.php:1229 wp-includes/media.php:4441
@@ -17461,7 +18054,7 @@ msgstr "Miniatura"
 
 #: wp-includes/class-wp-editor.php:1175
 #: wp-includes/js/dist/customize-widgets.js:881
-#: wp-includes/js/dist/edit-site.js:2313
+#: wp-includes/js/dist/edit-site.js:3086
 #: wp-includes/js/dist/edit-widgets.js:2338 wp-includes/js/dist/editor.js:4904
 #: wp-admin/includes/image-edit.php:81
 msgid "Redo"
@@ -17502,7 +18095,7 @@ msgstr "Barra lateral"
 #: wp-includes/admin-bar.php:1050 wp-includes/block-template-utils.php:77
 #: wp-includes/js/dist/block-library.js:39628
 #: wp-includes/js/dist/customize-widgets.js:3964
-#: wp-includes/js/dist/edit-post.js:3131 wp-includes/js/dist/edit-site.js:10532
+#: wp-includes/js/dist/edit-post.js:3131 wp-includes/js/dist/edit-site.js:11305
 #: wp-includes/js/dist/edit-widgets.js:4902
 #: wp-admin/includes/class-custom-image-header.php:73 wp-admin/menu.php:233
 msgid "Header"
@@ -17546,7 +18139,7 @@ msgstr "Etiquetas"
 #. translators: accessibility text for the content landmark region.
 #: wp-includes/revision.php:33 wp-includes/js/dist/block-editor.js:26362
 #: wp-includes/js/dist/customize-widgets.js:3967
-#: wp-includes/js/dist/edit-post.js:3134 wp-includes/js/dist/edit-site.js:10535
+#: wp-includes/js/dist/edit-post.js:3134 wp-includes/js/dist/edit-site.js:11308
 #: wp-includes/js/dist/edit-widgets.js:4905 wp-admin/includes/dashboard.php:576
 #: wp-admin/index.php:104
 msgid "Content"
@@ -17562,8 +18155,8 @@ msgstr "Contenido"
 #: wp-includes/js/dist/block-library.js:25467
 #: wp-includes/js/dist/block-library.js:39146
 #: wp-includes/js/dist/block-library.js:39161
-#: wp-includes/js/dist/edit-post.js:8138 wp-includes/js/dist/edit-site.js:6071
-#: wp-includes/js/dist/edit-site.js:8182 wp-includes/js/dist/editor.js:9201
+#: wp-includes/js/dist/edit-post.js:8138 wp-includes/js/dist/edit-site.js:6844
+#: wp-includes/js/dist/edit-site.js:8955 wp-includes/js/dist/editor.js:9201
 #: wp-includes/js/dist/reusable-blocks.js:486 wp-admin/comment.php:247
 #: wp-admin/includes/class-walker-nav-menu-edit.php:305
 #: wp-admin/includes/class-wp-posts-list-table.php:2011
@@ -17582,7 +18175,7 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #: wp-includes/admin-bar.php:585 wp-includes/js/dist/core-data.js:2025
-#: wp-includes/js/dist/edit-post.js:6082 wp-includes/js/dist/edit-site.js:2180
+#: wp-includes/js/dist/edit-post.js:6082 wp-includes/js/dist/edit-site.js:2953
 #: wp-admin/plugins.php:602 wp-admin/update-core.php:458
 #: wp-admin/update-core.php:477 wp-admin/network/menu.php:103
 #: wp-admin/network/settings.php:487
@@ -17695,8 +18288,8 @@ msgstr "Descripción"
 #: wp-includes/comment-template.php:2368
 #: wp-includes/js/dist/block-library.js:32456
 #: wp-includes/js/dist/block-library.js:39152
-#: wp-includes/js/dist/edit-post.js:8122 wp-includes/js/dist/edit-site.js:6026
-#: wp-includes/js/dist/edit-site.js:8169
+#: wp-includes/js/dist/edit-post.js:8122 wp-includes/js/dist/edit-site.js:6799
+#: wp-includes/js/dist/edit-site.js:8942
 #: wp-includes/js/dist/reusable-blocks.js:474 wp-admin/edit-form-comment.php:49
 #: wp-admin/includes/class-wp-application-passwords-list-table.php:29
 #: wp-admin/includes/class-wp-debug-data.php:1129
@@ -17730,8 +18323,8 @@ msgstr "Destino"
 msgid "Categories"
 msgstr "Categorías"
 
-#: wp-includes/class-wp-editor.php:1247 wp-includes/js/dist/edit-site.js:2256
-#: wp-includes/js/dist/edit-site.js:8185 wp-includes/js/dist/editor.js:5423
+#: wp-includes/class-wp-editor.php:1247 wp-includes/js/dist/edit-site.js:3029
+#: wp-includes/js/dist/edit-site.js:8958 wp-includes/js/dist/editor.js:5423
 #: wp-includes/js/dist/editor.js:9489
 #: wp-includes/js/dist/reusable-blocks.js:489
 #: wp-includes/js/dist/widgets.js:392 wp-admin/edit-form-comment.php:90
@@ -17780,7 +18373,7 @@ msgstr "Extracto"
 #: wp-includes/script-loader.php:1162
 #: wp-includes/js/dist/customize-widgets.js:3976
 #: wp-includes/js/dist/edit-post.js:3143 wp-includes/js/dist/edit-post.js:6952
-#: wp-includes/js/dist/edit-site.js:10544
+#: wp-includes/js/dist/edit-site.js:11317
 #: wp-includes/js/dist/edit-widgets.js:4914 wp-includes/js/dist/editor.js:7750
 #: wp-includes/js/dist/editor.js:7941 wp-admin/customize.php:193
 #: wp-admin/includes/meta-boxes.php:359 wp-admin/includes/meta-boxes.php:360
@@ -17818,7 +18411,7 @@ msgstr "Aplicar"
 #. translators: %s: Number of comments.
 #: wp-includes/class-wp-editor.php:1174
 #: wp-includes/js/dist/customize-widgets.js:869
-#: wp-includes/js/dist/edit-site.js:1113 wp-includes/js/dist/edit-site.js:2284
+#: wp-includes/js/dist/edit-site.js:1113 wp-includes/js/dist/edit-site.js:3057
 #: wp-includes/js/dist/edit-widgets.js:2309 wp-includes/js/dist/editor.js:4946
 #: wp-admin/edit-comments.php:297 wp-admin/edit-comments.php:308
 #: wp-admin/edit.php:436 wp-admin/includes/image-edit.php:80
@@ -17990,7 +18583,7 @@ msgstr "Publicada"
 #: wp-includes/class-wp-editor.php:1205 wp-includes/media-template.php:484
 #: wp-includes/media-template.php:713 wp-includes/revision.php:32
 #: wp-includes/js/dist/block-library.js:39356
-#: wp-includes/js/dist/edit-post.js:6428 wp-includes/js/dist/edit-site.js:2663
+#: wp-includes/js/dist/edit-post.js:6428 wp-includes/js/dist/edit-site.js:3436
 #: wp-includes/js/dist/editor.js:4627 wp-includes/js/dist/editor.js:5269
 #: wp-includes/js/dist/widgets.js:1481 wp-admin/includes/ajax-actions.php:2192
 #: wp-admin/includes/class-wp-posts-list-table.php:1631

@@ -162,11 +162,12 @@
 .nsl-dashboard-providers {
     position: relative;
     padding: 15px;
+    display: flex;
+    flex-flow: row wrap;
 }
 
 .nsl-dashboard-providers .nsl-dashboard-newsletter {
     position: relative;
-    float: left;
     width: 340px;
     height: 220px;
     margin: 15px;
@@ -201,7 +202,6 @@
 
 .nsl-dashboard-providers .nsl-dashboard-provider {
     position: relative;
-    float: left;
     width: 340px;
     height: 220px;
     margin: 15px;
@@ -300,6 +300,10 @@
     padding: 20px 0;
 }
 
+.nsl-admin-getting-started, .nsl-admin-fix-redirect-uri {
+    max-width: 65em;
+}
+
 .nsl-box {
     max-width: 500px;
     padding: 30px;
@@ -391,7 +395,6 @@ input[type="radio"]:checked ~ img {
 
 .nsl-box-review {
     position: relative;
-    float: left;
     width: 340px;
     height: 220px;
     margin: 15px;

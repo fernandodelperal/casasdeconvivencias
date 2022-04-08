@@ -2,7 +2,7 @@
 Contributors: vbarkalov
 Tags: links, menu, admin, add, wpadmin, custom, navigation, administration, customize, toolbar, dashboard
 Requires at least: 2.7.0
-Tested up to: 4.1
+Tested up to: 5.5
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,9 @@ Use the standard installation and activation procedure.
 1. Select a descriptive icon from the WordPress icon collection to represent your custom link.
 
 == Changelog ==
+
+= 3.3 =
+* Enhancement: support for opening links in a new tab, etc. (see supported values here: <https://www.w3schools.com/tags/att_a_target.asp>).
 
 = 3.2 =
 * Bug fix: no longer show a PHP notice when redirecting using JavaScript instead of a header.

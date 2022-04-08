@@ -4,8 +4,7 @@
             $('#custom_redirect_enabled').on('change', function () {
                 if ($(this).is(':checked')) {
                     $('#redirect').css('display', '');
-                }
-                else {
+                } else {
                     $('#redirect').css('display', 'none');
                 }
             });
@@ -13,8 +12,7 @@
             $('#custom_redirect_reg_enabled').on('change', function () {
                 if ($(this).is(':checked')) {
                     $('#redirect_reg').css('display', '');
-                }
-                else {
+                } else {
                     $('#redirect_reg').css('display', 'none');
                 }
             });
@@ -22,8 +20,7 @@
             $('#default_redirect_enabled').on('change', function () {
                 if ($(this).is(':checked')) {
                     $('#default_redirect').css('display', '');
-                }
-                else {
+                } else {
                     $('#default_redirect').css('display', 'none');
                 }
             });
@@ -31,15 +28,13 @@
             $('#default_redirect_reg_enabled').on('change', function () {
                 if ($(this).is(':checked')) {
                     $('#default_redirect_reg').css('display', '');
-                }
-                else {
+                } else {
                     $('#default_redirect_reg').css('display', 'none');
                 }
             });
         });
     })(jQuery);
 </script>
-
 
 
 <table class="form-table">
@@ -57,14 +52,41 @@
             </fieldset>
         </td>
     </tr>
+
+    <tr>
+        <th scope="row"><?php _e('Bypass cache on redirect', 'nextend-facebook-connect'); ?></th>
+        <td>
+            <fieldset>
+                <label><input type="radio" name="bypass_cache"
+                              value="0" <?php if ($settings->get('bypass_cache') == '0') : ?> checked="checked" <?php endif; ?>>
+                    <span><?php _e('Disabled', 'nextend-facebook-connect'); ?></span></label><br>
+                <label><input type="radio" name="bypass_cache"
+                              value="1" <?php if ($settings->get('bypass_cache') == '1') : ?> checked="checked" <?php endif; ?>>
+                    <span><?php _e('Enabled', 'nextend-facebook-connect'); ?></span></label><br>
+            </fieldset>
+            <p class="description" id="tagline-bypass_cache"><?php printf(__('Enabling this option will add a GET parameter to the URL where we redirect after a successful registration or login with social login. %1$sLearn more%2$s.', 'nextend-facebook-connect'), '<a href="https://nextendweb.com/nextend-social-login-docs/how-to-bypass-the-cache-after-the-login-with-social-login/#how-to-bypass" target="_blank">', '</a>'); ?></p>
+        </td>
+    </tr>
+
     <tr>
         <th scope="row"><?php _e('Page for register flow', 'nextend-facebook-connect'); ?></th>
         <td>
-             <?php wp_dropdown_pages(array(
-                 'name'             => 'register-flow-page',
-                 'show_option_none' => __('None', "nextend-facebook-connect"),
-                 'selected'         => $settings->get('register-flow-page')
-             )); ?>
+            <?php
+            add_filter('get_pages', array(
+                'NextendSocialLogin',
+                'getFreePagesForRegisterFlow'
+            ));
+
+            wp_dropdown_pages(array(
+                'name'             => 'register-flow-page',
+                'show_option_none' => __('None', "nextend-facebook-connect"),
+                'selected'         => $settings->get('register-flow-page')
+            ));
+            remove_filter('get_pages', array(
+                'NextendSocialLogin',
+                'getFreePagesForRegisterFlow'
+            ));
+            ?>
             <p class="description" id="tagline-register-flow-page-1"><?php _e("This setting is used when you request additional data from the users (such as email address) and to display the Terms and conditions.", "nextend-facebook-connect"); ?></p>
             <p class="description" id="tagline-register-flow-page"><?php printf(__('%2$s First create a new page and insert the following shortcode: %1$s then select this page above', 'nextend-facebook-connect'), '<code>[nextend_social_login_register_flow]</code>', '<b>' . __("Usage:", "nextend-facebook-connect") . '</b>'); ?></p>
             <p class="description" id="tagline-register-flow-page"><?php printf(__('%1$s You won\'t be able to reach the selected page unless a social login/registration happens.', 'nextend-facebook-connect'), '<b>' . __("Important:", "nextend-facebook-connect") . '</b>'); ?></p>
@@ -73,11 +95,24 @@
     <tr>
         <th scope="row"><?php _e('OAuth redirect uri proxy page', 'nextend-facebook-connect'); ?></th>
         <td>
-             <?php wp_dropdown_pages(array(
-                 'name'             => 'proxy-page',
-                 'show_option_none' => __('None', "nextend-facebook-connect"),
-                 'selected'         => $settings->get('proxy-page')
-             )); ?>
+
+            <?php
+            add_filter('get_pages', array(
+                'NextendSocialLogin',
+                'getFreePagesForOauthProxyPage'
+            ));
+
+            wp_dropdown_pages(array(
+                'name'             => 'proxy-page',
+                'show_option_none' => __('None', "nextend-facebook-connect"),
+                'selected'         => $settings->get('proxy-page')
+            ));
+
+            remove_filter('get_pages', array(
+                'NextendSocialLogin',
+                'getFreePagesForOauthProxyPage'
+            ));
+            ?>
             <p class="description" id="tagline-proxy-page-1"><?php _e("You can use this setting when wp-login.php page is not available to handle the OAuth flow.", "nextend-facebook-connect") ?></p>
             <p class="description" id="tagline-register-flow-page"><?php printf(__('%1$s First create a new page then select this page above.', 'nextend-facebook-connect'), '<b>' . __("Usage:", "nextend-facebook-connect") . '</b>'); ?></p>
             <p class="description" id="tagline-register-flow-page"><?php printf(__('%1$s You won\'t be able to reach the selected page unless a social login/registration happens.', 'nextend-facebook-connect'), '<b>' . __("Important:", "nextend-facebook-connect") . '</b>'); ?></p>
@@ -173,14 +208,14 @@
         </td>
     </tr>
 
-     <tr>
+    <tr>
         <th scope="row"><?php _e('Blacklisted redirects', 'nextend-facebook-connect'); ?></th>
-         <td>
+        <td>
             <?php
             $blacklistedUrls = $settings->get('blacklisted_urls');
             ?>
-             <textarea rows="4" cols="53" name="blacklisted_urls" id="blacklisted_urls"><?php echo esc_textarea($blacklistedUrls); ?></textarea>
-             <p class="description"><?php _e('If you want to blacklist redirect url params. One pattern per line.', 'nextend-facebook-connect'); ?></p>
+            <textarea rows="4" cols="53" name="blacklisted_urls" id="blacklisted_urls"><?php echo esc_textarea($blacklistedUrls); ?></textarea>
+            <p class="description"><?php _e('If you want to blacklist redirect url params. One pattern per line.', 'nextend-facebook-connect'); ?></p>
         </td>
     </tr>
 
@@ -229,6 +264,43 @@
                     <span><?php _e('Enabled', 'nextend-facebook-connect'); ?></span></label><br>
             </fieldset>
             <p class="description"><?php _e('Allow registration with Social login.', 'nextend-facebook-connect'); ?></p>
+        </td>
+    </tr>
+
+    <tr>
+        <th scope="row"><?php _e('Custom label for register buttons', 'nextend-facebook-connect'); ?></th>
+        <td>
+            <fieldset>
+                <label><input type="radio" name="custom_register_label"
+                              value="0" <?php if ($settings->get('custom_register_label') == '0') : ?> checked="checked" <?php endif; ?>>
+                    <span><?php _e('Disabled', 'nextend-facebook-connect'); ?></span></label><br>
+                <label><input type="radio" name="custom_register_label"
+                              value="1" <?php if ($settings->get('custom_register_label') == '1') : ?> checked="checked" <?php endif; ?>>
+                    <span><?php _e('Enabled', 'nextend-facebook-connect'); ?></span></label><br>
+            </fieldset>
+            <p class="description"><?php printf(__('Set a custom label for the social buttons in registration forms and for shortcodes with %1$s parameter set to %2$s.<br>The register specific labels can be modified at the Buttons tab of each provider.', 'nextend-facebook-connect'), '<b>labeltype</b>', '<b>register</b>'); ?></p>
+        </td>
+    </tr>
+
+    <tr>
+        <th scope="row"><?php _e('Redirect overlay', 'nextend-facebook-connect'); ?></th>
+        <td>
+            <fieldset>
+                <label><input type="radio" name="redirect_overlay"
+                              value="" <?php if ($settings->get('redirect_overlay') == '') : ?> checked="checked" <?php endif; ?>>
+                    <span><?php _e('No overlay', 'nextend-facebook-connect'); ?></span></label><br>
+                <label><input type="radio" name="redirect_overlay"
+                              value="overlay-only" <?php if ($settings->get('redirect_overlay') == 'overlay-only') : ?> checked="checked" <?php endif; ?>>
+                    <span><?php _e('Display overlay', 'nextend-facebook-connect'); ?></span></label><br>
+                <label><input type="radio" name="redirect_overlay"
+                              value="overlay-with-spinner" <?php if ($settings->get('redirect_overlay') == 'overlay-with-spinner') : ?> checked="checked" <?php endif; ?>>
+                    <span><?php _e('Display overlay with spinner', 'nextend-facebook-connect'); ?></span></label><br>
+                <label><input type="radio" name="redirect_overlay"
+                              value="overlay-with-spinner-and-message" <?php if ($settings->get('redirect_overlay') == 'overlay-with-spinner-and-message') : ?> checked="checked" <?php endif; ?>>
+                    <span><?php _e('Display overlay with spinner and message', 'nextend-facebook-connect'); ?></span></label><br>
+            </fieldset>
+            <p class="description"><?php _e('You can display an overlay on your site when we start the redirect after the authentication.', 'nextend-facebook-connect'); ?></p>
+            <p class="description"><?php printf(__('%1$s The overlay won\'t be displayed if the %2$s setting is set to %3$s!', 'nextend-facebook-connect'), '<b>' . __("Note:", "nextend-facebook-connect") . '</b>', '<b>' . __("Target window", "nextend-facebook-connect") . '</b>', '<b>' . __("Prefer same window", "nextend-facebook-connect") . '</b>'); ?></p>
         </td>
     </tr>
 

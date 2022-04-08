@@ -3,7 +3,7 @@
  * Plugin Name: Custom Links On Admin Dashboard Toolbar
  * Plugin URI: http://barkalov.com/
  * Description: This plugin allows you to add custom links and menus to the WordPress administrative interface. By adding custom links, you can make WordPress admin into the center of your admin universe. A typical use case would involve adding the link to your web host's CPanel.
- * Version: 3.2
+ * Version: 3.3
  * Author: Victor Barkalov
  * Author URI: http://barkalov.com/
  * 
@@ -41,11 +41,13 @@ function customizewpadmin_init() {
 		menu_slug varchar(255),
 		parent_id int,
 		icon varchar(255) NULL,
+		link_target varchar(255) NULL,
 		order_index mediumint null,
 		PRIMARY KEY  (id))";
 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 	dbDelta( $sql );
 	dbDelta("ALTER TABLE `$table_name` ADD `icon` VARCHAR(255) NULL ;");
+	dbDelta("ALTER TABLE `$table_name` ADD `link_target` VARCHAR(255) NULL ;");
 	dbDelta("ALTER TABLE `$table_name` ADD `order_index` mediumint null;");
 	$wpdb->query("update `$table_name` set `order_index` = `id` where `order_index` is null;");
 
@@ -75,9 +77,14 @@ function customizewpadmin_redirect() {
 	global $wpdb;
 	$table_name = $wpdb->prefix . "customizeadmin"; 
 	global $customizewpadmin_redirect_url;
-	$customizewpadmin_redirect_url = $wpdb->get_var("SELECT menu_slug from $table_name where id = " . $page);
+	$customizewpadmin_url = $wpdb->get_var("SELECT menu_slug from $table_name where id = " . $page);
+	$customizewpadmin_link_target = $wpdb->get_var("SELECT link_target from $table_name where id = " . $page);
 	set_error_handler('customizewpadmin_redirect_js', E_WARNING);
-	header('Location: ' . $customizewpadmin_redirect_url);
+	if ($customizewpadmin_link_target != "" && $customizewpadmin_link_target != "_self") {
+		echo("<script>window.open('$customizewpadmin_url', '$customizewpadmin_link_target'); window.history.go(-1);</script>");
+	} else {
+		header('Location: ' . $customizewpadmin_url);
+	}
 }
 
 function customizewpadmin_redirect_js() {
@@ -102,32 +109,38 @@ function customizewpadmin_save() {
 			$wpdb->query("update $table_name set order_index = " . $link->order_index . " where id = " . $other->id);
 		}
 	}
-
 	foreach($_POST["CustomMenu_ID"] as $id) {
-		$sql = "";
 		if ($id == "0" && $_POST["CustomMenu_Title"][$id] != "") {
-			$wpdb->query($wpdb->prepare("insert into $table_name(menu_title, capability, menu_slug, icon, parent_id) values(%s, %s, %s, %s, nullif(%s, ''))",
+			$wpdb->query($wpdb->prepare("insert into $table_name(menu_title, capability, menu_slug, icon, link_target, parent_id) values(%s, %s, %s, %s, %s, nullif(%s, ''))",
 				$_POST["CustomMenu_Title"][$id],
 				$_POST["CustomMenu_Capability"][$id],
 				$_POST["CustomMenu_URL"][$id],
 				$_POST["CustomMenu_Icon"][$id],
+				$_POST["CustomMenu_LinkTarget"][$id],
 				$_POST["CustomMenu_ParentID"][$id]
 				));
 			$wpdb->query($wpdb->prepare("update `$table_name` set `order_index` = `id` where `order_index` is null;"));
 		} else if ($_POST["CustomMenu_Cmd"][$id] == "Delete") {
 			$wpdb->query($wpdb->prepare("delete from $table_name where id = $id"));
 		} else if ($id != "0") {
-			$wpdb->query($wpdb->prepare("update $table_name set menu_title = %s, capability = %s, menu_slug = %s, icon = %s, parent_id = nullif(%s, '') where id = $id",
+			$wpdb->query($wpdb->prepare("update $table_name set menu_title = %s, capability = %s, menu_slug = %s, icon = %s, link_target = %s, parent_id = nullif(%s, '') where id = $id",
 				$_POST["CustomMenu_Title"][$id],
 				$_POST["CustomMenu_Capability"][$id],
 				$_POST["CustomMenu_URL"][$id],
 				$_POST["CustomMenu_Icon"][$id],
+				$_POST["CustomMenu_LinkTarget"][$id],
 				$_POST["CustomMenu_ParentID"][$id]
 				));
 		}
 	}
 	//wp_enqueue_script('customize-wpadmin-refresh', plugins_url( 'refresh.js', __FILE__ ));
 }
+
+$customizewpadmin_link_targets = "
+	_self
+	,_blank
+	,_parent
+	,_top";
 
 $customizewpadmin_icons = "
 	menu 
@@ -361,6 +374,7 @@ function customizewpadmin_getlinks($parent) {
 }
 
 function customizewpadmin_admin() {
+	global $customizewpadmin_link_targets;
 	global $customizewpadmin_icons;
 	global $customizewpadmin_capabilities;
 	global $wpdb;
@@ -376,6 +390,7 @@ function customizewpadmin_admin() {
 				"parent_id" => "",
 				"menu_title" => "",
 				"menu_slug" => "",
+				"link_target" => "",
 				"icon" => ""
 			);
 	$parents = $wpdb->get_results("SELECT * from $table_name where parent_id is null order by menu_title");
@@ -386,7 +401,7 @@ function customizewpadmin_admin() {
 	echo("<input type='hidden' name='CustomizeWPAdmin_Cmd' value='Save' />");
 	echo("<h1>Add/Edit/Delete Links in WordPress Admin Menu</h1>");
 	echo("<table border='1' cellspacing='0' cellpadding='3' class='customizewpadmin_links'>");
-	echo("<tr><th></th><th>ID</th><th>Menu Title</th><th>Required Capability<br />to Use This Menu</th><th>URL</th><th>Parent</th><th>Icon<br />(Note: WordPress will not show icons for submenus)</th></tr>");
+	echo("<tr><th></th><th>ID</th><th>Menu Title</th><th>Required Capability<br />to Use This Menu</th><th>URL</th><th>Parent</th><th>Target</th><th>Icon<br />(Note: WordPress will not show icons for submenus)</th></tr>");
 	foreach ( $links as $link ) {
 		echo("<tr id='CustomMenu_TR[" . $link->id . "]'>");
 		if ($link->id >= 1) {
@@ -428,6 +443,16 @@ function customizewpadmin_admin() {
 		}
 		echo("</select></td>");
 		//echo("<td><input style='width: 50px;' type='text' name='CustomMenu_ParentID[" . $link->id . "]' value='" . $link->parent_id . "' /></td>");
+
+		echo("<td><select name='CustomMenu_LinkTarget[" . $link->id . "]'>");
+		foreach(explode(',', $customizewpadmin_link_targets) as $link_target) {
+			$link_target = trim($link_target);
+			if ($link->link_target == $link_target || ($link->link_target == "" && $link_target == "_self"))
+				echo("<option value='$link_target' selected='selected'>$link_target</option>");
+			else
+				echo("<option value='$link_target'>$link_target</option>");
+		}
+		echo("</select></td>");
 
 		if ($link->icon == "") $link->icon = "admin-generic";
 		echo("<td><input name='CustomMenu_Icon[" . $link->id . "]' value='" . $link->icon . "' type='hidden'>");

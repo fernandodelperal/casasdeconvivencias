@@ -3,6 +3,7 @@
 namespace NSL;
 
 use NSL\Persistent\Persistent;
+use WP_Error;
 
 class Notices {
 
@@ -17,27 +18,28 @@ class Notices {
     }
 
     private function __construct() {
-
-        add_action('init', array(
-            $this,
-            'load'
-        ), 11);
-
-        if (basename($_SERVER['PHP_SELF']) !== 'options-general.php' || empty($_GET['page']) || $_GET['page'] !== 'nextend-social-login') {
-            add_action('admin_notices', array(
+        if (is_admin() || (isset($_GET['nsl-notice']) && $_GET['nsl-notice'] == 1)) {
+            add_action('init', array(
                 $this,
-                'admin_notices'
+                'load'
+            ), 11);
+
+            if ((!empty($_SERVER['PHP_SELF']) && basename($_SERVER['PHP_SELF']) !== 'options-general.php') || empty($_GET['page']) || $_GET['page'] !== 'nextend-social-login') {
+                add_action('admin_notices', array(
+                    $this,
+                    'admin_notices'
+                ));
+            }
+
+            add_action('admin_print_footer_scripts', array(
+                $this,
+                'notices_fallback'
+            ));
+            add_action('wp_print_footer_scripts', array(
+                $this,
+                'notices_fallback'
             ));
         }
-
-        add_action('admin_print_footer_scripts', array(
-            $this,
-            'notices_fallback'
-        ));
-        add_action('wp_print_footer_scripts', array(
-            $this,
-            'notices_fallback'
-        ));
     }
 
     public function load() {
@@ -60,7 +62,7 @@ class Notices {
     }
 
     /**
-     * @param $message string|\WP_Error
+     * @param $message string|WP_Error
      */
     public static function addError($message) {
         if (is_wp_error($message)) {
@@ -200,5 +202,13 @@ class Notices {
 
         Persistent::delete('notices');
         self::$notices = array();
+    }
+
+    public static function hasErrors() {
+        if (isset(self::$notices['error'])) {
+            return true;
+        }
+
+        return false;
     }
 }

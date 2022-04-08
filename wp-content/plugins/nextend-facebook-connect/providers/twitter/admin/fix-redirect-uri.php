@@ -5,10 +5,20 @@ defined('ABSPATH') || die();
 $provider = $this->getProvider();
 ?>
 <ol>
-    <li><?php printf(__('Navigate to %s', 'nextend-facebook-connect'), '<a href="https://developer.twitter.com/en/apps" target="_blank">https://developer.twitter.com/en/apps</a>'); ?></li>
+    <li><?php printf(__('Navigate to <b>%s</b>', 'nextend-facebook-connect'), '<a href="https://developer.twitter.com/en/portal/projects-and-apps" target="_blank">https://developer.twitter.com/en/portal/projects-and-apps</a>'); ?></li>
     <li><?php printf(__('Log in with your %s credentials if you are not logged in', 'nextend-facebook-connect'), 'Twitter'); ?></li>
-    <li><?php _e('Find your App and click on the Details button', 'nextend-facebook-connect'); ?></li>
-    <li><?php _e('The Edit button can be found on the App details tab. Click on it and select Edit details', 'nextend-facebook-connect'); ?></li>
-    <li><?php printf(__('Add the following URL to the "Callback URLs" field: <b>%s</b>', 'nextend-facebook-connect'), $provider->getRedirectUriForApp()); ?></li>
-    <li><?php _e('Click on "Save"', 'nextend-facebook-connect'); ?></li>
+    <li><?php printf(__('On the left side, under the %s section click on the name of your App.', 'nextend-facebook-connect'), '"<b>Projects & Apps</b>"'); ?></li>
+    <li><?php printf(__('Click on the %1$s button at %2$s.', 'nextend-facebook-connect'), '"<b>Edit</b>"', '"<b>User authentication settings</b>"'); ?></li>
+    <li><?php
+        $loginUrls = $provider->getAllRedirectUrisForAppCreation();
+        printf(__('Add the following URL to the %s field:', 'nextend-facebook-connect'), '"<b>Callback URI / Redirect URL</b>"');
+        echo "<ul>";
+        foreach ($loginUrls as $loginUrl) {
+            echo "<li><strong>" . $loginUrl . "</strong></li>";
+        }
+        echo "</ul>";
+        ?>
+    </li>
+    <li><?php printf(__('Make sure the %1$s field contains the following URL: %2$s', 'nextend-facebook-connect'), '"<b>Website URL</b>"', '<b>' . site_url() . '</b>'); ?></li>
+    <li><?php printf(__('Click on %s', 'nextend-facebook-connect'), '"<b>Save</b>"'); ?></li>
 </ol>

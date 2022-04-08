@@ -1,5 +1,8 @@
 <?php
 
+use NSL\Notices;
+use NSL\Persistent\Persistent;
+
 require_once dirname(__FILE__) . '/provider-admin.php';
 require_once dirname(__FILE__) . '/provider-dummy.php';
 require_once dirname(__FILE__) . '/user.php';
@@ -50,7 +53,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
             )
         ));
 
-        foreach ($this->getSyncFields() AS $field_name => $fieldData) {
+        foreach ($this->getSyncFields() as $field_name => $fieldData) {
 
             $extraSettings['sync_fields/fields/' . $field_name . '/enabled']  = 0;
             $extraSettings['sync_fields/fields/' . $field_name . '/meta_key'] = $this->id . '_' . $field_name;
@@ -62,6 +65,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
             'custom_default_button' => '',
             'custom_icon_button'    => '',
             'login_label'           => '',
+            'register_label'        => '',
             'link_label'            => '',
             'unlink_label'          => '',
             'user_prefix'           => '',
@@ -75,6 +79,23 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
 
         $this->admin = new NextendSocialProviderAdmin($this);
 
+
+        add_action('rest_api_init', array(
+            $this,
+            'registerRedirectRESTRoute'
+        ));
+
+    }
+
+    public function needPro() {
+        return false;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDbID() {
+        return $this->dbID;
     }
 
     public function getOptionKey() {
@@ -83,11 +104,11 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
 
     public function getRawDefaultButton() {
 
-        return '<span class="nsl-button nsl-button-default nsl-button-' . $this->id . '" style="background-color:' . $this->color . ';"><span class="nsl-button-svg-container">' . $this->svg . '</span><span class="nsl-button-label-container">{{label}}</span></span>';
+        return '<div class="nsl-button nsl-button-default nsl-button-' . $this->id . '" style="background-color:' . $this->color . ';"><div class="nsl-button-svg-container">' . $this->svg . '</div><div class="nsl-button-label-container">{{label}}</div></div>';
     }
 
     public function getRawIconButton() {
-        return '<span class="nsl-button nsl-button-icon nsl-button-' . $this->id . '" style="background-color:' . $this->color . ';"><span class="nsl-button-svg-container">' . $this->svg . '</span></span>';
+        return '<div class="nsl-button nsl-button-icon nsl-button-' . $this->id . '" style="background-color:' . $this->color . ';"><div class="nsl-button-svg-container">' . $this->svg . '</div></div>';
     }
 
     public function getDefaultButton($label) {
@@ -118,18 +139,58 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
         return add_query_arg($args, NextendSocialLogin::getLoginUrl());
     }
 
-    public function getRedirectUri() {
-        $args = array('loginSocial' => $this->getId());
+    /**
+     * Returns the url where the Provider App should redirect during the OAuth flow.
+     *
+     * @return string
+     */
+    public function getRedirectUriForOAuthFlow() {
+        if ($this->oauthRedirectBehavior === 'rest_redirect') {
+
+            return rest_url('/nextend-social-login/v1/' . $this->id . '/redirect_uri');
+        }
+
+        $args = array('loginSocial' => $this->id);
 
         return add_query_arg($args, NextendSocialLogin::getLoginUrl());
     }
 
-    public function getRedirectUriForApp() {
-        return $this->getRedirectUri();
+    /**
+     * Returns a single redirect URL that:
+     * - we us as default redirect uri suggestion in the Getting Started and Fixed redirect uri pages.
+     * - we store to detect the OAuth redirect url changes
+     *
+     * @return string
+     */
+    public function getBaseRedirectUriForAppCreation() {
+
+        $redirectUri = $this->getRedirectUriForOAuthFlow();
+
+        if ($this->oauthRedirectBehavior === 'default_redirect_but_app_has_restriction') {
+            $parts = explode('?', $redirectUri);
+
+            return $parts[0];
+        }
+
+        return $redirectUri;
     }
 
-    public function needPro() {
-        return false;
+    /**
+     * This function should return an array of URLs generated from getRedirectUri().
+     *
+     * We display the generated results in the Getting Started section and the Fixed redirect uri pages.
+     * Also we use these for the OAuth redirect uri change checking.
+     *
+     * @return array
+     */
+    public function getAllRedirectUrisForAppCreation() {
+        /**
+         * Parameters:
+         * 1: Array with an URL that should be added to the App by default.
+         *
+         * 2: The provider instance
+         */
+        return apply_filters('nsl_redirect_uri_override', array($this->getBaseRedirectUriForAppCreation()), $this);
     }
 
     /**
@@ -164,14 +225,36 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
     }
 
     /**
-     * Check if login url was changed by another plugin. If it was changed returns true, else false.
+     * Check if the current redirect url of the provider matches with the one that we stored when the provider was
+     * configured. Returns "false" if they are different, so a new URL needs to be added to the App.
      *
      * @return bool
      */
     public function checkOauthRedirectUrl() {
         $oauth_redirect_url = $this->settings->get('oauth_redirect_url');
-        if (empty($oauth_redirect_url) || $oauth_redirect_url == $this->getRedirectUri()) {
-            return true;
+
+        $redirectUrls = $this->getAllRedirectUrisForAppCreation();
+
+
+        if (is_array($redirectUrls)) {
+            /**
+             * Before 3.1.2 we saved the default redirect url of the provider ( e.g.:
+             * https://example.com/wp-login.php?loginSocial=twitter ) for the OAuth check. However, some providers ( e.g.
+             * Microsoft ) can use the REST API URL as redirect url. In these cases if the URL of the OAuth page was changed,
+             * we gave a false warning for such providers.
+             *
+             * We shouldn't throw warnings for users who have the redirect uri stored still with the old format.
+             * For this reason we need to push the legacy redirect url into the $redirectUrls array, too!
+             */
+            $legacyRedirectURL = add_query_arg(array('loginSocial' => $this->getId()), NextendSocialLogin::getLoginUrl());
+            if (!in_array($legacyRedirectURL, $redirectUrls)) {
+                $redirectUrls[] = $legacyRedirectURL;
+            }
+
+
+            if (in_array($oauth_redirect_url, $redirectUrls)) {
+                return true;
+            }
         }
 
         return false;
@@ -179,7 +262,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
 
     public function updateOauthRedirectUrl() {
         $this->settings->update(array(
-            'oauth_redirect_url' => $this->getRedirectUri()
+            'oauth_redirect_url' => $this->getBaseRedirectUriForAppCreation()
         ));
     }
 
@@ -196,7 +279,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
      * @return string
      */
     public function getState() {
-        foreach ($this->requiredFields AS $name => $label) {
+        foreach ($this->requiredFields as $name => $label) {
             $value = $this->settings->get($name);
             if (empty($value)) {
                 return 'not-configured';
@@ -268,14 +351,14 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
 
             $interim_login = isset($_REQUEST['interim-login']);
             if ($interim_login) {
-                \NSL\Persistent\Persistent::set($this->id . '_interim_login', 1);
+                Persistent::set($this->id . '_interim_login', 1);
             }
             /**
              * Store the settings for the provider login.
              */
             $display = isset($_REQUEST['display']);
             if ($display && $_REQUEST['display'] == 'popup') {
-                \NSL\Persistent\Persistent::set($this->id . '_display', 'popup');
+                Persistent::set($this->id . '_display', 'popup');
             }
 
         } else { //This is just to verify the settings.
@@ -291,7 +374,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
             if (!$allowed) {
                 global $wp_cerber;
                 $error = $wp_cerber->getErrorMsg();
-                \NSL\Notices::addError($error);
+                Notices::addError($error);
                 $this->redirectToLoginForm();
             }
         }
@@ -337,8 +420,8 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
              * in the source window the user is redirected to the login url.
              * and the popup window must be closed
              */
-            if (\NSL\Persistent\Persistent::get($this->id . '_display') == 'popup') {
-                \NSL\Persistent\Persistent::delete($this->id . '_display');
+            if (Persistent::get($this->id . '_display') == 'popup') {
+                Persistent::delete($this->id . '_display');
                 ?>
                 <!doctype html>
                 <html lang=en>
@@ -346,7 +429,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
                     <meta charset=utf-8>
                     <title><?php _e('Authentication successful', 'nextend-facebook-connect'); ?></title>
                     <script type="text/javascript">
-						try {
+                        try {
                             if (window.opener !== null && window.opener !== window) {
                                 var sameOrigin = true;
                                 try {
@@ -356,11 +439,18 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
                                     }
 
                                 } catch (e) {
-                                    // Blocked cross origin
+                                    /**
+                                     * Blocked cross origin
+                                     */
                                     sameOrigin = false;
                                 }
                                 if (sameOrigin) {
-                                    window.opener.location = <?php echo wp_json_encode($this->getLoginUrl()); ?>;
+                                    var url = <?php echo wp_json_encode($this->getLoginUrl()); ?>;
+                                    if (typeof window.opener.nslRedirect === 'function') {
+                                        window.opener.nslRedirect(url);
+                                    } else {
+                                        window.opener.location = url;
+                                    }
                                     window.close();
                                 } else {
                                     window.location.reload(true);
@@ -400,20 +490,20 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
         $socialUser->liveConnectGetUserProfile();
 
         $this->deleteLoginPersistentData();
-        $this->redirectToLastLocationOther();
+        $this->redirectToLastLocationOther(true);
     }
 
     /**
      * @param $user_id
      * @param $providerIdentifier
+     * @param $isRegister
      * Insert the userid into the wp_social_users table,
      * in this way a link is created between user accounts and the providers.
      *
      * @return bool
      */
-    public function linkUserToProviderIdentifier($user_id, $providerIdentifier) {
-        /** @var $wpdb WPDB */
-        global $wpdb;
+    public function linkUserToProviderIdentifier($user_id, $providerIdentifier, $isRegister = false) {
+        /** @var $wpdb WPDB */ global $wpdb;
 
         $connectedProviderID = $this->getProviderIdentifierByUserID($user_id);
 
@@ -427,15 +517,39 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
             return false;
         }
 
-        $wpdb->insert($wpdb->prefix . 'social_users', array(
-            'ID'         => $user_id,
-            'type'       => $this->dbID,
-            'identifier' => $providerIdentifier
-        ), array(
-            '%d',
-            '%s',
-            '%s'
-        ));
+        if ($isRegister) {
+            /**
+             * This is a register action.
+             */
+            $wpdb->insert($wpdb->prefix . 'social_users', array(
+                'ID'            => $user_id,
+                'type'          => $this->dbID,
+                'identifier'    => $providerIdentifier,
+                'register_date' => current_time('mysql'),
+                'link_date'     => current_time('mysql'),
+            ), array(
+                '%d',
+                '%s',
+                '%s',
+                '%s',
+                '%s'
+            ));
+        } else {
+            /**
+             * This is a link action.
+             */
+            $wpdb->insert($wpdb->prefix . 'social_users', array(
+                'ID'         => $user_id,
+                'type'       => $this->dbID,
+                'identifier' => $providerIdentifier,
+                'link_date'  => current_time('mysql'),
+            ), array(
+                '%d',
+                '%s',
+                '%s',
+                '%s'
+            ));
+        }
 
         do_action('nsl_' . $this->getId() . '_link_user', $user_id, $this->getId());
 
@@ -443,8 +557,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
     }
 
     public function getUserIDByProviderIdentifier($identifier) {
-        /** @var $wpdb WPDB */
-        global $wpdb;
+        /** @var $wpdb WPDB */ global $wpdb;
 
         return $wpdb->get_var($wpdb->prepare('SELECT ID FROM `' . $wpdb->prefix . 'social_users` WHERE type = %s AND identifier = %s', array(
             $this->dbID,
@@ -453,8 +566,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
     }
 
     protected function getProviderIdentifierByUserID($user_id) {
-        /** @var $wpdb WPDB */
-        global $wpdb;
+        /** @var $wpdb WPDB */ global $wpdb;
 
         return $wpdb->get_var($wpdb->prepare('SELECT identifier FROM `' . $wpdb->prefix . 'social_users` WHERE type = %s AND ID = %s', array(
             $this->dbID,
@@ -467,8 +579,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
      * Delete the link between the user account and the provider.
      */
     public function removeConnectionByUserID($user_id) {
-        /** @var $wpdb WPDB */
-        global $wpdb;
+        /** @var $wpdb WPDB */ global $wpdb;
 
         $wpdb->query($wpdb->prepare('DELETE FROM `' . $wpdb->prefix . 'social_users` WHERE type = %s AND ID = %d', array(
             $this->dbID,
@@ -485,6 +596,8 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
             if ($user_info->ID) {
                 $this->removeConnectionByUserID($user_info->ID);
 
+                do_action('nsl_unlink_user', $user_info->ID, $this->getId());
+
                 return true;
             }
         }
@@ -498,8 +611,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
      * @return bool|null|string
      */
     public function isCurrentUserConnected() {
-        /** @var $wpdb WPDB */
-        global $wpdb;
+        /** @var $wpdb WPDB */ global $wpdb;
 
         $current_user = wp_get_current_user();
         $ID           = $wpdb->get_var($wpdb->prepare('SELECT identifier FROM `' . $wpdb->prefix . 'social_users` WHERE type LIKE %s AND ID = %d', array(
@@ -520,8 +632,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
      * @return bool|null|string
      */
     public function isUserConnected($user_id) {
-        /** @var $wpdb WPDB */
-        global $wpdb;
+        /** @var $wpdb WPDB */ global $wpdb;
 
         $ID = $wpdb->get_var($wpdb->prepare('SELECT identifier FROM `' . $wpdb->prefix . 'social_users` WHERE type LIKE %s AND ID = %d', array(
             $this->dbID,
@@ -546,20 +657,29 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
         return $this->getAuthUserData('id');
     }
 
-    public function getConnectButton($buttonStyle = 'default', $redirectTo = null, $trackerData = false) {
+    public function getConnectButton($buttonStyle = 'default', $redirectTo = null, $trackerData = false, $labelType = 'login') {
         $arg = array();
         if (!empty($redirectTo)) {
             $arg['redirect'] = urlencode($redirectTo);
         } else if (!empty($_GET['redirect_to'])) {
             $arg['redirect'] = urlencode($_GET['redirect_to']);
         } else {
-            $arg['redirect'] = NextendSocialLogin::getCurrentPageURL();
+            $currentPageUrl = NextendSocialLogin::getCurrentPageURL();
+            if ($currentPageUrl !== false) {
+                $arg['redirect'] = urlencode($currentPageUrl);
+            }
         }
 
         if ($trackerData !== false) {
             $arg['trackerdata']      = urlencode($trackerData);
             $arg['trackerdata_hash'] = urlencode(wp_hash($trackerData));
 
+        }
+
+        $label                  = $this->settings->get('login_label');
+        $useCustomRegisterLabel = NextendSocialLogin::$settings->get('custom_register_label');
+        if ($labelType == 'register' && $useCustomRegisterLabel) {
+            $label = $this->settings->get('register_label');;
         }
 
         switch ($buttonStyle) {
@@ -569,11 +689,11 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
                 break;
             default:
 
-                $button = $this->getDefaultButton($this->settings->get('login_label'));
+                $button = $this->getDefaultButton($label);
                 break;
         }
 
-        return '<a href="' . esc_url(add_query_arg($arg, $this->getLoginUrl())) . '" rel="nofollow" aria-label="' . esc_attr__($this->settings->get('login_label')) . '" data-plugin="nsl" data-action="connect" data-provider="' . esc_attr($this->getId()) . '" data-popupwidth="' . $this->getPopupWidth() . '" data-popupheight="' . $this->getPopupHeight() . '">' . $button . '</a>';
+        return '<a href="' . esc_url(add_query_arg($arg, $this->getLoginUrl())) . '" rel="nofollow" aria-label="' . esc_attr__($label) . '" data-plugin="nsl" data-action="connect" data-provider="' . esc_attr($this->getId()) . '" data-popupwidth="' . $this->getPopupWidth() . '" data-popupheight="' . $this->getPopupHeight() . '">' . $button . '</a>';
     }
 
     public function getLinkButton() {
@@ -605,7 +725,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
     }
 
     public function redirectToLoginForm() {
-        self::redirect(__('Authentication error', 'nextend-facebook-connect'), NextendSocialLogin::getLoginUrl());
+        self::redirect(__('Authentication error', 'nextend-facebook-connect'), NextendSocialLogin::enableNoticeForUrl(NextendSocialLogin::getLoginUrl()));
     }
 
     /**
@@ -620,21 +740,21 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
 
             if (isset($_GET['action']) && $_GET['action'] == 'unlink') {
                 if ($this->unlinkUser()) {
-                    \NSL\Notices::addSuccess(__('Unlink successful.', 'nextend-facebook-connect'));
+                    Notices::addSuccess(__('Unlink successful.', 'nextend-facebook-connect'));
                 } else {
-                    \NSL\Notices::addError(__('Unlink is not allowed!', 'nextend-facebook-connect'));
+                    Notices::addError(__('Unlink is not allowed!', 'nextend-facebook-connect'));
                 }
             }
 
-            $this->redirectToLastLocationOther();
+            $this->redirectToLastLocationOther(true);
             exit;
         }
 
         if (isset($_GET['action']) && $_GET['action'] == 'link') {
-            \NSL\Persistent\Persistent::set($this->id . '_action', 'link');
+            Persistent::set($this->id . '_action', 'link');
         }
 
-        if (is_user_logged_in() && \NSL\Persistent\Persistent::get($this->id . '_action') != 'link') {
+        if (is_user_logged_in() && Persistent::get($this->id . '_action') != 'link') {
             $this->deleteLoginPersistentData();
 
             $this->redirectToLastLocationOther();
@@ -648,31 +768,42 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
     public function liveConnectRedirect() {
         if (!empty($_GET['trackerdata']) && !empty($_GET['trackerdata_hash'])) {
             if (wp_hash($_GET['trackerdata']) === $_GET['trackerdata_hash']) {
-                \NSL\Persistent\Persistent::set('trackerdata', $_GET['trackerdata']);
+                Persistent::set('trackerdata', $_GET['trackerdata']);
             }
         }
         if (!empty($_GET['redirect'])) {
-            \NSL\Persistent\Persistent::set('redirect', $_GET['redirect']);
+            Persistent::set('redirect', $_GET['redirect']);
         }
     }
 
-    public function redirectToLastLocation() {
+    public function redirectToLastLocation($notice = false) {
+        $url = $this->getLastLocationRedirectTo();
 
-        if (\NSL\Persistent\Persistent::get($this->id . '_interim_login') == 1) {
+        if (Persistent::get($this->id . '_interim_login') == 1) {
             $this->deleteLoginPersistentData();
+            $args['interim_login'] = 'nsl';
 
-            $url = add_query_arg('interim_login', 'nsl', NextendSocialLogin::getLoginUrl('login'));
+            $url = add_query_arg($args, NextendSocialLogin::getLoginUrl('login'));
+            if ($notice) {
+                $url = NextendSocialLogin::enableNoticeForUrl($url);
+            }
 
             self::redirect(__('Authentication successful', 'nextend-facebook-connect'), $url);
 
             exit;
         }
 
-        self::redirect(__('Authentication successful', 'nextend-facebook-connect'), $this->getLastLocationRedirectTo());
+        if ($notice) {
+            $url = NextendSocialLogin::enableNoticeForUrl($url);
+        }
+        self::redirect(__('Authentication successful', 'nextend-facebook-connect'), $url);
     }
 
-    protected function redirectToLastLocationOther() {
-        $this->redirectToLastLocation();
+    /**
+     * @param bool $notice
+     */
+    protected function redirectToLastLocationOther($notice = false) {
+        $this->redirectToLastLocation($notice);
     }
 
     protected function validateRedirect($location) {
@@ -729,7 +860,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
         if (!empty($fixedRedirect)) {
             $redirect_to = $fixedRedirect;
         } else {
-            $requested_redirect_to = \NSL\Persistent\Persistent::get('redirect');
+            $requested_redirect_to = Persistent::get('redirect');
 
             if (!empty($requested_redirect_to)) {
                 if (empty($requested_redirect_to) || !NextendSocialLogin::isAllowedRedirectUrl($requested_redirect_to)) {
@@ -782,7 +913,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
             $redirect_to = site_url();
         }
 
-        \NSL\Persistent\Persistent::delete('redirect');
+        Persistent::delete('redirect');
 
         return apply_filters('nsl_' . $this->getId() . 'last_location_redirect', $redirect_to, $requested_redirect_to);
     }
@@ -803,10 +934,10 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
     public function isTest() {
         if (is_user_logged_in() && current_user_can('manage_options')) {
             if (isset($_REQUEST['test'])) {
-                \NSL\Persistent\Persistent::set('test', 1);
+                Persistent::set('test', 1);
 
                 return true;
-            } else if (\NSL\Persistent\Persistent::get('test') == 1) {
+            } else if (Persistent::get('test') == 1) {
                 return true;
             }
         }
@@ -823,10 +954,10 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
 
         $this->settings->update(array(
             'tested'             => 1,
-            'oauth_redirect_url' => $this->getRedirectUri()
+            'oauth_redirect_url' => $this->getBaseRedirectUriForAppCreation()
         ));
 
-        \NSL\Notices::addSuccess(__('The test was successful', 'nextend-facebook-connect'));
+        Notices::addSuccess(__('The test was successful', 'nextend-facebook-connect'));
 
         ?>
         <!doctype html>
@@ -835,7 +966,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
             <meta charset=utf-8>
             <title><?php _e('The test was successful', 'nextend-facebook-connect'); ?></title>
             <script type="text/javascript">
-				window.opener.location.reload(true);
+                window.opener.location.reload(true);
                 window.close();
             </script>
         </head>
@@ -849,19 +980,19 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
      * Store the accessToken data.
      */
     protected function setAnonymousAccessToken($accessToken) {
-        \NSL\Persistent\Persistent::set($this->id . '_at', $accessToken);
+        Persistent::set($this->id . '_at', $accessToken);
     }
 
     protected function getAnonymousAccessToken() {
-        return \NSL\Persistent\Persistent::get($this->id . '_at');
+        return Persistent::get($this->id . '_at');
     }
 
     public function deleteLoginPersistentData() {
-        \NSL\Persistent\Persistent::delete($this->id . '_at');
-        \NSL\Persistent\Persistent::delete($this->id . '_interim_login');
-        \NSL\Persistent\Persistent::delete($this->id . '_display');
-        \NSL\Persistent\Persistent::delete($this->id . '_action');
-        \NSL\Persistent\Persistent::delete('test');
+        Persistent::delete($this->id . '_at');
+        Persistent::delete($this->id . '_interim_login');
+        Persistent::delete($this->id . '_display');
+        Persistent::delete($this->id . '_action');
+        Persistent::delete('test');
     }
 
     /**
@@ -881,7 +1012,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
                 <meta charset=utf-8>
                 <title><?php echo __('Authentication failed', 'nextend-facebook-connect'); ?></title>
                 <script type="text/javascript">
-					try {
+                    try {
                         if (window.opener !== null && window.opener !== window) {
                             var sameOrigin = true;
                             try {
@@ -891,7 +1022,9 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
                                 }
 
                             } catch (e) {
-                                // Blocked cross origin
+                                /**
+                                 * Blocked cross origin
+                                 */
                                 sameOrigin = false;
                             }
                             if (sameOrigin) {
@@ -926,11 +1059,11 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
     }
 
     /**
-     * @deprecated
-     *
      * @param $user_id
      *
      * @return bool
+     * @deprecated
+     *
      */
     public function getAvatar($user_id) {
 
@@ -963,6 +1096,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
      * Redirect the source of the popup window to a specified url.
      */
     public static function redirect($title, $url) {
+        $url = NextendSocialLogin::maybeAddBypassCacheArgToUrl($url);
         ?>
         <!doctype html>
         <html lang=en>
@@ -970,7 +1104,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
             <meta charset=utf-8>
             <title><?php echo $title; ?></title>
             <script type="text/javascript">
-				try {
+                try {
                     if (window.opener !== null && window.opener !== window) {
                         var sameOrigin = true;
                         try {
@@ -980,7 +1114,9 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
                             }
 
                         } catch (e) {
-                            // Blocked cross origin
+                            /**
+                             * Blocked cross origin
+                             */
                             sameOrigin = false;
                         }
                         if (sameOrigin) {
@@ -988,8 +1124,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
                             window.close();
                         }
                     }
-                }
-                catch (e) {
+                } catch (e) {
                 }
                 window.location = <?php echo wp_json_encode($url); ?>;
             </script>
@@ -1029,7 +1164,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
         $socialID = $this->isUserConnected($userID);
         if ($socialID !== false) {
             $data[] = array(
-                'name'  => $this->getLabel() . ' ' . __('Identifier'),
+                'name'  => $this->getLabel() . ' ' . __('Identifier', 'nextend-facebook-connect'),
                 'value' => $socialID,
             );
         }
@@ -1037,7 +1172,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
         $accessToken = $this->getAccessToken($userID);
         if (!empty($accessToken)) {
             $data[] = array(
-                'name'  => $this->getLabel() . ' ' . __('Access token'),
+                'name'  => $this->getLabel() . ' ' . __('Access token', 'nextend-facebook-connect'),
                 'value' => $accessToken,
             );
         }
@@ -1045,12 +1180,12 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
         $profilePicture = $this->getUserData($userID, 'profile_picture');
         if (!empty($profilePicture)) {
             $data[] = array(
-                'name'  => $this->getLabel() . ' ' . __('Profile picture'),
+                'name'  => $this->getLabel() . ' ' . __('Profile Picture'),
                 'value' => $profilePicture,
             );
         }
 
-        foreach ($this->getSyncFields() AS $fieldName => $fieldData) {
+        foreach ($this->getSyncFields() as $fieldName => $fieldData) {
             $meta_key = $this->settings->get('sync_fields/fields/' . $fieldName . '/meta_key');
             if (!empty($meta_key)) {
                 $value = get_user_meta($userID, $meta_key, true);
@@ -1075,5 +1210,192 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
 
     public function getSyncDataFieldDescription($fieldName) {
         return '';
+    }
+
+    /**
+     * @param $user_id
+     * Update social_users table with login date of the user.
+     */
+    public function logLoginDate($user_id) {
+        /** @var $wpdb WPDB */ global $wpdb;
+        $wpdb->update($wpdb->prefix . 'social_users', array('login_date' => current_time('mysql'),), array(
+            'ID'   => $user_id,
+            'type' => $this->dbID
+        ), array(
+            '%s',
+            '%s'
+        ));
+    }
+
+    public function registerRedirectRESTRoute() {
+        if ($this->oauthRedirectBehavior === 'rest_redirect') {
+            register_rest_route('nextend-social-login/v1', $this->id . '/redirect_uri', array(
+                'methods'             => WP_REST_Server::READABLE,
+                'callback'            => array(
+                    $this,
+                    'redirectToProviderEndpointWithStateAndCode'
+                ),
+                'args'                => array(
+                    'state' => array(
+                        'required' => true,
+                    ),
+                    'code'  => array(
+                        'required' => true,
+                    )
+                ),
+                'permission_callback' => '__return_true',
+            ));
+        }
+    }
+
+    /**
+     * @param WP_REST_Request $request Full details about the request.
+     *
+     * Registers a REST API endpoints for a provider. This endpoint handles the redirect to the login endpoint of the
+     * currently used provider. The state and code GET parameters will be added to the login URL, so we can imitate as
+     * if the provider would already returned the state and code parameters to the original login url.
+     *
+     * @return WP_Error|WP_REST_Response
+     */
+    public function redirectToProviderEndpointWithStateAndCode($request) {
+        $params       = $request->get_params();
+        $errorMessage = '';
+
+        if (!empty($params['state']) && !empty($params['code'])) {
+
+            $provider = NextendSocialLogin::$allowedProviders[$this->id];
+
+            try {
+                $providerEndpoint = $provider->getLoginUrl();
+
+                if (defined('WPML_PLUGIN_BASENAME')) {
+                    $providerEndpoint = $provider->getTranslatedLoginURLForRestRedirect();
+                }
+
+                $providerEndpointWithStateAndCode = add_query_arg(array(
+                    'state' => $params['state'],
+                    'code'  => $params['code']
+                ), $providerEndpoint);
+                wp_safe_redirect($providerEndpointWithStateAndCode);
+                exit;
+
+            } catch (Exception $e) {
+                $errorMessage = $e->getMessage();
+            }
+        } else {
+            if (empty($params['state']) && empty($params['code'])) {
+                $errorMessage = 'The code and state parameters are empty!';
+            } else if (empty($params['state'])) {
+                $errorMessage = 'The state parameter is empty!';
+            } else {
+                $errorMessage = 'The code parameter is empty!';
+            }
+        }
+
+        return new WP_Error('error', $errorMessage);
+    }
+
+    /**
+     * Generates a single translated login URL where the REST /redirect_uri endpoint of the currently used provider
+     * should redirect to instead of the original login url.
+     *
+     * @return string
+     */
+    public function getTranslatedLoginURLForRestRedirect() {
+        $originalLoginUrl = $this->getLoginUrl();
+
+        /**
+         * We should attempt to generate translated login URLs only if WPML is active and there is a language code defined.
+         */
+        if (defined('WPML_PLUGIN_BASENAME') && defined('ICL_LANGUAGE_CODE')) {
+
+            global $sitepress;
+
+            $languageCode = ICL_LANGUAGE_CODE;
+
+
+            if ($sitepress && method_exists($sitepress, 'get_active_languages') && $languageCode) {
+
+                $WPML_active_languages = $sitepress->get_active_languages();
+
+                if (count($WPML_active_languages) > 1) {
+                    /**
+                     * Fix:
+                     * When WPML has the language URL format set to "Language name added as a parameter",
+                     * we can not pass that parameter in the Authorization request in some cases ( e.g.: Microsoft ).
+                     * In these cases the user will end up redirected to the redirect URL without language parameter,
+                     * so after the login we won't be able to redirect them to registration flow page of the corresponding language.
+                     * In these cases we need to use the language code according to the url where we should redirect after the login.
+                     */
+                    $WPML_language_url_format = false;
+                    if (method_exists($sitepress, 'get_setting')) {
+                        $WPML_language_url_format = $sitepress->get_setting('language_negotiation_type');
+                    }
+                    if ($WPML_language_url_format && $WPML_language_url_format == 3) {
+                        $persistentRedirect = Persistent::get('redirect');
+                        if ($persistentRedirect) {
+                            $persistentRedirectQueryParams = array();
+                            $persistentRedirectQueryString = parse_url($persistentRedirect, PHP_URL_QUERY);
+                            parse_str($persistentRedirectQueryString, $persistentRedirectQueryParams);
+                            if (isset($persistentRedirectQueryParams['lang']) && !empty($persistentRedirectQueryParams['lang'])) {
+                                $languageParam = sanitize_text_field($persistentRedirectQueryParams['lang']);
+                                if (in_array($languageParam, array_keys($WPML_active_languages))) {
+                                    /**
+                                     * The language code that we got from the persistent redirect url is a valid language code for WPML,
+                                     * so we can use this code.
+                                     */
+                                    $languageCode = $languageParam;
+                                }
+                            }
+                        }
+                    }
+
+
+                    $args      = array('loginSocial' => $this->getId());
+                    $proxyPage = NextendSocialLogin::getProxyPage();
+
+                    if ($proxyPage) {
+                        //OAuth flow handled over OAuth redirect uri proxy page
+                        $convertedURL = get_permalink(apply_filters('wpml_object_id', $proxyPage, 'page', false, $languageCode));
+                        if ($convertedURL) {
+                            $convertedURL = add_query_arg($args, $convertedURL);
+
+                            return $convertedURL;
+                        }
+
+                    } else {
+                        //OAuth flow handled over wp-login.php
+
+                        if ($WPML_language_url_format && $WPML_language_url_format == 3 && (!class_exists('\WPML\UrlHandling\WPLoginUrlConverter') || (class_exists('\WPML\UrlHandling\WPLoginUrlConverter') && (!get_option(\WPML\UrlHandling\WPLoginUrlConverter::SETTINGS_KEY, false))))) {
+                            /**
+                             * We need to display the original redirect url when the
+                             * Language URL format is set to "Language name added as a parameter and:
+                             * -when the WPLoginUrlConverter class doesn't exists, since that case it is an old WPML version that can not translate the /wp-login.php page
+                             * -if "Login and registration pages - Allow translating the login and registration pages" is disabled
+                             */
+                            return $originalLoginUrl;
+                        } else {
+                            global $wpml_url_converter;
+                            /**
+                             * When the language URL format is set to "Different languages in directories" or "A different domain per language", then the Redirect URI will be different for each languages
+                             * Also when the language URL format is set to "Language name added as a parameter" and the "Login and registration pages - Allow translating the login and registration pages" setting is enabled, the urls will be different.
+                             */
+                            if ($wpml_url_converter && method_exists($wpml_url_converter, 'convert_url')) {
+
+                                $convertedURL = $wpml_url_converter->convert_url(site_url('wp-login.php'), $languageCode);
+
+                                $convertedURL = add_query_arg($args, $convertedURL);
+
+
+                                return $convertedURL;
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $originalLoginUrl;
     }
 }

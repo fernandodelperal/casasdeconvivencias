@@ -2,6 +2,14 @@
 wp_enqueue_script('jquery-ui-sortable');
 ?>
 <div class="nsl-dashboard-providers-container">
+    <?php
+    if (NextendSocialLogin::hasConfigurationWithNoEnabledProviders()) {
+        echo '<br><div class="notice notice-info">
+            <p>' . sprintf(__('%1$s detected that you have providers configured but none of them are enabled. To display any social buttons, please make sure you have at least one provider enabled!', 'nextend-facebook-connect'), '<b>Nextend Social Login</b>') . '</p>
+        </div>';
+    }
+    ?>
+
     <div class="nsl-dashboard-providers">
         <?php
         if (count(NextendSocialLogin::$enabledProviders) > 0) {
@@ -24,7 +32,7 @@ wp_enqueue_script('jquery-ui-sortable');
                 </div>
                 <div class="nsl-dashboard-provider-bottom">
                     <div class="nsl-dashboard-provider-bottom-state">
-						<?php
+                        <?php
                         switch ($state) {
                             case 'pro-only':
                                 _e('Not Available', 'nextend-facebook-connect');
@@ -51,14 +59,14 @@ wp_enqueue_script('jquery-ui-sortable');
                             ?>
                             <a href="<?php echo NextendSocialLoginAdmin::trackUrl('https://nextendweb.com/social-login/', 'buy-pro-addon-button-' . $provider->getId()); ?>"
                                class="button button-secondary" target="_blank">
-								<?php _e('Upgrade Now', 'nextend-facebook-connect'); ?>
+                                <?php _e('Upgrade Now', 'nextend-facebook-connect'); ?>
                             </a>
                             <?php
                             break;
                         case 'not-configured':
                             ?>
                             <a href="<?php echo $providerAdmin->getUrl(); ?>" class="button button-secondary">
-								<?php _e('Getting Started', 'nextend-facebook-connect'); ?>
+                                <?php _e('Getting Started', 'nextend-facebook-connect'); ?>
                             </a>
                             <?php
                             break;
@@ -66,7 +74,7 @@ wp_enqueue_script('jquery-ui-sortable');
                             ?>
                             <a href="<?php echo $providerAdmin->getUrl('settings'); ?>"
                                class="button button-secondary">
-								<?php _e('Verify Settings', 'nextend-facebook-connect'); ?>
+                                <?php _e('Verify Settings', 'nextend-facebook-connect'); ?>
                             </a>
                             <?php
                             break;
@@ -74,11 +82,11 @@ wp_enqueue_script('jquery-ui-sortable');
                             ?>
                             <a href="<?php echo wp_nonce_url(add_query_arg('provider', $provider->getId(), NextendSocialLoginAdmin::getAdminUrl('enable')), 'nextend-social-login_enable_' . $provider->getId()); ?>"
                                class="button button-primary">
-								<?php _e('Enable', 'nextend-facebook-connect'); ?>
+                                <?php _e('Enable', 'nextend-facebook-connect'); ?>
                             </a>
                             <a href="<?php echo $providerAdmin->getUrl('settings'); ?>"
                                class="button button-secondary">
-								<?php _e('Settings', 'nextend-facebook-connect'); ?>
+                                <?php _e('Settings', 'nextend-facebook-connect'); ?>
                             </a>
                             <?php
                             break;
@@ -86,11 +94,11 @@ wp_enqueue_script('jquery-ui-sortable');
                             ?>
                             <a href="<?php echo wp_nonce_url(add_query_arg('provider', $provider->getId(), NextendSocialLoginAdmin::getAdminUrl('disable')), 'nextend-social-login_disable_' . $provider->getId()); ?>"
                                class="button button-secondary">
-								<?php _e('Disable', 'nextend-facebook-connect'); ?>
+                                <?php _e('Disable', 'nextend-facebook-connect'); ?>
                             </a>
                             <a href="<?php echo $providerAdmin->getUrl('settings'); ?>"
                                class="button button-secondary">
-								<?php _e('Settings', 'nextend-facebook-connect'); ?>
+                                <?php _e('Settings', 'nextend-facebook-connect'); ?>
                             </a>
                             <?php
                             break;
@@ -130,7 +138,7 @@ wp_enqueue_script('jquery-ui-sortable');
 </div>
 
 <script>
-	(function ($) {
+    (function ($) {
         $(document).ready(function () {
             var _ajax_nonce = '<?php echo wp_create_nonce("nextend-social-login"); ?>',
                 savingMessage = <?php echo wp_json_encode(__('Saving...', 'nextend-facebook-connect')); ?>,

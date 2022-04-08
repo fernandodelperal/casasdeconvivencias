@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: WooCommerce Pay for Payment
-Plugin URI: https://wordpress.org/plugins/woocommerce-pay-for-payment/
+Plugin Name: Pay for Payment for WooCommerce
+Plugin URI: https://kybernaut.cz/pluginy/woocommerce-pay-for-payment/
 Description: Setup individual charges for each payment method in WooCommerce.
-Version: 2.0.10
+Version: 2.1.4
 Author: Karolína Vyskočilová
 Author URI: https://kybernaut.cz
 License: GPL-2.0+
@@ -11,7 +11,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 Text Domain: woocommerce-pay-for-payment
 Domain Path: /languages
 WC requires at least: 2.6
-WC tested up to: 3.5.1
+WC tested up to: 5.7.1
 */
 
 /**
@@ -32,6 +32,12 @@ function pay4payment_plugin_init() {
 		require_once plugin_dir_path( __FILE__ ) . '/inc/class-pay4pay.php';
 		Pay4Pay::instance();
 
+		// Integrations.
+		include_once plugin_dir_path( __FILE__ ) . '/inc/class-pay4pay-price-based-country.php';
+		include_once plugin_dir_path( __FILE__ ) . '/inc/class-pay4pay-woocommerce-multicurrency.php';
+		include_once plugin_dir_path( __FILE__ ) . '/inc/class-pay4pay-woo-multi-currency.php';
+		include_once plugin_dir_path( __FILE__ ) . '/inc/class-pay4pay-wcml.php';
+
 		if ( is_admin() )
 			require_once plugin_dir_path( __FILE__ ) . '/inc/class-pay4pay-admin.php';
 		}
@@ -44,7 +50,7 @@ function pay4payment_plugin_init() {
  */
 function pay4payment_admin_notice() {
 
-	$pay4payment_plugin = __( 'WooCommerce Pay for Payment', 'woocommerce-pay-for-payment' );
+	$pay4payment_plugin = __( 'Pay for Payment for WooCommerce', 'woocommerce-pay-for-payment' );
 	$woocommerce_plugin = __( 'WooCommerce', 'woocommerce-pay-for-payment' );
 
 	echo '<div class="error"><p>'

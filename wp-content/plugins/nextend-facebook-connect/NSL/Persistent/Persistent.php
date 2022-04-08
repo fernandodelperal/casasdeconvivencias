@@ -2,9 +2,10 @@
 
 namespace NSL\Persistent;
 
+use NSL\Persistent\Storage\Session;
 use NSL\Persistent\Storage\StorageAbstract;
 use NSL\Persistent\Storage\Transient;
-use NSL\Persistent\Storage\Session;
+use WP_User;
 
 require_once dirname(__FILE__) . '/Storage/Abstract.php';
 require_once dirname(__FILE__) . '/Storage/Session.php';
@@ -41,22 +42,28 @@ class Persistent {
     }
 
     public static function set($key, $value) {
-
-        self::$instance->storage->set($key, $value);
+        if (self::$instance->storage) {
+            self::$instance->storage->set($key, $value);
+        }
     }
 
     public static function get($key) {
+        if (self::$instance->storage) {
+            return self::$instance->storage->get($key);
+        }
 
-        return self::$instance->storage->get($key);
+        return false;
     }
 
     public static function delete($key) {
-        self::$instance->storage->delete($key);
+        if (self::$instance->storage) {
+            self::$instance->storage->delete($key);
+        }
     }
 
     /**
      * @param          $user_login
-     * @param \WP_User $user
+     * @param WP_User  $user
      */
     public function transferSessionToUser($user_login, $user = null) {
 
@@ -76,8 +83,9 @@ class Persistent {
     }
 
     public static function clear() {
-
-        self::$instance->storage->clear();
+        if (self::$instance->storage) {
+            self::$instance->storage->clear();
+        }
     }
 }
 

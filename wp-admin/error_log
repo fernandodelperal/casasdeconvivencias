@@ -7581,3 +7581,807 @@ Stack trace:
 [08-Mar-2022 19:38:16 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/Woocommerce_Products_List_Pro_v1.1.4/woo-products-list.php on line 621
 [08-Mar-2022 19:38:16 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/Woocommerce_Products_List_Pro_v1.1.4/woo-products-list.php on line 621
 [08-Mar-2022 19:38:16 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/Woocommerce_Products_List_Pro_v1.1.4/woo-products-list.php on line 1175
+[10-Mar-2022 15:37:32 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[10-Mar-2022 15:37:40 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[10-Mar-2022 15:37:44 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[10-Mar-2022 17:27:20 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[10-Mar-2022 17:27:46 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[10-Mar-2022 20:37:26 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[10-Mar-2022 20:56:19 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[10-Mar-2022 21:13:24 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[10-Mar-2022 21:15:01 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[10-Mar-2022 21:15:15 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[10-Mar-2022 21:15:19 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[10-Mar-2022 21:31:22 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[10-Mar-2022 21:31:30 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[10-Mar-2022 21:55:48 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(1, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[10-Mar-2022 21:56:46 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(1, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[10-Mar-2022 21:57:47 UTC] PHP Fatal error:  Uncaught Error: Call to a member function get_items() on null in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/Customs_emails_FDP/custom_emails_fdp.php:27
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(309): wc_change_admin_new_order_email_recipient('cruzdepiedrasf@...', NULL)
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(189): WP_Hook->apply_filters('cruzdepiedrasf@...', Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce/includes/emails/class-wc-email.php(399): apply_filters('woocommerce_ema...', 'cruzdepiedrasf@...', NULL, Object(WC_Email_New_Order))
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce/includes/admin/settings/class-wc-settings-emails.php(328): WC_Email->get_recipient()
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): WC_Settings_Emails->email_notification_setting(Array)
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/cl in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/Customs_emails_FDP/custom_emails_fdp.php on line 27
+[10-Mar-2022 21:57:53 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[10-Mar-2022 22:01:17 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[10-Mar-2022 22:01:52 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for explat. Args: explat..
+[10-Mar-2022 22:01:52 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for experimental. Args: experimental..
+[10-Mar-2022 22:01:52 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for customer-effort-score. Args: customer-effort-score..
+[10-Mar-2022 22:01:52 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for notices. Args: notices..
+[10-Mar-2022 22:01:52 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for number. Args: number..
+[10-Mar-2022 22:01:52 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for tracks. Args: tracks..
+[10-Mar-2022 22:01:52 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for date. Args: date..
+[10-Mar-2022 22:01:52 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for components. Args: components..
+[10-Mar-2022 22:01:52 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for app. Args: app..
+[10-Mar-2022 22:01:52 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for csv-export. Args: csv-export..
+[10-Mar-2022 22:01:52 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for data. Args: data..
+[10-Mar-2022 22:01:52 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for currency. Args: currency..
+[10-Mar-2022 22:01:52 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for navigation. Args: navigation..
+[10-Mar-2022 22:01:59 UTC] PHP Fatal error:  Uncaught Exception: Could not find asset registry for wp-admin-scripts in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php:280
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/WcPayPromotion/Init.php(48): Automattic\WooCommerce\Admin\Loader::get_script_asset_filename('wp-admin-script...', 'payment-method-...')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/Features.php(136): Automattic\WooCommerce\Admin\Features\WcPayPromotion\Init->__construct()
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Automattic\WooCommerce\Admin\Features\Features::load_features('')
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(NULL, Array)
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings. in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php on line 280
+[10-Mar-2022 22:02:08 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for explat. Args: explat..
+[10-Mar-2022 22:02:08 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for experimental. Args: experimental..
+[10-Mar-2022 22:02:08 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for customer-effort-score. Args: customer-effort-score..
+[10-Mar-2022 22:02:08 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for notices. Args: notices..
+[10-Mar-2022 22:02:08 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for number. Args: number..
+[10-Mar-2022 22:02:08 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for tracks. Args: tracks..
+[10-Mar-2022 22:02:08 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for date. Args: date..
+[10-Mar-2022 22:02:08 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for components. Args: components..
+[10-Mar-2022 22:02:08 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for app. Args: app..
+[10-Mar-2022 22:02:08 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for csv-export. Args: csv-export..
+[10-Mar-2022 22:02:08 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for data. Args: data..
+[10-Mar-2022 22:02:08 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for currency. Args: currency..
+[10-Mar-2022 22:02:08 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for navigation. Args: navigation..
+[10-Mar-2022 22:02:13 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for explat. Args: explat..
+[10-Mar-2022 22:02:13 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for experimental. Args: experimental..
+[10-Mar-2022 22:02:13 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for customer-effort-score. Args: customer-effort-score..
+[10-Mar-2022 22:02:13 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for notices. Args: notices..
+[10-Mar-2022 22:02:13 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for number. Args: number..
+[10-Mar-2022 22:02:13 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for tracks. Args: tracks..
+[10-Mar-2022 22:02:13 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for date. Args: date..
+[10-Mar-2022 22:02:13 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for components. Args: components..
+[10-Mar-2022 22:02:13 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for app. Args: app..
+[10-Mar-2022 22:02:13 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for csv-export. Args: csv-export..
+[10-Mar-2022 22:02:13 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for data. Args: data..
+[10-Mar-2022 22:02:13 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for currency. Args: currency..
+[10-Mar-2022 22:02:13 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for navigation. Args: navigation..
+[10-Mar-2022 22:02:25 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[10-Mar-2022 22:02:28 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for explat. Args: explat..
+[10-Mar-2022 22:02:28 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for experimental. Args: experimental..
+[10-Mar-2022 22:02:28 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for customer-effort-score. Args: customer-effort-score..
+[10-Mar-2022 22:02:28 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for notices. Args: notices..
+[10-Mar-2022 22:02:28 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for number. Args: number..
+[10-Mar-2022 22:02:28 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for tracks. Args: tracks..
+[10-Mar-2022 22:02:28 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for date. Args: date..
+[10-Mar-2022 22:02:28 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for components. Args: components..
+[10-Mar-2022 22:02:28 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for app. Args: app..
+[10-Mar-2022 22:02:28 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for csv-export. Args: csv-export..
+[10-Mar-2022 22:02:28 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for data. Args: data..
+[10-Mar-2022 22:02:28 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for currency. Args: currency..
+[10-Mar-2022 22:02:28 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for navigation. Args: navigation..
+[10-Mar-2022 22:02:31 UTC] PHP Fatal error:  Uncaught Exception: Could not find asset registry for wp-admin-scripts in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php:280
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/WcPayPromotion/Init.php(48): Automattic\WooCommerce\Admin\Loader::get_script_asset_filename('wp-admin-script...', 'payment-method-...')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/Features.php(136): Automattic\WooCommerce\Admin\Features\WcPayPromotion\Init->__construct()
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Automattic\WooCommerce\Admin\Features\Features::load_features('')
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(NULL, Array)
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings. in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php on line 280
+[10-Mar-2022 22:02:36 UTC] PHP Fatal error:  Uncaught Exception: Could not find asset registry for wp-admin-scripts in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php:280
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/WcPayPromotion/Init.php(48): Automattic\WooCommerce\Admin\Loader::get_script_asset_filename('wp-admin-script...', 'payment-method-...')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/Features.php(136): Automattic\WooCommerce\Admin\Features\WcPayPromotion\Init->__construct()
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Automattic\WooCommerce\Admin\Features\Features::load_features('')
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(NULL, Array)
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings. in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php on line 280
+[10-Mar-2022 22:02:39 UTC] PHP Fatal error:  Uncaught Exception: Could not find asset registry for wp-admin-scripts in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php:280
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/WcPayPromotion/Init.php(48): Automattic\WooCommerce\Admin\Loader::get_script_asset_filename('wp-admin-script...', 'payment-method-...')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/Features.php(136): Automattic\WooCommerce\Admin\Features\WcPayPromotion\Init->__construct()
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Automattic\WooCommerce\Admin\Features\Features::load_features('')
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(NULL, Array)
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings. in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php on line 280
+[10-Mar-2022 22:02:45 UTC] PHP Fatal error:  Uncaught Exception: Could not find asset registry for wp-admin-scripts in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php:280
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/WcPayPromotion/Init.php(48): Automattic\WooCommerce\Admin\Loader::get_script_asset_filename('wp-admin-script...', 'payment-method-...')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/Features.php(136): Automattic\WooCommerce\Admin\Features\WcPayPromotion\Init->__construct()
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Automattic\WooCommerce\Admin\Features\Features::load_features('')
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(NULL, Array)
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings. in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php on line 280
+[10-Mar-2022 22:08:07 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[10-Mar-2022 22:09:17 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[10-Mar-2022 22:10:26 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[10-Mar-2022 22:10:31 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[10-Mar-2022 22:36:56 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[10-Mar-2022 22:37:13 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[10-Mar-2022 22:41:14 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for explat. Args: explat..
+[10-Mar-2022 22:41:14 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for experimental. Args: experimental..
+[10-Mar-2022 22:41:14 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for customer-effort-score. Args: customer-effort-score..
+[10-Mar-2022 22:41:14 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for notices. Args: notices..
+[10-Mar-2022 22:41:14 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for number. Args: number..
+[10-Mar-2022 22:41:14 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for tracks. Args: tracks..
+[10-Mar-2022 22:41:14 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for date. Args: date..
+[10-Mar-2022 22:41:14 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for components. Args: components..
+[10-Mar-2022 22:41:14 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for app. Args: app..
+[10-Mar-2022 22:41:14 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for csv-export. Args: csv-export..
+[10-Mar-2022 22:41:14 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for data. Args: data..
+[10-Mar-2022 22:41:14 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for currency. Args: currency..
+[10-Mar-2022 22:41:14 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for navigation. Args: navigation..
+[10-Mar-2022 22:41:26 UTC] PHP Fatal error:  Uncaught Exception: Could not find asset registry for wp-admin-scripts in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php:280
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/WcPayPromotion/Init.php(48): Automattic\WooCommerce\Admin\Loader::get_script_asset_filename('wp-admin-script...', 'payment-method-...')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/Features.php(136): Automattic\WooCommerce\Admin\Features\WcPayPromotion\Init->__construct()
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Automattic\WooCommerce\Admin\Features\Features::load_features('')
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(NULL, Array)
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings. in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php on line 280
+[10-Mar-2022 22:41:33 UTC] PHP Fatal error:  Uncaught Exception: Could not find asset registry for wp-admin-scripts in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php:280
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/WcPayPromotion/Init.php(48): Automattic\WooCommerce\Admin\Loader::get_script_asset_filename('wp-admin-script...', 'payment-method-...')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/Features.php(136): Automattic\WooCommerce\Admin\Features\WcPayPromotion\Init->__construct()
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Automattic\WooCommerce\Admin\Features\Features::load_features('')
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(NULL, Array)
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings. in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php on line 280
+[10-Mar-2022 22:41:38 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for explat. Args: explat..
+[10-Mar-2022 22:41:38 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for experimental. Args: experimental..
+[10-Mar-2022 22:41:38 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for customer-effort-score. Args: customer-effort-score..
+[10-Mar-2022 22:41:38 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for notices. Args: notices..
+[10-Mar-2022 22:41:38 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for number. Args: number..
+[10-Mar-2022 22:41:38 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for tracks. Args: tracks..
+[10-Mar-2022 22:41:38 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for date. Args: date..
+[10-Mar-2022 22:41:38 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for components. Args: components..
+[10-Mar-2022 22:41:38 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for app. Args: app..
+[10-Mar-2022 22:41:38 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for csv-export. Args: csv-export..
+[10-Mar-2022 22:41:38 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for data. Args: data..
+[10-Mar-2022 22:41:38 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for currency. Args: currency..
+[10-Mar-2022 22:41:38 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for navigation. Args: navigation..
+[10-Mar-2022 22:41:44 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for explat. Args: explat..
+[10-Mar-2022 22:41:44 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for experimental. Args: experimental..
+[10-Mar-2022 22:41:44 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for customer-effort-score. Args: customer-effort-score..
+[10-Mar-2022 22:41:44 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for notices. Args: notices..
+[10-Mar-2022 22:41:44 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for number. Args: number..
+[10-Mar-2022 22:41:44 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for tracks. Args: tracks..
+[10-Mar-2022 22:41:44 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for date. Args: date..
+[10-Mar-2022 22:41:44 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for components. Args: components..
+[10-Mar-2022 22:41:44 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for app. Args: app..
+[10-Mar-2022 22:41:44 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for csv-export. Args: csv-export..
+[10-Mar-2022 22:41:44 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for data. Args: data..
+[10-Mar-2022 22:41:44 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for currency. Args: currency..
+[10-Mar-2022 22:41:44 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for navigation. Args: navigation..
+[10-Mar-2022 22:41:49 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for explat. Args: explat..
+[10-Mar-2022 22:41:49 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for experimental. Args: experimental..
+[10-Mar-2022 22:41:49 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for customer-effort-score. Args: customer-effort-score..
+[10-Mar-2022 22:41:49 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for notices. Args: notices..
+[10-Mar-2022 22:41:49 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for number. Args: number..
+[10-Mar-2022 22:41:49 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for tracks. Args: tracks..
+[10-Mar-2022 22:41:49 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for date. Args: date..
+[10-Mar-2022 22:41:49 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for components. Args: components..
+[10-Mar-2022 22:41:49 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for app. Args: app..
+[10-Mar-2022 22:41:49 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for csv-export. Args: csv-export..
+[10-Mar-2022 22:41:49 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for data. Args: data..
+[10-Mar-2022 22:41:49 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for currency. Args: currency..
+[10-Mar-2022 22:41:49 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for navigation. Args: navigation..
+[10-Mar-2022 22:42:32 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for explat. Args: explat..
+[10-Mar-2022 22:42:32 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for experimental. Args: experimental..
+[10-Mar-2022 22:42:32 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for customer-effort-score. Args: customer-effort-score..
+[10-Mar-2022 22:42:32 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for notices. Args: notices..
+[10-Mar-2022 22:42:32 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for number. Args: number..
+[10-Mar-2022 22:42:32 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for tracks. Args: tracks..
+[10-Mar-2022 22:42:32 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for date. Args: date..
+[10-Mar-2022 22:42:32 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for components. Args: components..
+[10-Mar-2022 22:42:32 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for app. Args: app..
+[10-Mar-2022 22:42:32 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for csv-export. Args: csv-export..
+[10-Mar-2022 22:42:32 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for data. Args: data..
+[10-Mar-2022 22:42:32 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for currency. Args: currency..
+[10-Mar-2022 22:42:32 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for navigation. Args: navigation..
+[10-Mar-2022 22:42:38 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for explat. Args: explat..
+[10-Mar-2022 22:42:38 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for experimental. Args: experimental..
+[10-Mar-2022 22:42:38 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for customer-effort-score. Args: customer-effort-score..
+[10-Mar-2022 22:42:38 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for notices. Args: notices..
+[10-Mar-2022 22:42:38 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for number. Args: number..
+[10-Mar-2022 22:42:38 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for tracks. Args: tracks..
+[10-Mar-2022 22:42:38 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for date. Args: date..
+[10-Mar-2022 22:42:38 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for components. Args: components..
+[10-Mar-2022 22:42:38 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for app. Args: app..
+[10-Mar-2022 22:42:38 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for csv-export. Args: csv-export..
+[10-Mar-2022 22:42:38 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for data. Args: data..
+[10-Mar-2022 22:42:38 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for currency. Args: currency..
+[10-Mar-2022 22:42:38 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for navigation. Args: navigation..
+[10-Mar-2022 22:42:48 UTC] PHP Fatal error:  Uncaught Exception: Could not find asset registry for wp-admin-scripts in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php:280
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/WcPayPromotion/Init.php(48): Automattic\WooCommerce\Admin\Loader::get_script_asset_filename('wp-admin-script...', 'payment-method-...')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/Features.php(136): Automattic\WooCommerce\Admin\Features\WcPayPromotion\Init->__construct()
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Automattic\WooCommerce\Admin\Features\Features::load_features('')
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(NULL, Array)
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings. in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php on line 280
+[10-Mar-2022 22:42:55 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for explat. Args: explat..
+[10-Mar-2022 22:42:55 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for experimental. Args: experimental..
+[10-Mar-2022 22:42:55 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for customer-effort-score. Args: customer-effort-score..
+[10-Mar-2022 22:42:55 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for notices. Args: notices..
+[10-Mar-2022 22:42:55 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for number. Args: number..
+[10-Mar-2022 22:42:55 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for tracks. Args: tracks..
+[10-Mar-2022 22:42:55 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for date. Args: date..
+[10-Mar-2022 22:42:55 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for components. Args: components..
+[10-Mar-2022 22:42:55 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for app. Args: app..
+[10-Mar-2022 22:42:55 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for csv-export. Args: csv-export..
+[10-Mar-2022 22:42:55 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for data. Args: data..
+[10-Mar-2022 22:42:55 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for currency. Args: currency..
+[10-Mar-2022 22:42:55 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for navigation. Args: navigation..
+[10-Mar-2022 22:43:21 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for explat. Args: explat..
+[10-Mar-2022 22:43:21 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for experimental. Args: experimental..
+[10-Mar-2022 22:43:21 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for customer-effort-score. Args: customer-effort-score..
+[10-Mar-2022 22:43:21 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for notices. Args: notices..
+[10-Mar-2022 22:43:21 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for number. Args: number..
+[10-Mar-2022 22:43:21 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for tracks. Args: tracks..
+[10-Mar-2022 22:43:21 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for date. Args: date..
+[10-Mar-2022 22:43:21 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for components. Args: components..
+[10-Mar-2022 22:43:21 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for app. Args: app..
+[10-Mar-2022 22:43:21 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for csv-export. Args: csv-export..
+[10-Mar-2022 22:43:21 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for data. Args: data..
+[10-Mar-2022 22:43:21 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for currency. Args: currency..
+[10-Mar-2022 22:43:21 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for navigation. Args: navigation..
+[10-Mar-2022 22:43:57 UTC] PHP Fatal error:  Uncaught Exception: Could not find asset registry for wp-admin-scripts in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php:280
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/WcPayPromotion/Init.php(48): Automattic\WooCommerce\Admin\Loader::get_script_asset_filename('wp-admin-script...', 'payment-method-...')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/Features.php(136): Automattic\WooCommerce\Admin\Features\WcPayPromotion\Init->__construct()
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Automattic\WooCommerce\Admin\Features\Features::load_features('')
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(NULL, Array)
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings. in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php on line 280
+[10-Mar-2022 22:44:24 UTC] PHP Fatal error:  Uncaught Exception: Could not find asset registry for wp-admin-scripts in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php:280
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/WcPayPromotion/Init.php(48): Automattic\WooCommerce\Admin\Loader::get_script_asset_filename('wp-admin-script...', 'payment-method-...')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/Features.php(136): Automattic\WooCommerce\Admin\Features\WcPayPromotion\Init->__construct()
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Automattic\WooCommerce\Admin\Features\Features::load_features('')
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(NULL, Array)
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings. in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php on line 280
+[10-Mar-2022 22:45:59 UTC] PHP Fatal error:  Uncaught Exception: Could not find asset registry for wp-admin-scripts in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php:280
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/WcPayPromotion/Init.php(48): Automattic\WooCommerce\Admin\Loader::get_script_asset_filename('wp-admin-script...', 'payment-method-...')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/Features.php(136): Automattic\WooCommerce\Admin\Features\WcPayPromotion\Init->__construct()
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Automattic\WooCommerce\Admin\Features\Features::load_features('')
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(NULL, Array)
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings. in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php on line 280
+[10-Mar-2022 22:46:25 UTC] PHP Fatal error:  Uncaught Exception: Could not find asset registry for wp-admin-scripts in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php:280
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/WcPayPromotion/Init.php(48): Automattic\WooCommerce\Admin\Loader::get_script_asset_filename('wp-admin-script...', 'payment-method-...')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/Features.php(136): Automattic\WooCommerce\Admin\Features\WcPayPromotion\Init->__construct()
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Automattic\WooCommerce\Admin\Features\Features::load_features('')
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(NULL, Array)
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings. in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php on line 280
+[10-Mar-2022 22:46:46 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for explat. Args: explat..
+[10-Mar-2022 22:46:46 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for experimental. Args: experimental..
+[10-Mar-2022 22:46:46 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for customer-effort-score. Args: customer-effort-score..
+[10-Mar-2022 22:46:46 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for notices. Args: notices..
+[10-Mar-2022 22:46:46 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for number. Args: number..
+[10-Mar-2022 22:46:46 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for tracks. Args: tracks..
+[10-Mar-2022 22:46:46 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for date. Args: date..
+[10-Mar-2022 22:46:46 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for components. Args: components..
+[10-Mar-2022 22:46:46 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for app. Args: app..
+[10-Mar-2022 22:46:46 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for csv-export. Args: csv-export..
+[10-Mar-2022 22:46:46 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for data. Args: data..
+[10-Mar-2022 22:46:46 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for currency. Args: currency..
+[10-Mar-2022 22:46:46 UTC] Exception caught in Automattic\WooCommerce\Admin\Loader::register_scripts. Could not find asset registry for navigation. Args: navigation..
+[10-Mar-2022 22:47:48 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[11-Mar-2022 00:17:54 UTC] total_sales was called incorrectly. Product properties should not be accessed directly. Backtrace: do_action('wp_ajax_inline-save'), WP_Hook->do_action, WP_Hook->apply_filters, wp_ajax_inline_save, WP_Posts_List_Table->display_rows, WP_Posts_List_Table->_display_rows, WP_Posts_List_Table->single_row, WP_List_Table->single_row_columns, WP_Posts_List_Table->column_default, do_action('manage_product_posts_custom_column'), WP_Hook->do_action, WP_Hook->apply_filters, wpso23858236_product_column_offercode, WC_Abstract_Legacy_Product->__get, wc_doing_it_wrong. This message was added in version 3.0.
+[11-Mar-2022 00:17:54 UTC] sku was called incorrectly. Product properties should not be accessed directly. Backtrace: do_action('wp_ajax_inline-save'), WP_Hook->do_action, WP_Hook->apply_filters, wp_ajax_inline_save, WP_Posts_List_Table->display_rows, WP_Posts_List_Table->_display_rows, WP_Posts_List_Table->single_row, WP_List_Table->single_row_columns, WP_Posts_List_Table->column_default, do_action('manage_product_posts_custom_column'), WP_Hook->do_action, WP_Hook->apply_filters, wpso23858236_product_column_offercode, WC_Abstract_Legacy_Product->__get, wc_doing_it_wrong. This message was added in version 3.0.
+[11-Mar-2022 00:17:54 UTC] id was called incorrectly. Product properties should not be accessed directly. Backtrace: do_action('wp_ajax_inline-save'), WP_Hook->do_action, WP_Hook->apply_filters, wp_ajax_inline_save, WP_Posts_List_Table->display_rows, WP_Posts_List_Table->_display_rows, WP_Posts_List_Table->single_row, WP_List_Table->single_row_columns, WP_Posts_List_Table->column_default, do_action('manage_product_posts_custom_column'), WP_Hook->do_action, WP_Hook->apply_filters, wpso23858236_product_column_offercode, WC_Abstract_Legacy_Product->__get, wc_doing_it_wrong. This message was added in version 3.0.
+[11-Mar-2022 00:17:54 UTC] sku was called incorrectly. Product properties should not be accessed directly. Backtrace: do_action('wp_ajax_inline-save'), WP_Hook->do_action, WP_Hook->apply_filters, wp_ajax_inline_save, WP_Posts_List_Table->display_rows, WP_Posts_List_Table->_display_rows, WP_Posts_List_Table->single_row, WP_List_Table->single_row_columns, WP_Posts_List_Table->column_default, do_action('manage_product_posts_custom_column'), WP_Hook->do_action, WP_Hook->apply_filters, wpso23858236_product_column_offercode, WC_Abstract_Legacy_Product->__get, wc_doing_it_wrong. This message was added in version 3.0.
+[11-Mar-2022 00:17:54 UTC] stock was called incorrectly. Product properties should not be accessed directly. Backtrace: do_action('wp_ajax_inline-save'), WP_Hook->do_action, WP_Hook->apply_filters, wp_ajax_inline_save, WP_Posts_List_Table->display_rows, WP_Posts_List_Table->_display_rows, WP_Posts_List_Table->single_row, WP_List_Table->single_row_columns, WP_Posts_List_Table->column_default, do_action('manage_product_posts_custom_column'), WP_Hook->do_action, WP_Hook->apply_filters, wpso23858236_product_column_offercode, WC_Abstract_Legacy_Product->__get, wc_doing_it_wrong. This message was added in version 3.0.
+[11-Mar-2022 01:55:15 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[11-Mar-2022 02:31:53 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[11-Mar-2022 02:31:58 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[11-Mar-2022 02:32:53 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[11-Mar-2022 02:34:32 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(1, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[11-Mar-2022 02:39:47 UTC] PHP Fatal error:  Uncaught Exception: Could not find asset registry for wp-admin-scripts in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php:280
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/WcPayPromotion/Init.php(48): Automattic\WooCommerce\Admin\Loader::get_script_asset_filename('wp-admin-script...', 'payment-method-...')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/Features.php(136): Automattic\WooCommerce\Admin\Features\WcPayPromotion\Init->__construct()
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Automattic\WooCommerce\Admin\Features\Features::load_features('')
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(NULL, Array)
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings. in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php on line 280
+[11-Mar-2022 02:39:54 UTC] PHP Fatal error:  Uncaught Exception: Could not find asset registry for wp-admin-scripts in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php:280
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/WcPayPromotion/Init.php(48): Automattic\WooCommerce\Admin\Loader::get_script_asset_filename('wp-admin-script...', 'payment-method-...')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/Features.php(136): Automattic\WooCommerce\Admin\Features\WcPayPromotion\Init->__construct()
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Automattic\WooCommerce\Admin\Features\Features::load_features('')
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(NULL, Array)
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings. in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php on line 280
+[11-Mar-2022 02:40:11 UTC] PHP Fatal error:  Uncaught Exception: Could not find asset registry for wp-admin-scripts in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php:280
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/WcPayPromotion/Init.php(48): Automattic\WooCommerce\Admin\Loader::get_script_asset_filename('wp-admin-script...', 'payment-method-...')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/Features.php(136): Automattic\WooCommerce\Admin\Features\WcPayPromotion\Init->__construct()
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Automattic\WooCommerce\Admin\Features\Features::load_features('')
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(NULL, Array)
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings. in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php on line 280
+[11-Mar-2022 02:40:20 UTC] PHP Fatal error:  Uncaught Exception: Could not find asset registry for wp-admin-scripts in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php:280
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/WcPayPromotion/Init.php(48): Automattic\WooCommerce\Admin\Loader::get_script_asset_filename('wp-admin-script...', 'payment-method-...')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Features/Features.php(136): Automattic\WooCommerce\Admin\Features\WcPayPromotion\Init->__construct()
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Automattic\WooCommerce\Admin\Features\Features::load_features('')
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(NULL, Array)
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings. in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-admin/src/Loader.php on line 280
+[11-Mar-2022 14:29:02 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[11-Mar-2022 20:15:41 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[11-Mar-2022 21:53:10 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[11-Mar-2022 22:25:07 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[12-Mar-2022 15:59:24 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(false, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[12-Mar-2022 16:00:51 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(false, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[12-Mar-2022 16:00:52 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(false, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[12-Mar-2022 16:00:56 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(false, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[12-Mar-2022 16:05:15 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[12-Mar-2022 16:19:41 UTC] PHP Fatal error:  Uncaught Error: Unsupported operand types in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php:222
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): Pay4Pay_Admin->add_payment_options('')
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(331): WP_Hook->apply_filters(0, Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(474): WP_Hook->do_action(Array)
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-settings.php(609): do_action('wp_loaded')
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-config.php(99): require_once('/home/huerqrts/...')
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-load.php(50): require_once('/home/huerqrts/...')
+#6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
+#7 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[12-Mar-2022 18:49:47 UTC] Error Table 'huerqrts_cas.wp_4_usermeta' doesn't exist de la base de datos de WordPress para la consulta SELECT meta_value FROM wp_4_usermeta WHERE meta_key = 'wp_4_ac_preferences_layout_order' AND meta_value != '' LIMIT 1 realizada por require_once('wp-admin/admin.php'), require_once('wp-load.php'), require_once('wp-config.php'), require_once('wp-settings.php'), do_action('init'), WP_Hook->do_action, WP_Hook->apply_filters, AC\Plugin->install, AC\Plugin->run_updater, AC\Plugin\Updater->parse_updates, AC\Plugin\Update\V4000->apply_update, AC\Plugin\Update\V4000->apply_update, AC\Plugin\Update\V4000->apply_update, AC\Plugin\Update\V4000->apply_update, AC\Plugin\Update\V4000->apply_update, AC\Plugin\Update\V4000->apply_update, AC\Plugin\Update\V4000->migrate_list_screen_order
+[12-Mar-2022 19:35:24 UTC] The WC_Abstract_Legacy_Order::get_product_from_item function is deprecated since version 4.4.0. Replace with $item->get_product().
+[12-Mar-2022 19:35:24 UTC] stock was called incorrectly. No se debería acceder a las propiedades del producto directamente. Backtrace: do_action('wp_ajax_woocommerce_mark_order_status'), WP_Hook->do_action, WP_Hook->apply_filters, WC_AJAX::mark_order_status, WC_Order->update_status, WC_Order->save, WC_Order->status_transition, do_action('woocommerce_order_status_processing_to_cancelled'), WP_Hook->do_action, WP_Hook->apply_filters, WC_Auto_Stock_Restore->restore_order_stock, WC_Abstract_Legacy_Product->__get, wc_doing_it_wrong. This message was added in version 3.0.
+[12-Mar-2022 19:35:24 UTC] id was called incorrectly. No se debería acceder a las propiedades del producto directamente. Backtrace: do_action('wp_ajax_woocommerce_mark_order_status'), WP_Hook->do_action, WP_Hook->apply_filters, WC_AJAX::mark_order_status, WC_Order->update_status, WC_Order->save, WC_Order->status_transition, do_action('woocommerce_order_status_processing_to_cancelled'), WP_Hook->do_action, WP_Hook->apply_filters, WC_Auto_Stock_Restore->restore_order_stock, WC_Abstract_Legacy_Product->__get, wc_doing_it_wrong. This message was added in version 3.0.
+[12-Mar-2022 19:35:24 UTC] id was called incorrectly. No se debería acceder a las propiedades del producto directamente. Backtrace: do_action('wp_ajax_woocommerce_mark_order_status'), WP_Hook->do_action, WP_Hook->apply_filters, WC_AJAX::mark_order_status, WC_Order->update_status, WC_Order->save, WC_Order->status_transition, do_action('woocommerce_order_status_processing_to_cancelled'), WP_Hook->do_action, WP_Hook->apply_filters, WC_Auto_Stock_Restore->restore_order_stock, WC_Abstract_Legacy_Product->__get, wc_doing_it_wrong. This message was added in version 3.0.
+[14-Mar-2022 14:43:53 UTC] PHP Fatal error:  Uncaught Error: Call to a member function get_items() on null in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/Customs_emails_FDP/custom_emails_fdp.php:27
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(309): wc_change_admin_new_order_email_recipient('cruzdepiedrasf@...', NULL)
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(189): WP_Hook->apply_filters('cruzdepiedrasf@...', Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce/includes/emails/class-wc-email.php(399): apply_filters('woocommerce_ema...', 'cruzdepiedrasf@...', NULL, Object(WC_Email_New_Order))
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce/includes/admin/settings/class-wc-settings-emails.php(328): WC_Email->get_recipient()
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): WC_Settings_Emails->email_notification_setting(Array)
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/cl in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/Customs_emails_FDP/custom_emails_fdp.php on line 27
+[14-Mar-2022 14:46:05 UTC] PHP Fatal error:  Uncaught Error: Call to a member function get_items() on null in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/Customs_emails_FDP/custom_emails_fdp.php:27
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(309): wc_change_admin_new_order_email_recipient('cruzdepiedrasv@...', NULL)
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(189): WP_Hook->apply_filters('cruzdepiedrasv@...', Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce/includes/emails/class-wc-email.php(399): apply_filters('woocommerce_ema...', 'cruzdepiedrasv@...', NULL, Object(WC_Email_New_Order))
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce/includes/admin/settings/class-wc-settings-emails.php(328): WC_Email->get_recipient()
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): WC_Settings_Emails->email_notification_setting(Array)
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/cl in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/Customs_emails_FDP/custom_emails_fdp.php on line 27
+[15-Mar-2022 13:57:09 UTC] PHP Fatal error:  Uncaught Error: Call to a member function get_items() on null in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/Customs_emails_FDP/custom_emails_fdp.php:27
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(309): wc_change_admin_new_order_email_recipient('cruzdepiedrasv@...', NULL)
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(189): WP_Hook->apply_filters('cruzdepiedrasv@...', Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce/includes/emails/class-wc-email.php(399): apply_filters('woocommerce_ema...', 'cruzdepiedrasv@...', NULL, Object(WC_Email_New_Order))
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce/includes/admin/settings/class-wc-settings-emails.php(328): WC_Email->get_recipient()
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): WC_Settings_Emails->email_notification_setting(Array)
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/cl in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/Customs_emails_FDP/custom_emails_fdp.php on line 27
+[15-Mar-2022 15:57:12 UTC] The WC_Abstract_Legacy_Order::get_product_from_item function is deprecated since version 4.4.0. Replace with $item->get_product().
+[15-Mar-2022 15:57:12 UTC] stock was called incorrectly. No se debería acceder a las propiedades del producto directamente. Backtrace: do_action('wp_ajax_woocommerce_mark_order_status'), WP_Hook->do_action, WP_Hook->apply_filters, WC_AJAX::mark_order_status, WC_Order->update_status, WC_Order->save, WC_Order->status_transition, do_action('woocommerce_order_status_processing_to_cancelled'), WP_Hook->do_action, WP_Hook->apply_filters, WC_Auto_Stock_Restore->restore_order_stock, WC_Abstract_Legacy_Product->__get, wc_doing_it_wrong. This message was added in version 3.0.
+[15-Mar-2022 15:57:12 UTC] id was called incorrectly. No se debería acceder a las propiedades del producto directamente. Backtrace: do_action('wp_ajax_woocommerce_mark_order_status'), WP_Hook->do_action, WP_Hook->apply_filters, WC_AJAX::mark_order_status, WC_Order->update_status, WC_Order->save, WC_Order->status_transition, do_action('woocommerce_order_status_processing_to_cancelled'), WP_Hook->do_action, WP_Hook->apply_filters, WC_Auto_Stock_Restore->restore_order_stock, WC_Abstract_Legacy_Product->__get, wc_doing_it_wrong. This message was added in version 3.0.
+[15-Mar-2022 15:57:12 UTC] id was called incorrectly. No se debería acceder a las propiedades del producto directamente. Backtrace: do_action('wp_ajax_woocommerce_mark_order_status'), WP_Hook->do_action, WP_Hook->apply_filters, WC_AJAX::mark_order_status, WC_Order->update_status, WC_Order->save, WC_Order->status_transition, do_action('woocommerce_order_status_processing_to_cancelled'), WP_Hook->do_action, WP_Hook->apply_filters, WC_Auto_Stock_Restore->restore_order_stock, WC_Abstract_Legacy_Product->__get, wc_doing_it_wrong. This message was added in version 3.0.
+[24-Mar-2022 18:44:58 UTC] The WC_Abstract_Legacy_Order::get_product_from_item function is deprecated since version 4.4.0. Replace with $item->get_product().
+[24-Mar-2022 18:44:58 UTC] stock was called incorrectly. No se debería acceder a las propiedades del producto directamente. Backtrace: do_action('wp_ajax_woocommerce_mark_order_status'), WP_Hook->do_action, WP_Hook->apply_filters, WC_AJAX::mark_order_status, WC_Order->update_status, WC_Order->save, WC_Order->status_transition, do_action('woocommerce_order_status_processing_to_cancelled'), WP_Hook->do_action, WP_Hook->apply_filters, WC_Auto_Stock_Restore->restore_order_stock, WC_Abstract_Legacy_Product->__get, wc_doing_it_wrong. This message was added in version 3.0.
+[24-Mar-2022 18:44:58 UTC] id was called incorrectly. No se debería acceder a las propiedades del producto directamente. Backtrace: do_action('wp_ajax_woocommerce_mark_order_status'), WP_Hook->do_action, WP_Hook->apply_filters, WC_AJAX::mark_order_status, WC_Order->update_status, WC_Order->save, WC_Order->status_transition, do_action('woocommerce_order_status_processing_to_cancelled'), WP_Hook->do_action, WP_Hook->apply_filters, WC_Auto_Stock_Restore->restore_order_stock, WC_Abstract_Legacy_Product->__get, wc_doing_it_wrong. This message was added in version 3.0.
+[24-Mar-2022 18:44:58 UTC] id was called incorrectly. No se debería acceder a las propiedades del producto directamente. Backtrace: do_action('wp_ajax_woocommerce_mark_order_status'), WP_Hook->do_action, WP_Hook->apply_filters, WC_AJAX::mark_order_status, WC_Order->update_status, WC_Order->save, WC_Order->status_transition, do_action('woocommerce_order_status_processing_to_cancelled'), WP_Hook->do_action, WP_Hook->apply_filters, WC_Auto_Stock_Restore->restore_order_stock, WC_Abstract_Legacy_Product->__get, wc_doing_it_wrong. This message was added in version 3.0.
+[25-Mar-2022 17:00:17 UTC] The WC_Abstract_Legacy_Order::get_product_from_item function is deprecated since version 4.4.0. Replace with $item->get_product().
+[25-Mar-2022 17:00:17 UTC] stock was called incorrectly. No se debería acceder a las propiedades del producto directamente. Backtrace: do_action('wp_ajax_woocommerce_mark_order_status'), WP_Hook->do_action, WP_Hook->apply_filters, WC_AJAX::mark_order_status, WC_Order->update_status, WC_Order->save, WC_Order->status_transition, do_action('woocommerce_order_status_processing_to_cancelled'), WP_Hook->do_action, WP_Hook->apply_filters, WC_Auto_Stock_Restore->restore_order_stock, WC_Abstract_Legacy_Product->__get, wc_doing_it_wrong. This message was added in version 3.0.
+[25-Mar-2022 17:00:17 UTC] id was called incorrectly. No se debería acceder a las propiedades del producto directamente. Backtrace: do_action('wp_ajax_woocommerce_mark_order_status'), WP_Hook->do_action, WP_Hook->apply_filters, WC_AJAX::mark_order_status, WC_Order->update_status, WC_Order->save, WC_Order->status_transition, do_action('woocommerce_order_status_processing_to_cancelled'), WP_Hook->do_action, WP_Hook->apply_filters, WC_Auto_Stock_Restore->restore_order_stock, WC_Abstract_Legacy_Product->__get, wc_doing_it_wrong. This message was added in version 3.0.
+[25-Mar-2022 17:00:17 UTC] id was called incorrectly. No se debería acceder a las propiedades del producto directamente. Backtrace: do_action('wp_ajax_woocommerce_mark_order_status'), WP_Hook->do_action, WP_Hook->apply_filters, WC_AJAX::mark_order_status, WC_Order->update_status, WC_Order->save, WC_Order->status_transition, do_action('woocommerce_order_status_processing_to_cancelled'), WP_Hook->do_action, WP_Hook->apply_filters, WC_Auto_Stock_Restore->restore_order_stock, WC_Abstract_Legacy_Product->__get, wc_doing_it_wrong. This message was added in version 3.0.
+[31-Mar-2022 23:02:14 UTC] PHP Fatal error:  Uncaught Error: Call to a member function get_items() on null in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/Customs_emails_FDP/custom_emails_fdp.php:27
+Stack trace:
+#0 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(309): wc_change_admin_new_order_email_recipient('cruzdepiedrasf@...', NULL)
+#1 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/plugin.php(189): WP_Hook->apply_filters('cruzdepiedrasf@...', Array)
+#2 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce/includes/emails/class-wc-email.php(399): apply_filters('woocommerce_ema...', 'cruzdepiedrasf@...', NULL, Object(WC_Email_New_Order))
+#3 /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce/includes/admin/settings/class-wc-settings-emails.php(328): WC_Email->get_recipient()
+#4 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/class-wp-hook.php(307): WC_Settings_Emails->email_notification_setting(Array)
+#5 /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/cl in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/Customs_emails_FDP/custom_emails_fdp.php on line 27
+[01-Apr-2022 03:04:56 UTC] total_sales was called incorrectly. No se debería acceder a las propiedades del producto directamente. Backtrace: do_action('wp_ajax_inline-save'), WP_Hook->do_action, WP_Hook->apply_filters, wp_ajax_inline_save, WP_Posts_List_Table->display_rows, WP_Posts_List_Table->_display_rows, WP_Posts_List_Table->single_row, WP_List_Table->single_row_columns, WP_Posts_List_Table->column_default, do_action('manage_product_posts_custom_column'), WP_Hook->do_action, WP_Hook->apply_filters, wpso23858236_product_column_offercode, WC_Abstract_Legacy_Product->__get, wc_doing_it_wrong. This message was added in version 3.0.
+[01-Apr-2022 03:04:56 UTC] sku was called incorrectly. No se debería acceder a las propiedades del producto directamente. Backtrace: do_action('wp_ajax_inline-save'), WP_Hook->do_action, WP_Hook->apply_filters, wp_ajax_inline_save, WP_Posts_List_Table->display_rows, WP_Posts_List_Table->_display_rows, WP_Posts_List_Table->single_row, WP_List_Table->single_row_columns, WP_Posts_List_Table->column_default, do_action('manage_product_posts_custom_column'), WP_Hook->do_action, WP_Hook->apply_filters, wpso23858236_product_column_offercode, WC_Abstract_Legacy_Product->__get, wc_doing_it_wrong. This message was added in version 3.0.
+[01-Apr-2022 03:04:56 UTC] id was called incorrectly. No se debería acceder a las propiedades del producto directamente. Backtrace: do_action('wp_ajax_inline-save'), WP_Hook->do_action, WP_Hook->apply_filters, wp_ajax_inline_save, WP_Posts_List_Table->display_rows, WP_Posts_List_Table->_display_rows, WP_Posts_List_Table->single_row, WP_List_Table->single_row_columns, WP_Posts_List_Table->column_default, do_action('manage_product_posts_custom_column'), WP_Hook->do_action, WP_Hook->apply_filters, wpso23858236_product_column_offercode, WC_Abstract_Legacy_Product->__get, wc_doing_it_wrong. This message was added in version 3.0.
+[01-Apr-2022 03:04:56 UTC] sku was called incorrectly. No se debería acceder a las propiedades del producto directamente. Backtrace: do_action('wp_ajax_inline-save'), WP_Hook->do_action, WP_Hook->apply_filters, wp_ajax_inline_save, WP_Posts_List_Table->display_rows, WP_Posts_List_Table->_display_rows, WP_Posts_List_Table->single_row, WP_List_Table->single_row_columns, WP_Posts_List_Table->column_default, do_action('manage_product_posts_custom_column'), WP_Hook->do_action, WP_Hook->apply_filters, wpso23858236_product_column_offercode, WC_Abstract_Legacy_Product->__get, wc_doing_it_wrong. This message was added in version 3.0.
+[01-Apr-2022 03:04:56 UTC] stock was called incorrectly. No se debería acceder a las propiedades del producto directamente. Backtrace: do_action('wp_ajax_inline-save'), WP_Hook->do_action, WP_Hook->apply_filters, wp_ajax_inline_save, WP_Posts_List_Table->display_rows, WP_Posts_List_Table->_display_rows, WP_Posts_List_Table->single_row, WP_List_Table->single_row_columns, WP_Posts_List_Table->column_default, do_action('manage_product_posts_custom_column'), WP_Hook->do_action, WP_Hook->apply_filters, wpso23858236_product_column_offercode, WC_Abstract_Legacy_Product->__get, wc_doing_it_wrong. This message was added in version 3.0.

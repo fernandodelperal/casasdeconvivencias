@@ -1,30 +1,33 @@
 <script type="text/javascript">
-  window._nsl.push(function ($) {
-      $(document).ready(function () {
-          var $main = $('#nsl-custom-login-form-main');
+    window._nslDOMReady(function () {
+        var container = document.getElementById('nsl-custom-login-form-main'),
+            form = document.querySelector('#loginform,#registerform,#front-login-form,#setupform');
 
-          $main.find('.nsl-container')
-              .addClass('nsl-container-login-layout-below')
-              .css('display', 'block');
+        if (!form) {
+            form = container.closest('form');
+            if (!form) {
+                form = container.parentNode;
+            }
+        }
 
+        var innerContainer = container.querySelector('.nsl-container');
+        if (innerContainer) {
+            innerContainer.classList.add('nsl-container-login-layout-below');
+            innerContainer.style.display = 'block';
+        }
 
-          var $jetpackSSO = $('#jetpack-sso-wrap__action');
-          if ($jetpackSSO.length) {
-              $jetpackSSO
-                  .append($main.clone().attr('id', 'nsl-custom-login-form-jetpack-sso'));
+        var jetpackSSO = document.getElementById('jetpack-sso-wrap');
+        if (jetpackSSO) {
+            form = jetpackSSO;
+        } else {
+            if (form.parentNode.classList.contains('tml')) {
+                form = form.parentNode;
+            }
+        }
 
-              $main.insertBefore('#jetpack-sso-wrap');
-          } else {
-              var $form = $('#loginform,#registerform,#front-login-form,#setupform');
+        form.appendChild(container);
 
-              if ($form.parent().hasClass('tml')) {
-                  $form = $form.parent();
-              }
-
-              $main.appendTo($form);
-          }
-      });
-  });
+    });
 </script>
 <style type="text/css">
     #nsl-custom-login-form-main .nsl-container {
@@ -45,10 +48,3 @@
         padding: 0 0 20px;
     }
 </style>
-<noscript>
-    <style>
-        #nsl-custom-login-form-main .nsl-container {
-            display: block;
-        }
-    </style>
-</noscript>

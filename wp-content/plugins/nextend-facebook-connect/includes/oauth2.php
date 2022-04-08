@@ -1,5 +1,7 @@
 <?php
 
+use NSL\Persistent\Persistent;
+
 require_once NSL_PATH . '/includes/auth.php';
 
 
@@ -22,9 +24,9 @@ abstract class NextendSocialOauth2 extends NextendSocialAuth {
     protected $scopes = array();
 
     public function checkError() {
-        if (isset($_GET['error']) && isset($_GET['error_description'])) {
+        if (isset($_REQUEST['error']) && isset($_REQUEST['error_description'])) {
             if ($this->validateState()) {
-                throw new Exception($_GET['error'] . ': ' . htmlspecialchars_decode($_GET['error_description']));
+                throw new Exception($_REQUEST['error'] . ': ' . htmlspecialchars_decode($_REQUEST['error_description']));
             }
         }
     }
@@ -81,6 +83,8 @@ abstract class NextendSocialOauth2 extends NextendSocialAuth {
         if (count($scopes)) {
             $args['scope'] = urlencode($this->formatScopes($scopes));
         }
+
+        $args = apply_filters('nsl_' . $this->providerID . '_auth_url_args', $args);
 
         return add_query_arg($args, $this->getEndpointAuthorization());
     }
@@ -139,6 +143,8 @@ abstract class NextendSocialOauth2 extends NextendSocialAuth {
                 throw new Exception(sprintf(__('Unexpected response: %s', 'nextend-facebook-connect'), wp_remote_retrieve_body($request)));
             }
 
+            $accessTokenData = $this->extendAccessTokenData($accessTokenData);
+
             $accessTokenData['created'] = time();
 
             $this->access_token_data = $accessTokenData;
@@ -161,7 +167,7 @@ abstract class NextendSocialOauth2 extends NextendSocialAuth {
     }
 
     public function deleteLoginPersistentData() {
-        \NSL\Persistent\Persistent::delete($this->providerID . '_state');
+        Persistent::delete($this->providerID . '_state');
     }
 
     /**
@@ -170,7 +176,7 @@ abstract class NextendSocialOauth2 extends NextendSocialAuth {
      * @return bool
      */
     protected function validateState() {
-        $this->state = \NSL\Persistent\Persistent::get($this->providerID . '_state');
+        $this->state = Persistent::get($this->providerID . '_state');
         if ($this->state === false) {
             return false;
         }
@@ -192,11 +198,11 @@ abstract class NextendSocialOauth2 extends NextendSocialAuth {
      * @return bool|mixed|null|string
      */
     protected function getState() {
-        $this->state = \NSL\Persistent\Persistent::get($this->providerID . '_state');
+        $this->state = Persistent::get($this->providerID . '_state');
         if ($this->state === null) {
             $this->state = $this->generateRandomState();
 
-            \NSL\Persistent\Persistent::set($this->providerID . '_state', $this->state);
+            Persistent::set($this->providerID . '_state', $this->state);
         }
 
         return $this->state;
@@ -305,5 +311,18 @@ abstract class NextendSocialOauth2 extends NextendSocialAuth {
     protected function extendAllHttpArgs($http_args) {
 
         return $http_args;
+    }
+
+    /**
+     * @param $access_token_data
+     *
+     *  Can be used for adding additional data into the access_token_data array or modifying its structure
+     *  if the format is wrong.
+     *
+     * @return mixed
+     */
+    protected function extendAccessTokenData($access_token_data) {
+
+        return $access_token_data;
     }
 }
