@@ -93,6 +93,7 @@ tr.strikeout {
 			  <tr>
 			    <th>No</th>
 			    <th>Nombre</th>
+				<th>Email</th>
 			    <th>Estado del Pago</th>
 			    <th>Forma de Pago</th>
 			    <th>Actividad</th>
@@ -151,6 +152,8 @@ tr.strikeout {
 			    	?>
 				</td>
 			    <td><?php echo  $order->billing_first_name. ' ' . $order->billing_last_name;?>
+				</td>
+				<td><?php echo  $order->billing_email;?>
 				</td>
 				<td><?php
 					echo esc_html( wc_get_order_status_name( $order->get_status() ) );
