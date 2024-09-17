@@ -172,24 +172,14 @@ function checkWebView() {
 }
 
 function isAllowedWebViewForUserAgent(provider) {
-    var googleAllowedWebViews = [
-        'Instagram',
-        'FBAV',
-        'FBAN',
-        'Line',
-    ], facebookAllowedWebViews = [
+    var facebookAllowedWebViews = [
         'Instagram',
         'FBAV',
         'FBAN'
     ], whitelist = [];
 
-    switch (provider) {
-        case 'facebook':
-            whitelist = facebookAllowedWebViews;
-            break;
-        case 'google':
-            whitelist = googleAllowedWebViews;
-            break;
+    if (provider && provider === 'facebook') {
+        whitelist = facebookAllowedWebViews;
     }
 
     var nav = window.navigator || {};
@@ -289,10 +279,13 @@ window._nslDOMReady(function () {
         });
     });
 
+    let hasWebViewLimitation = false;
+
     var googleLoginButtons = document.querySelectorAll(' a[data-plugin="nsl"][data-provider="google"]');
-    if (googleLoginButtons.length && checkWebView() && !isAllowedWebViewForUserAgent('google')) {
+    if (googleLoginButtons.length && checkWebView()) {
         googleLoginButtons.forEach(function (googleLoginButton) {
             googleLoginButton.remove();
+            hasWebViewLimitation = true;
         });
     }
 
@@ -300,6 +293,21 @@ window._nslDOMReady(function () {
     if (facebookLoginButtons.length && checkWebView() && /Android/.test(window.navigator.userAgent) && !isAllowedWebViewForUserAgent('facebook')) {
         facebookLoginButtons.forEach(function (facebookLoginButton) {
             facebookLoginButton.remove();
+            hasWebViewLimitation = true;
         });
+    }
+
+
+    const separators = document.querySelectorAll('div.nsl-separator');
+    if (hasWebViewLimitation && separators.length) {
+        separators.forEach(function (separator) {
+            let separatorParentNode = separator.parentNode;
+            if (separatorParentNode) {
+                const separatorButtonContainer = separatorParentNode.querySelector('div.nsl-container-buttons');
+                if (separatorButtonContainer && !separatorButtonContainer.hasChildNodes()) {
+                    separator.remove();
+                }
+            }
+        })
     }
 });

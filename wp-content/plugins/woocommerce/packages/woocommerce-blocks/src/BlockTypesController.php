@@ -62,9 +62,6 @@ final class BlockTypesController {
 			$block_type_instance = new $block_type_class( $this->asset_api, $this->asset_data_registry, new IntegrationRegistry() );
 		}
 
-		foreach ( self::get_atomic_blocks() as $block_type ) {
-			$block_type_instance = new AtomicBlock( $this->asset_api, $this->asset_data_registry, new IntegrationRegistry(), $block_type );
-		}
 	}
 
 	/**
@@ -141,7 +138,17 @@ final class BlockTypesController {
 	 * @return array $widget_types An array inluding the WooCommerce widgets to hide.
 	 */
 	public function hide_legacy_widgets_with_block_equivalent( $widget_types ) {
-		array_push( $widget_types, 'woocommerce_product_search', 'woocommerce_product_categories', 'woocommerce_recent_reviews' );
+		array_push(
+			$widget_types,
+			'woocommerce_product_search',
+			'woocommerce_product_categories',
+			'woocommerce_recent_reviews',
+			'woocommerce_product_tag_cloud',
+			'woocommerce_price_filter',
+			'woocommerce_layered_nav',
+			'woocommerce_layered_nav_filters'
+		);
+
 		return $widget_types;
 	}
 
@@ -151,7 +158,7 @@ final class BlockTypesController {
 	 * @return array
 	 */
 	protected function get_block_types() {
-		global $wp_version, $pagenow;
+		global $pagenow;
 
 		$block_types = [
 			'AllReviews',
@@ -174,10 +181,21 @@ final class BlockTypesController {
 			'AttributeFilter',
 			'StockFilter',
 			'ActiveFilters',
-			'LegacyTemplate',
-			'ProductTitle',
-			'ProductSummary',
+			'ClassicTemplate',
+			'ProductAddToCart',
+			'ProductButton',
+			'ProductCategoryList',
+			'ProductImage',
+			'ProductPrice',
+			'ProductRating',
+			'ProductSaleBadge',
+			'ProductSKU',
 			'ProductStockIndicator',
+			'ProductSummary',
+			'ProductTagList',
+			'ProductTitle',
+			'MiniCart',
+			'MiniCartContents',
 		];
 
 		if ( Package::feature()->is_feature_plugin_build() ) {
@@ -187,8 +205,6 @@ final class BlockTypesController {
 
 		if ( Package::feature()->is_experimental_build() ) {
 			$block_types[] = 'SingleProduct';
-			$block_types[] = 'MiniCart';
-			$block_types[] = 'MiniCartContents';
 		}
 
 		/**
@@ -199,12 +215,34 @@ final class BlockTypesController {
 				$block_types,
 				[
 					'AllProducts',
-					'PriceFilter',
-					'AttributeFilter',
-					'StockFilter',
-					'ActiveFilters',
 					'Cart',
 					'Checkout',
+				]
+			);
+		}
+
+		/**
+		 * This disables specific blocks in Widget Areas by not registering them.
+		 */
+		if ( in_array( $pagenow, [ 'widgets.php', 'themes.php', 'customize.php' ], true ) && ( empty( $_GET['page'] ) || 'gutenberg-edit-site' !== $_GET['page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			$block_types = array_diff(
+				$block_types,
+				[
+					'AllProducts',
+					'Cart',
+					'Checkout',
+				]
+			);
+		}
+
+		/**
+		 * This disables specific blocks in Post and Page editor by not registering them.
+		 */
+		if ( in_array( $pagenow, [ 'post.php', 'post-new.php' ], true ) ) {
+			$block_types = array_diff(
+				$block_types,
+				[
+					'ClassicTemplate',
 				]
 			);
 		}
@@ -212,22 +250,4 @@ final class BlockTypesController {
 		return $block_types;
 	}
 
-	/**
-	 * Get atomic blocks types.
-	 *
-	 * @return array
-	 */
-	protected function get_atomic_blocks() {
-		return [
-			'product-button',
-			'product-image',
-			'product-price',
-			'product-rating',
-			'product-sale-badge',
-			'product-sku',
-			'product-category-list',
-			'product-tag-list',
-			'product-add-to-cart',
-		];
-	}
 }

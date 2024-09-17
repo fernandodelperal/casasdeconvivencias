@@ -35,3 +35,30 @@ Stack trace:
 #6 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/admin.php(34): require_once('/home/huerqrts/...')
 #7 /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/network/admin.php(13): require_once('/home/huerqrts/...')
 #8 /home/ in /home/huerqrts/casasdeconvivencias.org.ar/wp-content/plugins/woocommerce-pay-for-payment/inc/class-pay4pay-admin.php on line 222
+[10-Feb-2023 18:39:17 UTC] PHP Warning:  Illegal string offset 'display_name' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 775
+[10-Feb-2023 18:39:17 UTC] PHP Warning:  Illegal string offset 'profile' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 781
+[10-Feb-2023 18:39:17 UTC] PHP Warning:  Illegal string offset 'avatar' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 782
+[10-Feb-2023 18:39:17 UTC] PHP Warning:  Illegal string offset 'display_name' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 775
+[10-Feb-2023 18:39:17 UTC] PHP Warning:  Illegal string offset 'profile' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 781
+[10-Feb-2023 18:39:17 UTC] PHP Warning:  Illegal string offset 'avatar' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 782
+[10-Feb-2023 18:39:17 UTC] PHP Warning:  Illegal string offset 'display_name' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 775
+[10-Feb-2023 18:39:17 UTC] PHP Warning:  Illegal string offset 'profile' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 781
+[10-Feb-2023 18:39:17 UTC] PHP Warning:  Illegal string offset 'avatar' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 782
+[10-Feb-2023 18:39:38 UTC] PHP Warning:  Illegal string offset 'display_name' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 775
+[10-Feb-2023 18:39:38 UTC] PHP Warning:  Illegal string offset 'profile' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 781
+[10-Feb-2023 18:39:38 UTC] PHP Warning:  Illegal string offset 'avatar' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 782
+[10-Feb-2023 18:39:38 UTC] PHP Warning:  Illegal string offset 'display_name' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 775
+[10-Feb-2023 18:39:38 UTC] PHP Warning:  Illegal string offset 'profile' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 781
+[10-Feb-2023 18:39:38 UTC] PHP Warning:  Illegal string offset 'avatar' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 782
+[10-Feb-2023 18:39:38 UTC] PHP Warning:  Illegal string offset 'display_name' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 775
+[10-Feb-2023 18:39:38 UTC] PHP Warning:  Illegal string offset 'profile' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 781
+[10-Feb-2023 18:39:38 UTC] PHP Warning:  Illegal string offset 'avatar' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 782
+[10-Feb-2023 18:39:56 UTC] PHP Warning:  Illegal string offset 'display_name' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 775
+[10-Feb-2023 18:39:56 UTC] PHP Warning:  Illegal string offset 'profile' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 781
+[10-Feb-2023 18:39:56 UTC] PHP Warning:  Illegal string offset 'avatar' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 782
+[10-Feb-2023 18:39:56 UTC] PHP Warning:  Illegal string offset 'display_name' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 775
+[10-Feb-2023 18:39:56 UTC] PHP Warning:  Illegal string offset 'profile' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 781
+[10-Feb-2023 18:39:56 UTC] PHP Warning:  Illegal string offset 'avatar' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 782
+[10-Feb-2023 18:39:56 UTC] PHP Warning:  Illegal string offset 'display_name' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 775
+[10-Feb-2023 18:39:56 UTC] PHP Warning:  Illegal string offset 'profile' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 781
+[10-Feb-2023 18:39:56 UTC] PHP Warning:  Illegal string offset 'avatar' in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/plugin-install.php on line 782

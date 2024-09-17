@@ -2,40 +2,40 @@
 # This file is distributed under the same license as the Plugins - Direct Checkout for WooCommerce - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-10-19 16:11:51+0000\n"
+"PO-Revision-Date: 2022-08-25 13:34:46+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/3.0.0-alpha.2\n"
+"X-Generator: GlotPress/4.0.0-alpha.1\n"
 "Language: es_MX\n"
 "Project-Id-Version: Plugins - Direct Checkout for WooCommerce - Stable (latest release)\n"
 
-#: includes/quadlayers/widget.php:71
+#: includes/quadlayers/widget.php:64
+msgid "<li><strong><a href=\"%1$s\" target=\"_blank\">%2$s</a></strong>%3$s%4$s</li>"
+msgstr "<li><strong><a href=\"%1$s\" target=\"_blank\">%2$s</a></strong>%3$s%4$s</li>"
+
+#: includes/quadlayers/widget.php:69
 msgid "<li>%s</li>"
 msgstr "<li>%s</li>"
 
-#: includes/quadlayers/widget.php:76
+#: includes/quadlayers/widget.php:75
 msgid "Read more like this on our blog"
 msgstr "Lee más como esto en nuestro blog"
-
-#: includes/quadlayers/widget.php:68
-msgid "<li><a href=\"%s\" target=\"_blank\">%s </a>%s%s%s</li>"
-msgstr "<li><a href=\"%s\" target=\"_blank\">%s</a> %s%s%s</li>"
 
 #: includes/quadlayers/widget.php:54
 msgid "Untitled"
 msgstr "Sin título"
 
-#: includes/quadlayers/widget.php:34
+#: includes/quadlayers/widget.php:32
 msgid "More products"
 msgstr "Más productos"
 
-#: includes/quadlayers/widget.php:33
+#: includes/quadlayers/widget.php:31
 msgid "Hi! We are Quadlayers! Welcome to QuadLayers! We’re a team of international people who have been working in the WordPress sphere for the last ten years."
 msgstr "¡Hola! ¡Somos QuadLayers! ¡Bienvenido a QuadLayers! Somos un equipo internacional de gente que ha estado trabajando en la esfera de WordPress durante los últimos diez años."
 
-#: includes/quadlayers/widget.php:20
+#: includes/quadlayers/widget.php:19
 msgid "QuadLayers News"
 msgstr "Noticias de QuadLayers"
 
@@ -122,7 +122,7 @@ msgstr "Añade productos al carrito mediante Ajax."
 msgid "Add ajax add to cart"
 msgstr "Añadir Ajax para «Añadir al carrito»"
 
-#: includes/controller/products.php:322
+#: includes/controller/products.php:322 includes/quadlayers/links.php:12
 #: includes/view/backend/pages/parts/header.php:9
 #: includes/view/backend/pages/parts/tabs.php:3
 msgid "Documentation"
@@ -136,23 +136,15 @@ msgstr "Direct Checkout for WooCommerce"
 msgid "The Quick purchase button allows you to include a direct button in the single products, variable, grouped and virtual products wich redirects user to the checkout page."
 msgstr "El botón de compra rápida te permite incluir un botón de compra directo en los productos individuales, variables, agrupados y productos virtuales que redirige tus usuarios a la página de finalizar compra."
 
-#: includes/notices.php:50
+#: includes/quadlayers/notices.php:84
 msgid "Yes, of course!"
 msgstr "Sí, desde luego :)"
 
-#: includes/notices.php:47
-msgid "Could you please give it a 5-star rating on WordPress? We know its a big favor, but we've worked very much and very hard to release this great product. Your feedback will boost our motivation and help us promote and continue to improve this product."
-msgstr "¿Podrías, por favor, darnos una calificación de 5 estrellas en WordPress? Sabemos que es un gran favor, pero hemos trabajado mucho y muy duro para lanzar este gran producto. Tus comentarios impulsarán nuestra motivación y nos ayudarán a promocionar y continuar mejorando este producto."
-
-#: includes/notices.php:45
+#: includes/quadlayers/notices.php:79
 msgid "Hello! Thank you for choosing the %s plugin!"
 msgstr "¡Hola! ¡Gracias por elegir el plugin %s!"
 
-#: includes/notices.php:85
-msgid "Settings"
-msgstr "Ajustes"
-
-#: includes/notices.php:53
+#: includes/quadlayers/notices.php:87
 msgid "Report a bug"
 msgstr "Informar de un error"
 
@@ -428,7 +420,7 @@ msgid "%s allows you to simplifies the checkout process by skipping the shopping
 msgstr "%s te permite simplificar el proceso de pagos omitiendo la página del carrito de compras. Este plugin te permite redirigir a tus clientes directamente a la página de finalizar compra e incluir el carrito dentro de la misma."
 
 #: includes/controller/premium.php:21 includes/controller/premium.php:34
-#: includes/notices.php:84 includes/view/backend/pages/premium.php:6
+#: includes/view/backend/pages/premium.php:6
 msgid "Premium"
 msgstr "Premium"
 
@@ -621,7 +613,7 @@ msgid "https://quadlayers.com"
 msgstr "https://quadlayers.com"
 
 #. Author of the plugin
-#: includes/quadlayers/widget.php:77
+#: includes/quadlayers/widget.php:76
 #: includes/view/backend/pages/parts/header.php:25
 msgid "QuadLayers"
 msgstr "QuadLayers"

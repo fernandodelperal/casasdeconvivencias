@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { createBlock, registerBlockType } from '@wordpress/blocks';
-import { Icon, list } from '@woocommerce/icons';
+import { Icon, listView } from '@wordpress/icons';
 
 import { isFeaturePluginBuild } from '@woocommerce/block-settings';
 /**
@@ -19,7 +19,7 @@ registerBlockType( 'woocommerce/product-categories', {
 	icon: {
 		src: (
 			<Icon
-				srcElement={ list }
+				icon={ listView }
 				className="wc-block-editor-components-block-icon"
 			/>
 		),
@@ -156,12 +156,8 @@ registerBlockType( 'woocommerce/product-categories', {
 				return attributes;
 			},
 			save( props ) {
-				const {
-					hasCount,
-					hasEmpty,
-					isDropdown,
-					isHierarchical,
-				} = props.attributes;
+				const { hasCount, hasEmpty, isDropdown, isHierarchical } =
+					props.attributes;
 				const data = {};
 				if ( hasCount ) {
 					data[ 'data-has-count' ] = true;

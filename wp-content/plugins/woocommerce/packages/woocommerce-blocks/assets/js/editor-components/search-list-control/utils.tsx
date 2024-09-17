@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { groupBy, keyBy, forEach } from 'lodash';
+import { groupBy, keyBy } from 'lodash';
 import { __, _n, sprintf } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
 
@@ -33,17 +33,18 @@ export const defaultMessages = {
 /**
  * Returns terms in a tree form.
  *
- * @param {Array} filteredList  Array of terms, possibly a subset of all terms, in flat format.
- * @param {Array} list  Array of the full list of terms, defaults to the filteredList.
+ * @param {Array} filteredList Array of terms, possibly a subset of all terms, in flat format.
+ * @param {Array} list         Array of the full list of terms, defaults to the filteredList.
  *
  * @return {Array} Array of terms in tree format.
  */
 export const buildTermsTree = (
 	filteredList: SearchListItemsType,
 	list = filteredList
-): SearchListItemType[] | [  ] => {
+): SearchListItemType[] | [] => {
 	const termsByParent = groupBy( filteredList, 'parent' );
 	const listById = keyBy( list, 'id' );
+	const builtParents = [ '0' ];
 
 	const getParentsName = ( term = {} as SearchListItemType ): string[] => {
 		if ( ! term.parent ) {
@@ -61,7 +62,7 @@ export const buildTermsTree = (
 	} )[] => {
 		return terms.map( ( term ) => {
 			const children = termsByParent[ term.id ];
-			delete termsByParent[ term.id ];
+			builtParents.push( '' + term.id );
 			return {
 				...term,
 				breadcrumbs: getParentsName( listById[ term.parent ] ),
@@ -74,11 +75,12 @@ export const buildTermsTree = (
 	};
 
 	const tree = fillWithChildren( termsByParent[ '0' ] || [] );
-	delete termsByParent[ '0' ];
 
-	// anything left in termsByParent has no visible parent
-	forEach( termsByParent, ( terms ) => {
-		tree.push( ...fillWithChildren( terms || [] ) );
+	// Handle remaining items in termsByParent that have not been built (orphaned).
+	Object.entries( termsByParent ).forEach( ( [ termId, terms ] ) => {
+		if ( ! builtParents.includes( termId ) ) {
+			tree.push( ...fillWithChildren( terms || [] ) );
+		}
 	} );
 
 	return tree;
@@ -88,7 +90,7 @@ export const getFilteredList = (
 	list: SearchListItemsType,
 	search: string,
 	isHierarchical: boolean
-): SearchListItemType[] | [  ] => {
+): SearchListItemType[] | [] => {
 	if ( ! search ) {
 		return isHierarchical ? buildTermsTree( list ) : list;
 	}

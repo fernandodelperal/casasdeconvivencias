@@ -76,3 +76,83 @@ Stack trace:
 Stack trace:
 #0 {main}
   thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/deprecated.php on line 1530
+[07-Jul-2023 19:14:26 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function load_textdomain() in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/admin.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/admin.php on line 16
+[07-Jul-2023 19:14:46 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function load_textdomain() in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/admin.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/admin.php on line 16
+[07-Jul-2023 23:53:14 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function load_textdomain() in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/admin.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/admin.php on line 16
+[07-Jul-2023 23:53:27 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function load_textdomain() in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/admin.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/admin.php on line 16
+[08-Jul-2023 03:18:22 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function load_textdomain() in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/admin.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/admin.php on line 16
+[08-Jul-2023 03:18:27 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function load_textdomain() in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/admin.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/admin.php on line 16
+[02-Sep-2023 05:30:42 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function load_textdomain() in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/admin.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/admin.php on line 16
+[04-Sep-2023 15:38:43 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function load_textdomain() in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/admin.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/admin.php on line 16
+[06-Sep-2023 01:38:30 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function load_textdomain() in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/admin.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/admin.php on line 16
+[06-Sep-2023 01:38:30 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function load_textdomain() in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/admin.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/admin.php on line 16
+[15-Sep-2023 04:06:53 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function load_textdomain() in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/admin.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/admin.php on line 16
+[15-Sep-2023 04:07:12 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function load_textdomain() in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/admin.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/admin.php on line 16
+[28-Dec-2023 16:14:44 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function __() in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/file.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/file.php on line 16
+[28-Dec-2023 18:34:11 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function __() in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/file.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/file.php on line 16
+[22-Apr-2024 22:10:24 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function __() in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/file.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/file.php on line 16
+[31-Jul-2024 02:24:06 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function __() in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/file.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/file.php on line 16
+[03-Aug-2024 09:34:07 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function __() in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/file.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/file.php on line 16
+[10-Aug-2024 09:26:21 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function __() in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/file.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/file.php on line 16
+[15-Aug-2024 12:55:32 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function __() in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/file.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/file.php on line 16
+[15-Aug-2024 23:22:18 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function __() in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/file.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-admin/includes/file.php on line 16

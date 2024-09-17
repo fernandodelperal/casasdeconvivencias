@@ -18,3 +18,7 @@ Stack trace:
 Stack trace:
 #0 {main}
   thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/theme-compat/header.php on line 9
+[01-Dec-2023 01:02:22 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function _deprecated_file() in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/theme-compat/comments.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/theme-compat/comments.php on line 9
