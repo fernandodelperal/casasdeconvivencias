@@ -94,6 +94,7 @@ tr.strikeout {
 			    <th>No</th>
 			    <th>Nombre</th>
 				<th>Email</th>
+			    <th>Teléfono</th>
 			    <th>Estado del Pago</th>
 			    <th>Forma de Pago</th>
 			    <th>Actividad</th>
@@ -151,11 +152,10 @@ tr.strikeout {
 					}
 			    	?>
 				</td>
-			    <td><?php echo  $order->billing_first_name. ' ' . $order->billing_last_name;?>
-				</td>
-				<td><?php echo  $order->billing_email;?>
-				</td>
-				<td><?php
+			    <td><?php echo  $order->billing_first_name. ' ' . $order->billing_last_name;?></td>
+			    <td><?php echo  $order->billing_email;?></td>
+			    <td><?php echo  $order->billing_phone;?></td>
+			    <td><?php
 					echo esc_html( wc_get_order_status_name( $order->get_status() ) );
 
 					if ($order->payment_method == 'woo-mercado-pago-basic') {
@@ -184,16 +184,11 @@ tr.strikeout {
 					?>
 				</td>
 				</td>
-				<td><?php echo wp_kses_post( $order->get_payment_method_title() );?>
-				</td>
-				<td><?php echo get_post_meta( $order->id, 'Actividad', true )?>
-				</td>
-				<td><?php echo get_post_meta( $order->id, 'Régimen_especial', true )?>
-				</td>
-				<td><?php echo get_post_meta( $order->id, 'Llega_tarde', true )?>
-				</td>
-				<td><?php echo get_post_meta( $order->id, 'Comentarios', true );?>
-				</td>
+				<td><?php echo wp_kses_post( $order->get_payment_method_title() );?></td>
+				<td><?php echo get_post_meta( $order->id, 'Actividad', true )?></td>
+				<td><?php echo get_post_meta( $order->id, 'Régimen_especial', true )?></td>
+				<td><?php echo get_post_meta( $order->id, 'Llega_tarde', true )?></td>
+				<td><?php echo get_post_meta( $order->id, 'Comentarios', true );?></td>
 
 			  </tr>
 
