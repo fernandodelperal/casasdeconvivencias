@@ -41,11 +41,11 @@ if ( ! class_exists( 'Virtue_Get_Image' ) ) {
 				$org_height = false;
 		        $image_attributes = wp_get_attachment_image_src( $id, 'full' );
 		        $sizes = image_resize_dimensions($image_attributes[1], $image_attributes[2], $width, null, false );
-		        $height = $sizes[5];
+				$height = ( isset( $sizes[5] ) ? $sizes[5] : '' );
 		    } else if(empty($width) ) {
 		        $image_attributes = wp_get_attachment_image_src( $id, 'full' );
 		        $sizes = image_resize_dimensions($image_attributes[1], $image_attributes[2], null, $height, false );
-		        $width = $sizes[4];
+				$width = ( isset( $sizes[4] ) ? $sizes[4] : '' );
 		    }
 		    // Now we checked for an ID, made sure the width and height have values lets check if we can make the size at all
 		    if ( self::virtue_image_size_larger_than_original( $id, $width, $height ) ) {

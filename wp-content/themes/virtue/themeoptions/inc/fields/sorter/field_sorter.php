@@ -7,7 +7,9 @@
 
     if ( ! class_exists( 'ReduxFramework_sorter' ) ) {
         class ReduxFramework_sorter {
-
+            public $parent;
+            public $field;
+            public $value;
             /**
              * Field Constructor.
              * Required - must call the parent constructor, then assign field and value to vars, and obviously call the render field function
@@ -163,12 +165,13 @@
 
                                 echo '<input class="sorter-placebo" type="hidden" name="' . esc_attr($this->field['name']) . '[' . $group . '][placebo]' . esc_attr($this->field['name_suffix']) . '" value="placebo">';
 
-                                if ( $key != "placebo" && ! is_array( $list ) ) {
-									//echo '<li id="' . $key . '" class="sortee">';
-									echo '<li id="sortee-' . esc_attr($key) . '" class="sortee" data-id="' . esc_attr($key) . '">';
-									echo '<input class="position ' . esc_attr($this->field['class']) . '" type="hidden" name="' . esc_attr($this->field['name'] . '[' . $group . '][' . $key . ']' . $this->field['name_suffix']) . '" value="' . esc_attr($list) . '">';
-									echo esc_html($list);
-									echo '</li>';
+								if ( $key != "placebo" && ! empty( $key ) ) {
+
+                                    //echo '<li id="' . $key . '" class="sortee">';
+                                    echo '<li id="sortee-' . esc_attr($key) . '" class="sortee" data-id="' . esc_attr($key) . '">';
+                                    echo '<input class="position ' . esc_attr($this->field['class']) . '" type="hidden" name="' . esc_attr($this->field['name'] . '[' . $group . '][' . $key . ']' . $this->field['name_suffix']) . '" value="' . esc_attr($list) . '">';
+                                    echo esc_html($list);
+                                    echo '</li>';
                                 }
                             }
 

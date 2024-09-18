@@ -83,7 +83,7 @@ function virtue_post_footer_meta() {
 }
 add_action( 'kadence_post_carousel_small_excerpt_footer', 'virtue_post_footer_meta_author', 30 );
 function virtue_post_footer_meta_author() {
-	echo '<span class="author vcard kt-hentry-hide" itemprop="author" content="'.get_the_author().'"><span class="fn">'.get_the_author().'</span></span>';
+	echo '<span class="author vcard kt-hentry-hide" itemprop="author" content="'.esc_attr( get_the_author() ).'"><span class="fn">'.get_the_author().'</span></span>';
 	echo '<span class="kt-hentry-hide updated">'.get_the_date().'</span>';
 }
 

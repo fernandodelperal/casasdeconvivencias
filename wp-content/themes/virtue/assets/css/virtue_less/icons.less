@@ -26,12 +26,13 @@
 /* FONT PATH
  * -------------------------- */
 @font-face {
-    font-family: 'FontAwesome';
-	  src:  url('fonts/kt-font-awesome.eot?t9jwae');
-	  src:  url('fonts/kt-font-awesome.eot?t9jwae#iefix') format('embedded-opentype'),
-	    url('fonts/kt-font-awesome.ttf?t9jwae') format('truetype'),
-	    url('fonts/kt-font-awesome.woff?t9jwae') format('woff'),
-	    url('fonts/kt-font-awesome.svg?t9jwae#kt-font-awesome') format('svg');
+  font-family: 'kt-font-awesome';
+  src:  url('fonts/kt-font-awesome.eot?7wxduc');
+  src:  url('fonts/kt-font-awesome.eot?7wxduc#iefix') format('embedded-opentype'),
+    url('fonts/kt-font-awesome.woff2?7wxduc') format('woff2'),
+    url('fonts/kt-font-awesome.ttf?7wxduc') format('truetype'),
+    url('fonts/kt-font-awesome.woff?7wxduc') format('woff'),
+    url('fonts/kt-font-awesome.svg?7wxduc#kt-font-awesome') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -39,7 +40,7 @@
  * -------------------------- */
 [class^="icon-"],
 [class*=" icon-"] {
-    font-family: FontAwesome;
+  font-family: 'kt-font-awesome';
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -53,7 +54,7 @@
 }
 [class^="kt-icon-"], [class*=" kt-icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'FontAwesome' !important;
+  font-family: 'kt-font-awesome' !important;
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -189,7 +190,12 @@ a [class*=" icon-"] {
 .icon-google-plus2:before {
     content: "\f0d5";
 }
-
+.icon-x:before {
+  content: "\e900";
+}
+.icon-twitter:before {
+  content: "\e900";
+}
 .icon-glass:before, .kt-icon-glass:before{
   content: "\f000";
 }
@@ -558,7 +564,7 @@ a [class*=" icon-"] {
   content: "\f080";
 }
 .icon-twitter-sign:before {
-  content: "\f081";
+  content: "\1d54f";
 }
 .icon-facebook-sign:before {
   content: "\f082";
@@ -628,7 +634,7 @@ a [class*=" icon-"] {
 .icon-phone-sign:before {
   content: "\f098";
 }
-.icon-twitter:before {
+.icon-twitter1:before {
   content: "\f099";
 }
 .icon-facebook:before {

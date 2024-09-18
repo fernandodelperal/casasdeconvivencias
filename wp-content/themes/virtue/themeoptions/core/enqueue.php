@@ -91,8 +91,10 @@
                 //*****************************************************************
                 // Spectrum CSS
                 //*****************************************************************
-
-                    $css_file = 'redux-spectrum.css';               
+                //$css_file = 'redux-spectrum.min.css';
+                //if ($this->parent->args['dev_mode']) {
+                    $css_file = 'redux-spectrum.css';
+                //}
                 
                 wp_register_style(
                     'redux-spectrum-css',
@@ -199,7 +201,7 @@
                 wp_register_script(
                     'redux-select2-sortable-js',
                     ReduxFramework::$_url . 'assets/js/vendor/redux.select2.sortable' . $this->min . '.js',
-                    array( 'jquery' ),
+                    array( 'jquery', 'jquery-ui-sortable' ),
                     $this->timestamp,
                     true
                 );
@@ -207,6 +209,7 @@
                 //*****************************************************************
                 // Select2 JS
                 //*****************************************************************
+                
                 
                 
                 Redux_CDN::register_script(
@@ -254,15 +257,16 @@
                 //*****************************************************************
                 // Vendor JS
                 //*****************************************************************
-                    wp_register_script(
-                        'redux-vendor',
-                        ReduxFramework::$_url . 'assets/js/vendor.min.js',
-                        array( 'jquery' ),
-                        $this->timestamp,
-                        true
-                    );
+                wp_register_script(
+                    'redux-vendor',
+                    ReduxFramework::$_url . 'assets/js/vendor.min.js',
+                    array( 'jquery' ),
+                    $this->timestamp,
+                    true
+                );
 
-                    array_push( $depArray, 'redux-vendor' );
+                array_push( $depArray, 'redux-vendor' );
+
 
                 //*****************************************************************
                 // Redux JS
@@ -311,6 +315,7 @@
                             if ( ! isset( $this->parent->options[ $field['id'] ] ) ) {
                                 $this->parent->options[ $field['id'] ] = "";
                             }
+
                             $theField = new $field_class( $field, $this->parent->options[ $field['id'] ], $this->parent );
 
                             // Move dev_mode check to a new if/then block

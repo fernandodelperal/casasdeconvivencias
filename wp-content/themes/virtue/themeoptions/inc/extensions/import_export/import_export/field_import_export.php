@@ -30,7 +30,12 @@
          * @since       1.0.0
          */
         class ReduxFramework_import_export extends ReduxFramework {
-
+            public $parent;
+            public $field;
+            public $value;
+            public $is_field;
+            public $extension_dir;
+            public $extension_url;
             /**
              * Field Constructor.
              * Required - must call the parent constructor, then assign field and value to vars, and obviously call the render field function
@@ -39,7 +44,7 @@
              * @access      public
              * @return      void
              */
-            function __construct( $field = array(), $value = '', $parent ) {
+            function __construct( $field = array(), $value = '', $parent = null ) {
 
                 $this->parent   = $parent;
                 $this->field    = $field;
@@ -70,8 +75,10 @@
              * @return      void
              */
             public function render() {
-
-                $secret = md5( md5( AUTH_KEY . SECURE_AUTH_KEY ) . '-' . $this->parent->args['opt_name'] );
+                $secret = '';
+                if ( defined( 'AUTH_KEY' ) && defined( 'SECURE_AUTH_KEY' ) ) {
+                    $secret = md5( md5( AUTH_KEY . SECURE_AUTH_KEY ) . '-' . $this->parent->args['opt_name'] );
+                }
 
                 // No errors please
                 $defaults = array(

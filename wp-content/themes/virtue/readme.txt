@@ -26,9 +26,45 @@ Yes, go here: https://www.kadencewp.com/kadence-themes-demo-content/
 
 Yes, go here: https://wordpress.org/support/theme/virtue
 
+= Where do I report security bugs found in this theme? =
+
+Please report security bugs found in the source code of the
+Virtue Theme through the Patchstack
+Vulnerability Disclosure Program https://patchstack.com/database/vdp/virtue. The
+Patchstack team will assist you with verification, CVE assignment, and
+notify the developers of this theme.
+
+== Security Policy ==
+
+= Reporting Security Bugs =
+Please report security bugs found in the
+Virtue theme's source code through the
+Patchstack Vulnerability Disclosure
+Program https://patchstack.com/database/vdp/virtue. The Patchstack team will
+assist you with verification, CVE assignment, and notify the
+developers of this theme.
+
 == Changelog ==
 
 = Theme Name: Virtue =
+
+= Version 3.4.10 | 23rd July 2024 =
+* Update: WC Templates
+* Update: PHP 8.2 deprecations
+
+= Version 3.4.9 | 24th April 2024 =
+* Update: WC Templates
+* Update: esc author name.
+* Update: X formerly twitter logo.
+
+= Version 3.4.8 | 15th June 2023 =
+* Update: WC Templates
+
+= Version 3.4.7 | 11th November 2022 =
+* Update: WC Templates
+* Update: PHP 8.1 deprecations
+* Fix: Lightbox conflict with block gallery.
+* Fix: Issue wth missing alt text on topbar icon images.
 
 = Version 3.4.6 | 17th January 2022 =
 * Update: WC Templates

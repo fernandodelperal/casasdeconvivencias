@@ -33,7 +33,11 @@ global $virtue;
 							}
                   			echo '<li><a href="'.esc_url( $top_icon[ 'link' ] ).'" target="'.esc_attr( $target ).'" title="'.esc_attr( $top_icon[ 'title' ] ).'" data-toggle="tooltip" data-placement="bottom" data-original-title="'.esc_attr( $top_icon[ 'title' ] ).'">';
 								if( ! empty( $top_icon[ 'url' ] ) ) {
-									echo '<img src="'.esc_url( $top_icon[ 'url' ] ).'"/>' ;
+									$alt = ( ! empty( $top_icon[ 'attachment_id' ] ) ? get_post_meta( $top_icon[ 'attachment_id' ], '_wp_attachment_image_alt', true ) : $top_icon[ 'description' ] );
+									if ( empty ( $alt ) ) {
+										$alt = $top_icon[ 'description' ];
+									}
+									echo '<img src="' . esc_url( $top_icon[ 'url' ] ) . '" alt="' . esc_attr( $alt ) . '" />';
 								} else {
 									echo '<i class="'.esc_attr( $top_icon[ 'icon_o' ] ).'"></i>';
 								}

@@ -181,7 +181,7 @@ function virtue_get_full_image_output( $width = null, $height = null, $crop = tr
 	}
 	if ( ! empty( $img['src'] ) && true == $schema ) {
 		$output  = '<div itemprop="image" itemscope itemtype="https://schema.org/ImageObject">';
-		$output .= '<img ' . wp_kses_post( $image_src_output ) . ' width="' . esc_attr( $img['width'] ) . '" height="' . esc_attr( $img['height'] ) . '" ' . wp_kses_post( $img['srcset'] ) . ' class="' . esc_attr( $img['class'] ) . '" itemprop="contentUrl" alt="' . esc_attr( $img['alt'] ) . '" ' . wp_kses_post( $extras ) . '>';
+		$output .= '<img ' . wp_kses_post( $image_src_output ) . ' width="' . esc_attr( $img['width'] ) . '" height="' . esc_attr( $img['height'] ) . '" ' . ( ! empty( $img['srcset'] ) ? wp_kses_post( $img['srcset'] ) : '' ) . ' class="' . esc_attr( $img['class'] ) . '" itemprop="contentUrl" alt="' . esc_attr( $img['alt'] ) . '" ' . ( ! empty( $extras ) ? wp_kses_post( $extras ) : '' ) . '>';
 		$output .= '<meta itemprop="url" content="' . esc_url( $img['src'] ) . '">';
 		$output .= '<meta itemprop="width" content="' . esc_attr( $img['width'] ) . 'px">';
 		$output .= '<meta itemprop="height" content="' . esc_attr( $img['height'] ) . 'px">';
@@ -189,7 +189,7 @@ function virtue_get_full_image_output( $width = null, $height = null, $crop = tr
 		return $output;
 
 	} elseif ( ! empty( $img['src'] ) ) {
-		return '<img ' . wp_kses_post( $image_src_output ) . ' width="' . esc_attr( $img['width'] ) . '" height="' . esc_attr( $img['height'] ) . '" ' . wp_kses_post( $img['srcset'] ) . ' class="' . esc_attr( $img['class'] ) . '" alt="' . esc_attr( $img['alt'] ) . '" ' . wp_kses_post( $extras ) . '>';
+		return '<img ' . wp_kses_post( $image_src_output ) . ' width="' . esc_attr( $img['width'] ) . '" height="' . esc_attr( $img['height'] ) . '" ' . ( ! empty( $img['srcset'] ) ? wp_kses_post( $img['srcset'] ) : '' ) . ' class="' . esc_attr( $img['class'] ) . '" alt="' . esc_attr( $img['alt'] ) . '" ' . ( ! empty( $extras ) ? wp_kses_post( $extras ) : '' ) . '>';
 	} else {
 		return null;
 	}

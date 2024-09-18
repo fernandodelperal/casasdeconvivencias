@@ -1,49 +1,99 @@
 <?php
 
 /**
- * Plugin Name: Direct Checkout for WooCommerce
- * Plugin URI:  https://quadlayers.com/documentation/woocommerce-direct-checkout/
- * Description: Simplifies the checkout process to improve your sales rate.
- * Version:     2.6.7
- * Author:      QuadLayers
- * Author URI:  https://quadlayers.com
- * License: GPLv3
- * Text Domain: woocommerce-direct-checkout
- * WC requires at least: 3.1.0
- * WC tested up to: 6.8
+ * Plugin Name:             WooCommerce Direct Checkout
+ * Plugin URI:              https://quadlayers.com/products/woocommerce-direct-checkout/
+ * Description:             Simplifies the checkout process to improve your sales rate.
+ * Version:                 3.3.9
+ * Text Domain:             woocommerce-direct-checkout
+ * Author:                  QuadLayers
+ * Author URI:              https://quadlayers.com
+ * License:                 GPLv3
+ * Domain Path:             /languages
+ * Request at least:        4.7
+ * Tested up to:            6.6
+ * Requires PHP:            5.6
+ * WC requires at least:    4.0
+ * WC tested up to:         9.2
  */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
-define( 'QLWCDC_PLUGIN_NAME', 'Direct Checkout for WooCommerce' );
-define( 'QLWCDC_PLUGIN_VERSION', '2.6.7' );
+/**
+ * Definition globals varibles
+ */
+define( 'QLWCDC_PLUGIN_NAME', 'WooCommerce Direct Checkout' );
+define( 'QLWCDC_PLUGIN_VERSION', '3.3.9' );
 define( 'QLWCDC_PLUGIN_FILE', __FILE__ );
 define( 'QLWCDC_PLUGIN_DIR', __DIR__ . DIRECTORY_SEPARATOR );
 define( 'QLWCDC_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'QLWCDC_PREFIX', 'qlwcdc' );
-define( 'QLWCDC_DOMAIN', QLWCDC_PREFIX );
 define( 'QLWCDC_WORDPRESS_URL', 'https://wordpress.org/plugins/woocommerce-direct-checkout/' );
-define( 'QLWCDC_REVIEW_URL', 'https://wordpress.org/support/plugin/woocommerce-direct-checkout/reviews/?filter=5#new-post' );
-define( 'QLWCDC_DEMO_URL', 'https://quadlayers.com/woocommerce-direct?utm_source=qlwcdc_admin' );
 define( 'QLWCDC_DOCUMENTATION_URL', 'https://quadlayers.com/documentation/woocommerce-direct-checkout/?utm_source=qlwcdc_admin' );
-define( 'QLWCDC_PURCHASE_URL', 'https://quadlayers.com/portfolio/woocommerce-direct-checkout/?utm_source=qlwcdc_admin' );
 define( 'QLWCDC_SUPPORT_URL', 'https://quadlayers.com/account/support/?utm_source=qlwcdc_admin' );
-define( 'QLWCDC_GROUP_URL', 'https://www.facebook.com/groups/quadlayers' );
+define( 'QLWCDC_DEMO_URL', 'https://quadlayers.com/woocommerce-direct-checkout/?utm_source=qlwcdc_admin' );
+define( 'QLWCDC_PREMIUM_SELL_URL', 'https://quadlayers.com/products/woocommerce-direct-checkout/?utm_source=qlwcdc_admin' );
 
-define( 'QLWCDC_PREMIUM_SELL_SLUG', 'woocommerce-direct-checkout-pro' );
-define( 'QLWCDC_PREMIUM_SELL_NAME', 'WooCommerce Direct Checkout' );
-define( 'QLWCDC_PREMIUM_SELL_URL', 'https://quadlayers.com/portfolio/woocommerce-direct-checkout/?utm_source=qlwcdc_admin' );
+/**
+ * Load composer autoload
+ */
+require_once __DIR__ . '/vendor/autoload.php';
+/**
+ * Load vendor_packages packages
+ */
+require_once __DIR__ . '/vendor_packages/wp-i18n-map.php';
+require_once __DIR__ . '/vendor_packages/wp-dashboard-widget-news.php';
+require_once __DIR__ . '/vendor_packages/wp-plugin-table-links.php';
+require_once __DIR__ . '/vendor_packages/wp-notice-plugin-required.php';
+require_once __DIR__ . '/vendor_packages/wp-notice-plugin-promote.php';
+require_once __DIR__ . '/vendor_packages/wp-plugin-suggestions.php';
+require_once __DIR__ . '/vendor_packages/wp-plugin-install-tab.php';
+/**
+ * Load plugin classes
+ */
+require_once __DIR__ . '/lib/class-plugin.php';
+/**
+ * Plugin activation hook
+ */
+register_activation_hook(
+	__FILE__,
+	function() {
+		do_action( 'wcdc_activation' );
+	}
+);
 
-define( 'QLWCDC_CROSS_INSTALL_SLUG', 'woocommerce-checkout-manager' );
-define( 'QLWCDC_CROSS_INSTALL_NAME', 'Checkout Manager' );
-define( 'QLWCDC_CROSS_INSTALL_DESCRIPTION', esc_html__( 'Checkout Field Manager( Checkout Manager ) for WooCommerce allows you to add custom fields to the checkout page, related to billing, Shipping or Additional fields sections.', 'woocommerce-direct-checkout' ) );
-define( 'QLWCDC_CROSS_INSTALL_URL', 'https://quadlayers.com/portfolio/woocommerce-checkout-manager/?utm_source=qlwcdc_admin' );
+/**
+ * Plugin activation hook
+ */
+register_deactivation_hook(
+	__FILE__,
+	function() {
+		do_action( 'wcdc_deactivation' );
+	}
+);
 
-if ( ! class_exists( 'QLWCDC' ) ) {
-	include_once QLWCDC_PLUGIN_DIR . 'includes/qlwcdc.php';
-}
+/**
+ * Declare compatibility with WooCommerce Custom Order Tables.
+ */
+add_action(
+	'before_woocommerce_init',
+	function() {
+		if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+		}
+	}
+);
 
-require_once QLWCDC_PLUGIN_DIR . 'includes/quadlayers/widget.php';
-require_once QLWCDC_PLUGIN_DIR . 'includes/quadlayers/notices.php';
-require_once QLWCDC_PLUGIN_DIR . 'includes/quadlayers/links.php';
+/**
+ * Declare incompatibility with WooCommerce Cart & Checkout Blocks.
+ */
+add_action(
+	'before_woocommerce_init',
+	function() {
+		if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'cart_checkout_blocks', __FILE__, false );
+		}
+	}
+);

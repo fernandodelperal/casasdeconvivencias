@@ -40,6 +40,7 @@
             public static $theInstance;
             public static $version = "4.0";
             public $is_field = false;
+            public $field_name = '';
 
             /**
              * Class Constructor. Defines the args for the extions class
@@ -129,6 +130,10 @@
             }
 
             function link_options() {
+                if ( ! defined( 'AUTH_KEY' ) || ! defined( 'SECURE_AUTH_KEY' ) ) {
+                    wp_die( 'Failed WordPress salts not defined in config.' );
+                    exit;
+                }
                 if ( ! isset( $_GET['secret'] ) || $_GET['secret'] != md5( md5( AUTH_KEY . SECURE_AUTH_KEY ) . '-' . $this->parent->args['opt_name'] ) ) {
                     wp_die( 'Invalid Secret for options use' );
                     exit;
@@ -146,6 +151,10 @@
             }
 
             public function download_options() {
+                if ( ! defined( 'AUTH_KEY' ) || ! defined( 'SECURE_AUTH_KEY' ) ) {
+                    wp_die( 'Failed WordPress salts not defined in config.' );
+                    exit;
+                }
                 if ( ! isset( $_GET['secret'] ) || $_GET['secret'] != md5( md5( AUTH_KEY . SECURE_AUTH_KEY ) . '-' . $this->parent->args['opt_name'] ) ) {
                     wp_die( 'Invalid Secret for options use' );
                     exit;

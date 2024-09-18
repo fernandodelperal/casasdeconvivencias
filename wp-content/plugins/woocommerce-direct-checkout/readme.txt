@@ -1,26 +1,29 @@
 ﻿=== Direct Checkout for WooCommerce ===
 Contributors: quadlayers
-Donate link: https://quadlayers.com/portfolio/woocommerce-direct-checkout/
-Tags: woocommerce, woocommerce ajax, woocommerce ajax cart, add to cart, woocommerce direct checkout, woocommerce quick buy, woocommerce remove checkout fields, woocommerce ajax single products, woocommerce one page checkout
-Requires at least: 4.6
-Tested up to: 6.0
-Stable tag: 2.6.7
-WC requires at least: 3.1.0
-WC tested up to: 6.8
+Donate link: https://quadlayers.com/products/woocommerce-direct-checkout/
+Tags: woocommerce ajax, woocommerce ajax cart, woocommerce direct checkout, woocommerce quick buy, woocommerce one page checkout
+Requires at least: 4.7
+Requires PHP: 5.6
+Tested up to: 6.6
+Stable tag: 3.3.9
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
+WC requires at least: 4.0
+WC tested up to: 9.2
 
 Formerly "WooCommerce Direct Checkout". This plugin simplifies the entire WooCommerce checkout process to improve your sales rate.
 
-== Presentation ==
+== Description ==
 
-[Premium](https://quadlayers.com/portfolio/woocommerce-direct-checkout/) | [Demo](https://quadlayers.com/woocommerce-direct/) | [Documentation](https://quadlayers.com/documentation/woocommerce-direct-checkout/) | [Community](https://www.facebook.com/groups/quadlayers/)
+[Premium](https://quadlayers.com/products/woocommerce-direct-checkout/) | [Demo](https://quadlayers.com/woocommerce-direct-checkout/) | [Documentation](https://quadlayers.com/documentation/woocommerce-direct-checkout/) | [Community](https://www.facebook.com/groups/quadlayers/)
 
 WooCommerce direct checkout is a helpful tool to simplify the checkout process. Direct checkout converts into one-click process, customer dicesion to sale.
 
-== Description ==
+== Presentation ==
 
 WooCommerce Direct Checkout  is a plugin to allow the steps reduction inside Woocommerce checkout process. You are able to simplify the checkout process by skipping the shopping cart page. The “Add to cart” button is added in each product to redirect customers to the checkout page. This can encourage buyers to shop more and quickly. You will increase your sales reducing cart abandonment.
+
+[youtube https://youtu.be/RH7WJEZYLOU]
 
 = Highlights =
 * Simplify check out process.
@@ -54,7 +57,7 @@ In the premium version of WooCommerce Direct Checkot, we've included an incredib
 == Quick purchase button ==
 
 The premium version of WooCommerce Direct Checkot allows to include a quick purchase button in the single products page that redirects your users directly to the checkout page, avoiding the need to force them to add the products in the cart.
-
+\
 == Improvements ==
 
 1. Use less bandwidth
@@ -63,6 +66,121 @@ The premium version of WooCommerce Direct Checkot allows to include a quick purc
 4. Increase your sales!
 
 == Changelog ==
+
+= 3.3.9 =
+* WooCommerce compatibility
+
+= 3.3.8 =
+* Update dependencies
+
+= 3.3.7 =
+* WooCommerce compatibility
+
+= 3.3.6 =
+* WooCommerce compatibility
+
+= 3.3.4 =
+* Declare incompatibility with WooCommerce blocks
+
+= 3.3.3 =
+* WooCommerce compatibility
+
+= 3.3.2 =
+* Fix: i18n strings
+
+= 3.3.1 =
+* Fix: PHP errors
+
+= 3.3.0 =
+* Fix: PHP errors
+
+= 3.2.9 =
+* WordPress compatibility
+
+= 3.2.8 =
+* Fix textdomain
+* WooCommerce compatibility
+
+= 3.2.7 =
+* Update readme.txt
+
+= 3.2.5 =
+* Update portfolio link
+
+= 3.2.4 =
+* Fix: PHP errors
+
+= 3.2.3 =
+* WooCommerce compatibility
+
+= 3.2.2 =
+* WooCommerce compatibility
+* WordPress compatibility
+
+= 3.2.1 =
+* New: WooCommerce compatibility
+
+= 3.2.0 =
+* New: WooCommerce HPOS compatibility
+* New: WooCommerce COT compatibility
+
+= 3.1.3 =
+* Fix: Translation strings
+
+= 3.1.2 =
+* Fix: WooCommerce compatibility
+
+= 3.1.1 =
+* Fix: Premium compatibility
+
+= 3.1.0 =
+* Fix: WooCommerce compatibility
+
+= 3.0.4 =
+* Fix: Composer packages update
+
+= 3.0.3 =
+* Fix: Language package update
+
+= 3.0.2 =
+* Fix: textdomain
+* Fix: Composer packages update
+
+= 3.0.1 =
+* Fix: WooCommerce compatibility
+
+= 3.0.0 =
+* Refactor
+
+= 2.7.7 =
+* Fix: WooCommerce compatibility
+
+= 2.7.6 =
+* Fix: Premium compatibility
+
+= 2.7.5 =
+* Fix: WooCommerce compatibility
+
+= 2.7.4 =
+* Fix: Settings link
+
+= 2.7.3 =
+* Fix: Cart url replace in ajax
+
+= 2.7.2 =
+* Fix: WordPress compatibility
+
+= 2.7.1 =
+* Fix: WooCommerce compatibility
+
+= 2.7.0 =
+* Fix: PHP errors
+
+= 2.6.9 =
+* Fix: WooCommerce compatibility
+
+= 2.6.8 =
+* Fix: WooCommerce compatibility
 
 = 2.6.7 =
 * Fix: WooCommerce compatibility

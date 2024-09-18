@@ -97,7 +97,7 @@ if ( ! class_exists( 'Redux' ) ) {
 	    );
 	    $args['share_icons'][] = array(
 	        'url' => 'https://www.twitter.com/KadenceWP',
-	        'title' => 'Follow Kadence WP on Twitter',
+	        'title' => 'Follow Kadence WP on X formerly Twitter',
 	        'icon' => 'dashicons dashicons-twitter',
 	    );
 		$args['share_icons'][] = array(

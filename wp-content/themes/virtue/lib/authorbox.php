@@ -32,7 +32,7 @@ function virtue_author_box() { ?>
 					<?php }
 					if ( get_the_author_meta( 'twitter' ) ) { ?>
 						<span class="twitterlink">
-							<a href="http://twitter.com/<?php the_author_meta( 'twitter' ); ?>" title="<?php esc_attr_e( 'Follow', 'virtue' ); ?>  <?php the_author_meta( 'display_name' ); ?> <?php esc_html_e( 'on Twitter', 'virtue' );?>"><i class="icon-twitter"></i></a>
+							<a href="http://twitter.com/<?php the_author_meta( 'twitter' ); ?>" title="<?php esc_attr_e( 'Follow', 'virtue' ); ?>  <?php the_author_meta( 'display_name' ); ?> <?php esc_html_e( 'on X formerly Twitter', 'virtue' );?>"><i class="icon-twitter"></i></a>
 						</span>
 					<?php }
 					if ( get_the_author_meta( 'google' ) ) { ?>

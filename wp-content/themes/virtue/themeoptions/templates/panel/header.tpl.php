@@ -7,13 +7,14 @@
      * @package     ReduxFramework/Templates
      * @version:    3.5.4.18
      */
-
+    //	<!-- KT NOTES REMOVE NOTICES -->
 
 ?>
 <div id="redux-header">
     <?php if ( ! empty( $this->parent->args['display_name'] ) ) { ?>
         <div class="display_header">
 
+            <!-- KT NOTES REMOVE NOTICES -->
 
             <h2><?php echo wp_kses_post( $this->parent->args['display_name'] ); ?></h2>
 

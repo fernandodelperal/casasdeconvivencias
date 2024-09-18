@@ -40,8 +40,10 @@
             private $parent;
             private $orig_options = array();
             private static $post_values = array();
-            public static $version = "2.0.1";
+            public static $version = "2.0.0";
             private $options = array();
+            public $upload_dir = '';
+            public $controls;
 
             /**
              * Class Constructor. Defines the args for the extions class
@@ -200,6 +202,7 @@
                     }
 
                 }
+
                 return $data;
             }
 
@@ -275,7 +278,6 @@
                 }
 
                 require_once dirname( __FILE__ ) . '/inc/customizer_fields.php';
-                //require_once dirname( __FILE__ ) . '/inc/customizer_devs.php';
 
                 do_action( "redux/extension/customizer/control/includes" );
 
@@ -455,7 +457,6 @@
                         } else if('logo_settings' == $section['id'] || 'mobile_header_settings' == $section['id'] || 'topbar_header_settings' == $section['id'] || 'transparent_header_options' == $section['id'] || 'home_header_section' == $section['id'] || 'page_title' == $section['id'] ) {
                         	$panel = 'header_settings';
                         }
-                        //error_log($section['id']);
                         $this->add_section( $section['id'], array(
                             'title'       => $section['title'],
                             'priority'    => $section['priority'],

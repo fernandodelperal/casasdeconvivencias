@@ -4,25 +4,11 @@
  *
  * @author 		WooThemes
  * @package 	WooCommerce/Templates
- * @version     3.4.0
+ * @version     7.0.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-defined( 'ABSPATH' ) || exit;
-
-if ( version_compare( WC_VERSION, '3.4', '<' ) ) {
-
-	do_action('woocommerce_before_add_to_cart_button');
-?>
-<p class="cart">
-	<a href="<?php echo esc_url( $product_url ); ?>" rel="nofollow" class="kad_add_to_cart single_add_to_cart_button headerfont kad-btn kad-btn-primary button alt"><?php echo $button_text; ?></a>
-</p>
-
-<?php  do_action('woocommerce_after_add_to_cart_button'); 
-
-} else {
-	
 do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 
 <form class="cart" action="<?php echo esc_url( $product_url ); ?>" method="get">
@@ -36,5 +22,3 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 </form>
 
 <?php do_action( 'woocommerce_after_add_to_cart_form' ); 
-
-}?>

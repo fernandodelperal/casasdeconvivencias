@@ -12,6 +12,9 @@ if (!class_exists('ReduxFramework_kad_icons')) {
      * @since       1.0.0
      */
     class ReduxFramework_kad_icons {
+        public $parent;
+        public $field;
+        public $value;
 
         /**
          * Field Constructor.
@@ -22,7 +25,7 @@ if (!class_exists('ReduxFramework_kad_icons')) {
          * @access      public
          * @return      void
          */
-        function __construct( $field = array(), $value ='', $parent ) {
+        function __construct( $field = array(), $value ='', $parent = null ) {
         
             //parent::__construct( $parent->sections, $parent->args );
             $this->parent = $parent;

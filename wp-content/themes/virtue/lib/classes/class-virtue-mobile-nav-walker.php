@@ -158,7 +158,7 @@ class Virtue_Mobile_Nav_Walker extends Walker_Nav_Menu {
 	 * @param array  $args              An array of arguments.
 	 * @param string $output            Used to append additional content (passed by reference).
 	 */
-	public function display_element( $element, &$children_elements, $max_depth, $depth = 0, $args, &$output ) {
+	public function display_element( $element, &$children_elements, $max_depth, $depth = 0, $args = array(), &$output = '' ) {
 		$element->is_dropdown = ( ( ! empty( $children_elements[ $element->ID ] ) && ( ( $depth + 1 ) < $max_depth || ( 0 === $max_depth ) ) ) );
 
 		if ( $element->is_dropdown ) {

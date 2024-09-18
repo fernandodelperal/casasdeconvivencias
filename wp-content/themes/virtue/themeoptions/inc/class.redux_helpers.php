@@ -73,157 +73,6 @@
                 return ( defined( 'WP_DEBUG' ) && WP_DEBUG == true );
             }
 
-            public static function getTrackingObject() {
-                global $wpdb;
-
-                $hash = md5( network_site_url() . '-' . $_SERVER['REMOTE_ADDR'] );
-
-                global $blog_id, $wpdb;
-                $pts = array();
-
-                foreach ( get_post_types( array( 'public' => true ) ) as $pt ) {
-                    $count      = wp_count_posts( $pt );
-                    $pts[ $pt ] = $count->publish;
-                }
-
-                $comments_count = wp_count_comments();
-                $theme_data     = wp_get_theme();
-                $theme          = array(
-                    'version'  => $theme_data->Version,
-                    'name'     => $theme_data->Name,
-                    'author'   => $theme_data->Author,
-                    'template' => $theme_data->Template,
-                );
-
-                if ( ! function_exists( 'get_plugin_data' ) ) {
-                    if ( file_exists( ABSPATH . 'wp-admin/includes/plugin.php' ) ) {
-                        require_once ABSPATH . 'wp-admin/includes/plugin.php';
-                    }
-                    if ( file_exists( ABSPATH . 'wp-admin/includes/admin.php' ) ) {
-                        require_once ABSPATH . 'wp-admin/includes/admin.php';
-                    }
-                }
-
-                $plugins = array();
-                foreach ( get_option( 'active_plugins', array() ) as $plugin_path ) {
-                    $plugin_info = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin_path );
-
-                    $slug             = str_replace( '/' . basename( $plugin_path ), '', $plugin_path );
-                    $plugins[ $slug ] = array(
-                        'version'    => $plugin_info['Version'],
-                        'name'       => $plugin_info['Name'],
-                        'plugin_uri' => $plugin_info['PluginURI'],
-                        'author'     => $plugin_info['AuthorName'],
-                        'author_uri' => $plugin_info['AuthorURI'],
-                    );
-                }
-                if ( is_multisite() ) {
-                    foreach ( get_option( 'active_sitewide_plugins', array() ) as $plugin_path ) {
-                        $plugin_info      = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin_path );
-                        $slug             = str_replace( '/' . basename( $plugin_path ), '', $plugin_path );
-                        $plugins[ $slug ] = array(
-                            'version'    => $plugin_info['Version'],
-                            'name'       => $plugin_info['Name'],
-                            'plugin_uri' => $plugin_info['PluginURI'],
-                            'author'     => $plugin_info['AuthorName'],
-                            'author_uri' => $plugin_info['AuthorURI'],
-                        );
-                    }
-                }
-
-
-                $version = explode( '.', PHP_VERSION );
-                $version = array(
-                    'major'   => $version[0],
-                    'minor'   => $version[0] . '.' . $version[1],
-                    'release' => PHP_VERSION
-                );
-
-                $user_query     = new WP_User_Query( array( 'blog_id' => $blog_id, 'count_total' => true, ) );
-                $comments_query = new WP_Comment_Query();
-
-                $data = array(
-                    '_id'       => $hash,
-                    'localhost' => ( $_SERVER['REMOTE_ADDR'] === '127.0.0.1' ) ? 1 : 0,
-                    'php'       => $version,
-                    'site'      => array(
-                        'hash'      => $hash,
-                        'version'   => get_bloginfo( 'version' ),
-                        'multisite' => is_multisite(),
-                        'users'     => $user_query->get_total(),
-                        'lang'      => get_locale(),
-                        'wp_debug'  => ( defined( 'WP_DEBUG' ) ? WP_DEBUG ? true : false : false ),
-                        'memory'    => WP_MEMORY_LIMIT,
-                    ),
-                    'pts'       => $pts,
-                    'comments'  => array(
-                        'total'    => $comments_count->total_comments,
-                        'approved' => $comments_count->approved,
-                        'spam'     => $comments_count->spam,
-                        'pings'    => $comments_query->query( array( 'count' => true, 'type' => 'pingback' ) ),
-                    ),
-                    'options'   => apply_filters( 'redux/tracking/options', array() ),
-                    'theme'     => $theme,
-                    'redux'     => array(
-                        'mode'      => ReduxFramework::$_is_plugin ? 'plugin' : 'theme',
-                        'version'   => ReduxFramework::$_version,
-                        'demo_mode' => get_option( 'ReduxFrameworkPlugin' ),
-                    ),
-                    'developer' => apply_filters( 'redux/tracking/developer', array() ),
-                    'plugins'   => $plugins,
-                );
-
-                $parts    = explode( ' ', $_SERVER['SERVER_SOFTWARE'] );
-                $software = array();
-                foreach ( $parts as $part ) {
-                    if ( $part[0] == "(" ) {
-                        continue;
-                    }
-                    if ( strpos( $part, '/' ) !== false ) {
-                        $chunk                               = explode( "/", $part );
-                        $software[ strtolower( $chunk[0] ) ] = $chunk[1];
-                    }
-                }
-                $software['full']             = $_SERVER['SERVER_SOFTWARE'];
-                $data['environment']          = $software;
-                $data['environment']['mysql'] = $wpdb->db_version();
-//                if ( function_exists( 'mysqli_get_server_info' ) ) {
-//                    $link = mysqli_connect() or die( "Error " . mysqli_error( $link ) );
-//                    $data['environment']['mysql'] = mysqli_get_server_info( $link );
-//                } else if ( class_exists( 'PDO' ) && method_exists( 'PDO', 'getAttribute' ) ) {
-//                    $data['environment']['mysql'] = PDO::getAttribute( PDO::ATTR_SERVER_VERSION );
-//                } else {
-//                    $data['environment']['mysql'] = mysql_get_server_info();
-//                }
-
-                if ( empty( $data['developer'] ) ) {
-                    unset( $data['developer'] );
-                }
-
-                return $data;
-            }
-
-            public static function trackingObject() {
-
-                $data = wp_remote_post(
-                    'http://verify.redux.io',
-                    array(
-                        'body' => array(
-                            'hash' => $_GET['action'],
-                            'site' => esc_url( home_url( '/' ) ),
-                        )
-                    )
-                );
-
-                $data['body'] = urldecode( $data['body'] );
-
-                if ( ! isset( $_GET['code'] ) || $data['body'] != $_GET['code'] ) {
-                    die();
-                }
-
-                return Redux_Helpers::getTrackingObject();
-            }
-
             public static function isParentTheme( $file ) {
                 $file = self::cleanFilePath( $file );
                 $dir  = self::cleanFilePath( get_template_directory() );
@@ -362,10 +211,12 @@
             }
 
             public static function makeBoolStr( $var ) {
-                if ( $var == false || $var == 'false' || $var == 0 || $var == '0' || $var == '' || empty( $var ) ) {
+                if ( $var === false || $var === 'false' || $var === 0 || $var === '0' || $var === '' || empty( $var ) ) {
                     return 'false';
-                } else {
+                } elseif ($var === true || $var === 'true' || $var === 1 || $var === '1') {
                     return 'true';
+                } else {
+                    return $var;
                 }
             }
 
@@ -387,8 +238,14 @@
                 $sysinfo['redux_ver']      = esc_html( ReduxFramework::$_version );
                 $sysinfo['redux_data_dir'] = ReduxFramework::$_upload_dir;
                 $f                         = 'fo' . 'pen';
+                
+                $res = true;
+                if ($f( ReduxFramework::$_upload_dir . 'test-log.log', 'a' ) === false) {
+                    $res = false;
+                }
+                
                 // Only is a file-write check
-                $sysinfo['redux_data_writeable'] = self::makeBoolStr( $f( ReduxFramework::$_upload_dir . 'test-log.log', 'a' ) );
+                $sysinfo['redux_data_writeable'] = $res;                
                 $sysinfo['wp_content_url']       = WP_CONTENT_URL;
                 $sysinfo['wp_ver']               = get_bloginfo( 'version' );
                 $sysinfo['wp_multisite']         = is_multisite();
@@ -470,35 +327,6 @@
                 //    $sysinfo['gzip'] = 'true';
                 //}
 
-                if ( $remote_checks == true ) {
-                    $response = wp_remote_post( 'https://www.paypal.com/cgi-bin/webscr', array(
-                        'sslverify'  => false,
-                        'timeout'    => 60,
-                        'user-agent' => 'ReduxFramework/' . ReduxFramework::$_version,
-                        'body'       => array(
-                            'cmd' => '_notify-validate'
-                        )
-                    ) );
-
-                    if ( ! is_wp_error( $response ) && $response['response']['code'] >= 200 && $response['response']['code'] < 300 ) {
-                        $sysinfo['wp_remote_post']       = 'true';
-                        $sysinfo['wp_remote_post_error'] = '';
-                    } else {
-                        $sysinfo['wp_remote_post']       = 'false';
-                        $sysinfo['wp_remote_post_error'] = $response->get_error_message();
-                    }
-
-                    $response = wp_remote_get( 'http://reduxframework.com/wp-admin/admin-ajax.php?action=get_redux_extensions' );
-
-                    if ( ! is_wp_error( $response ) && $response['response']['code'] >= 200 && $response['response']['code'] < 300 ) {
-                        $sysinfo['wp_remote_get']       = 'true';
-                        $sysinfo['wp_remote_get_error'] = '';
-                    } else {
-                        $sysinfo['wp_remote_get']       = 'false';
-                        $sysinfo['wp_remote_get_error'] = $response->get_error_message();
-                    }
-                }
-
                 $active_plugins = (array) get_option( 'active_plugins', array() );
 
                 if ( is_multisite() ) {
@@ -508,7 +336,7 @@
                 $sysinfo['plugins'] = array();
 
                 foreach ( $active_plugins as $plugin ) {
-                    $plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
+                    $plugin_data = @get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
                     $plugin_name = esc_html( $plugin_data['Name'] );
 
                     $sysinfo['plugins'][ $plugin_name ] = $plugin_data;
@@ -539,17 +367,6 @@
                                 }
                             }
                         }
-
-                        $sysinfo['redux_instances'][ $inst ]['extensions'] = Redux::getExtensions( $inst );
-
-                        if ( isset( $data->extensions['metaboxes'] ) ) {
-                            $data->extensions['metaboxes']->init();
-                            $sysinfo['redux_instances'][ $inst ]['metaboxes'] = $data->extensions['metaboxes']->boxes;
-                        }
-
-                        if ( isset( $data->args['templates_path'] ) && $data->args['templates_path'] != '' ) {
-                            $sysinfo['redux_instances'][ $inst ]['templates'] = self::getReduxTemplates( $data->args['templates_path'] );
-                        }
                     }
                 }
 
@@ -579,7 +396,6 @@
             }
 
             private static function getReduxTemplates( $custom_template_path ) {
-                $filesystem         = Redux_Filesystem::get_instance();
                 $template_paths     = array( 'ReduxFramework' => ReduxFramework::$_dir . 'templates/panel' );
                 $scanned_files      = array();
                 $found_files        = array();
@@ -606,7 +422,7 @@
                                     $outdated_templates = true;
                                 }
 
-                                $found_files[ $plugin_name ][] = sprintf( __( '<code>%1$s</code> version <strong style="color:red">%2$s</strong> is out of date. The core version is %3$s', 'virtue' ), str_replace( WP_CONTENT_DIR . '/themes/', '', $theme_file ), $theme_version ? $theme_version : '-', $core_version );
+                                $found_files[ $plugin_name ][] = sprintf( __( '<code>%s</code> version <strong style="color:red">%s</strong> is out of date. The core version is %s', 'virtue' ), str_replace( WP_CONTENT_DIR . '/themes/', '', $theme_file ), $theme_version ? $theme_version : '-', $core_version );
                             } else {
                                 $found_files[ $plugin_name ][] = sprintf( '<code>%s</code>', str_replace( WP_CONTENT_DIR . '/themes/', '', $theme_file ) );
                             }
@@ -615,12 +431,6 @@
                 }
 
                 return $found_files;
-            }
-
-            public static function rURL_fix( $base, $opt_name ) {
-                $url = $base . urlencode( 'http://ads.reduxframework.com/api/index.php?js&g&1&v=2' ) . '&proxy=' . urlencode( $base ) . '';
-
-                return Redux_Functions::tru( $url, $opt_name );
             }
 
             private static function scan_template_files( $template_path ) {
@@ -647,6 +457,7 @@
 
             public static function get_template_version( $file ) {
                 $filesystem = Redux_Filesystem::get_instance();
+
                 // Avoid notices if file does not exist
                 if ( ! file_exists( $file ) ) {
                     return '';
@@ -667,13 +478,13 @@
                 if ( ! empty( $data[0] ) ) {
                     return $data[0];
                 } else {
-                    $file_data = $filesystem->execute( 'get_contents', $file );
-
-                    $file_data = str_replace( "\r", "\n", $file_data );
                     $version   = '';
-
-                    if ( preg_match( '/^[ \t\/*#@]*' . preg_quote( '@version', '/' ) . '(.*)$/mi', $file_data, $match ) && $match[1] ) {
-                        $version = _cleanup_header_comment( $match[1] );
+                    $file_data = $filesystem->execute( 'get_contents', $file );
+                    if ( ! empty( $file_data ) ) {
+                        $file_data = str_replace( "\r", "\n", $file_data );
+                        if ( preg_match( '/^[ \t\/*#@]*' . preg_quote( '@version', '/' ) . '(.*)$/mi', $file_data, $match ) && $match[1] ) {
+                            $version = _cleanup_header_comment( $match[1] );
+                        }
                     }
 
                     return $version;

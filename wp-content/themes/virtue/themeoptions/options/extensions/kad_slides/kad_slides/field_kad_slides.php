@@ -12,7 +12,9 @@ if (!class_exists('ReduxFramework_kad_slides')) {
      * @since       1.0.0
      */
     class ReduxFramework_kad_slides {
-
+        public $parent;
+        public $field;
+        public $value;
         /**
          * Field Constructor.
          *
@@ -22,7 +24,7 @@ if (!class_exists('ReduxFramework_kad_slides')) {
          * @access      public
          * @return      void
          */
-          function __construct ( $field = array(), $value = '', $parent ) {
+          function __construct ( $field = array(), $value = '', $parent = null ) {
             $this->parent = $parent;
             $this->field = $field;
             $this->value = $value;

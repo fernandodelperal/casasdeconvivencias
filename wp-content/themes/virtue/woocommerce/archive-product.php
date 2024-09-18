@@ -6,37 +6,30 @@
  *
  * @author 		WooThemes
  * @package 	WooCommerce/Templates
- * @version     3.4.0
+ * @version     8.6.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
- ?>
+?>
 	<div id="content" class="container">
 		<div class="row">
 		<div class="main <?php echo esc_attr( virtue_main_class() ); ?>" role="main">
 		
 		<?php do_action( 'woocommerce_before_main_content' );
 
-		if ( apply_filters( 'woocommerce_show_page_title', true ) ) : 
-			if ( version_compare( WC_VERSION, '3.3', '>' ) ) {
-				if ( ! wc_get_loop_prop( 'columns' ) ) {
-					wc_get_loop_class();
-				} 
-			}?>
-			
+		if ( apply_filters( 'woocommerce_show_page_title', true ) ) : ?>
 			<div class="page-header">
 				<?php woocommerce_catalog_ordering(); ?>
 				<h1 class="page-title"><?php woocommerce_page_title(); ?></h1>
 				<?php woocommerce_result_count(); ?>
 			</div>
-		
 		<?php endif; ?>
 
 		<div class="clearfix">
 		<?php do_action( 'woocommerce_archive_description' ); ?>
 		</div>
-
-		<?php if ( have_posts() ) {
+		<?php
+		if ( have_posts() ) {
 
 			/**
 			 * woocommerce_before_shop_loop hook
