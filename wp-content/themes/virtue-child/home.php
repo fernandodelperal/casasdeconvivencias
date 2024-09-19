@@ -62,7 +62,11 @@ Template Name: Lista de Productos
 
                             ?>
                             <tr>
-                                <td><?php echo $product->get_name(); ?></td>
+                                <td>    
+                                    <a href="<?php echo get_permalink($product->get_id()); ?>" target="_blank">
+                                        <?php echo $product->get_name(); ?>
+                                    </a>    
+                                </td>
                                 <td><?php echo format_date($fecha_inicio); ?></td>
                                 <td><?php echo format_date($fecha_fin); ?></td>
                                 <td><?php echo $product->get_total_stock($product); ?></td>
