@@ -2,9 +2,6 @@
 /*
 Template Name: Lista de Productos
 */
-if (!is_user_logged_in() || !current_user_can('manage_woocommerce')) wp_die('Esta página es privada.');
-
-get_header();
 ?>
 
 <div id="content" class="container">
@@ -38,24 +35,12 @@ get_header();
                 $args = array(
                     'post_type'      => 'product',
                     'posts_per_page' => -1,
-                    'meta_query'     => array(
-                        'relation' => 'OR',
-                        array(
-                            'key'     => 'fecha_inicio',
-                            'compare' => 'EXISTS',
-                        ),
-                        array(
-                            'key'     => 'fecha_inicio',
-                            'compare' => 'NOT EXISTS',
-                        ),
-                    ),
-                    'orderby'  => array(
-                        'meta_value' => 'ASC',
-                        'date'       => 'DESC',
-                    ),
-                    'meta_key' => 'fecha_inicio',
-                    'meta_type' => 'DATE',
+                    'meta_key'       => 'fecha_inicio',
+                    'orderby'        => 'meta_value',
+                    'order'          => 'ASC',
+                    'meta_type'      => 'DATE'
                 );
+                
 
                 $loop = new WP_Query($args);
 
