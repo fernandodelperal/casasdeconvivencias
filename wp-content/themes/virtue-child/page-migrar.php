@@ -14,8 +14,8 @@ Template Name: Lista de Productos
                 // Function to format date - moved outside the loop
                 function format_date($date) {
                     if (!$date) return '';
-                    $date_obj = DateTime::createFromFormat('Y-m-d', $date);
-                    return $date_obj ? $date_obj->format('j/M/y') : '';
+                    $date_obj = DateTime::createFromFormat('j-M-y', $date);
+                    return $date_obj ? $date_obj : '';
                 }
 
                 function get_total_stock($product) {
