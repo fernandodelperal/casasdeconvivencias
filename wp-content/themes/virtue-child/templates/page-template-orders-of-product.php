@@ -99,6 +99,7 @@ tr.strikeout {
 			    <th>Forma de Pago</th>
 			    <th>Actividad</th>
 			    <th>Régimen especial</th>
+			    <th>Procedencia</th> <!-- New column for Centro -->
 			    <th>Llega tarde?</th>
 			    <th>Comentarios</th>
 
@@ -187,6 +188,7 @@ tr.strikeout {
 				<td><?php echo wp_kses_post( $order->get_payment_method_title() );?></td>
 				<td><?php echo get_post_meta( $order->id, 'Actividad', true )?></td>
 				<td><?php echo get_post_meta( $order->id, 'Régimen_especial', true )?></td>
+				<td><?php echo get_post_meta( $order->id, 'Procedencia', true )?></td> <!-- New data for Centro -->
 				<td><?php echo get_post_meta( $order->id, 'Llega_tarde', true )?></td>
 				<td><?php echo get_post_meta( $order->id, 'Comentarios', true );?></td>
 
