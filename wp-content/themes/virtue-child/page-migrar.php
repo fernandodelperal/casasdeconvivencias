@@ -15,7 +15,7 @@ Template Name: Lista de Productos
                 function format_date($date) {
                     if (!$date) return '';
                     $date_obj = DateTime::createFromFormat('Y-m-d', $date);
-                    return $date_obj ? datefmt_format(datefmt_create('es_ES', IntlDateFormatter::LONG, IntlDateFormatter::NONE), $date_obj) : '';
+                    return $date_obj ? datefmt_format_object($date_obj, 'd-MMM-yy', 'es_ES') : null;
                 }
 
                 function get_total_stock($product) {
