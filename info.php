@@ -1,4 +1,8 @@
 <?php
 // info.php
-phpinfo();
+if (defined('ABSPATH')) {
+    echo 'This file cannot be accessed directly.';
+} else {
+    phpinfo();
+}
 ?>
