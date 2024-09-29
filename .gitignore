@@ -54,3 +54,4 @@ wp-content/uploads
 .hcflag
 error_log
 **/error_log
+php.ini
