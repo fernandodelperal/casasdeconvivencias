@@ -50,3 +50,7 @@ Thumbs.db
 
 wp-config.php
 wp-content/uploads
+
+.hcflag
+error_log
+**/error_log
