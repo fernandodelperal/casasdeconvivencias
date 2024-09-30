@@ -579,20 +579,22 @@ function post_validate_checkout()
 //     }
 // }
 
-add_action('woocommerce_process_product_meta', 'validate_start_date');
+add_action('woocommerce_process_product_meta', 'validate_dates');
 
-function validate_start_date($post_id) {
-    // Get the value of the custom field
+function validate_dates($post_id) {
+    // Get the values of the custom fields
     $start_date = get_post_meta($post_id, 'fecha_inicio', true);
+    $end_date = get_post_meta($post_id, 'fecha_fin', true);
     
-    // Validate the date format
+    // Validate the date format for fecha_inicio
     if ($start_date && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $start_date)) {
-        // If not valid, show an error and prevent saving
-        add_action('admin_notices', function() {
-            echo '<div class="notice notice-error"><p>' . __('The format of "fecha_inicio" must be "yyyy-mm-dd".', 'your-text-domain') . '</p></div>';
-        });
-        
-        // Optional: Add a custom message to indicate the saving process should stop
-        wp_die(__('Product could not be saved due to errors. Please correct the errors and try again: The format of "fecha_inicio" must be "yyyy-mm-dd"', 'your-text-domain'));
+        // Add a custom message to indicate the saving process should stop
+        wp_die(__('El producto no se puede guardar por un error. Corregir y volver a intentar: fecha_inicio debe tener el formato "yyyy-mm-dd". Por ejemplo 4 de enero de 2024 se debe cargar como 2024-01-04', 'your-text-domain'));
+    }
+
+    // Validate the date format for fecha_fin
+    if ($end_date && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $end_date)) {
+        // Add a custom message to indicate the saving process should stop
+        wp_die(__('El producto no se puede guardar por un error. Corregir y volver a intentar: fecha_fin debe tener el formato "yyyy-mm-dd". Por ejemplo 4 de enero de 2024 se debe cargar como 2024-01-04', 'your-text-domain'));
     }
 }
