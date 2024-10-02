@@ -26,7 +26,7 @@ $columns = array(
             ?>
             <option value="">All Products</option>
             <?php while ( $query->have_posts() ) : $query->the_post(); ?>
-                <option value="<?php echo esc_attr( get_the_ID() ); ?>"<?php if ( $_GET['filter_product'] == get_the_ID() ) { echo ' selected'; } ?>>
+                <option value="<?php echo esc_attr( get_the_ID() ); ?>"<?php if ( isset( $_GET['filter_product'] ) && $_GET['filter_product'] == get_the_ID() ) { echo ' selected'; } ?>>
                     <?php echo esc_html( get_the_title() ); ?>
                 </option>
             <?php endwhile; wp_reset_query(); ?>
