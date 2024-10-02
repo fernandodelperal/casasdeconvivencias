@@ -13,24 +13,34 @@ $columns = array(
 // Create a form with a dropdown list of products
 ?>
     <form action="<?php echo esc_url( get_permalink() ); ?>" method="get">
-        <select name="filter_product" id="filter_product">
-            <?php $args = array(
-                'post_type'      => 'product',
-                'posts_per_page'  => -1,
-                'fields'         => 'ids'
-            );
-            
-            // Get the products for the filter dropdown
-            $query = new WP_Query( $args );
-            
-            ?>
-            <option value="">All Products</option>
-            <?php while ( $query->have_posts() ) : $query->the_post(); ?>
-                <option value="<?php echo esc_attr( get_the_ID() ); ?>"<?php if ( isset( $_GET['filter_product'] ) && $_GET['filter_product'] == get_the_ID() ) { echo ' selected'; } ?>>
-                    <?php echo esc_html( get_the_title() ); ?>
-                </option>
-            <?php endwhile; wp_reset_query(); ?>
-        </select>
+    <select name="filter_product" id="filter_product">
+    <?php $args = array(
+        'post_type'      => 'product',
+        'posts_per_page'  => -1,
+        'fields'         => 'ids'
+    );
+    
+    // Get the products for the filter dropdown
+    $query = new WP_Query( $args );
+    
+    ?>
+    <option value="">All Products</option>
+    <?php while ( $query->have_posts() ) : $query->the_post(); ?>
+        <?php
+            $fecha_inicio = get_post_meta(get_the_ID(), 'fecha_inicio', true);
+            if ($fecha_inicio) {
+                $option_value = get_the_ID();
+                $option_text = date('d M Y', strtotime($fecha_inicio)) . " - " . esc_html( get_the_title() );
+            } else {
+                $option_value = get_the_ID();
+                $option_text = esc_html( get_the_title() );
+            }
+        ?>
+        <option value="<?php echo esc_attr( $option_value ); ?>"<?php if ( $_GET['filter_product'] == $option_value ) { echo ' selected'; } ?>>
+            <?php echo $option_text; ?>
+        </option>
+    <?php endwhile; wp_reset_query(); ?>
+</select>
         <input type="hidden" name="paged" value="<?php echo $paged; ?>">
         <button type="submit">Filter</button>
     </form>
