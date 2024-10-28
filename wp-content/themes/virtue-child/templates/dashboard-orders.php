@@ -7,14 +7,22 @@ $paged = $_GET['paged'] ?? 1;
 
 // Define the columns we want to display
 $columns = array(
-    'date' => __( 'Date', 'woocommerce' ),
-    'product_name' => __( 'Product', 'woocommerce' ),
-    'quantity' => __( 'Quantity', 'woocommerce' ),
-    'total' => __( 'Total', 'woocommerce' ),
+    'No' => __( 'No', 'woocommerce' ),
+    'Nombre' => __( 'Nombre', 'woocommerce' ),
+    'Email' => __( 'Email', 'woocommerce' ),
+    'Teléfono' => __( 'Teléfono', 'woocommerce' ),
+    'Estado del Pago' => __( 'Estado del Pago', 'woocommerce' ),
+    'Forma de Pago' => __( 'Forma de Pago', 'woocommerce' ),
+    'Actividad' => __( 'Actividad', 'woocommerce' ),
+    'Régimen especial' => __( 'Régimen especial', 'woocommerce' ),
+    'Procedencia' => __( 'Procedencia', 'woocommerce' ),
+    'Llega tarde?' => __( 'Llega tarde?', 'woocommerce' ),
+    'Comentarios' => __( 'Comentarios', 'woocommerce' ),
 );
 
 // Create a form with a dropdown list of products
 ?>
+    <h1>Pedidos</h1>
     <form action="<?php echo esc_url( get_permalink() ); ?>" method="get">
     <select name="filter_product" id="filter_product">
     <?php $args = array(
@@ -27,6 +35,7 @@ $columns = array(
     $query = new WP_Query( $args );
     
     ?>
+    
     <option value="">All Products</option>
     <?php while ( $query->have_posts() ) : $query->the_post(); ?>
         <?php
@@ -52,56 +61,99 @@ $columns = array(
 // Get the orders
 if ( isset( $_GET['filter_product'] ) && ! empty( $_GET['filter_product'] ) ) {
     $product_id = $_GET['filter_product'];
-} else {
-    $product_id = '';
-}
-
-$orders = wc_get_orders( array(
-    'status'   => array( 'processing', 'completed' ),
-    // only show processing or completed orders
-    'limit'    => 20,
-    // display 20 orders per page
-    'meta_query' => array(
+    $meta_query = array(
         array(
             'key'     => '_line_items',
             'value'   => $product_id,
             'compare' => '='
         )
-    ),
+    );
+} else {
+    $product_id = '';
+    $meta_query = array(); // No meta query if no product filter
+}
+
+$orders = wc_get_orders( array(
+    'status'   => 'any',
+    'limit'    => 20,
+    'meta_query' => $meta_query,
 ) );
+
+// Calculate total orders for the filtered product
+$total_orders = 0;
+foreach ( $orders as $order ) {
+    $items = $order->get_items();
+    foreach ( $items as $item ) {
+        if (empty($product_id) || $item->get_product_id() == $product_id) {
+            $total_orders++;
+            break; // Count each order only once
+        }
+    }
+}
+
+// Display total number of orders
+echo '<p>Total de pedidos: ' . esc_html($total_orders) . '</p>';
 
 // Check if $orders is not empty
 if ( $orders ) { ?>
     
-    <h1>List Orders LLM</h1>
-    
     <?php 
-    // Get the columns we want to display
-    $columns = array(
-        'date' => __( 'Date', 'woocommerce' ),
-        'product_name' => __( 'Product', 'woocommerce' ),
-        'quantity' => __( 'Quantity', 'woocommerce' ),
-        'total' => __( 'Total', 'woocommerce' ),
-    );
     // Loop through the orders and display them in a table
     ?>
     <table>
         <tr>
-            <?php foreach ( $columns as $column ) : ?>
+            <?php foreach ( $columns as $column_key => $column ) : ?>
                 <th><?php echo esc_html( $column ); ?></th>
             <?php endforeach; ?>
         </tr>
         
-        <?php foreach ( $orders as $order ) { 
+        <?php 
+        $num = 0;
+        foreach ( $orders as $order ) { 
             $items = $order->get_items();
             foreach ( $items as $item ) {
-                if ($item->get_product_id() == $product_id) { 
+                if (empty($product_id) || $item->get_product_id() == $product_id) { 
+                    $num++;
                     ?>
                     <tr>
-                        <td><?php echo esc_html( $order->get_date_created()->date_i18n('d M Y') ); ?></td>
-                        <td><?php echo esc_html( $item->get_name() ); ?></td>
-                        <td><?php echo esc_html( $item->get_quantity() ); ?></td>
-                        <td><?php echo esc_html( wc_price( $item->get_total() ) ); ?></td>
+                        <td><?php echo esc_html( $num ); ?></td>
+                        <td><?php echo esc_html( $order->get_billing_first_name() . ' ' . $order->get_billing_last_name() ); ?></td>
+                        <td><?php echo esc_html( $order->get_billing_email() ); ?></td>
+                        <td><?php echo esc_html( $order->get_billing_phone() ); ?></td>
+                        <td><?php
+                            echo esc_html( wc_get_order_status_name( $order->get_status() ) );
+
+                            if ($order->payment_method == 'woo-mercado-pago-basic') {
+                                echo ' (de <a href="https://www.mercadopago.com.ar">'.'MercadoPago</a>)';
+                            } else {
+
+                                if ($order->get_status() != 'cancelled') {
+                                    if ($order->get_status() != 'completed') {
+                                        $url_completed = wp_nonce_url( admin_url( 'admin-ajax.php?action=woocommerce_mark_order_status&status=completed&order_id=' . $order->id ), 'woocommerce-mark-order-status' );
+                                        echo ' <a href="' . $url_completed. '">'.'Completar</a>';
+
+                                    }
+
+                                        $url_cancel = wp_nonce_url( admin_url( 'admin-ajax.php?action=woocommerce_mark_order_status&status=cancelled&order_id=' . $order->id ), 'woocommerce-mark-order-status' );
+                                        echo ' <a href="' . $url_cancel. '">'.'Cancelar</a>';
+                                    } else {
+
+
+                                        $url_delete = get_delete_post_link( $order->id);
+
+                                        $url_processing = wp_nonce_url( admin_url( 'admin-ajax.php?action=woocommerce_mark_order_status&status=processing&order_id=' . $order->id ), 'woocommerce-mark-order-status' );
+                                        echo ' <a href="' . $url_delete. '">'.'Eliminar</a>' . ' <a href="' . $url_processing. '">'.'Reactivar</a>';
+
+                                }
+                            }
+                            ?>
+				        </td>
+                        <td><?php echo wp_kses_post( $order->get_payment_method_title() ); ?></td>
+                        <td><?php echo esc_html( get_post_meta( $order->get_id(), 'Actividad', true ) ); ?></td>
+                        <td><?php echo esc_html( get_post_meta( $order->get_id(), 'Régimen_especial', true ) ); ?></td>
+                        <td><?php echo esc_html( get_post_meta( $order->get_id(), 'Procedencia', true ) ); ?></td>
+                        <td><?php echo esc_html( get_post_meta( $order->get_id(), 'Llega_tarde', true ) ); ?></td>
+                        <td><?php echo esc_html( get_post_meta( $order->get_id(), 'Comentarios', true ) ); ?></td>
                     </tr>
                     <?php
                 }

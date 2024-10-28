@@ -2,7 +2,7 @@
     <div class="row">
         <div class="main col-lg-12" role="main">
             <div class="entry-content">
-                <h1>Lista de Productos</h1>
+                <h1>Actividades</h1>
 
                 <?php
                 // Function to format date - moved outside the loop
