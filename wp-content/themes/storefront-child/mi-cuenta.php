@@ -38,8 +38,8 @@ function mostrar_panel_usuario()
         <title>Mi cuenta &#8211; Casas de Retiros y Convivencias</title>
         <meta name='robots' content='max-image-preview:large, noindex, follow' />
         <link rel='dns-prefetch' href='//fonts.googleapis.com' />
-        <link rel="alternate" type="application/rss+xml" title="Casas de Retiros y Convivencias &raquo; Feed" href="http://localhost/CASASDECONVIVENCIAS-MASTER/feed/" />
-        <link rel="alternate" type="application/rss+xml" title="Casas de Retiros y Convivencias &raquo; RSS de los comentarios" href="http://localhost/CASASDECONVIVENCIAS-MASTER/comments/feed/" />
+        <link rel="alternate" type="application/rss+xml" title="Casas de Retiros y Convivencias &raquo; Feed" href="http://casasdeconvivencias.test/feed/" />
+        <link rel="alternate" type="application/rss+xml" title="Casas de Retiros y Convivencias &raquo; RSS de los comentarios" href="http://casasdeconvivencias.test/comments/feed/" />
         <script type="text/javascript">
             /* <![CDATA[ */
             window._wpemojiSettings = {
@@ -48,7 +48,8 @@ function mostrar_panel_usuario()
                 "svgUrl": "https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/svg\/",
                 "svgExt": ".svg",
                 "source": {
-                    "concatemoji": "https:\/\/localhost/CASASDECONVIVENCIAS-MASTER\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.6.2"
+                    "concatemoji": "https:\/\/http://casasdeconvivencias.test\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.6.2"
+                
                 }
             };
             /*! This file is auto-generated */
@@ -144,8 +145,8 @@ function mostrar_panel_usuario()
             }((window, document), window._wpemojiSettings);
             /* ]]> */
         </script>
-        <link rel='stylesheet' id='dashicons-css' href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-includes/css/dashicons.min.css?ver=6.6.2' type='text/css' media='all' />
-        <link rel='stylesheet' id='admin-bar-css' href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-includes/css/admin-bar.min.css?ver=6.6.2' type='text/css' media='all' />
+        <link rel='stylesheet' id='dashicons-css' href='http://casasdeconvivencias.test/wp-includes/css/dashicons.min.css?ver=6.6.2' type='text/css' media='all' />
+        <link rel='stylesheet' id='admin-bar-css' href='http://casasdeconvivencias.test/wp-includes/css/admin-bar.min.css?ver=6.6.2' type='text/css' media='all' />
         <style id='admin-bar-inline-css' type='text/css'>
             @media screen {
                 html {
@@ -179,9 +180,9 @@ function mostrar_panel_usuario()
                 padding: 0 !important;
             }
         </style>
-        <link rel='stylesheet' id='wp-block-library-css' href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-includes/css/dist/block-library/style.min.css?ver=6.6.2' type='text/css' media='all' />
-        <link rel='stylesheet' id='wc-blocks-vendors-style-css' href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/plugins/woocommerce/packages/woocommerce-blocks/build/wc-blocks-vendors-style.css?ver=8.0.0' type='text/css' media='all' />
-        <link rel='stylesheet' id='wc-blocks-style-css' href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/plugins/woocommerce/packages/woocommerce-blocks/build/wc-blocks-style.css?ver=8.0.0' type='text/css' media='all' />
+        <link rel='stylesheet' id='wp-block-library-css' href='http://casasdeconvivencias.test/wp-includes/css/dist/block-library/style.min.css?ver=6.6.2' type='text/css' media='all' />
+        <link rel='stylesheet' id='wc-blocks-vendors-style-css' href='http://casasdeconvivencias.test/wp-content/plugins/woocommerce/packages/woocommerce-blocks/build/wc-blocks-vendors-style.css?ver=8.0.0' type='text/css' media='all' />
+        <link rel='stylesheet' id='wc-blocks-style-css' href='http://casasdeconvivencias.test/wp-content/plugins/woocommerce/packages/woocommerce-blocks/build/wc-blocks-style.css?ver=8.0.0' type='text/css' media='all' />
         <style id='classic-theme-styles-inline-css' type='text/css'>
             /*! This file is auto-generated */
             .wp-block-button__link {
@@ -529,17 +530,17 @@ function mostrar_panel_usuario()
                 line-height: 1.6;
             }
         </style>
-        <link rel='stylesheet' id='select2-css' href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/plugins/woocommerce/assets/css/select2.css?ver=6.8.2' type='text/css' media='all' />
+        <link rel='stylesheet' id='select2-css' href='http://casasdeconvivencias.test/wp-content/plugins/woocommerce/assets/css/select2.css?ver=6.8.2' type='text/css' media='all' />
         <style id='woocommerce-inline-inline-css' type='text/css'>
             .woocommerce form .form-row .required {
                 visibility: visible;
             }
         </style>
-        <link rel='stylesheet' id='parent-style-css' href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/themes/virtue/style.css?ver=6.6.2' type='text/css' media='all' />
-        <link rel='stylesheet' id='wcplpro_css-css' href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/plugins/Woocommerce_Products_List_Pro_v1.1.4/assets/css/wcplpro.css?ver=6.6.2' type='text/css' media='all' />
-        <link rel='stylesheet' id='virtue_theme-css' href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/themes/virtue/assets/css/virtue.css?ver=3.4.10' type='text/css' media='all' />
-        <link rel='stylesheet' id='virtue_skin-css' href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/themes/virtue/assets/css/skins/default.css?ver=3.4.10' type='text/css' media='all' />
-        <link rel='stylesheet' id='virtue_child-css' href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/themes/virtue-child/style.css?ver=1.0.0' type='text/css' media='all' />
+        <link rel='stylesheet' id='parent-style-css' href='http://casasdeconvivencias.test/wp-content/themes/virtue/style.css?ver=6.6.2' type='text/css' media='all' />
+        <link rel='stylesheet' id='wcplpro_css-css' href='http://casasdeconvivencias.test/wp-content/plugins/Woocommerce_Products_List_Pro_v1.1.4/assets/css/wcplpro.css?ver=6.6.2' type='text/css' media='all' />
+        <link rel='stylesheet' id='virtue_theme-css' href='http://casasdeconvivencias.test/wp-content/themes/virtue/assets/css/virtue.css?ver=3.4.10' type='text/css' media='all' />
+        <link rel='stylesheet' id='virtue_skin-css' href='http://casasdeconvivencias.test/wp-content/themes/virtue/assets/css/skins/default.css?ver=3.4.10' type='text/css' media='all' />
+        <link rel='stylesheet' id='virtue_child-css' href='http://casasdeconvivencias.test/wp-content/themes/virtue-child/style.css?ver=1.0.0' type='text/css' media='all' />
         <link rel='stylesheet' id='redux-google-fonts-virtue-css' href='https://fonts.googleapis.com/css?family=Lato%3A400%2C700&#038;ver=6.6.2' type='text/css' media='all' />
         <script type="text/javascript">
             window._nslDOMReady = function(callback) {
@@ -550,22 +551,22 @@ function mostrar_panel_usuario()
                 }
             };
         </script>
-        <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
-        <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js"></script>
+        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
+        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js"></script>
         <!--[if lt IE 9]>
 <script type="text/javascript" src="https://casasdeconvivencias.org.ar/wp-content/themes/virtue/assets/js/vendor/respond.min.js?ver=6.6.2" id="virtue-respond-js"></script>
 <![endif]-->
-        <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/plugins/Woocommerce_Products_List_Pro_v1.1.4/assets/js/stupidtable.js?ver=6.6.2" id="wcplpro_table_sort-js"></script>
-        <link rel="https://api.w.org/" href="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-json/" />
-        <link rel="alternate" title="JSON" type="application/json" href="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-json/wp/v2/pages/7" />
-        <link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://localhost/CASASDECONVIVENCIAS-MASTER/xmlrpc.php?rsd" />
+        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/plugins/Woocommerce_Products_List_Pro_v1.1.4/assets/js/stupidtable.js?ver=6.6.2" id="wcplpro_table_sort-js"></script>
+        <link rel="https://api.w.org/" href="http://casasdeconvivencias.test/wp-json/" />
+        <link rel="alternate" title="JSON" type="application/json" href="http://casasdeconvivencias.test/wp-json/wp/v2/pages/7" />
+        <link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://casasdeconvivencias.test/xmlrpc.php?rsd" />
         <meta name="generator" content="WordPress 6.6.2" />
         <meta name="generator" content="WooCommerce 6.8.2" />
-        <link rel="canonical" href="http://localhost/CASASDECONVIVENCIAS-MASTER/mi-cuenta/" />
-        <link rel='shortlink' href='http://localhost/CASASDECONVIVENCIAS-MASTER/?p=7' />
-        <link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-json/oembed/1.0/embed?url=https%3A%2F%2FCASASDECONVIVENCIAS-MASTER%2Fmi-cuenta%2F" />
-        <link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-json/oembed/1.0/embed?url=https%3A%2F%2FCASASDECONVIVENCIAS-MASTER%2Fmi-cuenta%2F&#038;format=xml" />
-        <link rel="Shortcut Icon" type="image/x-icon" href="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/themes/virtue-child/favicon/favicon.png" />
+        <link rel="canonical" href="http://casasdeconvivencias.test/mi-cuenta/" />
+        <link rel='shortlink' href='http://casasdeconvivencias.test/?p=7' />
+        <link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="http://casasdeconvivencias.test/wp-json/oembed/1.0/embed?url=https%3A%2F%2FCASASDECONVIVENCIAS-MASTER%2Fmi-cuenta%2F" />
+        <link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="http://casasdeconvivencias.test/wp-json/oembed/1.0/embed?url=https%3A%2F%2FCASASDECONVIVENCIAS-MASTER%2Fmi-cuenta%2F&#038;format=xml" />
+        <link rel="Shortcut Icon" type="image/x-icon" href="http://casasdeconvivencias.test/wp-content/themes/virtue-child/favicon/favicon.png" />
         <style type="text/css">
             #logo {
                 padding-top: 25px;
@@ -621,7 +622,7 @@ function mostrar_panel_usuario()
             .nav-tabs>.active>a,
             .nav-tabs>.active>a:hover,
             .nav-tabs>.active>a:focus {
-                background: url(http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/uploads/2018/06/beige-minimal-background-pattern-wordpress-8.jpg) repeat;
+                background: url(http://casasdeconvivencias.test/wp-content/uploads/2018/06/beige-minimal-background-pattern-wordpress-8.jpg) repeat;
             }
 
             .topclass {
@@ -629,11 +630,11 @@ function mostrar_panel_usuario()
             }
 
             .headerclass {
-                background: url(http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/uploads/2018/06/header-background-mirror-final-2.jpg) no-repeat;
+                background: url(http://casasdeconvivencias.test/wp-content/uploads/2018/06/header-background-mirror-final-2.jpg) no-repeat;
             }
 
             body {
-                background: url(http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/uploads/2018/06/grey-background.jpg);
+                background: url(http://casasdeconvivencias.test/wp-content/uploads/2018/06/grey-background.jpg);
                 background-position: 0% 0%;
                 background-repeat: repeat;
             }
@@ -1151,11 +1152,11 @@ function mostrar_panel_usuario()
         <div id="wpadminbar" class="nojq nojs">
             <div class="quicklinks" id="wp-toolbar" role="navigation" aria-label="Barra de herramientas">
                 <ul role='menu' id='wp-admin-bar-root-default' class="ab-top-menu">
-                    <li role='group' id='wp-admin-bar-wp-logo' class="menupop"><a class='ab-item' role="menuitem" aria-expanded="false" href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-admin/about.php'><span class="ab-icon" aria-hidden="true"></span><span class="screen-reader-text">Acerca de WordPress</span></a>
+                    <li role='group' id='wp-admin-bar-wp-logo' class="menupop"><a class='ab-item' role="menuitem" aria-expanded="false" href='http://casasdeconvivencias.test/wp-admin/about.php'><span class="ab-icon" aria-hidden="true"></span><span class="screen-reader-text">Acerca de WordPress</span></a>
                         <div class="ab-sub-wrapper">
                             <ul role='menu' aria-label='Acerca de WordPress' id='wp-admin-bar-wp-logo-default' class="ab-submenu">
-                                <li role='group' id='wp-admin-bar-about'><a class='ab-item' role="menuitem" href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-admin/about.php'>Acerca de WordPress</a></li>
-                                <li role='group' id='wp-admin-bar-contribute'><a class='ab-item' role="menuitem" href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-admin/contribute.php'>Unite</a></li>
+                                <li role='group' id='wp-admin-bar-about'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/about.php'>Acerca de WordPress</a></li>
+                                <li role='group' id='wp-admin-bar-contribute'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/contribute.php'>Unite</a></li>
                             </ul>
                             <ul role='menu' aria-label='Acerca de WordPress' id='wp-admin-bar-wp-logo-external' class="ab-sub-secondary ab-submenu">
                                 <li role='group' id='wp-admin-bar-wporg'><a class='ab-item' role="menuitem" href='https://es-ar.wordpress.org/'>WordPress.org</a></li>
@@ -1166,53 +1167,53 @@ function mostrar_panel_usuario()
                             </ul>
                         </div>
                     </li>
-                    <li role='group' id='wp-admin-bar-my-sites' class="menupop"><a class='ab-item' role="menuitem" aria-expanded="false" href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-admin/my-sites.php'>Mis sitios</a>
+                    <li role='group' id='wp-admin-bar-my-sites' class="menupop"><a class='ab-item' role="menuitem" aria-expanded="false" href='http://casasdeconvivencias.test/wp-admin/my-sites.php'>Mis sitios</a>
                         <div class="ab-sub-wrapper">
                             <ul role='menu' id='wp-admin-bar-my-sites-list' class="ab-submenu">
-                                <li role='group' id='wp-admin-bar-blog-1' class="menupop"><a class='ab-item' role="menuitem" aria-expanded="false" href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-admin/'><span class="wp-admin-bar-arrow" aria-hidden="true"></span>
+                                <li role='group' id='wp-admin-bar-blog-1' class="menupop"><a class='ab-item' role="menuitem" aria-expanded="false" href='http://casasdeconvivencias.test/wp-admin/'><span class="wp-admin-bar-arrow" aria-hidden="true"></span>
                                         <div class="blavatar"></div>Casas de Retiros y Convivencias
                                     </a>
                                     <div class="ab-sub-wrapper">
                                         <ul role='menu' id='wp-admin-bar-blog-1-default' class="ab-submenu">
-                                            <li role='group' id='wp-admin-bar-blog-1-d'><a class='ab-item' role="menuitem" href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-admin/'>Escritorio</a></li>
-                                            <li role='group' id='wp-admin-bar-blog-1-n'><a class='ab-item' role="menuitem" href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-admin/post-new.php'>Nueva entrada</a></li>
-                                            <li role='group' id='wp-admin-bar-blog-1-c'><a class='ab-item' role="menuitem" href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-admin/edit-comments.php'>Gestionar comentarios</a></li>
-                                            <li role='group' id='wp-admin-bar-blog-1-v'><a class='ab-item' role="menuitem" href='http://localhost/CASASDECONVIVENCIAS-MASTER/'>Visitar sitio</a></li>
+                                            <li role='group' id='wp-admin-bar-blog-1-d'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/'>Escritorio</a></li>
+                                            <li role='group' id='wp-admin-bar-blog-1-n'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/post-new.php'>Nueva entrada</a></li>
+                                            <li role='group' id='wp-admin-bar-blog-1-c'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/edit-comments.php'>Gestionar comentarios</a></li>
+                                            <li role='group' id='wp-admin-bar-blog-1-v'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/'>Visitar sitio</a></li>
                                         </ul>
                                     </div>
                                 </li>
                             </ul>
                         </div>
                     </li>
-                    <li role='group' id='wp-admin-bar-site-name' class="menupop"><a class='ab-item' role="menuitem" aria-expanded="false" href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-admin/'>Casas de Retiros y Convivencias</a>
+                    <li role='group' id='wp-admin-bar-site-name' class="menupop"><a class='ab-item' role="menuitem" aria-expanded="false" href='http://casasdeconvivencias.test/wp-admin/'>Casas de Retiros y Convivencias</a>
                         <div class="ab-sub-wrapper">
                             <ul role='menu' aria-label='Casas de Retiros y Convivencias' id='wp-admin-bar-site-name-default' class="ab-submenu">
-                                <li role='group' id='wp-admin-bar-dashboard'><a class='ab-item' role="menuitem" href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-admin/'>Escritorio</a></li>
+                                <li role='group' id='wp-admin-bar-dashboard'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/'>Escritorio</a></li>
                             </ul>
                             <ul role='menu' aria-label='Casas de Retiros y Convivencias' id='wp-admin-bar-appearance' class="ab-submenu">
-                                <li role='group' id='wp-admin-bar-themes'><a class='ab-item' role="menuitem" href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-admin/themes.php'>Temas</a></li>
-                                <li role='group' id='wp-admin-bar-widgets'><a class='ab-item' role="menuitem" href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-admin/widgets.php'>Widgets</a></li>
-                                <li role='group' id='wp-admin-bar-menus'><a class='ab-item' role="menuitem" href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-admin/nav-menus.php'>Menús</a></li>
+                                <li role='group' id='wp-admin-bar-themes'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/themes.php'>Temas</a></li>
+                                <li role='group' id='wp-admin-bar-widgets'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/widgets.php'>Widgets</a></li>
+                                <li role='group' id='wp-admin-bar-menus'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/nav-menus.php'>Menús</a></li>
                             </ul>
                         </div>
                     </li>
-                    <li role='group' id='wp-admin-bar-customize' class="hide-if-no-customize"><a class='ab-item' role="menuitem" href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-admin/customize.php?url=https%3A%2F%2FCASASDECONVIVENCIAS-MASTER%2Fmi-cuenta%2F'>Personalizar</a></li>
-                    <li role='group' id='wp-admin-bar-comments'><a class='ab-item' role="menuitem" href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-admin/edit-comments.php'><span class="ab-icon" aria-hidden="true"></span><span class="ab-label awaiting-mod pending-count count-159" aria-hidden="true">159</span><span class="screen-reader-text comments-in-moderation-text">159 comentarios en moderación</span></a></li>
-                    <li role='group' id='wp-admin-bar-new-content' class="menupop"><a class='ab-item' role="menuitem" aria-expanded="false" href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-admin/post-new.php'><span class="ab-icon" aria-hidden="true"></span><span class="ab-label">Agregar</span></a>
+                    <li role='group' id='wp-admin-bar-customize' class="hide-if-no-customize"><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/customize.php?url=https%3A%2F%2FCASASDECONVIVENCIAS-MASTER%2Fmi-cuenta%2F'>Personalizar</a></li>
+                    <li role='group' id='wp-admin-bar-comments'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/edit-comments.php'><span class="ab-icon" aria-hidden="true"></span><span class="ab-label awaiting-mod pending-count count-159" aria-hidden="true">159</span><span class="screen-reader-text comments-in-moderation-text">159 comentarios en moderación</span></a></li>
+                    <li role='group' id='wp-admin-bar-new-content' class="menupop"><a class='ab-item' role="menuitem" aria-expanded="false" href='http://casasdeconvivencias.test/wp-admin/post-new.php'><span class="ab-icon" aria-hidden="true"></span><span class="ab-label">Agregar</span></a>
                         <div class="ab-sub-wrapper">
                             <ul role='menu' aria-label='Agregar' id='wp-admin-bar-new-content-default' class="ab-submenu">
-                                <li role='group' id='wp-admin-bar-new-post'><a class='ab-item' role="menuitem" href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-admin/post-new.php'>Entrada</a></li>
-                                <li role='group' id='wp-admin-bar-new-media'><a class='ab-item' role="menuitem" href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-admin/media-new.php'>Medio</a></li>
-                                <li role='group' id='wp-admin-bar-new-page'><a class='ab-item' role="menuitem" href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-admin/post-new.php?post_type=page'>Página</a></li>
-                                <li role='group' id='wp-admin-bar-new-portfolio'><a class='ab-item' role="menuitem" href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-admin/post-new.php?post_type=portfolio'>Portfolio Item</a></li>
-                                <li role='group' id='wp-admin-bar-new-product'><a class='ab-item' role="menuitem" href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-admin/post-new.php?post_type=product'>Producto</a></li>
-                                <li role='group' id='wp-admin-bar-new-shop_order'><a class='ab-item' role="menuitem" href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-admin/post-new.php?post_type=shop_order'>Pedido</a></li>
-                                <li role='group' id='wp-admin-bar-new-shop_coupon'><a class='ab-item' role="menuitem" href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-admin/post-new.php?post_type=shop_coupon'>Cupón</a></li>
-                                <li role='group' id='wp-admin-bar-new-user'><a class='ab-item' role="menuitem" href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-admin/user-new.php'>Usuario</a></li>
+                                <li role='group' id='wp-admin-bar-new-post'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/post-new.php'>Entrada</a></li>
+                                <li role='group' id='wp-admin-bar-new-media'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/media-new.php'>Medio</a></li>
+                                <li role='group' id='wp-admin-bar-new-page'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/post-new.php?post_type=page'>Página</a></li>
+                                <li role='group' id='wp-admin-bar-new-portfolio'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/post-new.php?post_type=portfolio'>Portfolio Item</a></li>
+                                <li role='group' id='wp-admin-bar-new-product'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/post-new.php?post_type=product'>Producto</a></li>
+                                <li role='group' id='wp-admin-bar-new-shop_order'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/post-new.php?post_type=shop_order'>Pedido</a></li>
+                                <li role='group' id='wp-admin-bar-new-shop_coupon'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/post-new.php?post_type=shop_coupon'>Cupón</a></li>
+                                <li role='group' id='wp-admin-bar-new-user'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/user-new.php'>Usuario</a></li>
                             </ul>
                         </div>
                     </li>
-                    <li role='group' id='wp-admin-bar-edit'><a class='ab-item' role="menuitem" href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-admin/post.php?post=7&#038;action=edit'>Editar página</a></li>
+                    <li role='group' id='wp-admin-bar-edit'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/post.php?post=7&#038;action=edit'>Editar página</a></li>
                 </ul>
                 <ul role='menu' id='wp-admin-bar-top-secondary' class="ab-top-secondary ab-top-menu">
                     <li role='group' id='wp-admin-bar-my-account' class="menupop with-avatar">
@@ -1229,13 +1230,13 @@ function mostrar_panel_usuario()
                                         <span class='display-name edit-profile'>Editar el perfil</span>
                                     </a>
                                 </li>
-                                <li role='group' id='wp-admin-bar-logout'><a class='ab-item' role="menuitem" href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-login.php?action=logout&#038;_wpnonce=4b3462bb36'>Cerrar sesión</a></li>
+                                <li role='group' id='wp-admin-bar-logout'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-login.php?action=logout&#038;_wpnonce=4b3462bb36'>Cerrar sesión</a></li>
                             </ul>
                         </div>
                     </li>
                     <li role='group' id='wp-admin-bar-search' class="admin-bar-search">
                         <div class="ab-item ab-empty-item" tabindex="-1" role="menuitem">
-                            <form action="http://localhost/CASASDECONVIVENCIAS-MASTER" method="get" id="adminbarsearch"><input class="adminbar-input" name="s" id="adminbar-search" type="text" value="" maxlength="150" /><label for="adminbar-search" class="screen-reader-text">Buscar</label><input type="submit" class="adminbar-button" value="Buscar" /></form>
+                            <form action="http://casasdeconvivencias.test" method="get" id="adminbarsearch"><input class="adminbar-input" name="s" id="adminbar-search" type="text" value="" maxlength="150" /><label for="adminbar-search" class="screen-reader-text">Buscar</label><input type="submit" class="adminbar-button" value="Buscar" /></form>
                         </div>
                     </li>
                 </ul>
@@ -1263,7 +1264,7 @@ function mostrar_panel_usuario()
                     <div class="row">
                         <div class="col-md-12 clearfix kad-header-left">
                             <div id="logo" class="logocase">
-                                <a class="brand logofont" href="http://localhost/CASASDECONVIVENCIAS-MASTER">
+                                <a class="brand logofont" href="http://casasdeconvivencias.test">
                                     Casas de Retiros y Convivencias </a>
                                 <p class="kad_tagline belowlogo-text">Convivencias y Retiros Espirituales.</p>
                             </div> <!-- Close #logo -->
@@ -1489,7 +1490,7 @@ function mostrar_panel_usuario()
 
             </div><!--Wrapper-->
             <div id="wcplpro_added_to_cart_notification" class="autoclose" style="display: none;">
-                <a href="http://localhost/CASASDECONVIVENCIAS-MASTER.ar/reservas/" title="Go to cart"><span></span> &times; product(s) added to cart &rarr;</a> <a href="#" class="slideup_panel">&times;</a>
+                <a href="http://casasdeconvivencias.test/reservas/" title="Go to cart"><span></span> &times; product(s) added to cart &rarr;</a> <a href="#" class="slideup_panel">&times;</a>
             </div>
             <script type="text/javascript">
                 (function() {
@@ -1498,11 +1499,11 @@ function mostrar_panel_usuario()
                     document.body.className = c;
                 })();
             </script>
-            <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-includes/js/hoverintent-js.min.js?ver=2.2.1" id="hoverintent-js-js"></script>
-            <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-includes/js/admin-bar.min.js?ver=6.6.2" id="admin-bar-js"></script>
-            <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/plugins/woocommerce/assets/js/selectWoo/selectWoo.full.min.js?ver=1.0.9-wc.6.8.2" id="selectWoo-js"></script>
-            <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js?ver=2.7.0-wc.6.8.2" id="jquery-blockui-js"></script>
-            <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min.js?ver=2.1.4-wc.6.8.2" id="js-cookie-js"></script>
+            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-includes/js/hoverintent-js.min.js?ver=2.2.1" id="hoverintent-js-js"></script>
+            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-includes/js/admin-bar.min.js?ver=6.6.2" id="admin-bar-js"></script>
+            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/plugins/woocommerce/assets/js/selectWoo/selectWoo.full.min.js?ver=1.0.9-wc.6.8.2" id="selectWoo-js"></script>
+            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js?ver=2.7.0-wc.6.8.2" id="jquery-blockui-js"></script>
+            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min.js?ver=2.1.4-wc.6.8.2" id="js-cookie-js"></script>
             <script type="text/javascript" id="woocommerce-js-extra">
                 /* <![CDATA[ */
                 var woocommerce_params = {
@@ -1511,7 +1512,7 @@ function mostrar_panel_usuario()
                 };
                 /* ]]> */
             </script>
-            <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js?ver=6.8.2" id="woocommerce-js"></script>
+            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js?ver=6.8.2" id="woocommerce-js"></script>
             <script type="text/javascript" id="wc-cart-fragments-js-extra">
                 /* <![CDATA[ */
                 var wc_cart_fragments_params = {
@@ -1523,13 +1524,13 @@ function mostrar_panel_usuario()
                 };
                 /* ]]> */
             </script>
-            <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min.js?ver=6.8.2" id="wc-cart-fragments-js"></script>
-            <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/themes/virtue/assets/js/min/bootstrap-min.js?ver=3.4.10" id="bootstrap-js"></script>
-            <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-includes/js/hoverIntent.min.js?ver=1.10.2" id="hoverIntent-js"></script>
-            <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-includes/js/imagesloaded.min.js?ver=5.0.0" id="imagesloaded-js"></script>
-            <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-includes/js/masonry.min.js?ver=4.2.2" id="masonry-js"></script>
-            <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/themes/virtue/assets/js/min/plugins-min.js?ver=3.4.10" id="virtue_plugins-js"></script>
-            <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/themes/virtue/assets/js/min/magnific-popup-min.js?ver=3.4.10" id="magnific-popup-js"></script>
+            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min.js?ver=6.8.2" id="wc-cart-fragments-js"></script>
+            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/bootstrap-min.js?ver=3.4.10" id="bootstrap-js"></script>
+            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-includes/js/hoverIntent.min.js?ver=1.10.2" id="hoverIntent-js"></script>
+            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-includes/js/imagesloaded.min.js?ver=5.0.0" id="imagesloaded-js"></script>
+            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-includes/js/masonry.min.js?ver=4.2.2" id="masonry-js"></script>
+            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/plugins-min.js?ver=3.4.10" id="virtue_plugins-js"></script>
+            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/magnific-popup-min.js?ver=3.4.10" id="magnific-popup-js"></script>
             <script type="text/javascript" id="virtue-lightbox-init-js-extra">
                 /* <![CDATA[ */
                 var virtue_lightbox = {
@@ -1539,10 +1540,10 @@ function mostrar_panel_usuario()
                 };
                 /* ]]> */
             </script>
-            <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/themes/virtue/assets/js/min/virtue-lightbox-init-min.js?ver=3.4.10" id="virtue-lightbox-init-js"></script>
-            <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/themes/virtue/assets/js/min/main-min.js?ver=3.4.10" id="virtue_main-js"></script>
-            <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/themes/virtue/assets/js/min/kt-add-to-cart-variation-min.js?ver=6.6.2" id="kt-wc-add-to-cart-variation-js"></script>
-            <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/themes/virtue/assets/js/min/wc-quantity-increment-min.js?ver=6.6.2" id="wcqi-js-js"></script>
+            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/virtue-lightbox-init-min.js?ver=3.4.10" id="virtue-lightbox-init-js"></script>
+            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/main-min.js?ver=3.4.10" id="virtue_main-js"></script>
+            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/kt-add-to-cart-variation-min.js?ver=6.6.2" id="kt-wc-add-to-cart-variation-js"></script>
+            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/wc-quantity-increment-min.js?ver=6.6.2" id="wcqi-js-js"></script>
             <script type="text/javascript">
                 (function(undefined) {
                     let scriptOptions = {
@@ -2266,8 +2267,8 @@ function mostrar_login_registro()
         <title>Mi cuenta &#8211; Casas de Retiros y Convivencias</title>
         <meta name='robots' content='max-image-preview:large, noindex, follow' />
         <link rel='dns-prefetch' href='//fonts.googleapis.com' />
-        <link rel="alternate" type="application/rss+xml" title="Casas de Retiros y Convivencias &raquo; Feed" href="http://localhost/CASASDECONVIVENCIAS-MASTER/feed/" />
-        <link rel="alternate" type="application/rss+xml" title="Casas de Retiros y Convivencias &raquo; RSS de los comentarios" href="http://localhost/CASASDECONVIVENCIAS-MASTER/comments/feed/" />
+        <link rel="alternate" type="application/rss+xml" title="Casas de Retiros y Convivencias &raquo; Feed" href="http://casasdeconvivencias.test/feed/" />
+        <link rel="alternate" type="application/rss+xml" title="Casas de Retiros y Convivencias &raquo; RSS de los comentarios" href="http://casasdeconvivencias.test/comments/feed/" />
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         <script type="text/javascript">
             /* <![CDATA[ */
@@ -2277,7 +2278,7 @@ function mostrar_login_registro()
                 "svgUrl": "https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/svg\/",
                 "svgExt": ".svg",
                 "source": {
-                    "concatemoji": "https:\/\/localhost/CASASDECONVIVENCIAS-MASTER\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.6.2"
+                    "concatemoji": "https:\/\/casasdeconvivencias.test\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.6.2"
                 }
             };
             /*! This file is auto-generated */
@@ -2387,9 +2388,9 @@ function mostrar_login_registro()
                 padding: 0 !important;
             }
         </style>
-        <link rel='stylesheet' id='wp-block-library-css' href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-includes/css/dist/block-library/style.min.css?ver=6.6.2' type='text/css' media='all' />
-        <link rel='stylesheet' id='wc-blocks-vendors-style-css' href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/plugins/woocommerce/packages/woocommerce-blocks/build/wc-blocks-vendors-style.css?ver=8.0.0' type='text/css' media='all' />
-        <link rel='stylesheet' id='wc-blocks-style-css' href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/plugins/woocommerce/packages/woocommerce-blocks/build/wc-blocks-style.css?ver=8.0.0' type='text/css' media='all' />
+        <link rel='stylesheet' id='wp-block-library-css' href='http://casasdeconvivencias.test/wp-includes/css/dist/block-library/style.min.css?ver=6.6.2' type='text/css' media='all' />
+        <link rel='stylesheet' id='wc-blocks-vendors-style-css' href='http://casasdeconvivencias.test/wp-content/plugins/woocommerce/packages/woocommerce-blocks/build/wc-blocks-vendors-style.css?ver=8.0.0' type='text/css' media='all' />
+        <link rel='stylesheet' id='wc-blocks-style-css' href='http://casasdeconvivencias.test/wp-content/plugins/woocommerce/packages/woocommerce-blocks/build/wc-blocks-style.css?ver=8.0.0' type='text/css' media='all' />
         <style id='classic-theme-styles-inline-css' type='text/css'>
             /*! This file is auto-generated */
             .wp-block-button__link {
@@ -2737,17 +2738,17 @@ function mostrar_login_registro()
                 line-height: 1.6;
             }
         </style>
-        <link rel='stylesheet' id='select2-css' href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/plugins/woocommerce/assets/css/select2.css?ver=6.8.2' type='text/css' media='all' />
+        <link rel='stylesheet' id='select2-css' href='http://casasdeconvivencias.test/wp-content/plugins/woocommerce/assets/css/select2.css?ver=6.8.2' type='text/css' media='all' />
         <style id='woocommerce-inline-inline-css' type='text/css'>
             .woocommerce form .form-row .required {
                 visibility: visible;
             }
         </style>
-        <link rel='stylesheet' id='parent-style-css' href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/themes/virtue/style.css?ver=6.6.2' type='text/css' media='all' />
-        <link rel='stylesheet' id='wcplpro_css-css' href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/plugins/Woocommerce_Products_List_Pro_v1.1.4/assets/css/wcplpro.css?ver=6.6.2' type='text/css' media='all' />
-        <link rel='stylesheet' id='virtue_theme-css' href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/themes/virtue/assets/css/virtue.css?ver=3.4.10' type='text/css' media='all' />
-        <link rel='stylesheet' id='virtue_skin-css' href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/themes/virtue/assets/css/skins/default.css?ver=3.4.10' type='text/css' media='all' />
-        <link rel='stylesheet' id='virtue_child-css' href='http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/themes/virtue-child/style.css?ver=1.0.0' type='text/css' media='all' />
+        <link rel='stylesheet' id='parent-style-css' href='http://casasdeconvivencias.test/wp-content/themes/virtue/style.css?ver=6.6.2' type='text/css' media='all' />
+        <link rel='stylesheet' id='wcplpro_css-css' href='http://casasdeconvivencias.test/wp-content/plugins/Woocommerce_Products_List_Pro_v1.1.4/assets/css/wcplpro.css?ver=6.6.2' type='text/css' media='all' />
+        <link rel='stylesheet' id='virtue_theme-css' href='http://casasdeconvivencias.test/wp-content/themes/virtue/assets/css/virtue.css?ver=3.4.10' type='text/css' media='all' />
+        <link rel='stylesheet' id='virtue_skin-css' href='http://casasdeconvivencias.test/wp-content/themes/virtue/assets/css/skins/default.css?ver=3.4.10' type='text/css' media='all' />
+        <link rel='stylesheet' id='virtue_child-css' href='http://casasdeconvivencias.test/wp-content/themes/virtue-child/style.css?ver=1.0.0' type='text/css' media='all' />
         <link rel='stylesheet' id='redux-google-fonts-virtue-css' href='https://fonts.googleapis.com/css?family=Lato%3A400%2C700&#038;ver=6.6.2' type='text/css' media='all' />
         <script type="text/javascript">
             window._nslDOMReady = function(callback) {
@@ -2758,22 +2759,22 @@ function mostrar_login_registro()
                 }
             };
         </script>
-        <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
-        <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js"></script>
+        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
+        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js"></script>
         <!--[if lt IE 9]>
 <script type="text/javascript" src="https://casasdeconvivencias.org.ar/wp-content/themes/virtue/assets/js/vendor/respond.min.js?ver=6.6.2" id="virtue-respond-js"></script>
 <![endif]-->
-        <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/plugins/Woocommerce_Products_List_Pro_v1.1.4/assets/js/stupidtable.js?ver=6.6.2" id="wcplpro_table_sort-js"></script>
-        <link rel="https://api.w.org/" href="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-json/" />
-        <link rel="alternate" title="JSON" type="application/json" href="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-json/wp/v2/pages/7" />
-        <link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://localhost/CASASDECONVIVENCIAS-MASTER/xmlrpc.php?rsd" />
+        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/plugins/Woocommerce_Products_List_Pro_v1.1.4/assets/js/stupidtable.js?ver=6.6.2" id="wcplpro_table_sort-js"></script>
+        <link rel="https://api.w.org/" href="http://casasdeconvivencias.test/wp-json/" />
+        <link rel="alternate" title="JSON" type="application/json" href="http://casasdeconvivencias.test/wp-json/wp/v2/pages/7" />
+        <link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://casasdeconvivencias.test/xmlrpc.php?rsd" />
         <meta name="generator" content="WordPress 6.6.2" />
         <meta name="generator" content="WooCommerce 6.8.2" />
-        <link rel="canonical" href="http://localhost/CASASDECONVIVENCIAS-MASTER/mi-cuenta/" />
-        <link rel='shortlink' href='http://localhost/CASASDECONVIVENCIAS-MASTER/?p=7' />
-        <link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-json/oembed/1.0/embed?url=https%3A%2F%2FCASASDECONVIVENCIAS-MASTER%2Fmi-cuenta%2F" />
-        <link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-json/oembed/1.0/embed?url=https%3A%2F%2FCASASDECONVIVENCIAS-MASTER%2Fmi-cuenta%2F&#038;format=xml" />
-        <link rel="Shortcut Icon" type="image/x-icon" href="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/themes/virtue-child/favicon/favicon.png" />
+        <link rel="canonical" href="http://casasdeconvivencias.test/mi-cuenta/" />
+        <link rel='shortlink' href='http://casasdeconvivencias.test/?p=7' />
+        <link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="http://casasdeconvivencias.test/wp-json/oembed/1.0/embed?url=https%3A%2F%2FCASASDECONVIVENCIAS-MASTER%2Fmi-cuenta%2F" />
+        <link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="http://casasdeconvivencias.test/wp-json/oembed/1.0/embed?url=https%3A%2F%2FCASASDECONVIVENCIAS-MASTER%2Fmi-cuenta%2F&#038;format=xml" />
+        <link rel="Shortcut Icon" type="image/x-icon" href="http://casasdeconvivencias.test/wp-content/themes/virtue-child/favicon/favicon.png" />
         <style type="text/css">
             #logo {
                 padding-top: 25px;
@@ -2829,7 +2830,7 @@ function mostrar_login_registro()
             .nav-tabs>.active>a,
             .nav-tabs>.active>a:hover,
             .nav-tabs>.active>a:focus {
-                background: url(http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/uploads/2018/06/beige-minimal-background-pattern-wordpress-8.jpg) repeat;
+                background: url(http://casasdeconvivencias.test/wp-content/uploads/2018/06/beige-minimal-background-pattern-wordpress-8.jpg) repeat;
             }
 
             .topclass {
@@ -2837,11 +2838,11 @@ function mostrar_login_registro()
             }
 
             .headerclass {
-                background: url(http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/uploads/2018/06/header-background-mirror-final-2.jpg) no-repeat;
+                background: url(http://casasdeconvivencias.test/wp-content/uploads/2018/06/header-background-mirror-final-2.jpg) no-repeat;
             }
 
             body {
-                background: url(http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/uploads/2018/06/grey-background.jpg);
+                background: url(http://casasdeconvivencias.test/wp-content/uploads/2018/06/grey-background.jpg);
                 background-position: 0% 0%;
                 background-repeat: repeat;
             }
@@ -3359,7 +3360,7 @@ function mostrar_login_registro()
                     <div class="row">
                         <div class="col-md-12 clearfix kad-header-left">
                             <div id="logo" class="logocase">
-                                <a class="brand logofont" href="http://localhost/CASASDECONVIVENCIAS-MASTER/">
+                                <a class="brand logofont" href="http://casasdeconvivencias.test/">
                                     Casas de Retiros y Convivencias </a>
                                 <p class="kad_tagline belowlogo-text">Convivencias y Retiros Espirituales.</p>
                             </div> <!-- Close #logo -->
@@ -3484,7 +3485,7 @@ function mostrar_login_registro()
 
         </div><!--Wrapper-->
         <div id="wcplpro_added_to_cart_notification" class="autoclose" style="display: none;">
-            <a href="http://localhost/CASASDECONVIVENCIAS-MASTER/reservas/" title="Go to cart"><span></span> &times; product(s) added to cart &rarr;</a> <a href="#" class="slideup_panel">&times;</a>
+            <a href="http://casasdeconvivencias.test/reservas/" title="Go to cart"><span></span> &times; product(s) added to cart &rarr;</a> <a href="#" class="slideup_panel">&times;</a>
         </div>
         <script type="text/javascript">
             (function() {
@@ -3493,9 +3494,9 @@ function mostrar_login_registro()
                 document.body.className = c;
             })();
         </script>
-        <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/plugins/woocommerce/assets/js/selectWoo/selectWoo.full.min.js?ver=1.0.9-wc.6.8.2" id="selectWoo-js"></script>
-        <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js?ver=2.7.0-wc.6.8.2" id="jquery-blockui-js"></script>
-        <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min.js?ver=2.1.4-wc.6.8.2" id="js-cookie-js"></script>
+        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/plugins/woocommerce/assets/js/selectWoo/selectWoo.full.min.js?ver=1.0.9-wc.6.8.2" id="selectWoo-js"></script>
+        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js?ver=2.7.0-wc.6.8.2" id="jquery-blockui-js"></script>
+        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min.js?ver=2.1.4-wc.6.8.2" id="js-cookie-js"></script>
         <script type="text/javascript" id="woocommerce-js-extra">
             /* <![CDATA[ */
             var woocommerce_params = {
@@ -3504,7 +3505,7 @@ function mostrar_login_registro()
             };
             /* ]]> */
         </script>
-        <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js?ver=6.8.2" id="woocommerce-js"></script>
+        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js?ver=6.8.2" id="woocommerce-js"></script>
         <script type="text/javascript" id="wc-cart-fragments-js-extra">
             /* <![CDATA[ */
             var wc_cart_fragments_params = {
@@ -3516,13 +3517,13 @@ function mostrar_login_registro()
             };
             /* ]]> */
         </script>
-        <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min.js?ver=6.8.2" id="wc-cart-fragments-js"></script>
-        <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/themes/virtue/assets/js/min/bootstrap-min.js?ver=3.4.10" id="bootstrap-js"></script>
-        <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-includes/js/hoverIntent.min.js?ver=1.10.2" id="hoverIntent-js"></script>
-        <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-includes/js/imagesloaded.min.js?ver=5.0.0" id="imagesloaded-js"></script>
-        <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-includes/js/masonry.min.js?ver=4.2.2" id="masonry-js"></script>
-        <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/themes/virtue/assets/js/min/plugins-min.js?ver=3.4.10" id="virtue_plugins-js"></script>
-        <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/themes/virtue/assets/js/min/magnific-popup-min.js?ver=3.4.10" id="magnific-popup-js"></script>
+        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min.js?ver=6.8.2" id="wc-cart-fragments-js"></script>
+        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/bootstrap-min.js?ver=3.4.10" id="bootstrap-js"></script>
+        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-includes/js/hoverIntent.min.js?ver=1.10.2" id="hoverIntent-js"></script>
+        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-includes/js/imagesloaded.min.js?ver=5.0.0" id="imagesloaded-js"></script>
+        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-includes/js/masonry.min.js?ver=4.2.2" id="masonry-js"></script>
+        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/plugins-min.js?ver=3.4.10" id="virtue_plugins-js"></script>
+        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/magnific-popup-min.js?ver=3.4.10" id="magnific-popup-js"></script>
         <script type="text/javascript" id="virtue-lightbox-init-js-extra">
             /* <![CDATA[ */
             var virtue_lightbox = {
@@ -3532,10 +3533,10 @@ function mostrar_login_registro()
             };
             /* ]]> */
         </script>
-        <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/themes/virtue/assets/js/min/virtue-lightbox-init-min.js?ver=3.4.10" id="virtue-lightbox-init-js"></script>
-        <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/themes/virtue/assets/js/min/main-min.js?ver=3.4.10" id="virtue_main-js"></script>
-        <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/themes/virtue/assets/js/min/kt-add-to-cart-variation-min.js?ver=6.6.2" id="kt-wc-add-to-cart-variation-js"></script>
-        <script type="text/javascript" src="http://localhost/CASASDECONVIVENCIAS-MASTER/wp-content/themes/virtue/assets/js/min/wc-quantity-increment-min.js?ver=6.6.2" id="wcqi-js-js"></script>
+        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/virtue-lightbox-init-min.js?ver=3.4.10" id="virtue-lightbox-init-js"></script>
+        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/main-min.js?ver=3.4.10" id="virtue_main-js"></script>
+        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/kt-add-to-cart-variation-min.js?ver=6.6.2" id="kt-wc-add-to-cart-variation-js"></script>
+        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/wc-quantity-increment-min.js?ver=6.6.2" id="wcqi-js-js"></script>
         <script type="text/javascript">
             (function(undefined) {
                 let scriptOptions = {
