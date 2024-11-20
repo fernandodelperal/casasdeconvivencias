@@ -38,8 +38,8 @@ function mostrar_panel_usuario()
         <title>Mi cuenta &#8211; Casas de Retiros y Convivencias</title>
         <meta name='robots' content='max-image-preview:large, noindex, follow' />
         <link rel='dns-prefetch' href='//fonts.googleapis.com' />
-        <link rel="alternate" type="application/rss+xml" title="Casas de Retiros y Convivencias &raquo; Feed" href="http://casasdeconvivencias.test/feed/" />
-        <link rel="alternate" type="application/rss+xml" title="Casas de Retiros y Convivencias &raquo; RSS de los comentarios" href="http://casasdeconvivencias.test/comments/feed/" />
+        <link rel="alternate" type="application/rss+xml" title="Casas de Retiros y Convivencias &raquo; Feed" href="<?php echo home_url('/feed/'); ?>" />
+        <link rel="alternate" type="application/rss+xml" title="Casas de Retiros y Convivencias &raquo; RSS de los comentarios" href="<?php echo home_url('/comments/feed/'); ?>" />
         <script type="text/javascript">
             /* <![CDATA[ */
             window._wpemojiSettings = {
@@ -48,8 +48,7 @@ function mostrar_panel_usuario()
                 "svgUrl": "https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/svg\/",
                 "svgExt": ".svg",
                 "source": {
-                    "concatemoji": "https:\/\/http://casasdeconvivencias.test\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.6.2"
-                
+                    "concatemoji": "<?php echo includes_url('js/wp-emoji-release.min.js?ver=6.6.2'); ?>"
                 }
             };
             /*! This file is auto-generated */
@@ -145,8 +144,8 @@ function mostrar_panel_usuario()
             }((window, document), window._wpemojiSettings);
             /* ]]> */
         </script>
-        <link rel='stylesheet' id='dashicons-css' href='http://casasdeconvivencias.test/wp-includes/css/dashicons.min.css?ver=6.6.2' type='text/css' media='all' />
-        <link rel='stylesheet' id='admin-bar-css' href='http://casasdeconvivencias.test/wp-includes/css/admin-bar.min.css?ver=6.6.2' type='text/css' media='all' />
+        <link rel='stylesheet' id='dashicons-css' href='<?php echo includes_url('css/dashicons.min.css?ver=6.6.2'); ?>' type='text/css' media='all' />
+        <link rel='stylesheet' id='admin-bar-css' href='<?php echo includes_url('css/admin-bar.min.css?ver=6.6.2'); ?>' type='text/css' media='all' />
         <style id='admin-bar-inline-css' type='text/css'>
             @media screen {
                 html {
@@ -166,7 +165,7 @@ function mostrar_panel_usuario()
                 }
             }
         </style>
-        <style id='wp-emoji-styles-inline-css' type='text/css'>
+        <!-- <style id='wp-emoji-styles-inline-css' type='text/css'>
             img.wp-smiley,
             img.emoji {
                 display: inline !important;
@@ -179,368 +178,22 @@ function mostrar_panel_usuario()
                 background: none !important;
                 padding: 0 !important;
             }
-        </style>
-        <link rel='stylesheet' id='wp-block-library-css' href='http://casasdeconvivencias.test/wp-includes/css/dist/block-library/style.min.css?ver=6.6.2' type='text/css' media='all' />
-        <link rel='stylesheet' id='wc-blocks-vendors-style-css' href='http://casasdeconvivencias.test/wp-content/plugins/woocommerce/packages/woocommerce-blocks/build/wc-blocks-vendors-style.css?ver=8.0.0' type='text/css' media='all' />
-        <link rel='stylesheet' id='wc-blocks-style-css' href='http://casasdeconvivencias.test/wp-content/plugins/woocommerce/packages/woocommerce-blocks/build/wc-blocks-style.css?ver=8.0.0' type='text/css' media='all' />
-        <style id='classic-theme-styles-inline-css' type='text/css'>
-            /*! This file is auto-generated */
-            .wp-block-button__link {
-                color: #fff;
-                background-color: #32373c;
-                border-radius: 9999px;
-                box-shadow: none;
-                text-decoration: none;
-                padding: calc(.667em + 2px) calc(1.333em + 2px);
-                font-size: 1.125em
-            }
-
-            .wp-block-file__button {
-                background: #32373c;
-                color: #fff;
-                text-decoration: none
-            }
-        </style>
-        <style id='global-styles-inline-css' type='text/css'>
-            :root {
-                --wp--preset--aspect-ratio--square: 1;
-                --wp--preset--aspect-ratio--4-3: 4/3;
-                --wp--preset--aspect-ratio--3-4: 3/4;
-                --wp--preset--aspect-ratio--3-2: 3/2;
-                --wp--preset--aspect-ratio--2-3: 2/3;
-                --wp--preset--aspect-ratio--16-9: 16/9;
-                --wp--preset--aspect-ratio--9-16: 9/16;
-                --wp--preset--color--black: #000;
-                --wp--preset--color--cyan-bluish-gray: #abb8c3;
-                --wp--preset--color--white: #fff;
-                --wp--preset--color--pale-pink: #f78da7;
-                --wp--preset--color--vivid-red: #cf2e2e;
-                --wp--preset--color--luminous-vivid-orange: #ff6900;
-                --wp--preset--color--luminous-vivid-amber: #fcb900;
-                --wp--preset--color--light-green-cyan: #7bdcb5;
-                --wp--preset--color--vivid-green-cyan: #00d084;
-                --wp--preset--color--pale-cyan-blue: #8ed1fc;
-                --wp--preset--color--vivid-cyan-blue: #0693e3;
-                --wp--preset--color--vivid-purple: #9b51e0;
-                --wp--preset--color--virtue-primary: #2d5c88;
-                --wp--preset--color--virtue-primary-light: #6c8dab;
-                --wp--preset--color--very-light-gray: #eee;
-                --wp--preset--color--very-dark-gray: #444;
-                --wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg, rgba(6, 147, 227, 1) 0%, rgb(155, 81, 224) 100%);
-                --wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg, rgb(122, 220, 180) 0%, rgb(0, 208, 130) 100%);
-                --wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg, rgba(252, 185, 0, 1) 0%, rgba(255, 105, 0, 1) 100%);
-                --wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg, rgba(255, 105, 0, 1) 0%, rgb(207, 46, 46) 100%);
-                --wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg, rgb(238, 238, 238) 0%, rgb(169, 184, 195) 100%);
-                --wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg, rgb(74, 234, 220) 0%, rgb(151, 120, 209) 20%, rgb(207, 42, 186) 40%, rgb(238, 44, 130) 60%, rgb(251, 105, 98) 80%, rgb(254, 248, 76) 100%);
-                --wp--preset--gradient--blush-light-purple: linear-gradient(135deg, rgb(255, 206, 236) 0%, rgb(152, 150, 240) 100%);
-                --wp--preset--gradient--blush-bordeaux: linear-gradient(135deg, rgb(254, 205, 165) 0%, rgb(254, 45, 45) 50%, rgb(107, 0, 62) 100%);
-                --wp--preset--gradient--luminous-dusk: linear-gradient(135deg, rgb(255, 203, 112) 0%, rgb(199, 81, 192) 50%, rgb(65, 88, 208) 100%);
-                --wp--preset--gradient--pale-ocean: linear-gradient(135deg, rgb(255, 245, 203) 0%, rgb(182, 227, 212) 50%, rgb(51, 167, 181) 100%);
-                --wp--preset--gradient--electric-grass: linear-gradient(135deg, rgb(202, 248, 128) 0%, rgb(113, 206, 126) 100%);
-                --wp--preset--gradient--midnight: linear-gradient(135deg, rgb(2, 3, 129) 0%, rgb(40, 116, 252) 100%);
-                --wp--preset--font-size--small: 13px;
-                --wp--preset--font-size--medium: 20px;
-                --wp--preset--font-size--large: 36px;
-                --wp--preset--font-size--x-large: 42px;
-                --wp--preset--spacing--20: 0.44rem;
-                --wp--preset--spacing--30: 0.67rem;
-                --wp--preset--spacing--40: 1rem;
-                --wp--preset--spacing--50: 1.5rem;
-                --wp--preset--spacing--60: 2.25rem;
-                --wp--preset--spacing--70: 3.38rem;
-                --wp--preset--spacing--80: 5.06rem;
-                --wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);
-                --wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);
-                --wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);
-                --wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);
-                --wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);
-            }
-
-            :where(.is-layout-flex) {
-                gap: 0.5em;
-            }
-
-            :where(.is-layout-grid) {
-                gap: 0.5em;
-            }
-
-            body .is-layout-flex {
-                display: flex;
-            }
-
-            .is-layout-flex {
-                flex-wrap: wrap;
-                align-items: center;
-            }
-
-            .is-layout-flex> :is(*, div) {
-                margin: 0;
-            }
-
-            body .is-layout-grid {
-                display: grid;
-            }
-
-            .is-layout-grid> :is(*, div) {
-                margin: 0;
-            }
-
-            :where(.wp-block-columns.is-layout-flex) {
-                gap: 2em;
-            }
-
-            :where(.wp-block-columns.is-layout-grid) {
-                gap: 2em;
-            }
-
-            :where(.wp-block-post-template.is-layout-flex) {
-                gap: 1.25em;
-            }
-
-            :where(.wp-block-post-template.is-layout-grid) {
-                gap: 1.25em;
-            }
-
-            .has-black-color {
-                color: var(--wp--preset--color--black) !important;
-            }
-
-            .has-cyan-bluish-gray-color {
-                color: var(--wp--preset--color--cyan-bluish-gray) !important;
-            }
-
-            .has-white-color {
-                color: var(--wp--preset--color--white) !important;
-            }
-
-            .has-pale-pink-color {
-                color: var(--wp--preset--color--pale-pink) !important;
-            }
-
-            .has-vivid-red-color {
-                color: var(--wp--preset--color--vivid-red) !important;
-            }
-
-            .has-luminous-vivid-orange-color {
-                color: var(--wp--preset--color--luminous-vivid-orange) !important;
-            }
-
-            .has-luminous-vivid-amber-color {
-                color: var(--wp--preset--color--luminous-vivid-amber) !important;
-            }
-
-            .has-light-green-cyan-color {
-                color: var(--wp--preset--color--light-green-cyan) !important;
-            }
-
-            .has-vivid-green-cyan-color {
-                color: var(--wp--preset--color--vivid-green-cyan) !important;
-            }
-
-            .has-pale-cyan-blue-color {
-                color: var(--wp--preset--color--pale-cyan-blue) !important;
-            }
-
-            .has-vivid-cyan-blue-color {
-                color: var(--wp--preset--color--vivid-cyan-blue) !important;
-            }
-
-            .has-vivid-purple-color {
-                color: var(--wp--preset--color--vivid-purple) !important;
-            }
-
-            .has-black-background-color {
-                background-color: var(--wp--preset--color--black) !important;
-            }
-
-            .has-cyan-bluish-gray-background-color {
-                background-color: var(--wp--preset--color--cyan-bluish-gray) !important;
-            }
-
-            .has-white-background-color {
-                background-color: var(--wp--preset--color--white) !important;
-            }
-
-            .has-pale-pink-background-color {
-                background-color: var(--wp--preset--color--pale-pink) !important;
-            }
-
-            .has-vivid-red-background-color {
-                background-color: var(--wp--preset--color--vivid-red) !important;
-            }
-
-            .has-luminous-vivid-orange-background-color {
-                background-color: var(--wp--preset--color--luminous-vivid-orange) !important;
-            }
-
-            .has-luminous-vivid-amber-background-color {
-                background-color: var(--wp--preset--color--luminous-vivid-amber) !important;
-            }
-
-            .has-light-green-cyan-background-color {
-                background-color: var(--wp--preset--color--light-green-cyan) !important;
-            }
-
-            .has-vivid-green-cyan-background-color {
-                background-color: var(--wp--preset--color--vivid-green-cyan) !important;
-            }
-
-            .has-pale-cyan-blue-background-color {
-                background-color: var(--wp--preset--color--pale-cyan-blue) !important;
-            }
-
-            .has-vivid-cyan-blue-background-color {
-                background-color: var(--wp--preset--color--vivid-cyan-blue) !important;
-            }
-
-            .has-vivid-purple-background-color {
-                background-color: var(--wp--preset--color--vivid-purple) !important;
-            }
-
-            .has-black-border-color {
-                border-color: var(--wp--preset--color--black) !important;
-            }
-
-            .has-cyan-bluish-gray-border-color {
-                border-color: var(--wp--preset--color--cyan-bluish-gray) !important;
-            }
-
-            .has-white-border-color {
-                border-color: var(--wp--preset--color--white) !important;
-            }
-
-            .has-pale-pink-border-color {
-                border-color: var(--wp--preset--color--pale-pink) !important;
-            }
-
-            .has-vivid-red-border-color {
-                border-color: var(--wp--preset--color--vivid-red) !important;
-            }
-
-            .has-luminous-vivid-orange-border-color {
-                border-color: var(--wp--preset--color--luminous-vivid-orange) !important;
-            }
-
-            .has-luminous-vivid-amber-border-color {
-                border-color: var(--wp--preset--color--luminous-vivid-amber) !important;
-            }
-
-            .has-light-green-cyan-border-color {
-                border-color: var(--wp--preset--color--light-green-cyan) !important;
-            }
-
-            .has-vivid-green-cyan-border-color {
-                border-color: var(--wp--preset--color--vivid-green-cyan) !important;
-            }
-
-            .has-pale-cyan-blue-border-color {
-                border-color: var(--wp--preset--color--pale-cyan-blue) !important;
-            }
-
-            .has-vivid-cyan-blue-border-color {
-                border-color: var(--wp--preset--color--vivid-cyan-blue) !important;
-            }
-
-            .has-vivid-purple-border-color {
-                border-color: var(--wp--preset--color--vivid-purple) !important;
-            }
-
-            .has-vivid-cyan-blue-to-vivid-purple-gradient-background {
-                background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;
-            }
-
-            .has-light-green-cyan-to-vivid-green-cyan-gradient-background {
-                background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;
-            }
-
-            .has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background {
-                background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;
-            }
-
-            .has-luminous-vivid-orange-to-vivid-red-gradient-background {
-                background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;
-            }
-
-            .has-very-light-gray-to-cyan-bluish-gray-gradient-background {
-                background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;
-            }
-
-            .has-cool-to-warm-spectrum-gradient-background {
-                background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;
-            }
-
-            .has-blush-light-purple-gradient-background {
-                background: var(--wp--preset--gradient--blush-light-purple) !important;
-            }
-
-            .has-blush-bordeaux-gradient-background {
-                background: var(--wp--preset--gradient--blush-bordeaux) !important;
-            }
-
-            .has-luminous-dusk-gradient-background {
-                background: var(--wp--preset--gradient--luminous-dusk) !important;
-            }
-
-            .has-pale-ocean-gradient-background {
-                background: var(--wp--preset--gradient--pale-ocean) !important;
-            }
-
-            .has-electric-grass-gradient-background {
-                background: var(--wp--preset--gradient--electric-grass) !important;
-            }
-
-            .has-midnight-gradient-background {
-                background: var(--wp--preset--gradient--midnight) !important;
-            }
-
-            .has-small-font-size {
-                font-size: var(--wp--preset--font-size--small) !important;
-            }
-
-            .has-medium-font-size {
-                font-size: var(--wp--preset--font-size--medium) !important;
-            }
-
-            .has-large-font-size {
-                font-size: var(--wp--preset--font-size--large) !important;
-            }
-
-            .has-x-large-font-size {
-                font-size: var(--wp--preset--font-size--x-large) !important;
-            }
-
-            :where(.wp-block-post-template.is-layout-flex) {
-                gap: 1.25em;
-            }
-
-            :where(.wp-block-post-template.is-layout-grid) {
-                gap: 1.25em;
-            }
-
-            :where(.wp-block-columns.is-layout-flex) {
-                gap: 2em;
-            }
-
-            :where(.wp-block-columns.is-layout-grid) {
-                gap: 2em;
-            }
-
-            :root :where(.wp-block-pullquote) {
-                font-size: 1.5em;
-                line-height: 1.6;
-            }
-        </style>
-        <link rel='stylesheet' id='select2-css' href='http://casasdeconvivencias.test/wp-content/plugins/woocommerce/assets/css/select2.css?ver=6.8.2' type='text/css' media='all' />
+        </style> -->
+        <link rel='stylesheet' id='wp-block-library-css' href='<?php echo includes_url('css/dist/block-library/style.min.css?ver=6.6.2'); ?>' type='text/css' media='all' />
+        <link rel='stylesheet' id='wc-blocks-vendors-style-css' href='<?php echo plugins_url('woocommerce/packages/woocommerce-blocks/build/wc-blocks-vendors-style.css?ver=8.0.0'); ?>' type='text/css' media='all' />
+        <link rel='stylesheet' id='wc-blocks-style-css' href='<?php echo plugins_url('woocommerce/packages/woocommerce-blocks/build/wc-blocks-style.css?ver=8.0.0'); ?>' type='text/css' media='all' />
+        <link rel='stylesheet' id='select2-css' href='<?php echo plugins_url('woocommerce/assets/css/select2.css?ver=6.8.2'); ?>' type='text/css' media='all' />
         <style id='woocommerce-inline-inline-css' type='text/css'>
             .woocommerce form .form-row .required {
                 visibility: visible;
             }
         </style>
-        <link rel='stylesheet' id='parent-style-css' href='http://casasdeconvivencias.test/wp-content/themes/virtue/style.css?ver=6.6.2' type='text/css' media='all' />
-        <link rel='stylesheet' id='wcplpro_css-css' href='http://casasdeconvivencias.test/wp-content/plugins/Woocommerce_Products_List_Pro_v1.1.4/assets/css/wcplpro.css?ver=6.6.2' type='text/css' media='all' />
-        <link rel='stylesheet' id='virtue_theme-css' href='http://casasdeconvivencias.test/wp-content/themes/virtue/assets/css/virtue.css?ver=3.4.10' type='text/css' media='all' />
-        <link rel='stylesheet' id='virtue_skin-css' href='http://casasdeconvivencias.test/wp-content/themes/virtue/assets/css/skins/default.css?ver=3.4.10' type='text/css' media='all' />
-        <link rel='stylesheet' id='virtue_child-css' href='http://casasdeconvivencias.test/wp-content/themes/virtue-child/style.css?ver=1.0.0' type='text/css' media='all' />
+        <link rel='stylesheet' id='parent-style-css' href='<?php echo get_template_directory_uri(); ?>/style.css?ver=6.6.2' type='text/css' media='all' />
+        <link rel='stylesheet' id='wcplpro_css-css' href='<?php echo plugins_url(); ?>/Woocommerce_Products_List_Pro_v1.1.4/assets/css/wcplpro.css?ver=6.6.2' type='text/css' media='all' />
+        <link rel='stylesheet' id='virtue_theme-css' href='<?php echo get_template_directory_uri(); ?>/assets/css/virtue.css?ver=3.4.10' type='text/css' media='all' />
+        <link rel='stylesheet' id='virtue_skin-css' href='<?php echo get_template_directory_uri(); ?>/assets/css/skins/default.css?ver=3.4.10' type='text/css' media='all' />
+        <link rel='stylesheet' id='virtue_child-css' href='<?php echo get_stylesheet_directory_uri(); ?>/style.css?ver=1.0.0' type='text/css' media='all' />
+        <link rel='stylesheet' id='redux-google-fonts-virtue-css' href='https://fonts.googleapis.com/css?family=Lato%3A400%2C700&#038;ver=6.6.2' type='text/css' media='all' />
         <link rel='stylesheet' id='redux-google-fonts-virtue-css' href='https://fonts.googleapis.com/css?family=Lato%3A400%2C700&#038;ver=6.6.2' type='text/css' media='all' />
         <script type="text/javascript">
             window._nslDOMReady = function(callback) {
@@ -551,22 +204,22 @@ function mostrar_panel_usuario()
                 }
             };
         </script>
-        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
-        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js"></script>
+        <script type="text/javascript" src="<?php echo includes_url('js/jquery/jquery.min.js?ver=3.7.1'); ?>" id="jquery-core-js"></script>
+        <script type="text/javascript" src="<?php echo includes_url('js/jquery/jquery-migrate.min.js?ver=3.4.1'); ?>" id="jquery-migrate-js"></script>
         <!--[if lt IE 9]>
 <script type="text/javascript" src="https://casasdeconvivencias.org.ar/wp-content/themes/virtue/assets/js/vendor/respond.min.js?ver=6.6.2" id="virtue-respond-js"></script>
 <![endif]-->
-        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/plugins/Woocommerce_Products_List_Pro_v1.1.4/assets/js/stupidtable.js?ver=6.6.2" id="wcplpro_table_sort-js"></script>
-        <link rel="https://api.w.org/" href="http://casasdeconvivencias.test/wp-json/" />
-        <link rel="alternate" title="JSON" type="application/json" href="http://casasdeconvivencias.test/wp-json/wp/v2/pages/7" />
-        <link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://casasdeconvivencias.test/xmlrpc.php?rsd" />
+        <script type="text/javascript" src="<?php echo plugins_url('Woocommerce_Products_List_Pro_v1.1.4/assets/js/stupidtable.js?ver=6.6.2'); ?>" id="wcplpro_table_sort-js"></script>
+        <link rel="https://api.w.org/" href="<?php echo home_url('/wp-json/'); ?>" />
+        <link rel="alternate" title="JSON" type="application/json" href="<?php echo home_url('/wp-json/wp/v2/pages/7'); ?>" />
+        <link rel="EditURI" type="application/rsd+xml" title="RSD" href="<?php echo home_url('/xmlrpc.php?rsd'); ?>" />
         <meta name="generator" content="WordPress 6.6.2" />
         <meta name="generator" content="WooCommerce 6.8.2" />
-        <link rel="canonical" href="http://casasdeconvivencias.test/mi-cuenta/" />
-        <link rel='shortlink' href='http://casasdeconvivencias.test/?p=7' />
-        <link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="http://casasdeconvivencias.test/wp-json/oembed/1.0/embed?url=https%3A%2F%2FCASASDECONVIVENCIAS-MASTER%2Fmi-cuenta%2F" />
-        <link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="http://casasdeconvivencias.test/wp-json/oembed/1.0/embed?url=https%3A%2F%2FCASASDECONVIVENCIAS-MASTER%2Fmi-cuenta%2F&#038;format=xml" />
-        <link rel="Shortcut Icon" type="image/x-icon" href="http://casasdeconvivencias.test/wp-content/themes/virtue-child/favicon/favicon.png" />
+        <link rel="canonical" href="/mi-cuenta/" />
+        <link rel='shortlink' href='<?php echo home_url('/?p=7'); ?>' />
+        <link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="<?php echo home_url('/wp-json/oembed/1.0/embed?url=' . urlencode(get_permalink())); ?>" />
+        <link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="<?php echo home_url('/wp-json/oembed/1.0/embed?url=' . urlencode(get_permalink()) . '&format=xml'); ?>" />
+        <link rel="Shortcut Icon" type="image/x-icon" href="<?php echo get_stylesheet_directory_uri(); ?>/favicon/favicon.png" />
         <style type="text/css">
             #logo {
                 padding-top: 25px;
@@ -622,7 +275,7 @@ function mostrar_panel_usuario()
             .nav-tabs>.active>a,
             .nav-tabs>.active>a:hover,
             .nav-tabs>.active>a:focus {
-                background: url(http://casasdeconvivencias.test/wp-content/uploads/2018/06/beige-minimal-background-pattern-wordpress-8.jpg) repeat;
+                background: url('<?php echo wp_upload_dir()['baseurl']; ?>/2018/06/beige-minimal-background-pattern-wordpress-8.jpg') repeat;
             }
 
             .topclass {
@@ -630,11 +283,11 @@ function mostrar_panel_usuario()
             }
 
             .headerclass {
-                background: url(http://casasdeconvivencias.test/wp-content/uploads/2018/06/header-background-mirror-final-2.jpg) no-repeat;
+                background: url('<?php echo wp_upload_dir()['baseurl']; ?>/2018/06/header-background-mirror-final-2.jpg') no-repeat;
             }
 
             body {
-                background: url(http://casasdeconvivencias.test/wp-content/uploads/2018/06/grey-background.jpg);
+                background: url('<?php echo wp_upload_dir()['baseurl']; ?>/2018/06/grey-background.jpg');
                 background-position: 0% 0%;
                 background-repeat: repeat;
             }
@@ -665,366 +318,204 @@ function mostrar_panel_usuario()
                 }
             </style>
         </noscript>
-        <style type="text/css">
-            div.nsl-container[data-align="left"] {
-                text-align: left;
-            }
 
-            div.nsl-container[data-align="center"] {
+
+        <style>
+            /* Estilo para el título principal */
+            /* .container h1 {
+            text-align: center;
+            font-weight: 700;
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.4;
+            font-family: 'Arial', sans-serif;
+            position: relative;
+        } */
+
+
+
+
+
+
+            /* Enlaces */
+            .woocommerce-LostPassword {
                 text-align: center;
+                margin-top: 20px;
             }
 
-            div.nsl-container[data-align="right"] {
-                text-align: right;
+            .woocommerce-LostPassword a {
+                color: #686767;
+                text-decoration: underline;
             }
 
 
-            div.nsl-container div.nsl-container-buttons a[data-plugin="nsl"] {
-                text-decoration: none;
-                box-shadow: none;
-                border: 0;
-            }
 
-            div.nsl-container .nsl-container-buttons {
+
+
+            /* ==========================================================================
+        1. Estilos Básicos y Reset
+        ========================================================================== */
+            body {
+                margin: 0;
+                padding: 0;
+                min-height: 100vh;
+                background: url('<?php echo wp_upload_dir()['baseurl']; ?>/2018/06/grey-background.jpg');
+                background-position: 0 0;
+                background-repeat: repeat;
                 display: flex;
+                flex-direction: column;
+            }
+
+            /* ==========================================================================
+        2. Estructura Principal
+        ========================================================================== */
+            #wrapper {
+                margin: 0 auto;
+                padding: 0;
+                max-width: 1200px;
+                width: 100%;
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .container {
+                margin: 0 auto;
+                padding: 0 15px;
+                max-width: 1200px;
+                width: 100%;
+            }
+
+            /* ==========================================================================
+        3. Header y Navegación
+        ========================================================================== */
+            .headerclass {
+                background: url('<?php echo wp_upload_dir()['baseurl']; ?>/2018/06/header-background-mirror-final-2.jpg') no-repeat;
+                padding: 10px 0;
+                margin: 0;
+                border-top: 0;
+                width: 100%;
+            }
+
+            /* Logo y título */
+            #logo {
+                padding: 25px 0 10px;
+                margin: 0;
+            }
+
+            #logo.logocase {
+                margin: 0 auto;
+                padding: 10px 0;
+                text-align: center;
+                width: 100%;
+            }
+
+            .brand.logofont {
+                font-family: Lato;
+                font-size: 28px;
+                line-height: 1.2;
+                font-weight: 400;
+                color: #ffffff;
+                text-align: center;
+                display: block;
+            }
+
+            /* Navegación */
+            #nav-main {
+                margin: 40px 0 10px;
+            }
+
+            /* ==========================================================================
+        4. Contenido Principal
+        ========================================================================== */
+            .contentclass {
+                background: url('<?php echo wp_upload_dir()['baseurl']; ?>/2018/06/beige-minimal-background-pattern-wordpress-8.jpg') repeat;
+            }
+
+            #content.container.container-contained {
+                flex: 1;
+                padding: 10px 10px 0;
+                margin-bottom: 0;
+            }
+
+            .entry-content {
+                flex: 1;
+            }
+
+            /* Títulos de página */
+            .page-header {
+                text-align: center;
+                padding: 10px 0;
+                margin: 0;
+            }
+
+            .page-header h1.entry-title {
+                font-size: 2.5em;
+                color: #333;
+                margin: 0;
+                font-weight: 600;
                 padding: 5px 0;
             }
 
-            div.nsl-container.nsl-container-block .nsl-container-buttons {
-                display: inline-grid;
-                grid-template-columns: minmax(145px, auto);
-            }
-
-            div.nsl-container-block-fullwidth .nsl-container-buttons {
-                flex-flow: column;
-                align-items: center;
-            }
-
-            div.nsl-container-block-fullwidth .nsl-container-buttons a,
-            div.nsl-container-block .nsl-container-buttons a {
-                flex: 1 1 auto;
-                display: block;
-                margin: 5px 0;
+            /* ==========================================================================
+            5. Footer
+            ========================================================================== */
+            #containerfooter.footerclass {
                 width: 100%;
-            }
-
-            div.nsl-container-inline {
-                margin: -5px;
-                text-align: left;
-            }
-
-            div.nsl-container-inline .nsl-container-buttons {
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-
-            div.nsl-container-inline .nsl-container-buttons a {
-                margin: 5px;
-                display: inline-block;
-            }
-
-            div.nsl-container-grid .nsl-container-buttons {
-                flex-flow: row;
-                align-items: center;
-                flex-wrap: wrap;
-            }
-
-            div.nsl-container-grid .nsl-container-buttons a {
-                flex: 1 1 auto;
-                display: block;
-                margin: 5px;
-                max-width: 280px;
-                width: 100%;
-            }
-
-            @media only screen and (min-width: 650px) {
-                div.nsl-container-grid .nsl-container-buttons a {
-                    width: auto;
-                }
-            }
-
-            div.nsl-container .nsl-button {
-                cursor: pointer;
-                vertical-align: top;
-                border-radius: 4px;
-            }
-
-            div.nsl-container .nsl-button-default {
-                color: #fff;
-                display: flex;
-            }
-
-            div.nsl-container .nsl-button-icon {
-                display: inline-block;
-            }
-
-            div.nsl-container .nsl-button-svg-container {
-                flex: 0 0 auto;
-                padding: 8px;
-                display: flex;
-                align-items: center;
-            }
-
-            div.nsl-container svg {
-                height: 24px;
-                width: 24px;
-                vertical-align: top;
-            }
-
-            div.nsl-container .nsl-button-default div.nsl-button-label-container {
-                margin: 0 24px 0 12px;
-                padding: 10px 0;
-                font-family: Helvetica, Arial, sans-serif;
-                font-size: 16px;
-                line-height: 20px;
-                letter-spacing: .25px;
-                overflow: hidden;
-                text-align: center;
-                text-overflow: clip;
-                white-space: nowrap;
-                flex: 1 1 auto;
-                -webkit-font-smoothing: antialiased;
-                -moz-osx-font-smoothing: grayscale;
-                text-transform: none;
-                display: inline-block;
-            }
-
-            div.nsl-container .nsl-button-google[data-skin="dark"] .nsl-button-svg-container {
-                margin: 1px;
-                padding: 7px;
-                border-radius: 3px;
-                background: #fff;
-            }
-
-            div.nsl-container .nsl-button-google[data-skin="light"] {
-                border-radius: 1px;
-                box-shadow: 0 1px 5px 0 rgba(0, 0, 0, .25);
-                color: RGBA(0, 0, 0, 0.54);
-            }
-
-            div.nsl-container .nsl-button-apple .nsl-button-svg-container {
-                padding: 0 6px;
-            }
-
-            div.nsl-container .nsl-button-apple .nsl-button-svg-container svg {
-                height: 40px;
-                width: auto;
-            }
-
-            div.nsl-container .nsl-button-apple[data-skin="light"] {
-                color: #000;
-                box-shadow: 0 0 0 1px #000;
-            }
-
-            div.nsl-container .nsl-button-facebook[data-skin="white"] {
-                color: #000;
-                box-shadow: inset 0 0 0 1px #000;
-            }
-
-            div.nsl-container .nsl-button-facebook[data-skin="light"] {
-                color: #1877F2;
-                box-shadow: inset 0 0 0 1px #1877F2;
-            }
-
-            div.nsl-container .nsl-button-spotify[data-skin="white"] {
-                color: #191414;
-                box-shadow: inset 0 0 0 1px #191414;
-            }
-
-            div.nsl-container .nsl-button-apple div.nsl-button-label-container {
-                font-size: 17px;
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-            }
-
-            div.nsl-container .nsl-button-slack div.nsl-button-label-container {
-                font-size: 17px;
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-            }
-
-            div.nsl-container .nsl-button-slack[data-skin="light"] {
-                color: #000000;
-                box-shadow: inset 0 0 0 1px #DDDDDD;
-            }
-
-            div.nsl-container .nsl-button-tiktok[data-skin="light"] {
-                color: #161823;
-                box-shadow: 0 0 0 1px rgba(22, 24, 35, 0.12);
-            }
-
-
-            div.nsl-container .nsl-button-kakao {
-                color: rgba(0, 0, 0, 0.85);
-            }
-
-            .nsl-clear {
-                clear: both;
-            }
-
-            .nsl-container {
-                clear: both;
-            }
-
-            .nsl-disabled-provider .nsl-button {
-                filter: grayscale(1);
-                opacity: 0.8;
-            }
-
-            /*Button align start*/
-
-            div.nsl-container-inline[data-align="left"] .nsl-container-buttons {
-                justify-content: flex-start;
-            }
-
-            div.nsl-container-inline[data-align="center"] .nsl-container-buttons {
-                justify-content: center;
-            }
-
-            div.nsl-container-inline[data-align="right"] .nsl-container-buttons {
-                justify-content: flex-end;
-            }
-
-
-            div.nsl-container-grid[data-align="left"] .nsl-container-buttons {
-                justify-content: flex-start;
-            }
-
-            div.nsl-container-grid[data-align="center"] .nsl-container-buttons {
-                justify-content: center;
-            }
-
-            div.nsl-container-grid[data-align="right"] .nsl-container-buttons {
-                justify-content: flex-end;
-            }
-
-            div.nsl-container-grid[data-align="space-around"] .nsl-container-buttons {
-                justify-content: space-around;
-            }
-
-            div.nsl-container-grid[data-align="space-between"] .nsl-container-buttons {
-                justify-content: space-between;
-            }
-
-            /* Button align end*/
-
-            /* Redirect */
-
-            #nsl-redirect-overlay {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                position: fixed;
-                z-index: 1000000;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                backdrop-filter: blur(1px);
-                background-color: RGBA(0, 0, 0, .32);
-                ;
-            }
-
-            #nsl-redirect-overlay-container {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                background-color: white;
-                padding: 30px;
-                border-radius: 10px;
-            }
-
-            #nsl-redirect-overlay-spinner {
-                content: '';
-                display: block;
-                margin: 20px;
-                border: 9px solid RGBA(0, 0, 0, .6);
-                border-top: 9px solid #fff;
-                border-radius: 50%;
-                box-shadow: inset 0 0 0 1px RGBA(0, 0, 0, .6), 0 0 0 1px RGBA(0, 0, 0, .6);
-                width: 40px;
-                height: 40px;
-                animation: nsl-loader-spin 2s linear infinite;
-            }
-
-            @keyframes nsl-loader-spin {
-                0% {
-                    transform: rotate(0deg)
-                }
-
-                to {
-                    transform: rotate(360deg)
-                }
-            }
-
-            #nsl-redirect-overlay-title {
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-                font-size: 18px;
-                font-weight: bold;
-                color: #3C434A;
-            }
-
-            #nsl-redirect-overlay-text {
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-                text-align: center;
-                font-size: 14px;
-                color: #3C434A;
-            }
-
-            /* Redirect END*/
-        </style>
-        <style type="text/css">
-            /* Notice fallback */
-            #nsl-notices-fallback {
-                position: fixed;
-                right: 10px;
-                top: 10px;
-                z-index: 10000;
-            }
-
-            .admin-bar #nsl-notices-fallback {
-                top: 42px;
-            }
-
-            #nsl-notices-fallback>div {
+                max-width: 1200px;
+                margin: 0 0;
+                /* Esto centrará el footer */
+                padding: 0;
+                background: url('<?php echo wp_upload_dir()['baseurl']; ?>/2018/06/beige-minimal-background-pattern-wordpress-8.jpg') repeat;
                 position: relative;
-                background: #fff;
-                border-left: 4px solid #fff;
-                box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
-                margin: 5px 15px 2px;
-                padding: 1px 20px;
+                /* Ayuda con el posicionamiento */
+                left: 50%;
+                /* Parte del centrado */
+                transform: translateX(-50%);
+                /* Completa el centrado perfecto */
             }
 
-            #nsl-notices-fallback>div.error {
-                display: block;
-                border-left-color: #dc3232;
+            /* #containerfooter .container { */
+            /* max-width: 900px; */
+            /* margin: 0 0;
+            padding: 20px 15px;
+            width: 100%; */
+            /* box-sizing: border-box; */
+            /* } */
+
+            .footercredits {
+                text-align: left;
+                padding: 20px 20px;
+                margin: 0;
             }
 
-            #nsl-notices-fallback>div.updated {
-                display: block;
-                border-left-color: #46b450;
+            .footercredits a {
+                color: #0088ff;
+                text-decoration: none;
+                transition: color 0.3s ease;
             }
 
-            #nsl-notices-fallback p {
-                margin: .5em 0;
-                padding: 2px;
+            .footercredits a:hover {
+                color: #0410fa;
             }
 
-            #nsl-notices-fallback>div:after {
-                position: absolute;
-                right: 5px;
-                top: 5px;
-                content: '\00d7';
-                display: block;
-                height: 16px;
-                width: 16px;
-                line-height: 16px;
-                text-align: center;
-                font-size: 20px;
-                cursor: pointer;
+            /* Widget área */
+            .footercol1 {
+                padding: 20px;
+                margin: 0;
             }
-        </style>
-        <style type="text/css" title="dynamic-css" class="options-output">
+
+            .footer-widget {
+                padding: 15px;
+                margin: 0;
+                background: transparent;
+            }
+
+
+
+
+
             header #logo a.brand,
             .logofont {
                 font-family: Lato;
@@ -1051,86 +542,11 @@ function mostrar_panel_usuario()
                 font-style: normal;
                 font-size: 16px;
             }
-
-            h1 {
-                font-family: Lato;
-                line-height: 40px;
-                font-weight: 400;
-                font-style: normal;
-                font-size: 38px;
-            }
-
-            h2 {
-                font-family: Lato;
-                line-height: 40px;
-                font-weight: normal;
-                font-style: normal;
-                font-size: 32px;
-            }
-
-            h3 {
-                font-family: Lato;
-                line-height: 40px;
-                font-weight: 400;
-                font-style: normal;
-                font-size: 28px;
-            }
-
-            h4 {
-                font-family: Lato;
-                line-height: 40px;
-                font-weight: 400;
-                font-style: normal;
-                font-size: 24px;
-            }
-
-            h5 {
-                font-family: Lato;
-                line-height: 24px;
-                font-weight: 700;
-                font-style: normal;
-                font-size: 18px;
-            }
-
-            body {
-                font-family: Verdana, Geneva, sans-serif;
-                line-height: 20px;
-                font-weight: 400;
-                font-style: normal;
-                font-size: 14px;
-            }
-
-            #nav-main ul.sf-menu a {
-                font-family: Lato;
-                line-height: 18px;
-                font-weight: 400;
-                font-style: normal;
-                font-size: 12px;
-            }
-
-            #nav-second ul.sf-menu a {
-                font-family: Lato;
-                line-height: 22px;
-                font-weight: 400;
-                font-style: normal;
-                font-size: 18px;
-            }
-
-            .kad-nav-inner .kad-mnav,
-            .kad-mobile-nav .kad-nav-inner li a,
-            .nav-trigger-case {
-                font-family: Lato;
-                line-height: 20px;
-                font-weight: 400;
-                font-style: normal;
-                color: #ffffff;
-                font-size: 16px;
-            }
         </style>
     </head>
 
     <body class="page-template-default page page-id-7 logged-in admin-bar no-customize-support wp-embed-responsive theme-virtue woocommerce-account woocommerce-page woocommerce-no-js boxed mi-cuenta">
-        <div id="kt-skip-link"><a href="#content">Skip to Main Content</a></div>
+
         <script type="text/javascript">
             /* <![CDATA[ */
 
@@ -1152,11 +568,11 @@ function mostrar_panel_usuario()
         <div id="wpadminbar" class="nojq nojs">
             <div class="quicklinks" id="wp-toolbar" role="navigation" aria-label="Barra de herramientas">
                 <ul role='menu' id='wp-admin-bar-root-default' class="ab-top-menu">
-                    <li role='group' id='wp-admin-bar-wp-logo' class="menupop"><a class='ab-item' role="menuitem" aria-expanded="false" href='http://casasdeconvivencias.test/wp-admin/about.php'><span class="ab-icon" aria-hidden="true"></span><span class="screen-reader-text">Acerca de WordPress</span></a>
+                    <li role='group' id='wp-admin-bar-wp-logo' class="menupop"><a class='ab-item' role="menuitem" aria-expanded="false" href='<?php echo admin_url('about.php'); ?>'><span class="ab-icon" aria-hidden="true"></span><span class="screen-reader-text">Acerca de WordPress</span></a>
                         <div class="ab-sub-wrapper">
                             <ul role='menu' aria-label='Acerca de WordPress' id='wp-admin-bar-wp-logo-default' class="ab-submenu">
-                                <li role='group' id='wp-admin-bar-about'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/about.php'>Acerca de WordPress</a></li>
-                                <li role='group' id='wp-admin-bar-contribute'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/contribute.php'>Unite</a></li>
+                                <li role='group' id='wp-admin-bar-about'><a class='ab-item' role="menuitem" href='<?php echo admin_url('about.php'); ?>'>Acerca de WordPress</a></li>
+                                <li role='group' id='wp-admin-bar-contribute'><a class='ab-item' role="menuitem" href='<?php echo admin_url('contribute.php'); ?>'>Unite</a></li>
                             </ul>
                             <ul role='menu' aria-label='Acerca de WordPress' id='wp-admin-bar-wp-logo-external' class="ab-sub-secondary ab-submenu">
                                 <li role='group' id='wp-admin-bar-wporg'><a class='ab-item' role="menuitem" href='https://es-ar.wordpress.org/'>WordPress.org</a></li>
@@ -1167,53 +583,53 @@ function mostrar_panel_usuario()
                             </ul>
                         </div>
                     </li>
-                    <li role='group' id='wp-admin-bar-my-sites' class="menupop"><a class='ab-item' role="menuitem" aria-expanded="false" href='http://casasdeconvivencias.test/wp-admin/my-sites.php'>Mis sitios</a>
+                    <li role='group' id='wp-admin-bar-my-sites' class="menupop"><a class='ab-item' role="menuitem" aria-expanded="false" href='<?php echo admin_url('my-sites.php'); ?>'>Mis sitios</a>
                         <div class="ab-sub-wrapper">
                             <ul role='menu' id='wp-admin-bar-my-sites-list' class="ab-submenu">
-                                <li role='group' id='wp-admin-bar-blog-1' class="menupop"><a class='ab-item' role="menuitem" aria-expanded="false" href='http://casasdeconvivencias.test/wp-admin/'><span class="wp-admin-bar-arrow" aria-hidden="true"></span>
+                                <li role='group' id='wp-admin-bar-blog-1' class="menupop"><a class='ab-item' role="menuitem" aria-expanded="false" href='<?php echo admin_url(); ?>'><span class="wp-admin-bar-arrow" aria-hidden="true"></span>
                                         <div class="blavatar"></div>Casas de Retiros y Convivencias
                                     </a>
                                     <div class="ab-sub-wrapper">
                                         <ul role='menu' id='wp-admin-bar-blog-1-default' class="ab-submenu">
-                                            <li role='group' id='wp-admin-bar-blog-1-d'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/'>Escritorio</a></li>
-                                            <li role='group' id='wp-admin-bar-blog-1-n'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/post-new.php'>Nueva entrada</a></li>
-                                            <li role='group' id='wp-admin-bar-blog-1-c'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/edit-comments.php'>Gestionar comentarios</a></li>
-                                            <li role='group' id='wp-admin-bar-blog-1-v'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/'>Visitar sitio</a></li>
+                                            <li role='group' id='wp-admin-bar-blog-1-d'><a class='ab-item' role="menuitem" href='<?php echo admin_url(); ?>'>Escritorio</a></li>
+                                            <li role='group' id='wp-admin-bar-blog-1-n'><a class='ab-item' role="menuitem" href='<?php echo admin_url('post-new.php'); ?>'>Nueva entrada</a></li>
+                                            <li role='group' id='wp-admin-bar-blog-1-c'><a class='ab-item' role="menuitem" href='<?php echo admin_url('edit-comments.php'); ?>'>Gestionar comentarios</a></li>
+                                            <li role='group' id='wp-admin-bar-blog-1-v'><a class='ab-item' role="menuitem" href='<?php echo home_url(); ?>'>Visitar sitio</a></li>
                                         </ul>
                                     </div>
                                 </li>
                             </ul>
                         </div>
                     </li>
-                    <li role='group' id='wp-admin-bar-site-name' class="menupop"><a class='ab-item' role="menuitem" aria-expanded="false" href='http://casasdeconvivencias.test/wp-admin/'>Casas de Retiros y Convivencias</a>
+                    <li role='group' id='wp-admin-bar-site-name' class="menupop"><a class='ab-item' role="menuitem" aria-expanded="false" href='<?php echo admin_url(); ?>'>Casas de Retiros y Convivencias</a>
                         <div class="ab-sub-wrapper">
                             <ul role='menu' aria-label='Casas de Retiros y Convivencias' id='wp-admin-bar-site-name-default' class="ab-submenu">
-                                <li role='group' id='wp-admin-bar-dashboard'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/'>Escritorio</a></li>
+                                <li role='group' id='wp-admin-bar-dashboard'><a class='ab-item' role="menuitem" href='<?php echo admin_url(); ?>'>Escritorio</a></li>
                             </ul>
                             <ul role='menu' aria-label='Casas de Retiros y Convivencias' id='wp-admin-bar-appearance' class="ab-submenu">
-                                <li role='group' id='wp-admin-bar-themes'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/themes.php'>Temas</a></li>
-                                <li role='group' id='wp-admin-bar-widgets'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/widgets.php'>Widgets</a></li>
-                                <li role='group' id='wp-admin-bar-menus'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/nav-menus.php'>Menús</a></li>
+                                <li role='group' id='wp-admin-bar-themes'><a class='ab-item' role="menuitem" href='<?php echo admin_url('themes.php'); ?>'>Temas</a></li>
+                                <li role='group' id='wp-admin-bar-widgets'><a class='ab-item' role="menuitem" href='<?php echo admin_url('widgets.php'); ?>'>Widgets</a></li>
+                                <li role='group' id='wp-admin-bar-menus'><a class='ab-item' role="menuitem" href='<?php echo admin_url('nav-menus.php'); ?>'>Menús</a></li>
                             </ul>
                         </div>
                     </li>
-                    <li role='group' id='wp-admin-bar-customize' class="hide-if-no-customize"><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/customize.php?url=https%3A%2F%2FCASASDECONVIVENCIAS-MASTER%2Fmi-cuenta%2F'>Personalizar</a></li>
-                    <li role='group' id='wp-admin-bar-comments'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/edit-comments.php'><span class="ab-icon" aria-hidden="true"></span><span class="ab-label awaiting-mod pending-count count-159" aria-hidden="true">159</span><span class="screen-reader-text comments-in-moderation-text">159 comentarios en moderación</span></a></li>
-                    <li role='group' id='wp-admin-bar-new-content' class="menupop"><a class='ab-item' role="menuitem" aria-expanded="false" href='http://casasdeconvivencias.test/wp-admin/post-new.php'><span class="ab-icon" aria-hidden="true"></span><span class="ab-label">Agregar</span></a>
+                    <li role='group' id='wp-admin-bar-customize' class="hide-if-no-customize"><a class='ab-item' role="menuitem" href='<?php echo admin_url('customize.php?url=' . urlencode(get_permalink())); ?>'>Personalizar</a></li>
+                    <li role='group' id='wp-admin-bar-comments'><a class='ab-item' role="menuitem" href='<?php echo admin_url('edit-comments.php'); ?>'><span class="ab-icon" aria-hidden="true"></span><span class="ab-label awaiting-mod pending-count count-159" aria-hidden="true">159</span><span class="screen-reader-text comments-in-moderation-text">159 comentarios en moderación</span></a></li>
+                    <li role='group' id='wp-admin-bar-new-content' class="menupop"><a class='ab-item' role="menuitem" aria-expanded="false" href='<?php echo admin_url('post-new.php'); ?>'><span class="ab-icon" aria-hidden="true"></span><span class="ab-label">Agregar</span></a>
                         <div class="ab-sub-wrapper">
                             <ul role='menu' aria-label='Agregar' id='wp-admin-bar-new-content-default' class="ab-submenu">
-                                <li role='group' id='wp-admin-bar-new-post'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/post-new.php'>Entrada</a></li>
-                                <li role='group' id='wp-admin-bar-new-media'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/media-new.php'>Medio</a></li>
-                                <li role='group' id='wp-admin-bar-new-page'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/post-new.php?post_type=page'>Página</a></li>
-                                <li role='group' id='wp-admin-bar-new-portfolio'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/post-new.php?post_type=portfolio'>Portfolio Item</a></li>
-                                <li role='group' id='wp-admin-bar-new-product'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/post-new.php?post_type=product'>Producto</a></li>
-                                <li role='group' id='wp-admin-bar-new-shop_order'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/post-new.php?post_type=shop_order'>Pedido</a></li>
-                                <li role='group' id='wp-admin-bar-new-shop_coupon'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/post-new.php?post_type=shop_coupon'>Cupón</a></li>
-                                <li role='group' id='wp-admin-bar-new-user'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/user-new.php'>Usuario</a></li>
+                                <li role='group' id='wp-admin-bar-new-post'><a class='ab-item' role="menuitem" href='<?php echo admin_url('post-new.php'); ?>'>Entrada</a></li>
+                                <li role='group' id='wp-admin-bar-new-media'><a class='ab-item' role="menuitem" href='<?php echo admin_url('media-new.php'); ?>'>Medio</a></li>
+                                <li role='group' id='wp-admin-bar-new-page'><a class='ab-item' role="menuitem" href='<?php echo admin_url('post-new.php?post_type=page'); ?>'>Página</a></li>
+                                <li role='group' id='wp-admin-bar-new-portfolio'><a class='ab-item' role="menuitem" href='<?php echo admin_url('post-new.php?post_type=portfolio'); ?>'>Portfolio Item</a></li>
+                                <li role='group' id='wp-admin-bar-new-product'><a class='ab-item' role="menuitem" href='<?php echo admin_url('post-new.php?post_type=product'); ?>'>Producto</a></li>
+                                <li role='group' id='wp-admin-bar-new-shop_order'><a class='ab-item' role="menuitem" href='<?php echo admin_url('post-new.php?post_type=shop_order'); ?>'>Pedido</a></li>
+                                <li role='group' id='wp-admin-bar-new-shop_coupon'><a class='ab-item' role="menuitem" href='<?php echo admin_url('post-new.php?post_type=shop_coupon'); ?>'>Cupón</a></li>
+                                <li role='group' id='wp-admin-bar-new-user'><a class='ab-item' role="menuitem" href='<?php echo admin_url('user-new.php'); ?>'>Usuario</a></li>
                             </ul>
                         </div>
                     </li>
-                    <li role='group' id='wp-admin-bar-edit'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-admin/post.php?post=7&#038;action=edit'>Editar página</a></li>
+                    <li role='group' id='wp-admin-bar-edit'><a class='ab-item' role="menuitem" href='<?php echo admin_url('post.php?post=7&action=edit'); ?>'>Editar página</a></li>
                 </ul>
                 <ul role='menu' id='wp-admin-bar-top-secondary' class="ab-top-secondary ab-top-menu">
                     <li role='group' id='wp-admin-bar-my-account' class="menupop with-avatar">
@@ -1230,13 +646,17 @@ function mostrar_panel_usuario()
                                         <span class='display-name edit-profile'>Editar el perfil</span>
                                     </a>
                                 </li>
-                                <li role='group' id='wp-admin-bar-logout'><a class='ab-item' role="menuitem" href='http://casasdeconvivencias.test/wp-login.php?action=logout&#038;_wpnonce=4b3462bb36'>Cerrar sesión</a></li>
+                                <li role='group' id='wp-admin-bar-logout'><a class='ab-item' role="menuitem" href='<?php echo wp_logout_url(); ?>'>Cerrar sesión</a></li>
                             </ul>
                         </div>
                     </li>
                     <li role='group' id='wp-admin-bar-search' class="admin-bar-search">
                         <div class="ab-item ab-empty-item" tabindex="-1" role="menuitem">
-                            <form action="http://casasdeconvivencias.test" method="get" id="adminbarsearch"><input class="adminbar-input" name="s" id="adminbar-search" type="text" value="" maxlength="150" /><label for="adminbar-search" class="screen-reader-text">Buscar</label><input type="submit" class="adminbar-button" value="Buscar" /></form>
+                            <form action="<?php echo home_url('/'); ?>" method="get" id="adminbarsearch">
+                                <input class="adminbar-input" name="s" id="adminbar-search" type="text" value="" maxlength="150" />
+                                <label for="adminbar-search" class="screen-reader-text">Buscar</label>
+                                <input type="submit" class="adminbar-button" value="Buscar" />
+                            </form>
                         </div>
                     </li>
                 </ul>
@@ -1264,14 +684,12 @@ function mostrar_panel_usuario()
                     <div class="row">
                         <div class="col-md-12 clearfix kad-header-left">
                             <div id="logo" class="logocase">
-                                <a class="brand logofont" href="http://casasdeconvivencias.test">
+                                <a class="brand logofont" href="<?php echo home_url(); ?>">
                                     Casas de Retiros y Convivencias </a>
                                 <p class="kad_tagline belowlogo-text">Convivencias y Retiros Espirituales.</p>
                             </div> <!-- Close #logo -->
                         </div><!-- close logo span -->
-
                     </div> <!-- Close Row -->
-
                 </div> <!-- Close Container -->
             </header>
             <?php
@@ -1333,14 +751,15 @@ function mostrar_panel_usuario()
                 .user-name {
                     font-size: 1.5em;
                     color: #333;
-                    margin: 10px 0;
+                    margin: 10px 0 0 0;
                     text-align: center;
                 }
 
                 /* Contenedor de los enlaces de navegación */
                 .user-navigation {
                     width: 100%;
-                    margin-top: 20px;
+                    margin-top: 10px;
+                    padding-left: 20px;
                 }
 
                 /* Lista de enlaces de navegación */
@@ -1349,13 +768,12 @@ function mostrar_panel_usuario()
                     padding: 0;
                     margin: 0;
                     text-align: left;
-
                 }
 
                 /* Cada elemento de la navegación */
                 .user-navigation li {
-
-                    margin: 10px 0;
+                    margin: 8px 0;
+                    padding-left: 10px;
                 }
 
                 /* Estilo de los enlaces */
@@ -1411,33 +829,56 @@ function mostrar_panel_usuario()
                                     </div>
                                     <nav class="user-navigation">
                                         <p>
-                                            <li><a href="<?php //echo esc_url(wc_get_account_endpoint_url('orders')); 
+                                            <li><a href="<?php echo esc_url(wc_get_account_endpoint_url('dashboard'));
+                                                            ?>">Escritorio</a></li>
+                                            <li><a href="<?php echo esc_url(wc_get_account_endpoint_url('orders'));
                                                             ?>">Pedidos</a></li>
-                                            <li><a href="<?php //echo esc_url(wc_get_account_endpoint_url('downloads')); 
+                                            <li><a href="<?php echo esc_url(wc_get_account_endpoint_url('downloads'));
                                                             ?>">Descargas</a></li>
-                                            <li><a href="<?php //echo esc_url(wc_get_account_endpoint_url('edit-address')); 
-                                                            ?>">Detalles de la cuenta</a></li>
-                                            <li><a href="<?php //echo esc_url(wc_get_account_endpoint_url('customer-logout')); 
+                                            <li><a href="<?php echo esc_url(wc_get_account_endpoint_url('edit-address'));
+                                                            ?>">Direcciones</a></li>
+                                            <li><a href="<?php echo esc_url(wc_get_account_endpoint_url('customer-logout'));
                                                             ?>">Salir</a></li>
                                         </p>
                                     </nav>
 
+
+                                    <!-- <nav class="woocommerce-MyAccount-navigation">
+                                        <ul>
+                                            <li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--dashboard">
+                                                <a href="<?php echo esc_url(wc_get_account_endpoint_url('dashboard')); ?>">Escritorio</a>
+                                            </li>
+                                            <li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--orders">
+                                                <a href="<?php echo esc_url(wc_get_account_endpoint_url('orders')); ?>">Pedidos</a>
+                                            </li>
+                                            <li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--downloads">
+                                                <a href="<?php echo esc_url(wc_get_account_endpoint_url('downloads')); ?>">Descargas</a>
+                                            </li>
+                                            <li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--edit-address">
+                                                <a href="<?php echo esc_url(wc_get_account_endpoint_url('edit-address')); ?>">Direcciones</a>
+                                            </li>
+                                            <li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--customer-logout">
+                                                <a href="<?php echo esc_url(wc_get_account_endpoint_url('customer-logout')); ?>">Salir</a>
+                                            </li>
+                                        </ul>
+                                    </nav> -->
+
                                     <!-- <nav class="woocommerce-MyAccount-navigation">
                                         <ul>
                                             <li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--dashboard is-active">
-                                                <a href="http://localhost/CASASDECONVIVENCIAS-MASTER/mi-cuenta/">Escritorio</a>
+                                                <a href="<?php echo esc_url(wc_get_account_endpoint_url('dashboard')); ?>">Escritorio</a>
                                             </li>
                                             <li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--orders">
-                                                <a href="http://localhost/CASASDECONVIVENCIAS-MASTER/mi-cuenta/orders/">Pedidos</a>
+                                                <a href="<?php echo esc_url(wc_get_account_endpoint_url('orders')); ?>">Pedidos</a>
                                             </li>
                                             <li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--downloads">
-                                                <a href="http://localhost/CASASDECONVIVENCIAS-MASTER/mi-cuenta/downloads/">Descargas</a>
+                                                <a href="<?php echo esc_url(wc_get_account_endpoint_url('downloads')); ?>">Descargas</a>
                                             </li>
                                             <li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--edit-address">
-                                                <a href="http://localhost/CASASDECONVIVENCIAS-MASTER/mi-cuenta/edit-address/">Direcciones</a>
+                                                <a href="<?php echo esc_url(wc_get_account_endpoint_url('edit-address')); ?>">Direcciones</a>
                                             </li>
                                             <li class="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--customer-logout">
-                                                <a href="http://localhost/CASASDECONVIVENCIAS-MASTER/mi-cuenta/customer-logout/?_wpnonce=26299466d0">Salir</a>
+                                                <a href="<?php echo esc_url(wc_get_account_endpoint_url('customer-logout')); ?>">Salir</a>
                                             </li>
                                         </ul>
                                     </nav> -->
@@ -1461,36 +902,25 @@ function mostrar_panel_usuario()
                         </div>
                     </div>
                 </div>
-                <!-- <footer id="containerfooter" class="footerclass" itemscope itemtype="https://schema.org/WPFooter"> -->
-                <div class="container">
-                    <div class="row">
+                <footer id="containerfooter" class="footerclass" itemscope itemtype="https://schema.org/WPFooter">
+                    <div class="container">
 
-                        <div class="col-md-3 col-sm-6 footercol1">
-                            <div class="widget-1 widget-first footer-widget">
-                                <aside id="widget_kadence_social-2" class="widget widget_kadence_social">
-                                    <div class="virtue_social_widget clearfix">
+                        <div class="footercredits clearfix">
 
-                                    </div>
-                                </aside>
-                            </div>
+                            <p>ENLACES EXTERNOS : <b>
+                                    <a style="color: #0088ff;" onmouseover="this.style.color='#0410fa'" onmouseout="this.style.color='#0088ff'" href="www.opusdei.org.ar">Página del Opus Dei</a> -
+                                    <a style="color: #0088ff;" onmouseover="this.style.color='#0410fa'" onmouseout="this.style.color='#0088ff'" href="https://opusdei.org/es-es/section/san-josemaria/">Página de San Josemaría</a>
+                                </b>
+                            </p>
                         </div>
-                    </div>
-                    <div class="footercredits clearfix">
 
-                        <p>ENLACES EXTERNOS : <b>
-                                <a style="color: #0088ff;" onmouseover="this.style.color='#0410fa'" onmouseout="this.style.color='#0088ff'" href="www.opusdei.org.ar">Página del Opus Dei</a> -
-                                <a style="color: #0088ff;" onmouseover="this.style.color='#0410fa'" onmouseout="this.style.color='#0088ff'" href="https://opusdei.org/es-es/section/san-josemaria/">Página de San Josemaría</a>
-                            </b>
-                        </p>
                     </div>
 
-                </div>
-
-                <!-- </footer> -->
+                </footer>
 
             </div><!--Wrapper-->
             <div id="wcplpro_added_to_cart_notification" class="autoclose" style="display: none;">
-                <a href="http://casasdeconvivencias.test/reservas/" title="Go to cart"><span></span> &times; product(s) added to cart &rarr;</a> <a href="#" class="slideup_panel">&times;</a>
+                <a href="<?php echo wc_get_cart_url(); ?>" title="Ir al carrito"><span></span> &times; product(s) added to cart &rarr;</a> <a href="#" class="slideup_panel">&times;</a>
             </div>
             <script type="text/javascript">
                 (function() {
@@ -1499,11 +929,11 @@ function mostrar_panel_usuario()
                     document.body.className = c;
                 })();
             </script>
-            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-includes/js/hoverintent-js.min.js?ver=2.2.1" id="hoverintent-js-js"></script>
-            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-includes/js/admin-bar.min.js?ver=6.6.2" id="admin-bar-js"></script>
-            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/plugins/woocommerce/assets/js/selectWoo/selectWoo.full.min.js?ver=1.0.9-wc.6.8.2" id="selectWoo-js"></script>
-            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js?ver=2.7.0-wc.6.8.2" id="jquery-blockui-js"></script>
-            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min.js?ver=2.1.4-wc.6.8.2" id="js-cookie-js"></script>
+            <script type="text/javascript" src="<?php echo includes_url('js/hoverintent-js.min.js?ver=2.2.1'); ?>" id="hoverintent-js-js"></script>
+            <script type="text/javascript" src="<?php echo includes_url('js/admin-bar.min.js?ver=6.6.2'); ?>" id="admin-bar-js"></script>
+            <script type="text/javascript" src="<?php echo plugins_url('woocommerce/assets/js/selectWoo/selectWoo.full.min.js?ver=1.0.9-wc.6.8.2', WC_PLUGIN_FILE); ?>" id="selectWoo-js"></script>
+            <script type="text/javascript" src="<?php echo plugins_url('woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js?ver=2.7.0-wc.6.8.2', WC_PLUGIN_FILE); ?>" id="jquery-blockui-js"></script>
+            <script type="text/javascript" src="<?php echo plugins_url('woocommerce/assets/js/js-cookie/js.cookie.min.js?ver=2.1.4-wc.6.8.2', WC_PLUGIN_FILE); ?>" id="js-cookie-js"></script>
             <script type="text/javascript" id="woocommerce-js-extra">
                 /* <![CDATA[ */
                 var woocommerce_params = {
@@ -1512,7 +942,7 @@ function mostrar_panel_usuario()
                 };
                 /* ]]> */
             </script>
-            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js?ver=6.8.2" id="woocommerce-js"></script>
+            <script type="text/javascript" src="<?php echo plugins_url('woocommerce/assets/js/frontend/woocommerce.min.js?ver=6.8.2', WC_PLUGIN_FILE); ?>" id="woocommerce-js"></script>
             <script type="text/javascript" id="wc-cart-fragments-js-extra">
                 /* <![CDATA[ */
                 var wc_cart_fragments_params = {
@@ -1524,13 +954,13 @@ function mostrar_panel_usuario()
                 };
                 /* ]]> */
             </script>
-            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min.js?ver=6.8.2" id="wc-cart-fragments-js"></script>
-            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/bootstrap-min.js?ver=3.4.10" id="bootstrap-js"></script>
-            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-includes/js/hoverIntent.min.js?ver=1.10.2" id="hoverIntent-js"></script>
-            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-includes/js/imagesloaded.min.js?ver=5.0.0" id="imagesloaded-js"></script>
-            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-includes/js/masonry.min.js?ver=4.2.2" id="masonry-js"></script>
-            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/plugins-min.js?ver=3.4.10" id="virtue_plugins-js"></script>
-            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/magnific-popup-min.js?ver=3.4.10" id="magnific-popup-js"></script>
+            <script type="text/javascript" src="<?php echo plugins_url('woocommerce/assets/js/frontend/cart-fragments.min.js?ver=6.8.2', WC_PLUGIN_FILE); ?>" id="wc-cart-fragments-js"></script>
+            <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/min/bootstrap-min.js?ver=3.4.10" id="bootstrap-js"></script>
+            <script type="text/javascript" src="<?php echo includes_url('js/hoverIntent.min.js?ver=1.10.2'); ?>" id="hoverIntent-js"></script>
+            <script type="text/javascript" src="<?php echo includes_url('js/imagesloaded.min.js?ver=5.0.0'); ?>" id="imagesloaded-js"></script>
+            <script type="text/javascript" src="<?php echo includes_url('js/masonry.min.js?ver=4.2.2'); ?>" id="masonry-js"></script>
+            <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/min/plugins-min.js?ver=3.4.10" id="virtue_plugins-js"></script>
+            <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/min/magnific-popup-min.js?ver=3.4.10" id="magnific-popup-js"></script>
             <script type="text/javascript" id="virtue-lightbox-init-js-extra">
                 /* <![CDATA[ */
                 var virtue_lightbox = {
@@ -1540,10 +970,10 @@ function mostrar_panel_usuario()
                 };
                 /* ]]> */
             </script>
-            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/virtue-lightbox-init-min.js?ver=3.4.10" id="virtue-lightbox-init-js"></script>
-            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/main-min.js?ver=3.4.10" id="virtue_main-js"></script>
-            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/kt-add-to-cart-variation-min.js?ver=6.6.2" id="kt-wc-add-to-cart-variation-js"></script>
-            <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/wc-quantity-increment-min.js?ver=6.6.2" id="wcqi-js-js"></script>
+            <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/min/virtue-lightbox-init-min.js?ver=3.4.10" id="virtue-lightbox-init-js"></script>
+            <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/min/main-min.js?ver=3.4.10" id="virtue_main-js"></script>
+            <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/min/kt-add-to-cart-variation-min.js?ver=6.6.2" id="kt-wc-add-to-cart-variation-js"></script>
+            <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/min/wc-quantity-increment-min.js?ver=6.6.2" id="wcqi-js-js"></script>
             <script type="text/javascript">
                 (function(undefined) {
                     let scriptOptions = {
@@ -2081,14 +1511,14 @@ function mostrar_login_registro()
 
     <style>
         /* Estilos para la página de registro */
-        .signup-container {
-            max-width: 900px;
+        .container {
+            max-width: 1200px;
             margin: 40px auto;
             padding: 20px;
         }
 
         /* Estilo para el título principal */
-        .signup-container h1 {
+        .container h1 {
             text-align: center;
             font-weight: 700;
             font-size: 32px;
@@ -2101,9 +1531,9 @@ function mostrar_login_registro()
         }
 
         /* Ajuste del contenedor principal */
-        .signup-container {
-            max-width: 900px;
-            margin: 2px auto;
+        .container {
+            max-width: 1200px;
+            margin: auto auto;
             padding: 20px;
         }
 
@@ -2152,25 +1582,64 @@ function mostrar_login_registro()
             background-color: #f8f8f8;
         }
 
-        /* Ajustar posición del ícono de mostrar/ocultar contraseña */
-        .woocommerce form .show-password-input,
-        .woocommerce-page form .show-password-input {
+
+
+
+
+        /* Estilos para el campo de contraseña y el ícono */
+        .password-field {
+            position: relative;
+        }
+
+        .password-input {
+            position: relative;
+            display: block;
+        }
+
+        .show-password-input.bx {
+            position: absolute;
+            right: 10px;
             top: 50%;
             transform: translateY(-50%);
-            right: 10px;
-            color: #0088ff !important;
+            cursor: pointer;
+            color: #0088ff;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s ease;
         }
 
-        /* Mantener el mismo color cuando está activo (ojo tachado) */
-        .woocommerce form .show-password-input.display-password,
-        .woocommerce-page form .show-password-input.display-password {
-            color: #0088ff !important;
+        .show-password-input.bx:hover {
+            color: #0410fa;
         }
 
-        /* Asegurar que el campo de contraseña tenga suficiente padding */
-        .woocommerce form .form-row input[type="password"] {
-            padding-right: 40px;
+
+        /* Asegurar espacio para el ícono */
+        .password-input input[type="password"],
+        .password-input input[type="text"] {
+            padding-right: 40px !important;
+            width: 100%;
         }
+
+
+
+
+
+
+        /* Estilo para los campos de entrada cuando están enfocados */
+        .woocommerce form .form-row input.input-text:focus,
+        .woocommerce-page form .form-row input.input-text:focus,
+        .woocommerce form .form-row textarea:focus,
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #0088ff !important;
+            /* Color azul que estás usando */
+            box-shadow: 0 0 10px rgba(0, 136, 255, 0.3) !important;
+            /* Sombra suave del mismo color */
+        }
+
 
         /* Botones - Estilos unificados */
         .woocommerce-form-login__submit,
@@ -2254,6 +1723,338 @@ function mostrar_login_registro()
                 margin-bottom: 20px;
             }
         }
+
+
+
+        /* ==========================================================================
+   1. Estilos Básicos y Reset
+   ========================================================================== */
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: url('<?php echo wp_upload_dir()['baseurl']; ?>/2018/06/grey-background.jpg');
+            background-position: 0 0;
+            background-repeat: repeat;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ==========================================================================
+   2. Estructura Principal
+   ========================================================================== */
+        #wrapper {
+            margin: 0 auto;
+            padding: 0;
+            max-width: 1200px;
+            width: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            margin: 0 auto;
+            padding: 0 15px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        /* ==========================================================================
+   3. Header y Navegación
+   ========================================================================== */
+        .headerclass {
+            background: url('<?php echo wp_upload_dir()['baseurl']; ?>/2018/06/header-background-mirror-final-2.jpg') no-repeat;
+            padding: 10px 0;
+            margin: 0;
+            border-top: 0;
+            width: 100%;
+        }
+
+        /* Logo y título */
+        #logo {
+            padding: 25px 0 10px;
+            margin: 0;
+        }
+
+        #logo.logocase {
+            margin: 0 auto;
+            padding: 10px 0;
+            text-align: center;
+            width: 100%;
+        }
+
+        .brand.logofont {
+            font-family: Lato;
+            font-size: 28px;
+            line-height: 1.2;
+            font-weight: 400;
+            color: #ffffff;
+            text-align: center;
+            display: block;
+        }
+
+        /* Navegación */
+        #nav-main {
+            margin: 40px 0 10px;
+        }
+
+        /* ==========================================================================
+        4. Contenido Principal
+        ========================================================================== */
+        .contentclass {
+            background: url('<?php echo wp_upload_dir()['baseurl']; ?>/2018/06/beige-minimal-background-pattern-wordpress-8.jpg') repeat;
+        }
+
+        #content.container.container-contained {
+            flex: 1;
+            padding: 20px 15px 0;
+            margin-bottom: 0;
+        }
+
+        .entry-content {
+            flex: 1;
+        }
+
+        /* Títulos de página */
+        .page-header {
+            text-align: center;
+            padding: 10px 0;
+            margin: 0;
+        }
+
+        .page-header h1.entry-title {
+            font-size: 2.5em;
+            color: #333;
+            margin: 0;
+            font-weight: 600;
+            padding: 5px 0;
+        }
+
+        /* ==========================================================================
+        5. Footer
+        ========================================================================== */
+        #containerfooter.footerclass {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 0;
+            /* Esto centrará el footer */
+            padding: 0;
+            background: url('<?php echo wp_upload_dir()['baseurl']; ?>/2018/06/beige-minimal-background-pattern-wordpress-8.jpg') repeat;
+            position: relative;
+            /* Ayuda con el posicionamiento */
+            left: 50%;
+            /* Parte del centrado */
+            transform: translateX(-50%);
+            /* Completa el centrado perfecto */
+        }
+
+        /* #containerfooter .container { */
+        /* max-width: 900px; */
+        /* margin: 0 0;
+            padding: 20px 15px;
+            width: 100%; */
+        /* box-sizing: border-box; */
+        /* } */
+
+        .footercredits {
+            text-align: left;
+            padding: 20px 20px;
+            margin: 0;
+        }
+
+        .footercredits a {
+            color: #0088ff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footercredits a:hover {
+            color: #0410fa;
+        }
+
+        /* Widget área */
+        .footercol1 {
+            padding: 20px;
+            margin: 0;
+        }
+
+        .footer-widget {
+            padding: 15px;
+            margin: 0;
+            background: transparent;
+        }
+
+        /* Asegurar que el contenedor del footer se alinee con el contenido */
+        /* #containerfooter .row {
+            margin: 0;
+            width: 100%;
+        } */
+
+        /* ==========================================================================
+        6. Utilidades y Ajustes Específicos
+        ========================================================================== */
+        /* Inputs numéricos */
+        input[type=number] {
+            -webkit-appearance: none;
+            -moz-appearance: textfield;
+            appearance: none;
+        }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* ==========================================================================
+        7. Media Queries
+        ========================================================================== */
+        @media (max-width: 979px) {
+            .nav-trigger .nav-trigger-case {
+                position: static;
+                display: block;
+                width: 100%;
+            }
+        }
+
+        .product_item .product_details h5 {
+            min-height: 40px;
+        }
+
+
+        .entry-content {
+            flex: 1;
+        }
+
+
+        .entry-content p {
+            margin-bottom: 16px;
+        }
+
+
+
+        /* Ajustes del header */
+        /* .headerclass {
+            background: url('<?php //echo wp_upload_dir()['baseurl']; 
+                                ?>/2018/06/header-background-mirror-final-2.jpg') no-repeat;
+            padding: 10px 0; */
+        /* Reducimos el padding vertical */
+        /* margin-top: 0; */
+        /* Eliminamos el margen superior */
+        /* background-size: cover; */
+        /* Para asegurar que la imagen de fondo se ajuste bien */
+        /* } */
+
+        /* Centrado del logo y título */
+        /* #logo.logocase {
+            margin: 0 auto; */
+        /* Centra el logo */
+        /* padding: 10px 0;
+            text-align: center; */
+        /* Centra el texto */
+        /* width: 100%; */
+        /* Asegura que tome todo el ancho disponible */
+        /* } */
+
+        /* .brand.logofont {
+            font-size: 28px;
+            line-height: 1.2;
+            margin: 0;
+            display: block;
+            text-align: center; */
+        /* Centra el texto del título */
+        /* } */
+
+        /* .kad_tagline.belowlogo-text {
+            margin: 5px 0 0;
+            font-size: 13px;
+            text-align: center; */
+        /* Centra el subtítulo */
+        /* } */
+
+        /* Ajuste del contenedor del logo */
+        /* .col-md-12.clearfix.kad-header-left {
+            padding: 5px 15px;
+            text-align: center; */
+        /* Centra todo el contenido */
+        /* } */
+
+        /* Aseguramos que el contenedor principal también esté centrado */
+        /* .banner.headerclass .container {
+            padding-top: 0;
+            padding-bottom: 0;
+            text-align: center;
+        } */
+
+
+
+
+
+        /* .page-header {
+            text-align: center;
+            padding: 10px 0; */
+        /* Padding interno para el título */
+        /* margin: 0; */
+        /* Sin márgenes externos */
+        /* border-bottom: 1px solid #eee; */
+        /* } */
+
+        /* .page-header h1.entry-title {
+            font-size: 2.5em;
+            color: #333;
+            margin: 0;
+            font-weight: 600;
+            padding: 5px 0; */
+        /* Padding interno solo para el texto */
+        /* } */
+
+        /* Ajuste del contenedor del título */
+        /* #pageheader.titleclass .container {
+            padding: 0 15px;
+            margin: 0;
+        } */
+
+        /* Ajuste del contenido siguiente */
+        /* #content.container.container-contained {
+            padding-top: 5px; */
+        /* Añadimos espacio entre el título y el contenido */
+        /* } */
+
+
+
+        header #logo a.brand,
+        .logofont {
+            font-family: Lato;
+            line-height: 40px;
+            font-weight: 400;
+            font-style: normal;
+            color: #ffffff;
+            font-size: 32px;
+        }
+
+        .kad_tagline {
+            font-family: Lato;
+            line-height: 20px;
+            font-weight: 400;
+            font-style: normal;
+            color: #ffffff;
+            font-size: 14px;
+        }
+
+        .product_item .product_details h5 {
+            font-family: Lato;
+            line-height: 20px;
+            font-weight: 700;
+            font-style: normal;
+            font-size: 16px;
+        }
+
+
+        .required {
+            color: #ff0000 !important;
+            font-size: 20px !important;
+        }
     </style>
 
 
@@ -2267,18 +2068,20 @@ function mostrar_login_registro()
         <title>Mi cuenta &#8211; Casas de Retiros y Convivencias</title>
         <meta name='robots' content='max-image-preview:large, noindex, follow' />
         <link rel='dns-prefetch' href='//fonts.googleapis.com' />
-        <link rel="alternate" type="application/rss+xml" title="Casas de Retiros y Convivencias &raquo; Feed" href="http://casasdeconvivencias.test/feed/" />
-        <link rel="alternate" type="application/rss+xml" title="Casas de Retiros y Convivencias &raquo; RSS de los comentarios" href="http://casasdeconvivencias.test/comments/feed/" />
+        <link rel="alternate" type="application/rss+xml" title="Casas de Retiros y Convivencias &raquo; Feed" href="<?php echo get_feed_link(); ?>" />
+        <link rel="alternate" type="application/rss+xml" title="Casas de Retiros y Convivencias &raquo; RSS de los comentarios" href="<?php echo get_feed_link('comments_rss2'); ?>" />
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         <script type="text/javascript">
             /* <![CDATA[ */
             window._wpemojiSettings = {
-                "baseUrl": "https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/72x72\/",
+                "baseUrl": "https://s.w.org/images/core/emoji/15.0.3/72x72/",
                 "ext": ".png",
-                "svgUrl": "https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/svg\/",
+                "svgUrl": "https://s.w.org/images/core/emoji/15.0.3/svg/",
                 "svgExt": ".svg",
                 "source": {
-                    "concatemoji": "https:\/\/casasdeconvivencias.test\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.6.2"
+                    "concatemoji": "<?php echo includes_url('js/wp-emoji-release.min.js?ver=6.6.2'); ?>"
                 }
             };
             /*! This file is auto-generated */
@@ -2374,7 +2177,7 @@ function mostrar_login_registro()
             }((window, document), window._wpemojiSettings);
             /* ]]> */
         </script>
-        <style id='wp-emoji-styles-inline-css' type='text/css'>
+        <!-- <style id='wp-emoji-styles-inline-css' type='text/css'>
             img.wp-smiley,
             img.emoji {
                 display: inline !important;
@@ -2387,368 +2190,21 @@ function mostrar_login_registro()
                 background: none !important;
                 padding: 0 !important;
             }
-        </style>
-        <link rel='stylesheet' id='wp-block-library-css' href='http://casasdeconvivencias.test/wp-includes/css/dist/block-library/style.min.css?ver=6.6.2' type='text/css' media='all' />
-        <link rel='stylesheet' id='wc-blocks-vendors-style-css' href='http://casasdeconvivencias.test/wp-content/plugins/woocommerce/packages/woocommerce-blocks/build/wc-blocks-vendors-style.css?ver=8.0.0' type='text/css' media='all' />
-        <link rel='stylesheet' id='wc-blocks-style-css' href='http://casasdeconvivencias.test/wp-content/plugins/woocommerce/packages/woocommerce-blocks/build/wc-blocks-style.css?ver=8.0.0' type='text/css' media='all' />
-        <style id='classic-theme-styles-inline-css' type='text/css'>
-            /*! This file is auto-generated */
-            .wp-block-button__link {
-                color: #fff;
-                background-color: #32373c;
-                border-radius: 9999px;
-                box-shadow: none;
-                text-decoration: none;
-                padding: calc(.667em + 2px) calc(1.333em + 2px);
-                font-size: 1.125em
-            }
-
-            .wp-block-file__button {
-                background: #32373c;
-                color: #fff;
-                text-decoration: none
-            }
-        </style>
-        <style id='global-styles-inline-css' type='text/css'>
-            :root {
-                --wp--preset--aspect-ratio--square: 1;
-                --wp--preset--aspect-ratio--4-3: 4/3;
-                --wp--preset--aspect-ratio--3-4: 3/4;
-                --wp--preset--aspect-ratio--3-2: 3/2;
-                --wp--preset--aspect-ratio--2-3: 2/3;
-                --wp--preset--aspect-ratio--16-9: 16/9;
-                --wp--preset--aspect-ratio--9-16: 9/16;
-                --wp--preset--color--black: #000;
-                --wp--preset--color--cyan-bluish-gray: #abb8c3;
-                --wp--preset--color--white: #fff;
-                --wp--preset--color--pale-pink: #f78da7;
-                --wp--preset--color--vivid-red: #cf2e2e;
-                --wp--preset--color--luminous-vivid-orange: #ff6900;
-                --wp--preset--color--luminous-vivid-amber: #fcb900;
-                --wp--preset--color--light-green-cyan: #7bdcb5;
-                --wp--preset--color--vivid-green-cyan: #00d084;
-                --wp--preset--color--pale-cyan-blue: #8ed1fc;
-                --wp--preset--color--vivid-cyan-blue: #0693e3;
-                --wp--preset--color--vivid-purple: #9b51e0;
-                --wp--preset--color--virtue-primary: #2d5c88;
-                --wp--preset--color--virtue-primary-light: #6c8dab;
-                --wp--preset--color--very-light-gray: #eee;
-                --wp--preset--color--very-dark-gray: #444;
-                --wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg, rgba(6, 147, 227, 1) 0%, rgb(155, 81, 224) 100%);
-                --wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg, rgb(122, 220, 180) 0%, rgb(0, 208, 130) 100%);
-                --wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg, rgba(252, 185, 0, 1) 0%, rgba(255, 105, 0, 1) 100%);
-                --wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg, rgba(255, 105, 0, 1) 0%, rgb(207, 46, 46) 100%);
-                --wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg, rgb(238, 238, 238) 0%, rgb(169, 184, 195) 100%);
-                --wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg, rgb(74, 234, 220) 0%, rgb(151, 120, 209) 20%, rgb(207, 42, 186) 40%, rgb(238, 44, 130) 60%, rgb(251, 105, 98) 80%, rgb(254, 248, 76) 100%);
-                --wp--preset--gradient--blush-light-purple: linear-gradient(135deg, rgb(255, 206, 236) 0%, rgb(152, 150, 240) 100%);
-                --wp--preset--gradient--blush-bordeaux: linear-gradient(135deg, rgb(254, 205, 165) 0%, rgb(254, 45, 45) 50%, rgb(107, 0, 62) 100%);
-                --wp--preset--gradient--luminous-dusk: linear-gradient(135deg, rgb(255, 203, 112) 0%, rgb(199, 81, 192) 50%, rgb(65, 88, 208) 100%);
-                --wp--preset--gradient--pale-ocean: linear-gradient(135deg, rgb(255, 245, 203) 0%, rgb(182, 227, 212) 50%, rgb(51, 167, 181) 100%);
-                --wp--preset--gradient--electric-grass: linear-gradient(135deg, rgb(202, 248, 128) 0%, rgb(113, 206, 126) 100%);
-                --wp--preset--gradient--midnight: linear-gradient(135deg, rgb(2, 3, 129) 0%, rgb(40, 116, 252) 100%);
-                --wp--preset--font-size--small: 13px;
-                --wp--preset--font-size--medium: 20px;
-                --wp--preset--font-size--large: 36px;
-                --wp--preset--font-size--x-large: 42px;
-                --wp--preset--spacing--20: 0.44rem;
-                --wp--preset--spacing--30: 0.67rem;
-                --wp--preset--spacing--40: 1rem;
-                --wp--preset--spacing--50: 1.5rem;
-                --wp--preset--spacing--60: 2.25rem;
-                --wp--preset--spacing--70: 3.38rem;
-                --wp--preset--spacing--80: 5.06rem;
-                --wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);
-                --wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);
-                --wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);
-                --wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);
-                --wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);
-            }
-
-            :where(.is-layout-flex) {
-                gap: 0.5em;
-            }
-
-            :where(.is-layout-grid) {
-                gap: 0.5em;
-            }
-
-            body .is-layout-flex {
-                display: flex;
-            }
-
-            .is-layout-flex {
-                flex-wrap: wrap;
-                align-items: center;
-            }
-
-            .is-layout-flex> :is(*, div) {
-                margin: 0;
-            }
-
-            body .is-layout-grid {
-                display: grid;
-            }
-
-            .is-layout-grid> :is(*, div) {
-                margin: 0;
-            }
-
-            :where(.wp-block-columns.is-layout-flex) {
-                gap: 2em;
-            }
-
-            :where(.wp-block-columns.is-layout-grid) {
-                gap: 2em;
-            }
-
-            :where(.wp-block-post-template.is-layout-flex) {
-                gap: 1.25em;
-            }
-
-            :where(.wp-block-post-template.is-layout-grid) {
-                gap: 1.25em;
-            }
-
-            .has-black-color {
-                color: var(--wp--preset--color--black) !important;
-            }
-
-            .has-cyan-bluish-gray-color {
-                color: var(--wp--preset--color--cyan-bluish-gray) !important;
-            }
-
-            .has-white-color {
-                color: var(--wp--preset--color--white) !important;
-            }
-
-            .has-pale-pink-color {
-                color: var(--wp--preset--color--pale-pink) !important;
-            }
-
-            .has-vivid-red-color {
-                color: var(--wp--preset--color--vivid-red) !important;
-            }
-
-            .has-luminous-vivid-orange-color {
-                color: var(--wp--preset--color--luminous-vivid-orange) !important;
-            }
-
-            .has-luminous-vivid-amber-color {
-                color: var(--wp--preset--color--luminous-vivid-amber) !important;
-            }
-
-            .has-light-green-cyan-color {
-                color: var(--wp--preset--color--light-green-cyan) !important;
-            }
-
-            .has-vivid-green-cyan-color {
-                color: var(--wp--preset--color--vivid-green-cyan) !important;
-            }
-
-            .has-pale-cyan-blue-color {
-                color: var(--wp--preset--color--pale-cyan-blue) !important;
-            }
-
-            .has-vivid-cyan-blue-color {
-                color: var(--wp--preset--color--vivid-cyan-blue) !important;
-            }
-
-            .has-vivid-purple-color {
-                color: var(--wp--preset--color--vivid-purple) !important;
-            }
-
-            .has-black-background-color {
-                background-color: var(--wp--preset--color--black) !important;
-            }
-
-            .has-cyan-bluish-gray-background-color {
-                background-color: var(--wp--preset--color--cyan-bluish-gray) !important;
-            }
-
-            .has-white-background-color {
-                background-color: var(--wp--preset--color--white) !important;
-            }
-
-            .has-pale-pink-background-color {
-                background-color: var(--wp--preset--color--pale-pink) !important;
-            }
-
-            .has-vivid-red-background-color {
-                background-color: var(--wp--preset--color--vivid-red) !important;
-            }
-
-            .has-luminous-vivid-orange-background-color {
-                background-color: var(--wp--preset--color--luminous-vivid-orange) !important;
-            }
-
-            .has-luminous-vivid-amber-background-color {
-                background-color: var(--wp--preset--color--luminous-vivid-amber) !important;
-            }
-
-            .has-light-green-cyan-background-color {
-                background-color: var(--wp--preset--color--light-green-cyan) !important;
-            }
-
-            .has-vivid-green-cyan-background-color {
-                background-color: var(--wp--preset--color--vivid-green-cyan) !important;
-            }
-
-            .has-pale-cyan-blue-background-color {
-                background-color: var(--wp--preset--color--pale-cyan-blue) !important;
-            }
-
-            .has-vivid-cyan-blue-background-color {
-                background-color: var(--wp--preset--color--vivid-cyan-blue) !important;
-            }
-
-            .has-vivid-purple-background-color {
-                background-color: var(--wp--preset--color--vivid-purple) !important;
-            }
-
-            .has-black-border-color {
-                border-color: var(--wp--preset--color--black) !important;
-            }
-
-            .has-cyan-bluish-gray-border-color {
-                border-color: var(--wp--preset--color--cyan-bluish-gray) !important;
-            }
-
-            .has-white-border-color {
-                border-color: var(--wp--preset--color--white) !important;
-            }
-
-            .has-pale-pink-border-color {
-                border-color: var(--wp--preset--color--pale-pink) !important;
-            }
-
-            .has-vivid-red-border-color {
-                border-color: var(--wp--preset--color--vivid-red) !important;
-            }
-
-            .has-luminous-vivid-orange-border-color {
-                border-color: var(--wp--preset--color--luminous-vivid-orange) !important;
-            }
-
-            .has-luminous-vivid-amber-border-color {
-                border-color: var(--wp--preset--color--luminous-vivid-amber) !important;
-            }
-
-            .has-light-green-cyan-border-color {
-                border-color: var(--wp--preset--color--light-green-cyan) !important;
-            }
-
-            .has-vivid-green-cyan-border-color {
-                border-color: var(--wp--preset--color--vivid-green-cyan) !important;
-            }
-
-            .has-pale-cyan-blue-border-color {
-                border-color: var(--wp--preset--color--pale-cyan-blue) !important;
-            }
-
-            .has-vivid-cyan-blue-border-color {
-                border-color: var(--wp--preset--color--vivid-cyan-blue) !important;
-            }
-
-            .has-vivid-purple-border-color {
-                border-color: var(--wp--preset--color--vivid-purple) !important;
-            }
-
-            .has-vivid-cyan-blue-to-vivid-purple-gradient-background {
-                background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;
-            }
-
-            .has-light-green-cyan-to-vivid-green-cyan-gradient-background {
-                background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;
-            }
-
-            .has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background {
-                background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;
-            }
-
-            .has-luminous-vivid-orange-to-vivid-red-gradient-background {
-                background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;
-            }
-
-            .has-very-light-gray-to-cyan-bluish-gray-gradient-background {
-                background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;
-            }
-
-            .has-cool-to-warm-spectrum-gradient-background {
-                background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;
-            }
-
-            .has-blush-light-purple-gradient-background {
-                background: var(--wp--preset--gradient--blush-light-purple) !important;
-            }
-
-            .has-blush-bordeaux-gradient-background {
-                background: var(--wp--preset--gradient--blush-bordeaux) !important;
-            }
-
-            .has-luminous-dusk-gradient-background {
-                background: var(--wp--preset--gradient--luminous-dusk) !important;
-            }
-
-            .has-pale-ocean-gradient-background {
-                background: var(--wp--preset--gradient--pale-ocean) !important;
-            }
-
-            .has-electric-grass-gradient-background {
-                background: var(--wp--preset--gradient--electric-grass) !important;
-            }
-
-            .has-midnight-gradient-background {
-                background: var(--wp--preset--gradient--midnight) !important;
-            }
-
-            .has-small-font-size {
-                font-size: var(--wp--preset--font-size--small) !important;
-            }
-
-            .has-medium-font-size {
-                font-size: var(--wp--preset--font-size--medium) !important;
-            }
-
-            .has-large-font-size {
-                font-size: var(--wp--preset--font-size--large) !important;
-            }
-
-            .has-x-large-font-size {
-                font-size: var(--wp--preset--font-size--x-large) !important;
-            }
-
-            :where(.wp-block-post-template.is-layout-flex) {
-                gap: 1.25em;
-            }
-
-            :where(.wp-block-post-template.is-layout-grid) {
-                gap: 1.25em;
-            }
-
-            :where(.wp-block-columns.is-layout-flex) {
-                gap: 2em;
-            }
-
-            :where(.wp-block-columns.is-layout-grid) {
-                gap: 2em;
-            }
-
-            :root :where(.wp-block-pullquote) {
-                font-size: 1.5em;
-                line-height: 1.6;
-            }
-        </style>
-        <link rel='stylesheet' id='select2-css' href='http://casasdeconvivencias.test/wp-content/plugins/woocommerce/assets/css/select2.css?ver=6.8.2' type='text/css' media='all' />
-        <style id='woocommerce-inline-inline-css' type='text/css'>
+        </style> -->
+        <link rel='stylesheet' id='wp-block-library-css' href='<?php echo includes_url('css/dist/block-library/style.min.css?ver=6.6.2'); ?>' type='text/css' media='all' />
+        <link rel='stylesheet' id='wc-blocks-vendors-style-css' href='<?php echo plugins_url('woocommerce/packages/woocommerce-blocks/build/wc-blocks-vendors-style.css?ver=8.0.0', WC_PLUGIN_FILE); ?>' type='text/css' media='all' />
+        <link rel='stylesheet' id='wc-blocks-style-css' href='<?php echo plugins_url('woocommerce/packages/woocommerce-blocks/build/wc-blocks-style.css?ver=8.0.0', WC_PLUGIN_FILE); ?>' type='text/css' media='all' />
+        <link rel='stylesheet' id='select2-css' href='<?php echo plugins_url('woocommerce/assets/css/select2.css?ver=6.8.2', WC_PLUGIN_FILE); ?>' type='text/css' media='all' />
+        <!-- <style id='woocommerce-inline-inline-css' type='text/css'>
             .woocommerce form .form-row .required {
                 visibility: visible;
             }
-        </style>
-        <link rel='stylesheet' id='parent-style-css' href='http://casasdeconvivencias.test/wp-content/themes/virtue/style.css?ver=6.6.2' type='text/css' media='all' />
-        <link rel='stylesheet' id='wcplpro_css-css' href='http://casasdeconvivencias.test/wp-content/plugins/Woocommerce_Products_List_Pro_v1.1.4/assets/css/wcplpro.css?ver=6.6.2' type='text/css' media='all' />
-        <link rel='stylesheet' id='virtue_theme-css' href='http://casasdeconvivencias.test/wp-content/themes/virtue/assets/css/virtue.css?ver=3.4.10' type='text/css' media='all' />
-        <link rel='stylesheet' id='virtue_skin-css' href='http://casasdeconvivencias.test/wp-content/themes/virtue/assets/css/skins/default.css?ver=3.4.10' type='text/css' media='all' />
-        <link rel='stylesheet' id='virtue_child-css' href='http://casasdeconvivencias.test/wp-content/themes/virtue-child/style.css?ver=1.0.0' type='text/css' media='all' />
+        </style> -->
+        <link rel='stylesheet' id='parent-style-css' href='<?php echo get_template_directory_uri(); ?>/style.css?ver=6.6.2' type='text/css' media='all' />
+        <link rel='stylesheet' id='wcplpro_css-css' href='<?php echo plugins_url('Woocommerce_Products_List_Pro_v1.1.4/assets/css/wcplpro.css?ver=6.6.2'); ?>' type='text/css' media='all' />
+        <link rel='stylesheet' id='virtue_theme-css' href='<?php echo get_template_directory_uri(); ?>/assets/css/virtue.css?ver=3.4.10' type='text/css' media='all' />
+        <link rel='stylesheet' id='virtue_skin-css' href='<?php echo get_template_directory_uri(); ?>/assets/css/skins/default.css?ver=3.4.10' type='text/css' media='all' />
+        <link rel='stylesheet' id='virtue_child-css' href='<?php echo get_stylesheet_directory_uri(); ?>/style.css?ver=1.0.0' type='text/css' media='all' />
         <link rel='stylesheet' id='redux-google-fonts-virtue-css' href='https://fonts.googleapis.com/css?family=Lato%3A400%2C700&#038;ver=6.6.2' type='text/css' media='all' />
         <script type="text/javascript">
             window._nslDOMReady = function(callback) {
@@ -2759,22 +2215,22 @@ function mostrar_login_registro()
                 }
             };
         </script>
-        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
-        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js"></script>
+        <script type="text/javascript" src="<?php echo includes_url('js/jquery/jquery.min.js?ver=3.7.1'); ?>" id="jquery-core-js"></script>
+        <script type="text/javascript" src="<?php echo includes_url('js/jquery/jquery-migrate.min.js?ver=3.4.1'); ?>" id="jquery-migrate-js"></script>
         <!--[if lt IE 9]>
 <script type="text/javascript" src="https://casasdeconvivencias.org.ar/wp-content/themes/virtue/assets/js/vendor/respond.min.js?ver=6.6.2" id="virtue-respond-js"></script>
 <![endif]-->
-        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/plugins/Woocommerce_Products_List_Pro_v1.1.4/assets/js/stupidtable.js?ver=6.6.2" id="wcplpro_table_sort-js"></script>
-        <link rel="https://api.w.org/" href="http://casasdeconvivencias.test/wp-json/" />
-        <link rel="alternate" title="JSON" type="application/json" href="http://casasdeconvivencias.test/wp-json/wp/v2/pages/7" />
-        <link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://casasdeconvivencias.test/xmlrpc.php?rsd" />
-        <meta name="generator" content="WordPress 6.6.2" />
-        <meta name="generator" content="WooCommerce 6.8.2" />
-        <link rel="canonical" href="http://casasdeconvivencias.test/mi-cuenta/" />
-        <link rel='shortlink' href='http://casasdeconvivencias.test/?p=7' />
-        <link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="http://casasdeconvivencias.test/wp-json/oembed/1.0/embed?url=https%3A%2F%2FCASASDECONVIVENCIAS-MASTER%2Fmi-cuenta%2F" />
-        <link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="http://casasdeconvivencias.test/wp-json/oembed/1.0/embed?url=https%3A%2F%2FCASASDECONVIVENCIAS-MASTER%2Fmi-cuenta%2F&#038;format=xml" />
-        <link rel="Shortcut Icon" type="image/x-icon" href="http://casasdeconvivencias.test/wp-content/themes/virtue-child/favicon/favicon.png" />
+        <script type="text/javascript" src="<?php echo plugins_url('Woocommerce_Products_List_Pro_v1.1.4/assets/js/stupidtable.js?ver=6.6.2'); ?>" id="wcplpro_table_sort-js"></script>
+        <link rel="https://api.w.org/" href="<?php echo rest_url(); ?>" />
+        <link rel="alternate" title="JSON" type="application/json" href="<?php echo rest_url('wp/v2/pages/7'); ?>" />
+        <link rel="EditURI" type="application/rsd+xml" title="RSD" href="<?php echo site_url('xmlrpc.php?rsd'); ?>" />
+        <meta name="generator" content="WordPress <?php echo get_bloginfo('version'); ?>" />
+        <meta name="generator" content="WooCommerce <?php echo WC()->version; ?>" />
+        <link rel="canonical" href="<?php echo get_permalink(); ?>" />
+        <link rel='shortlink' href='<?php echo wp_get_shortlink(7); ?>' />
+        <link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="<?php echo rest_url('oembed/1.0/embed?url=' . urlencode(get_permalink())); ?>" />
+        <link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="<?php echo rest_url('oembed/1.0/embed?url=' . urlencode(get_permalink()) . '&format=xml'); ?>" />
+        <link rel="Shortcut Icon" type="image/x-icon" href="<?php echo get_stylesheet_directory_uri(); ?>/favicon/favicon.png" />
         <style type="text/css">
             #logo {
                 padding-top: 25px;
@@ -2830,7 +2286,7 @@ function mostrar_login_registro()
             .nav-tabs>.active>a,
             .nav-tabs>.active>a:hover,
             .nav-tabs>.active>a:focus {
-                background: url(http://casasdeconvivencias.test/wp-content/uploads/2018/06/beige-minimal-background-pattern-wordpress-8.jpg) repeat;
+                background: url('<?php echo wp_upload_dir()['baseurl']; ?>/2018/06/beige-minimal-background-pattern-wordpress-8.jpg') repeat;
             }
 
             .topclass {
@@ -2838,11 +2294,11 @@ function mostrar_login_registro()
             }
 
             .headerclass {
-                background: url(http://casasdeconvivencias.test/wp-content/uploads/2018/06/header-background-mirror-final-2.jpg) no-repeat;
+                background: url('<?php echo wp_upload_dir()['baseurl']; ?>/2018/06/header-background-mirror-final-2.jpg') no-repeat;
             }
 
             body {
-                background: url(http://casasdeconvivencias.test/wp-content/uploads/2018/06/grey-background.jpg);
+                background: url('<?php echo wp_upload_dir()['baseurl']; ?>/2018/06/grey-background.jpg');
                 background-position: 0% 0%;
                 background-repeat: repeat;
             }
@@ -2873,473 +2329,11 @@ function mostrar_login_registro()
                 }
             </style>
         </noscript>
-        <style type="text/css">
-            div.nsl-container[data-align="left"] {
-                text-align: left;
-            }
 
-            div.nsl-container[data-align="center"] {
-                text-align: center;
-            }
-
-            div.nsl-container[data-align="right"] {
-                text-align: right;
-            }
-
-
-            div.nsl-container div.nsl-container-buttons a[data-plugin="nsl"] {
-                text-decoration: none;
-                box-shadow: none;
-                border: 0;
-            }
-
-            div.nsl-container .nsl-container-buttons {
-                display: flex;
-                padding: 5px 0;
-            }
-
-            div.nsl-container.nsl-container-block .nsl-container-buttons {
-                display: inline-grid;
-                grid-template-columns: minmax(145px, auto);
-            }
-
-            div.nsl-container-block-fullwidth .nsl-container-buttons {
-                flex-flow: column;
-                align-items: center;
-            }
-
-            div.nsl-container-block-fullwidth .nsl-container-buttons a,
-            div.nsl-container-block .nsl-container-buttons a {
-                flex: 1 1 auto;
-                display: block;
-                margin: 5px 0;
-                width: 100%;
-            }
-
-            div.nsl-container-inline {
-                margin: -5px;
-                text-align: left;
-            }
-
-            div.nsl-container-inline .nsl-container-buttons {
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-
-            div.nsl-container-inline .nsl-container-buttons a {
-                margin: 5px;
-                display: inline-block;
-            }
-
-            div.nsl-container-grid .nsl-container-buttons {
-                flex-flow: row;
-                align-items: center;
-                flex-wrap: wrap;
-            }
-
-            div.nsl-container-grid .nsl-container-buttons a {
-                flex: 1 1 auto;
-                display: block;
-                margin: 5px;
-                max-width: 280px;
-                width: 100%;
-            }
-
-            @media only screen and (min-width: 650px) {
-                div.nsl-container-grid .nsl-container-buttons a {
-                    width: auto;
-                }
-            }
-
-            div.nsl-container .nsl-button {
-                cursor: pointer;
-                vertical-align: top;
-                border-radius: 4px;
-            }
-
-            div.nsl-container .nsl-button-default {
-                color: #fff;
-                display: flex;
-            }
-
-            div.nsl-container .nsl-button-icon {
-                display: inline-block;
-            }
-
-            div.nsl-container .nsl-button-svg-container {
-                flex: 0 0 auto;
-                padding: 8px;
-                display: flex;
-                align-items: center;
-            }
-
-            div.nsl-container svg {
-                height: 24px;
-                width: 24px;
-                vertical-align: top;
-            }
-
-            div.nsl-container .nsl-button-default div.nsl-button-label-container {
-                margin: 0 24px 0 12px;
-                padding: 10px 0;
-                font-family: Helvetica, Arial, sans-serif;
-                font-size: 16px;
-                line-height: 20px;
-                letter-spacing: .25px;
-                overflow: hidden;
-                text-align: center;
-                text-overflow: clip;
-                white-space: nowrap;
-                flex: 1 1 auto;
-                -webkit-font-smoothing: antialiased;
-                -moz-osx-font-smoothing: grayscale;
-                text-transform: none;
-                display: inline-block;
-            }
-
-            div.nsl-container .nsl-button-google[data-skin="dark"] .nsl-button-svg-container {
-                margin: 1px;
-                padding: 7px;
-                border-radius: 3px;
-                background: #fff;
-            }
-
-            div.nsl-container .nsl-button-google[data-skin="light"] {
-                border-radius: 1px;
-                box-shadow: 0 1px 5px 0 rgba(0, 0, 0, .25);
-                color: RGBA(0, 0, 0, 0.54);
-            }
-
-            div.nsl-container .nsl-button-apple .nsl-button-svg-container {
-                padding: 0 6px;
-            }
-
-            div.nsl-container .nsl-button-apple .nsl-button-svg-container svg {
-                height: 40px;
-                width: auto;
-            }
-
-            div.nsl-container .nsl-button-apple[data-skin="light"] {
-                color: #000;
-                box-shadow: 0 0 0 1px #000;
-            }
-
-            div.nsl-container .nsl-button-facebook[data-skin="white"] {
-                color: #000;
-                box-shadow: inset 0 0 0 1px #000;
-            }
-
-            div.nsl-container .nsl-button-facebook[data-skin="light"] {
-                color: #1877F2;
-                box-shadow: inset 0 0 0 1px #1877F2;
-            }
-
-            div.nsl-container .nsl-button-spotify[data-skin="white"] {
-                color: #191414;
-                box-shadow: inset 0 0 0 1px #191414;
-            }
-
-            div.nsl-container .nsl-button-apple div.nsl-button-label-container {
-                font-size: 17px;
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-            }
-
-            div.nsl-container .nsl-button-slack div.nsl-button-label-container {
-                font-size: 17px;
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-            }
-
-            div.nsl-container .nsl-button-slack[data-skin="light"] {
-                color: #000000;
-                box-shadow: inset 0 0 0 1px #DDDDDD;
-            }
-
-            div.nsl-container .nsl-button-tiktok[data-skin="light"] {
-                color: #161823;
-                box-shadow: 0 0 0 1px rgba(22, 24, 35, 0.12);
-            }
-
-
-            div.nsl-container .nsl-button-kakao {
-                color: rgba(0, 0, 0, 0.85);
-            }
-
-            .nsl-clear {
-                clear: both;
-            }
-
-            .nsl-container {
-                clear: both;
-            }
-
-            .nsl-disabled-provider .nsl-button {
-                filter: grayscale(1);
-                opacity: 0.8;
-            }
-
-            /*Button align start*/
-
-            div.nsl-container-inline[data-align="left"] .nsl-container-buttons {
-                justify-content: flex-start;
-            }
-
-            div.nsl-container-inline[data-align="center"] .nsl-container-buttons {
-                justify-content: center;
-            }
-
-            div.nsl-container-inline[data-align="right"] .nsl-container-buttons {
-                justify-content: flex-end;
-            }
-
-
-            div.nsl-container-grid[data-align="left"] .nsl-container-buttons {
-                justify-content: flex-start;
-            }
-
-            div.nsl-container-grid[data-align="center"] .nsl-container-buttons {
-                justify-content: center;
-            }
-
-            div.nsl-container-grid[data-align="right"] .nsl-container-buttons {
-                justify-content: flex-end;
-            }
-
-            div.nsl-container-grid[data-align="space-around"] .nsl-container-buttons {
-                justify-content: space-around;
-            }
-
-            div.nsl-container-grid[data-align="space-between"] .nsl-container-buttons {
-                justify-content: space-between;
-            }
-
-            /* Button align end*/
-
-            /* Redirect */
-
-            #nsl-redirect-overlay {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                position: fixed;
-                z-index: 1000000;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                backdrop-filter: blur(1px);
-                background-color: RGBA(0, 0, 0, .32);
-                ;
-            }
-
-            #nsl-redirect-overlay-container {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                background-color: white;
-                padding: 30px;
-                border-radius: 10px;
-            }
-
-            #nsl-redirect-overlay-spinner {
-                content: '';
-                display: block;
-                margin: 20px;
-                border: 9px solid RGBA(0, 0, 0, .6);
-                border-top: 9px solid #fff;
-                border-radius: 50%;
-                box-shadow: inset 0 0 0 1px RGBA(0, 0, 0, .6), 0 0 0 1px RGBA(0, 0, 0, .6);
-                width: 40px;
-                height: 40px;
-                animation: nsl-loader-spin 2s linear infinite;
-            }
-
-            @keyframes nsl-loader-spin {
-                0% {
-                    transform: rotate(0deg)
-                }
-
-                to {
-                    transform: rotate(360deg)
-                }
-            }
-
-            #nsl-redirect-overlay-title {
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-                font-size: 18px;
-                font-weight: bold;
-                color: #3C434A;
-            }
-
-            #nsl-redirect-overlay-text {
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-                text-align: center;
-                font-size: 14px;
-                color: #3C434A;
-            }
-
-            /* Redirect END*/
-        </style>
-        <style type="text/css">
-            /* Notice fallback */
-            #nsl-notices-fallback {
-                position: fixed;
-                right: 10px;
-                top: 10px;
-                z-index: 10000;
-            }
-
-            .admin-bar #nsl-notices-fallback {
-                top: 42px;
-            }
-
-            #nsl-notices-fallback>div {
-                position: relative;
-                background: #fff;
-                border-left: 4px solid #fff;
-                box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
-                margin: 5px 15px 2px;
-                padding: 1px 20px;
-            }
-
-            #nsl-notices-fallback>div.error {
-                display: block;
-                border-left-color: #dc3232;
-            }
-
-            #nsl-notices-fallback>div.updated {
-                display: block;
-                border-left-color: #46b450;
-            }
-
-            #nsl-notices-fallback p {
-                margin: .5em 0;
-                padding: 2px;
-            }
-
-            #nsl-notices-fallback>div:after {
-                position: absolute;
-                right: 5px;
-                top: 5px;
-                content: '\00d7';
-                display: block;
-                height: 16px;
-                width: 16px;
-                line-height: 16px;
-                text-align: center;
-                font-size: 20px;
-                cursor: pointer;
-            }
-        </style>
-        <style type="text/css" title="dynamic-css" class="options-output">
-            header #logo a.brand,
-            .logofont {
-                font-family: Lato;
-                line-height: 40px;
-                font-weight: 400;
-                font-style: normal;
-                color: #ffffff;
-                font-size: 32px;
-            }
-
-            .kad_tagline {
-                font-family: Lato;
-                line-height: 20px;
-                font-weight: 400;
-                font-style: normal;
-                color: #ffffff;
-                font-size: 14px;
-            }
-
-            .product_item .product_details h5 {
-                font-family: Lato;
-                line-height: 20px;
-                font-weight: 700;
-                font-style: normal;
-                font-size: 16px;
-            }
-
-            /* 
-        h1 {
-            font-family: Lato;
-            line-height: 40px;
-            font-weight: 400;
-            font-style: normal;
-            font-size: 38px;
-        } */
-
-            /* h2 {
-            font-family: Lato;
-            line-height: 40px;
-            font-weight: normal;
-            font-style: normal;
-            font-size: 32px;
-        }
-
-        h3 {
-            font-family: Lato;
-            line-height: 40px;
-            font-weight: 400;
-            font-style: normal;
-            font-size: 28px;
-        }
-
-        h4 {
-            font-family: Lato;
-            line-height: 40px;
-            font-weight: 400;
-            font-style: normal;
-            font-size: 24px;
-        }
-
-        h5 {
-            font-family: Lato;
-            line-height: 24px;
-            font-weight: 700;
-            font-style: normal;
-            font-size: 18px;
-        } */
-
-            /* body {
-            font-family: Verdana, Geneva, sans-serif;
-            line-height: 20px;
-            font-weight: 400;
-            font-style: normal;
-            font-size: 14px;
-        }
-
-        #nav-main ul.sf-menu a {
-            font-family: Lato;
-            line-height: 18px;
-            font-weight: 400;
-            font-style: normal;
-            font-size: 12px;
-        }
-
-        #nav-second ul.sf-menu a {
-            font-family: Lato;
-            line-height: 22px;
-            font-weight: 400;
-            font-style: normal;
-            font-size: 18px;
-        }
-
-        .kad-nav-inner .kad-mnav,
-        .kad-mobile-nav .kad-nav-inner li a,
-        .nav-trigger-case {
-            font-family: Lato;
-            line-height: 20px;
-            font-weight: 400;
-            font-style: normal;
-            color: #ffffff;
-            font-size: 16px;
-        } */
-        </style>
     </head>
 
     <body class="page-template-default page page-id-7 wp-embed-responsive theme-virtue woocommerce-account woocommerce-page woocommerce-no-js boxed mi-cuenta">
-        <div id="kt-skip-link"><a href="#content">Skip to Main Content</a></div>
+        <!-- <div id="kt-skip-link"><a href="#content">Skip to Main Content</a></div> -->
         <div id="wrapper" class="container">
             <header class="banner headerclass" itemscope itemtype="https://schema.org/WPHeader">
                 <div id="topbar" class="topclass">
@@ -3360,7 +2354,7 @@ function mostrar_login_registro()
                     <div class="row">
                         <div class="col-md-12 clearfix kad-header-left">
                             <div id="logo" class="logocase">
-                                <a class="brand logofont" href="http://casasdeconvivencias.test/">
+                                <a class="brand logofont" href="<?php echo home_url(); ?>">
                                     Casas de Retiros y Convivencias </a>
                                 <p class="kad_tagline belowlogo-text">Convivencias y Retiros Espirituales.</p>
                             </div> <!-- Close #logo -->
@@ -3378,38 +2372,50 @@ function mostrar_login_registro()
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
-            <div class="wrap contentclass" role="document">
 
+            <div class="wrap contentclass" role="document">
                 <div id="pageheader" class="titleclass">
                     <div class="container">
                         <div class="page-header">
-                            <h1 class="entry-title" itemprop="name">
-                                Mi cuenta </h1>
+                            <h1 class="entry-title">Mi cuenta</h1>
                         </div>
-                    </div><!--container-->
-                </div><!--titleclass-->
+                    </div>
+                </div>
+
                 <div id="content" class="container container-contained">
                     <div class="row">
                         <div class="main col-md-12" role="main">
-                            <div class="entry-content" itemprop="mainContentOfPage" itemscope itemtype="https://schema.org/WebPageElement">
+                            <div class="entry-content">
                                 <div class="woocommerce">
                                     <div class="woocommerce-notices-wrapper"></div>
 
                                     <div class="u-columns col2-set" id="customer_login">
-
-                                        <div class="u-column1 col-1">
-
+                                        <!-- Columna de Login -->
+                                        <div class="u-column1">
                                             <h2>Iniciar sesión</h2>
-
-                                            <!-- Formulario de inicio de sesión -->
                                             <form class="woocommerce-form woocommerce-form-login login" method="post">
-                                                <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+                                                <p class="woocommerce-form-row form-row">
                                                     <label for="username">Nombre de usuario o correo electrónico&nbsp;<span class="required">*</span></label>
-                                                    <input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="username" id="username" autocomplete="username" value="" required />
+                                                    <input type="text"
+                                                        class="woocommerce-Input input-text"
+                                                        name="username"
+                                                        id="username"
+                                                        autocomplete="username"
+                                                        value=""
+                                                        required />
                                                 </p>
-                                                <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+
+                                                <p class="woocommerce-form-row form-row password-field">
                                                     <label for="password">Contraseña&nbsp;<span class="required">*</span></label>
-                                                    <input class="woocommerce-Input woocommerce-Input--text input-text" type="password" name="password" id="password" autocomplete="current-password" required />
+                                                    <span class="password-input">
+                                                        <input type="password"
+                                                            class="woocommerce-Input woocommerce-Input--text input-text"
+                                                            name="password"
+                                                            id="password"
+                                                            autocomplete="current-password"
+                                                            required />
+                                                        <i class='bx bx-show show-password-input'></i>
+                                                    </span>
                                                 </p>
 
                                                 <div class="form-group recaptcha-container">
@@ -3417,75 +2423,80 @@ function mostrar_login_registro()
                                                 </div>
 
                                                 <p class="form-row">
-                                                    <label class="woocommerce-form__label woocommerce-form__label-for-checkbox woocommerce-form-login__rememberme">
-                                                        <input class="woocommerce-form__input woocommerce-form__input-checkbox" name="rememberme" type="checkbox" id="rememberme" value="forever" />
+                                                    <label class="woocommerce-form__label-for-checkbox">
+                                                        <input type="checkbox"
+                                                            class="woocommerce-form__input-checkbox"
+                                                            name="rememberme"
+                                                            id="rememberme"
+                                                            value="forever" />
                                                         <span>Recordarme</span>
                                                     </label>
                                                     <?php wp_nonce_field('woocommerce-login', 'woocommerce-login-nonce'); ?>
-                                                    <button type="submit" class="woocommerce-button button woocommerce-form-login__submit" name="login" value="1">Iniciar sesión</button>
+                                                    <button type="submit"
+                                                        class="woocommerce-button button woocommerce-form-login__submit"
+                                                        name="login"
+                                                        value="1">
+                                                        Iniciar sesión
+                                                    </button>
                                                 </p>
                                             </form>
-
-
                                         </div>
 
-                                        <div class="u-column2 col-2">
-
+                                        <!-- Columna de Registro -->
+                                        <div class="u-column2">
                                             <h2>Registrarme</h2>
                                             <form method="post" class="woocommerce-form woocommerce-form-register register">
-                                                <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+                                                <p class="woocommerce-form-row form-row">
                                                     <label for="reg_email">Correo electrónico&nbsp;<span class="required">*</span></label>
-                                                    <input type="email" class="woocommerce-Input woocommerce-Input--text input-text" name="email" id="reg_email" autocomplete="email" value="" required />
+                                                    <input type="email"
+                                                        class="woocommerce-Input input-text"
+                                                        name="email"
+                                                        id="reg_email"
+                                                        autocomplete="email"
+                                                        value=""
+                                                        required />
                                                 </p>
-                                                <p>Se enviará un enlace para establecer una nueva contraseña a su dirección de correo electrónico.</p>
+
+                                                <p class="register-notice">Se enviará un enlace para establecer una nueva contraseña a su dirección de correo electrónico.</p>
 
                                                 <div class="form-group recaptcha-container">
                                                     <div class="g-recaptcha" data-sitekey="6LfX0n4qAAAAADG3VOYz7TO2Mw3uAXj-0qOiTQb1"></div>
                                                 </div>
 
-                                                <p class="woocommerce-form-row form-row">
+                                                <p class="form-row">
                                                     <?php wp_nonce_field('woocommerce-register', 'woocommerce-register-nonce'); ?>
-                                                    <button type="submit" class="woocommerce-Button button" name="register" value="1">Registrarme</button>
+                                                    <button type="submit"
+                                                        class="woocommerce-Button button woocommerce-form-register__submit"
+                                                        name="register"
+                                                        value="1">
+                                                        Registrarme
+                                                    </button>
                                                 </p>
                                             </form>
-
                                         </div>
-
                                     </div>
-
                                 </div>
-                            </div>
-                        </div><!-- /.main -->
-                    </div><!-- /.row-->
-                </div><!-- /.content -->
-            </div><!-- /.wrap -->
-            <footer id="containerfooter" class="footerclass" itemscope itemtype="https://schema.org/WPFooter">
-                <div class="container">
-                    <div class="row">
-
-                        <div class="col-md-3 col-sm-6 footercol1">
-                            <div class="widget-1 widget-first footer-widget">
-                                <aside id="widget_kadence_social-2" class="widget widget_kadence_social">
-                                    <div class="virtue_social_widget clearfix">
-
-                                    </div>
-                                </aside>
                             </div>
                         </div>
                     </div>
-                    <div class="footercredits clearfix">
-
-                        <p>ENLACES EXTERNOS : <b><a href="www.opusdei.org.ar">Página del Opus Dei</a> - <a href="https://opusdei.org/es-es/section/san-josemaria/">Página de San Josemaría</a></b>
-                        </p>
-                    </div>
-
                 </div>
+            </div>
+        </div>
+        <footer id="containerfooter" class="footerclass" itemscope itemtype="https://schema.org/WPFooter">
 
-            </footer>
+            <div class="footercredits clearfix">
+
+                <p>ENLACES EXTERNOS : <b><a href="https://www.opusdei.org.ar">Página del Opus Dei</a> - <a href="https://opusdei.org/es-es/section/san-josemaria/">Página de San Josemaría</a></b>
+                </p>
+            </div>
+
+            </div>
+
+        </footer>
 
         </div><!--Wrapper-->
         <div id="wcplpro_added_to_cart_notification" class="autoclose" style="display: none;">
-            <a href="http://casasdeconvivencias.test/reservas/" title="Go to cart"><span></span> &times; product(s) added to cart &rarr;</a> <a href="#" class="slideup_panel">&times;</a>
+            <a href="<?php echo wc_get_cart_url(); ?>" title="Ir al carrito"><span></span> &times; product(s) added to cart &rarr;</a> <a href="#" class="slideup_panel">&times;</a>
         </div>
         <script type="text/javascript">
             (function() {
@@ -3494,9 +2505,9 @@ function mostrar_login_registro()
                 document.body.className = c;
             })();
         </script>
-        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/plugins/woocommerce/assets/js/selectWoo/selectWoo.full.min.js?ver=1.0.9-wc.6.8.2" id="selectWoo-js"></script>
-        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js?ver=2.7.0-wc.6.8.2" id="jquery-blockui-js"></script>
-        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min.js?ver=2.1.4-wc.6.8.2" id="js-cookie-js"></script>
+        <script type="text/javascript" src="<?php echo plugins_url('woocommerce/assets/js/selectWoo/selectWoo.full.min.js?ver=1.0.9-wc.6.8.2', WC_PLUGIN_FILE); ?>" id="selectWoo-js"></script>
+        <script type="text/javascript" src="<?php echo plugins_url('woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js?ver=2.7.0-wc.6.8.2', WC_PLUGIN_FILE); ?>" id="jquery-blockui-js"></script>
+        <script type="text/javascript" src="<?php echo plugins_url('woocommerce/assets/js/js-cookie/js.cookie.min.js?ver=2.1.4-wc.6.8.2', WC_PLUGIN_FILE); ?>" id="js-cookie-js"></script>
         <script type="text/javascript" id="woocommerce-js-extra">
             /* <![CDATA[ */
             var woocommerce_params = {
@@ -3505,7 +2516,7 @@ function mostrar_login_registro()
             };
             /* ]]> */
         </script>
-        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js?ver=6.8.2" id="woocommerce-js"></script>
+        <script type="text/javascript" src="<?php echo plugins_url('woocommerce/assets/js/frontend/woocommerce.min.js?ver=6.8.2', WC_PLUGIN_FILE); ?>" id="woocommerce-js"></script>
         <script type="text/javascript" id="wc-cart-fragments-js-extra">
             /* <![CDATA[ */
             var wc_cart_fragments_params = {
@@ -3517,13 +2528,13 @@ function mostrar_login_registro()
             };
             /* ]]> */
         </script>
-        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min.js?ver=6.8.2" id="wc-cart-fragments-js"></script>
-        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/bootstrap-min.js?ver=3.4.10" id="bootstrap-js"></script>
-        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-includes/js/hoverIntent.min.js?ver=1.10.2" id="hoverIntent-js"></script>
-        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-includes/js/imagesloaded.min.js?ver=5.0.0" id="imagesloaded-js"></script>
-        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-includes/js/masonry.min.js?ver=4.2.2" id="masonry-js"></script>
-        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/plugins-min.js?ver=3.4.10" id="virtue_plugins-js"></script>
-        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/magnific-popup-min.js?ver=3.4.10" id="magnific-popup-js"></script>
+        <script type="text/javascript" src="<?php echo plugins_url('woocommerce/assets/js/frontend/cart-fragments.min.js?ver=6.8.2', WC_PLUGIN_FILE); ?>" id="wc-cart-fragments-js"></script>
+        <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/min/bootstrap-min.js?ver=3.4.10" id="bootstrap-js"></script>
+        <script type="text/javascript" src="<?php echo includes_url('js/hoverIntent.min.js?ver=1.10.2'); ?>" id="hoverIntent-js"></script>
+        <script type="text/javascript" src="<?php echo includes_url('js/imagesloaded.min.js?ver=5.0.0'); ?>" id="imagesloaded-js"></script>
+        <script type="text/javascript" src="<?php echo includes_url('js/masonry.min.js?ver=4.2.2'); ?>" id="masonry-js"></script>
+        <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/min/plugins-min.js?ver=3.4.10" id="virtue_plugins-js"></script>
+        <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/min/magnific-popup-min.js?ver=3.4.10" id="magnific-popup-js"></script>
         <script type="text/javascript" id="virtue-lightbox-init-js-extra">
             /* <![CDATA[ */
             var virtue_lightbox = {
@@ -3533,10 +2544,10 @@ function mostrar_login_registro()
             };
             /* ]]> */
         </script>
-        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/virtue-lightbox-init-min.js?ver=3.4.10" id="virtue-lightbox-init-js"></script>
-        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/main-min.js?ver=3.4.10" id="virtue_main-js"></script>
-        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/kt-add-to-cart-variation-min.js?ver=6.6.2" id="kt-wc-add-to-cart-variation-js"></script>
-        <script type="text/javascript" src="http://casasdeconvivencias.test/wp-content/themes/virtue/assets/js/min/wc-quantity-increment-min.js?ver=6.6.2" id="wcqi-js-js"></script>
+        <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/min/virtue-lightbox-init-min.js?ver=3.4.10" id="virtue-lightbox-init-js"></script>
+        <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/min/main-min.js?ver=3.4.10" id="virtue_main-js"></script>
+        <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/min/kt-add-to-cart-variation-min.js?ver=6.6.2" id="kt-wc-add-to-cart-variation-js"></script>
+        <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/min/wc-quantity-increment-min.js?ver=6.6.2" id="wcqi-js-js"></script>
         <script type="text/javascript">
             (function(undefined) {
                 let scriptOptions = {
@@ -3923,11 +2934,39 @@ function mostrar_login_registro()
                     }
                 });
             })();
+
+
+            document.addEventListener('DOMContentLoaded', function() {
+                // Función para alternar la visibilidad de la contraseña
+                function togglePassword(passwordInput, showPasswordBtn) {
+                    if (passwordInput.type === 'password') {
+                        passwordInput.type = 'text';
+                        showPasswordBtn.classList.add('display-password');
+                        showPasswordBtn.classList.remove('bx-show');
+                        showPasswordBtn.classList.add('bx-hide');
+                    } else {
+                        passwordInput.type = 'password';
+                        showPasswordBtn.classList.remove('display-password');
+                        showPasswordBtn.classList.remove('bx-hide');
+                        showPasswordBtn.classList.add('bx-show');
+                    }
+                }
+
+                // Seleccionar todos los campos de contraseña
+                const passwordFields = document.querySelectorAll('.password-input input[type="password"]');
+
+                passwordFields.forEach(function(passwordInput) {
+                    const showPasswordBtn = passwordInput.nextElementSibling;
+
+                    // Agregar el evento click
+                    showPasswordBtn.addEventListener('click', function() {
+                        togglePassword(passwordInput, showPasswordBtn);
+                    });
+                });
+            });
         </script>
     </body>
 
     </html>
-
-
 <?php
 }
