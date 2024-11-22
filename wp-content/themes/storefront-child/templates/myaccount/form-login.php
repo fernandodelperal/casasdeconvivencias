@@ -16,9 +16,9 @@
  * @version 9.2.0
  */
 
- ?>
+?>
 
- 
+
 <?php
 
 if (! defined('ABSPATH')) {
@@ -66,7 +66,7 @@ do_action('woocommerce_before_customer_login_form'); ?>
             <!-- Agregar captcha aquí -->
             <div class="recaptcha-container">
                 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-                <div class="g-recaptcha" data-sitekey="6LfX0n4qAAAAADG3VOYz7TO2Mw3uAXj-0qOiTQb1"></div>
+                <div class="g-recaptcha" data-sitekey="<?php echo esc_attr(RECAPTCHA_SITE_KEY); ?>"></div>
             </div>
 
             <p class="form-row">
@@ -74,7 +74,9 @@ do_action('woocommerce_before_customer_login_form'); ?>
                     <input class="woocommerce-form__input woocommerce-form__input-checkbox" name="rememberme" type="checkbox" id="rememberme" value="forever" /> <span><?php esc_html_e('Remember me', 'woocommerce'); ?></span>
                 </label>
                 <?php wp_nonce_field('woocommerce-login', 'woocommerce-login-nonce'); ?>
-                <button type="submit" class="woocommerce-button button woocommerce-form-login__submit<?php echo esc_attr(wc_wp_theme_get_element_class_name('button') ? ' ' . wc_wp_theme_get_element_class_name('button') : ''); ?>" name="login" value="<?php esc_attr_e('Log in', 'woocommerce'); ?>"><?php esc_html_e('Log in', 'woocommerce'); ?></button>
+
+                <button type="submit" class="woocommerce-button button woocommerce-form-login__submit" name="login" value="<?php esc_attr_e('Log in', 'woocommerce'); ?>"><?php esc_html_e('Log in', 'woocommerce'); ?></button>
+
             </p>
             <p class="woocommerce-LostPassword lost_password">
                 <a href="<?php echo esc_url(wp_lostpassword_url()); ?>"><?php esc_html_e('Lost your password?', 'woocommerce'); ?></a>
@@ -129,7 +131,7 @@ do_action('woocommerce_before_customer_login_form'); ?>
 
                 <p class="woocommerce-form-row form-row">
                     <?php wp_nonce_field('woocommerce-register', 'woocommerce-register-nonce'); ?>
-                    <button type="submit" class="woocommerce-Button woocommerce-button button<?php echo esc_attr(wc_wp_theme_get_element_class_name('button') ? ' ' . wc_wp_theme_get_element_class_name('button') : ''); ?> woocommerce-form-register__submit" name="register" value="<?php esc_attr_e('Register', 'woocommerce'); ?>"><?php esc_html_e('Register', 'woocommerce'); ?></button>
+                    <button type="submit" class="woocommerce-button button woocommerce-form-login__submit" name="login" value="<?php esc_attr_e('Log in', 'woocommerce'); ?>"><?php esc_html_e('Log in', 'woocommerce'); ?></button>
                 </p>
 
                 <?php do_action('woocommerce_register_form_end'); ?>

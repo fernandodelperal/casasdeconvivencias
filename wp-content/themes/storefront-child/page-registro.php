@@ -264,10 +264,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_POST['g-recaptcha-response']) || empty($_POST['g-recaptcha-response'])) {
         $errors[] = "Por favor, confirma que no eres un robot.";
     } else {
-        $secret_key = '6LfX0n4qAAAAANGMR1gBsFLCwbbI5gHVrsFtVfuL';
+        // $secret_key = '6LfX0n4qAAAAANGMR1gBsFLCwbbI5gHVrsFtVfuL';
         $verify = wp_remote_post('https://www.google.com/recaptcha/api/siteverify', array(
             'body' => array(
-                'secret' => $secret_key,
+                'secret' => RECAPTCHA_SECRET_KEY,
                 'response' => $_POST['g-recaptcha-response']
             )
         ));
@@ -681,7 +681,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     <!-- Agregar reCAPTCHA -->
                     <div class="form-group recaptcha-container">
-                        <div class="g-recaptcha" data-sitekey="6LfX0n4qAAAAADG3VOYz7TO2Mw3uAXj-0qOiTQb1"></div>
+                        <div class="g-recaptcha" data-sitekey="<?php echo esc_attr(RECAPTCHA_SITE_KEY); ?>"></div>
                     </div>
 
                     <button type="submit" class="submit-button">Siguiente</button>

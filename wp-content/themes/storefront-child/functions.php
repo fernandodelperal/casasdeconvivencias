@@ -41,7 +41,7 @@ add_filter('woocommerce_general_settings', 'agregar_checkbox_ajustes_woocommerce
 function add_recaptcha_to_login() {
 ?>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <div class="g-recaptcha" data-sitekey="6LfX0n4qAAAAADG3VOYz7TO2Mw3uAXj-0qOiTQb1"></div>
+    <div class="g-recaptcha" data-sitekey="<?php echo esc_attr(RECAPTCHA_SITE_KEY); ?>"></div>
     <style>
         .g-recaptcha {
             margin: 5px auto 20px auto;
@@ -129,7 +129,7 @@ function add_recaptcha_to_woocommerce_forms() {
     if (is_account_page() && !is_user_logged_in()) {
 ?>
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-        <div class="g-recaptcha" data-sitekey="6LfX0n4qAAAAADG3VOYz7TO2Mw3uAXj-0qOiTQb1"></div>
+        <div class="g-recaptcha" data-sitekey="<?php echo esc_attr(RECAPTCHA_SITE_KEY); ?>"></div>
         <style>
             .g-recaptcha {
                 margin: 10px 0;
