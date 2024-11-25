@@ -291,7 +291,7 @@ function my_plugin_log_permission_error()
 
     //$output = '<p>' . sprintf( __( 'You attempted to access the "%1$s" dashboard, but you do not currently have privileges on this site. If you believe you should be able to access the "%1$s" dashboard, please contact your network administrator.' ), $blog_name ) . '</p>';
     //$output .= '<p>' . __( 'If you reached this screen by accident and meant to visit one of your own sites, here are some shortcuts to help you find your way.' ) . '</p>';
-
+    $output = '';
     $output .= '<h3>' . __('Tus Módulos Activos') . '</h3>';
     $output .= '<table>';
 
