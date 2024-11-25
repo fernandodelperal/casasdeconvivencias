@@ -291,7 +291,7 @@ function my_plugin_log_permission_error()
 
     //$output = '<p>' . sprintf( __( 'You attempted to access the "%1$s" dashboard, but you do not currently have privileges on this site. If you believe you should be able to access the "%1$s" dashboard, please contact your network administrator.' ), $blog_name ) . '</p>';
     //$output .= '<p>' . __( 'If you reached this screen by accident and meant to visit one of your own sites, here are some shortcuts to help you find your way.' ) . '</p>';
-
+    $output = '';
     $output .= '<h3>' . __('Tus Módulos Activos') . '</h3>';
     $output .= '<table>';
 
@@ -598,3 +598,25 @@ function validate_dates($post_id) {
         wp_die(__('El producto no se puede guardar por un error. Corregir y volver a intentar: fecha_fin debe tener el formato "yyyy-mm-dd". Por ejemplo 4 de enero de 2024 se debe cargar como 2024-01-04', 'your-text-domain'));
     }
 }
+
+
+
+// Agregar checkbox de apellido de casada
+function agregar_checkbox_ajustes_woocommerce($settings) {
+    $new_settings = array();
+    foreach ($settings as $setting) {
+        $new_settings[] = $setting;
+        if (isset($setting['id']) && $setting['id'] === 'woocommerce_default_customer_address') {
+            $new_settings[] = array(
+                'title'    => __('Apellido de casada', 'storefront-child'),
+                'desc'     => __('Activar para usar el apellido de casada en la inscripción', 'storefront-child'),
+                'id'       => 'mi_checkbox_personalizado',
+                'default'  => 'no',
+                'type'     => 'checkbox',
+                'section'  => 'general'
+            );
+        }
+    }
+    return $new_settings;
+}
+add_filter('woocommerce_general_settings', 'agregar_checkbox_ajustes_woocommerce');
