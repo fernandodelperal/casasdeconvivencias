@@ -659,34 +659,6 @@ add_filter('registration_errors', 'verify_recaptcha_login', 1, 3);
 add_filter('wpmu_validate_user_signup', 'verify_recaptcha_login', 1, 3);
 
 
-// Verificar reCAPTCHA en el registro
-// function verify_recaptcha_register($errors, $sanitized_user_login, $user_email) {
-//     if (!isset($_POST['g-recaptcha-response']) || empty($_POST['g-recaptcha-response'])) {
-//         $errors->add('captcha_error', '<strong>ERROR</strong>: Debes confirmar que no eres un robot.');
-//         return $errors;
-//     }
-
-//     $recaptcha_secret = '6LfX0n4qAAAAANGMR1gBsFLCwbbI5gHVrsFtVfuL';
-//     $response = wp_remote_post('https://www.google.com/recaptcha/api/siteverify', [
-//         'body' => [
-//             'secret' => $recaptcha_secret,
-//             'response' => $_POST['g-recaptcha-response']
-//         ]
-//     ]);
-
-//     if (is_wp_error($response) || empty($response['body'])) {
-//         $errors->add('captcha_error', '<strong>ERROR</strong>: Error al verificar el captcha. Por favor, intenta nuevamente.');
-//         return $errors;
-//     }
-
-//     $response_body = json_decode($response['body']);
-//     if (!$response_body->success) {
-//         $errors->add('captcha_error', '<strong>ERROR</strong>: La verificación del CAPTCHA falló. Por favor intenta nuevamente.');
-//     }
-
-//     return $errors;
-// }
-// add_filter('registration_errors', 'verify_recaptcha_register', 10, 3);
 
 // Agregar reCAPTCHA a los formularios de WooCommerce mi-cuenta
 function add_recaptcha_to_woocommerce_forms() {
@@ -758,75 +730,30 @@ add_action('wp_logout', 'custom_logout_redirect');
 
 
 
+add_action('woocommerce_account_navigation', 'agregar_boton_mi_cuenta', 10);
+function agregar_boton_mi_cuenta() {
+    echo '<a href="' . site_url('/dashboard?section=dashboard-products') . '" class="btn btn-primary" style="float: right; margin-right: 10px; padding: 10px 20px; background-color: #0071a1; color: white; border-radius: 5px; text-decoration: none;">Panel Administrador</a>';  
+}
 
 
-// // Función para procesar el login
-// function procesar_login_personalizado($username, $password, $recaptcha_response) {
-//     if (!isset($recaptcha_response) || empty($recaptcha_response)) {
-//         return new WP_Error('recaptcha_error', 'Por favor verifica que no eres un robot');
-//     }
 
-//     $creds = array(
-//         'user_login'    => $username,
-//         'user_password' => $password
-//     );
-
-//     return wp_signon($creds, false);
-// }
-
-// // Función para procesar el registro
-// function procesar_registro_personalizado($email) {
-//     if (email_exists($email)) {
-//         return new WP_Error('email_exists', 'Este correo electrónico ya está registrado.');
-//     }
-
-//     $username = sanitize_user(current(explode('@', $email)));
-//     $random_password = wp_generate_password();
-//     $user_id = wp_create_user($username, $random_password, $email);
-
-//     if (!is_wp_error($user_id)) {
-//         wp_new_user_notification($user_id, null, 'both');
-//         return true;
-//     }
-
-//     return $user_id; // Retorna el error si falló
-// }
-
-// // Función para obtener datos del usuario
-// function obtener_datos_usuario_actual() {
-//     if (!is_user_logged_in()) {
-//         return false;
-//     }
-
-//     $current_user = wp_get_current_user();
-//     return array(
-//         'nombre' => $current_user->display_name,
-//         'email' => $current_user->user_email,
-//         'fecha_registro' => $current_user->user_registered
-//     );
-// }
-
-
-function agregar_estilos_personalizados() {
-    if (is_account_page()) {
-        ?>
-        <style>
-        /* Mensajes de error */
-        .woocommerce-error {
-            background-color: #e2401c;
-            color: #fff;
-            padding: 15px !important;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            padding-left: 15px !important;
+// Agregar checkbox de apellido de casada
+function agregar_checkbox_ajustes_woocommerce($settings) {
+    $new_settings = array();
+    foreach ($settings as $setting) {
+        $new_settings[] = $setting;
+        if (isset($setting['id']) && $setting['id'] === 'woocommerce_default_customer_address') {
+            $new_settings[] = array(
+                'title'    => __('Apellido de casada', 'storefront-child'),
+                'desc'     => __('Activar para usar el apellido de casada en la inscripción', 'storefront-child'),
+                'id'       => 'mi_checkbox_personalizado',
+                'default'  => 'no',
+                'type'     => 'checkbox',
+                'section'  => 'general'
+            );
         }
-
-        .woocommerce-error::before {
-            display: none !important;
-        }
-        </style>
-        <?php
     }
+    return $new_settings;
 }
 add_action('wp_head', 'agregar_estilos_personalizados');
 
