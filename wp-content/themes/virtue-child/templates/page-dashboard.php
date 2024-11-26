@@ -1,7 +1,7 @@
 
 <?php
 /*
-Template Name: Panel
+Template Name: Dashboard
 */
 if (!is_user_logged_in()) {
     wp_redirect(site_url('/mi-cuenta/'));
