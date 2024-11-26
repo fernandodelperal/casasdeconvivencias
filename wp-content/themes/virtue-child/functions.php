@@ -291,7 +291,7 @@ function my_plugin_log_permission_error()
 
     //$output = '<p>' . sprintf( __( 'You attempted to access the "%1$s" dashboard, but you do not currently have privileges on this site. If you believe you should be able to access the "%1$s" dashboard, please contact your network administrator.' ), $blog_name ) . '</p>';
     //$output .= '<p>' . __( 'If you reached this screen by accident and meant to visit one of your own sites, here are some shortcuts to help you find your way.' ) . '</p>';
-
+    $output = '';
     $output .= '<h3>' . __('Tus Módulos Activos') . '</h3>';
     $output .= '<table>';
 
@@ -599,6 +599,164 @@ function validate_dates($post_id) {
         wp_die(__('El producto no se puede guardar por un error. Corregir y volver a intentar: fecha_fin debe tener el formato "yyyy-mm-dd". Por ejemplo 4 de enero de 2024 se debe cargar como 2024-01-04', 'your-text-domain'));
     }
 }
+
+
+// Agregar reCAPTCHA al formulario de login de WordPress
+function add_recaptcha_to_login() {
+?>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <div class="g-recaptcha" data-sitekey="<?php echo esc_attr(RECAPTCHA_SITE_KEY); ?>"></div>
+    <style>
+        .g-recaptcha {
+            margin: 5px auto 20px auto;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+        #login_error {
+            border-left-color: #dc3232;
+        }
+    </style>
+<?php
+}
+add_action('login_form', 'add_recaptcha_to_login');
+add_action('register_form', 'add_recaptcha_to_login');
+add_action('signup_extra_fields', 'add_recaptcha_to_login');
+
+// Verificar reCAPTCHA para login y registro de WordPress
+function verify_recaptcha_login($user, $username = null, $password = null) {
+    // No verificar en ciertas situaciones
+    if (!isset($_POST['wp-submit']) && !isset($_POST['signup_submit']) && !isset($_POST['submit'])) {
+        return $user;
+    }
+
+    if (!isset($_POST['g-recaptcha-response']) || empty($_POST['g-recaptcha-response'])) {
+        remove_action('authenticate', 'wp_authenticate_username_password', 20);
+        return new WP_Error('captcha_error', '<strong>ERROR</strong>: Debes confirmar que no eres un robot.');
+    }
+
+    $recaptcha_secret = '6LfX0n4qAAAAANGMR1gBsFLCwbbI5gHVrsFtVfuL';
+    $response = wp_remote_post('https://www.google.com/recaptcha/api/siteverify', [
+        'body' => [
+            'secret' => $recaptcha_secret,
+            'response' => $_POST['g-recaptcha-response']
+        ]
+    ]);
+
+    if (is_wp_error($response) || empty($response['body'])) {
+        return new WP_Error('captcha_error', '<strong>ERROR</strong>: Error al verificar el captcha. Por favor, intenta nuevamente.');
+    }
+
+    $response_body = json_decode($response['body']);
+    if (!$response_body->success) {
+        return new WP_Error('captcha_error', '<strong>ERROR</strong>: La verificación del CAPTCHA falló. Por favor intenta nuevamente.');
+    }
+
+    return $user;
+}
+add_filter('authenticate', 'verify_recaptcha_login', 1, 3);
+add_filter('registration_errors', 'verify_recaptcha_login', 1, 3);
+add_filter('wpmu_validate_user_signup', 'verify_recaptcha_login', 1, 3);
+
+
+
+// Agregar reCAPTCHA a los formularios de WooCommerce mi-cuenta
+function add_recaptcha_to_woocommerce_forms() {
+    if (is_account_page() && !is_user_logged_in()) {
+?>
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        <div class="g-recaptcha" data-sitekey="<?php echo esc_attr(RECAPTCHA_SITE_KEY); ?>"></div>
+        <style>
+            .g-recaptcha {
+                margin: 10px 0;
+                display: flex;
+                justify-content: left;
+                width: 100%;
+            }
+        </style>
+<?php
+    }
+}
+add_action('woocommerce_login_form', 'add_recaptcha_to_woocommerce_forms');
+add_action('woocommerce_register_form', 'add_recaptcha_to_woocommerce_forms');
+
+// Verificar reCAPTCHA para WooCommerce
+function verify_recaptcha_woocommerce($validation_error) {
+    if (!(isset($_POST['login']) || isset($_POST['register']))) {
+        return $validation_error;
+    }
+
+    if (!isset($_POST['g-recaptcha-response']) || empty($_POST['g-recaptcha-response'])) {
+        return new WP_Error('captcha_error', 'Por favor verifica que no eres un robot antes de continuar.');
+    }
+
+    $recaptcha_secret = '6LfX0n4qAAAAANGMR1gBsFLCwbbI5gHVrsFtVfuL';
+    $verify_response = wp_remote_post('https://www.google.com/recaptcha/api/siteverify', [
+        'body' => [
+            'secret' => $recaptcha_secret,
+            'response' => $_POST['g-recaptcha-response']
+        ]
+    ]);
+
+    if (is_wp_error($verify_response) || empty($verify_response['body'])) {
+        return new WP_Error('captcha_error', 'Error al verificar el captcha. Por favor, intenta nuevamente.');
+    }
+
+    $response_data = json_decode($verify_response['body']);
+    if (!$response_data->success) {
+        return new WP_Error('captcha_error', 'La verificación del captcha falló. Por favor intenta nuevamente.');
+    }
+
+    return $validation_error;
+}
+add_filter('woocommerce_process_login_errors', 'verify_recaptcha_woocommerce', 10, 1);
+add_filter('woocommerce_process_registration_errors', 'verify_recaptcha_woocommerce', 10, 1);
+
+// Asegurarse que el registro está habilitado
+function enable_registration() {
+    update_option('users_can_register', 1);
+}
+add_action('init', 'enable_registration');
+
+
+
+// Redireccionar después de cerrar sesión
+function custom_logout_redirect() {
+    wp_redirect(wc_get_page_permalink('myaccount'));
+    exit();
+}
+add_action('wp_logout', 'custom_logout_redirect');
+
+
+
+
+add_action('woocommerce_account_navigation', 'agregar_boton_mi_cuenta', 10);
+function agregar_boton_mi_cuenta() {
+    echo '<a href="' . site_url('/dashboard?section=dashboard-products') . '" class="btn btn-primary" style="float: right; margin-right: 10px; padding: 10px 20px; background-color: #0071a1; color: white; border-radius: 5px; text-decoration: none;">Panel Administrador</a>';  
+}
+
+
+
+// Agregar checkbox de apellido de casada
+function agregar_checkbox_ajustes_woocommerce($settings) {
+    $new_settings = array();
+    foreach ($settings as $setting) {
+        $new_settings[] = $setting;
+        if (isset($setting['id']) && $setting['id'] === 'woocommerce_default_customer_address') {
+            $new_settings[] = array(
+                'title'    => __('Apellido de casada', 'storefront-child'),
+                'desc'     => __('Activar para usar el apellido de casada en la inscripción', 'storefront-child'),
+                'id'       => 'mi_checkbox_personalizado',
+                'default'  => 'no',
+                'type'     => 'checkbox',
+                'section'  => 'general'
+            );
+        }
+    }
+    return $new_settings;
+}
+add_action('wp_head', 'agregar_estilos_personalizados');
+
 
 add_action('woocommerce_account_navigation', 'agregar_boton_mi_cuenta', 10);
 function agregar_boton_mi_cuenta() {
