@@ -1,6 +1,8 @@
 
 <?php
-
+/*
+Template Name: Panel
+*/
 if (!is_user_logged_in()) {
     wp_redirect(site_url('/mi-cuenta/'));
     exit;
