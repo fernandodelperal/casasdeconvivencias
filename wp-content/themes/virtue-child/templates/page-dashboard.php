@@ -33,7 +33,7 @@ get_header();
                 <?php
                 $sites = get_sites();
                 foreach ($sites as $site) {
-                    if (current_user_can('manage_woocommerce', $site->blog_id)) {
+                    if (is_multisite() && is_super_admin(get_current_user_id()) || current_user_can('manage_woocommerce', $site->blog_id)) {
                         $site_details = get_blog_details($site->blog_id);
                         $selected = (get_current_blog_id() == $site->blog_id) ? 'selected' : '';
                         echo '<option value="' . esc_url($site_details->siteurl) . '" ' . $selected . '>' . esc_html($site_details->blogname) . '</option>';
