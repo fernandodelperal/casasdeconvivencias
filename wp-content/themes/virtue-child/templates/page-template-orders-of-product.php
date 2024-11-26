@@ -104,7 +104,47 @@ tr.strikeout {
 			    <th>Comentarios</th>
 
 			  </tr>
-				<?php global $woocommerce;
+				
+				<?php
+				 
+				$args = array(
+					'post_type' => 'shop_order',
+					'post_status' => array('wc-completed', 'wc-processing', 'wc-on-hold'), // Puedes ajustar los estados según tus necesidades
+					'posts_per_page' => -1, // Puedes cambiar esto para paginar
+				);
+			
+				$orders = wc_get_orders($args);
+				 $orders_found = false; // Variable para comprobar si se encuentran órdenes
+
+				 $product_id = get_query_var( 'activ' );
+				 foreach ($orders as $order) {
+					 $show_order = false; // Flag para determinar si se debe mostrar la orden
+			 
+					 foreach ($order->get_items() as $item) {
+						 $product_id = $item->get_product_id();
+			 
+						 // Si el producto de esta orden coincide con el filtro, mostrar la orden
+						 if ($product_id_filter == $product_id) {
+							 $product_name = $item->get_name();
+							 $quantity = $item->get_quantity();
+							 $order_total = $order->get_total();
+							 $order_date = $order->get_date_created()->date('Y-m-d H:i:s');
+			 
+							 // Solo mostrar la fila si no hemos mostrado esta orden antes
+							 if (!$show_order) {
+								 echo '<tr>';
+								 echo '<td>' . esc_html($order_date) . '</td>';
+								 echo '<td>' . esc_html($product_name) . '</td>';
+								 echo '<td>' . esc_html($quantity) . '</td>';
+								 echo '<td>' . wc_price($order_total) . '</td>';
+								 echo '</tr>';
+								 $show_order = true; // Evitar mostrar la misma orden varias veces
+							 }
+			 
+							 $orders_found = true; // Hay al menos una orden encontrada
+						 }
+					 }
+				 };
 
 				$activ = get_query_var( 'activ' );
 
