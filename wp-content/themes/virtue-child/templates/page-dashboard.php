@@ -1,10 +1,12 @@
 
 <?php
 
-
 if (!is_user_logged_in()) {
     wp_redirect(site_url('/mi-cuenta/'));
     exit;
+}
+if (!current_user_can('manage_woocommerce')) {
+    wp_die('Esta página es privada, si necesitas acceso comunícate con el administrador');
 }
 get_header();
 ?>
@@ -38,7 +40,7 @@ get_header();
         </form>
     </div>
     <div class="user-menu" style="text-align: right;">
-        <a href="<?php echo esc_url(site_url('/mi-cuenta/')); ?>">Mi Cuenta</a>
+        <button class="btn btn-primary" style="margin-left: 10px;" onclick="window.location.href='<?php echo site_url('/mi-cuenta'); ?>'">Panel Personal</button>
     </div>
 </div>
 <div class="dashboard-container">

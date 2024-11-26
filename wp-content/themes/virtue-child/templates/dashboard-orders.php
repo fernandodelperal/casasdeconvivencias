@@ -13,7 +13,7 @@ $columns = array(
     'Teléfono' => __( 'Teléfono', 'woocommerce' ),
     'Estado del Pago' => __( 'Estado del Pago', 'woocommerce' ),
     'Forma de Pago' => __( 'Forma de Pago', 'woocommerce' ),
-    'Actividad' => __( 'Actividad', 'woocommerce' ),
+    'Tipo' => __( 'Tipo', 'woocommerce' ),
     'Régimen especial' => __( 'Régimen especial', 'woocommerce' ),
     'Procedencia' => __( 'Procedencia', 'woocommerce' ),
     'Llega tarde?' => __( 'Llega tarde?', 'woocommerce' ),
@@ -24,36 +24,34 @@ $columns = array(
 ?>
     <h1>Pedidos</h1>
     <form action="<?php echo esc_url( get_permalink() ); ?>" method="get">
-    <select name="filter_product" id="filter_product">
-    <?php $args = array(
-        'post_type'      => 'product',
-        'posts_per_page'  => -1,
-        'fields'         => 'ids'
-    );
-    
-    // Get the products for the filter dropdown
-    $query = new WP_Query( $args );
-    
-    ?>
-    
-    <option value="">All Products</option>
-    <?php while ( $query->have_posts() ) : $query->the_post(); ?>
-        <?php
-            $fecha_inicio = get_post_meta(get_the_ID(), 'fecha_inicio', true);
-            if ($fecha_inicio) {
-                $option_value = get_the_ID();
-                $option_text = date('d M Y', strtotime($fecha_inicio)) . " - " . esc_html( get_the_title() );
-            } else {
-                $option_value = get_the_ID();
-                $option_text = esc_html( get_the_title() );
-            }
-        ?>
-        <option value="<?php echo esc_attr( $option_value ); ?>"<?php if ( $_GET['filter_product'] == $option_value ) { echo ' selected'; } ?>>
-            <?php echo $option_text; ?>
-        </option>
-    <?php endwhile; wp_reset_query(); ?>
-</select>
+        <select name="filter_product" id="filter_product">
+            <?php
+                $args = array(
+                    'post_type'      => 'product',
+                    'posts_per_page'  => -1,
+                    'fields'         => 'ids'
+                );
+                $query = new WP_Query( $args );
+            ?>
+            <option value="">All Products</option>
+            <?php while ( $query->have_posts() ) : $query->the_post(); ?>
+                <?php
+                    $fecha_inicio = get_post_meta(get_the_ID(), 'fecha_inicio', true);
+                    if ($fecha_inicio) {
+                        $option_value = get_the_ID();
+                        $option_text = date('d M Y', strtotime($fecha_inicio)) . " - " . esc_html( get_the_title() );
+                    } else {
+                        $option_value = get_the_ID();
+                        $option_text = esc_html( get_the_title() );
+                    }
+                ?>
+                <option value="<?php echo esc_attr( $option_value ); ?>"<?php if ( $_GET['filter_product'] == $option_value ) { echo ' selected'; } ?>>
+                    <?php echo $option_text; ?>
+                </option>
+            <?php endwhile; wp_reset_query(); ?>
+        </select>
         <input type="hidden" name="paged" value="<?php echo $paged; ?>">
+        <input type="hidden" name="section" value="dashboard-orders">
         <button type="submit">Filter</button>
     </form>
 
@@ -149,7 +147,7 @@ if ( $orders ) { ?>
                             ?>
 				        </td>
                         <td><?php echo wp_kses_post( $order->get_payment_method_title() ); ?></td>
-                        <td><?php echo esc_html( get_post_meta( $order->get_id(), 'Actividad', true ) ); ?></td>
+                        <td><?php echo esc_html( $item->get_name() ); ?></td>
                         <td><?php echo esc_html( get_post_meta( $order->get_id(), 'Régimen_especial', true ) ); ?></td>
                         <td><?php echo esc_html( get_post_meta( $order->get_id(), 'Procedencia', true ) ); ?></td>
                         <td><?php echo esc_html( get_post_meta( $order->get_id(), 'Llega_tarde', true ) ); ?></td>
