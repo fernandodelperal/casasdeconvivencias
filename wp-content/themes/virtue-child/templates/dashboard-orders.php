@@ -1,4 +1,7 @@
 <?php
+/*
+Template Name: dashboard-orders
+*/
 // Get the current page's query string (if any)
 $paged = $_GET['paged'] ?? 1;
 
@@ -80,7 +83,6 @@ if ( $orders ) { ?>
         'quantity' => __( 'Quantity', 'woocommerce' ),
         'total' => __( 'Total', 'woocommerce' ),
     );
-    
     // Loop through the orders and display them in a table
     ?>
     <table>
@@ -92,8 +94,6 @@ if ( $orders ) { ?>
         
         <?php foreach ( $orders as $order ) { 
             $items = $order->get_items();
-
-            
             foreach ( $items as $item ) {
                 if ($item->get_product_id() == $product_id) { 
                     ?>
