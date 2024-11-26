@@ -42,12 +42,12 @@
                 ?>
                     <table>
                         <tr>
+                            <th>Pedidos</th>
                             <th>Nombre</th>
                             <th>Fecha Inicio</th> <!-- New column for start date -->
                             <th>Fecha Fin</th> <!-- New column for end date -->
                             <th>Vacantes</th>
                             <th>Notas</th>
-                            <th>Pedidos</th>
                         </tr>
                         <?php
                         while ($loop->have_posts()) : $loop->the_post();
@@ -57,6 +57,7 @@
 
                             ?>
                             <tr>
+                                <td><a href="<?php echo site_url(pathinfo($_SERVER['REQUEST_URI'], PATHINFO_DIRNAME)) . '?section=dashboard-orders&filter_product=' . $product->get_id(); ?>" class="btn btn-primary">Ver</a></td>
                                 <td>    
                                     <a href="<?php echo get_permalink($product->get_id()); ?>" target="_blank">
                                         <?php echo $product->get_name(); ?>
@@ -66,7 +67,6 @@
                                 <td><?php echo format_date($fecha_fin); ?></td>
                                 <td><?php echo $product->get_total_stock($product); ?></td>
                                 <td><?php echo get_post_meta($product->get_id(), 'Notas', true); ?></td>
-                                <td><a href="/dashboard/?section=dashboard-orders&filter_product=<?php echo $product->get_id(); ?>">Ver</a></td>
                             </tr>
                         <?php
                         endwhile;
