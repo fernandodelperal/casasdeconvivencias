@@ -126,4 +126,15 @@ abstract class NextendSocialProviderDummy {
         return false;
     }
 
+    /**
+     * Some providers allow the login to the social media account even before the email address has been verified.
+     * If the provider returns an email address, we should only attempt to use that for registration and auto-linking if
+     * the email address is verified on the provider's end!
+     *
+     * @return bool
+     */
+    public function getProviderEmailVerificationStatus() {
+        throw  new Exception(__('Error: Email verification status is not checked in this provider!', 'nextend-facebook-connect'));
+    }
+
 }

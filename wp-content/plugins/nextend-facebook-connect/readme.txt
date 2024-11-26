@@ -1,38 +1,38 @@
 === Nextend Social Login and Register ===
 Contributors: nextendweb
-Tags: social login, facebook, google, twitter, linkedin, register, login, social, nextend facebook connect, social sign in
+Tags: social login, facebook, google, twitter, x, linkedin, register, login, social, nextend facebook connect, social sign in
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 4.9
-Tested up to: 6.0.2
-Stable tag: 3.1.6
+Tested up to: 6.6.2
+Stable tag: 3.1.15
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-One click registration & login plugin for Facebook, Google, Twitter and more. Quick setup and easy configuration.
+One click registration & login plugin for Facebook, Google, X (formerly Twitter) and more. Quick setup and easy configuration.
 
 == Description ==
 
-Nextend Social Login is a professional, easy to use and free WordPress plugin. It lets your visitors  register and login to your site using their social profiles (Facebook, Google, Twitter, etc.) instead of forcing them to spend valuable time to fill out the default registration form. Besides that, they don't need to wait for validation emails or keep track of their username and password anymore.
+Nextend Social Login is a professional, easy to use and free WordPress plugin. It lets your visitors  register and login to your site using their social profiles (Facebook, Google, X (formerly Twitter), etc.) instead of forcing them to spend valuable time to fill out the default registration form. Besides that, they don't need to wait for validation emails or keep track of their username and password anymore.
 
 >[Demo](https://try-nextend-social-login.nextendweb.com/wp-login.php)  |  [Tutorial videos](https://www.youtube.com/watch?v=buPTza2-6xc&list=PLSawiBnEUNftt3EDqnP2jIXeh6q0pZ5D8&index=1)  |  [Docs](https://nextendweb.com/nextend-social-login-docs/documentation/)  |  [Support](https://nextendweb.com/contact-us/nextend-social-login-support/)  |  [Pro Addon](https://nextendweb.com/social-login/)
 
 [youtube https://www.youtube.com/watch?v=buPTza2-6xc]
 
-Nextend Social Login seamlessly integrates with your existing WordPress login and registration form. Existing users can add or remove their social accounts at their WordPress profile page. A single user can attach as many social account as they want allowing them to log in with Facebook, Google or Twitter.
+Nextend Social Login seamlessly integrates with your existing WordPress login and registration form. Existing users can add or remove their social accounts at their WordPress profile page. A single user can attach as many social account as they want allowing them to log in with Facebook, Google or X (formerly Twitter).
 
-#### Three popular providers: Facebook, Google and Twitter
+#### Three popular providers: Facebook, Google and X (formerly Twitter)
 
-Providers are the services which the visitors can use to register and log in to your site. Nextend Social Login allows your visitors to log in with their account from the most popular social networks: Facebook, Google and Twitter.
+Providers are the services which the visitors can use to register and log in to your site. Nextend Social Login allows your visitors to log in with their account from the most popular social networks: Facebook, Google and X (formerly Twitter).
 
 #### Free version features
 
-* One click registration and login via Facebook, Google and Twitter
-* Your current users can easily connect their Facebook, Google or Twitter profiles with their account
+* One click registration and login via Facebook, Google and X (formerly Twitter)
+* Your current users can easily connect their Facebook, Google or X (formerly Twitter) profiles with their account
 * Social accounts are tied to a WordPress user account so every account can be accessed with and without social account
 * You can define custom redirect URL after the registration (upon first login) using any of the social accounts.
 * You can define custom redirect URL after each login with any of the enabled social accounts.
-* Display Facebook, Google, Twitter profile picture as avatar
+* Display Facebook, Google, X (formerly Twitter) profile picture as avatar
 * Login widget and shortcodes
 * Customizable designs to match your site
 * Editable and translatable texts on the login buttons
@@ -47,7 +47,7 @@ Providers are the services which the visitors can use to register and log in to 
 * UserPro compatibility
 * Ultimate Member compatibility
 * Easy Digital Downloads compatibility
-* Pro providers: LinkedIn, Amazon, VKontakte, WordPress.com, Yahoo, PayPal, Disqus, Apple, GitHub, Microsoft, Line, Discord, Slack, TikTok and more coming soon
+* Pro providers: LinkedIn, Amazon, VKontakte, WordPress.com, Yahoo, PayPal, Disqus, Apple, GitHub, Microsoft, Line, Discord, Slack, TikTok, Steam, Twitch, Kakao, Reddit, Spotify and more coming soon
 * Configure whether email address should be asked on registration at each provider
 * Configure whether username should be asked on registration at each provider
 * Choose from icons or wide buttons
@@ -72,7 +72,7 @@ Sure, Nextend Social Login provides you the tools to make your site GDPR complia
 The free version of Nextend Social Login displays the social login buttons automatically on the /wp-login.php's login form and all forms made using the wp_login_form action.
 You can use Nextend Social Login's widget and shortcodes if you need to display the buttons anywhere. If you need to publish the login buttons in your theme, you can use the [PHP code](https://nextendweb.com/nextend-social-login-docs/theme-developer/).
 
-= 2. How can I get the email address from the Twitter users? =
+= 2. How can I get the email address from the X (formerly Twitter) users? =
 After you set up your APP go to the Settings tab and enter the URL of your Terms of Service and Privacy Policy page. Then hit the Update your settings button. Then go to the Permissions tab and check the "Request email addresses from users" under "Additional Permissions". [There's a documentation](https://nextendweb.com/nextend-social-login-docs/provider-twitter/#get-email) that explains the process with screenshots.
 
 = 3. Why are random usernames generated? =
@@ -124,6 +124,132 @@ Using the Pro Addon you can set where the login buttons should appear on the Reg
 4. The Settings page of the Facebook provider.
 
 == Changelog ==
+
+= 3.1.15 =
+* Fix: Our BroadcastChannel could prevent the back/forward cache (or bfcache) from caching the page
+* Improvement: Auto-linking security improvements.
+* Improvement: [Facebook](https://nextendweb.com/nextend-social-login-docs/provider-facebook/#configuration/) Getting Started updated.
+* Feature: [Google](https://nextendweb.com/nextend-social-login-docs/provider-google/) provider - Added option to choose a custom profile image size.
+
+* PRO: Fix: [Line](https://nextendweb.com/nextend-social-login-docs/provider-line/) - PHP warning when the returned name was 1 word long only
+* PRO: Improvement: [TikTok](https://nextendweb.com/nextend-social-login-docs/provider-tiktok/#configuration) Getting Started updated.
+* PRO: Improvement: [Custom Actions](https://nextendweb.com/nextend-social-login-docs/global-settings-custom-actions/) - option to display the buttons with either login or register specific label, based on the field where the action was added.
+
+
+= 3.1.14 =
+* Fix: Updated compatibility with Jetpack (Jetpack_SSO class has been changed to Automattic\Jetpack\Connection\SSO).
+* Fix: Fixed an issue where the old avatar would still show up due to browser cache even after the avatar has been changed and synced.
+* Fix: Fixed an issue where we had forcefully overriden default avatars as well over the "pre_get_avatar_data" filter. Now the "force_default" argument is respected.
+* Fix: Fixed an issue where the target window setting couldn't work properly for buttons that were loaded dynamically after page load.
+* Fix: Fixed an issue where the "Fallback username prefix on register" and "Ask Username on registration - When username is empty or invalid" options wouldn't work if the "Username prefix on register" was set.
+* Fix: Fixed an issue where it was possible to have too long of a username, thus not being able to register with the social login.
+* Fix: Fixed an issue where consecutive social icons of the same provider could not appear on the same page, when at least one instance was hidden by a CSS visibility property.
+* Improvement: Developers from now on can use the "nsl_register_roles" filter to override the default roles of the user registered by social login.
+* Improvement: Solid Security 2FA compatibility - Their 2FA solution will only show the 2FA modal if our "Support login restrictions" option is enabled.
+* Improvement: [Facebook](https://nextendweb.com/nextend-social-login-docs/provider-facebook/#configuration/) Getting Started updated.
+
+* PRO: Fix: Fixed an issue where it was possible to login with the social login through BuddyPress for the first time even if the account was still awaiting activation.
+* PRO: Improvement: New [TikTok Sync data](https://nextendweb.com/nextend-social-login-docs/provider-tiktok/#sync_data) field: Username ( requires user.info.profile scope ).
+* PRO: Improvement: New [LinkedIn Sync data](https://nextendweb.com/nextend-social-login-docs/provider-linkedin/#sync_data) fields: Headline, Vanity name ( requires Advertising API ).
+* PRO: Improvement: [PayPal Getting Started](https://nextendweb.com/nextend-social-login-docs/provider-paypal/#configuration) Update.
+* PRO: New provider: [Patreon](https://nextendweb.com/nextend-social-login-docs/provider-patreon/)
+
+
+= 3.1.13 =
+* Improvement: Error message sanitization.
+
+
+= 3.1.12 =
+* Fix: We will now delete the user avatar if the social media account which was used to set the avatar for the user gets unlinked.
+* Fix: Fixed an issue where an error was thrown whenever the download_url() function would return a WP_Error object during the unlinking process.
+* Fix: Fixed an issue where a plugin/theme force update check could cause a fatal error.
+* Feature: [Global Settings](https://nextendweb.com/nextend-social-login-docs/global-settings/) Added new "Unsupported WebView behaviour" option which determines what should happen to the social login buttons in WebView environments.
+* Improvement: Removed custom download_url() method, instead we will use the standard WordPress version, as it now works as expected.
+* Improvement: [Google](https://nextendweb.com/nextend-social-login-docs/provider-google/#configuration/) Getting Started updated.
+* Improvement: [Facebook](https://nextendweb.com/nextend-social-login-docs/provider-facebook/) API call version updated from v13.0 to v19.0.
+
+* PRO: Fix: Updated our code to comply with the fact that func_get_args() no longer reports the original value passed to a parameter, and instead returns the current value.
+* PRO: Improvement: Removed no longer needed "Checkout for WooCommerce" integration, and instead added the following actions at the billing form: woocommerce_before_checkout_shipping_form, woocommerce_after_checkout_shipping_form
+* PRO: New provider: [Spotify](https://nextendweb.com/nextend-social-login-docs/provider-spotify/)
+
+
+= 3.1.11 =
+* Fix: The default "Terms and conditions" text can now be translated with our language files.
+* Improvement: [Facebook Getting Started](https://nextendweb.com/nextend-social-login-docs/provider-facebook/#configuration) Update
+* Improvement: [Shortcode](https://nextendweb.com/nextend-social-login-docs/theme-developer/#shortcode) - customlabel shortcode parameter added, which can be used for specifying a custom label for the connect state of the social buttons rendered by the currently used shortcode. Also you can use the {{providerName}} placeholder to display the name of the given provider in your custom text.
+
+* PRO: Improvement: Register form - Password template HTML has been updated according to the latest WordPress default Forget Password form structure.
+* PRO: Improvement: [Custom Actions](https://nextendweb.com/nextend-social-login-docs/global-settings-custom-actions/) - Full Site Editing compatibility: the Custom Actions feature now attempts to render the buttons on any actions which are fired after the "init" action. ( Earlier, we tried only on the actions fired after the "login_head" and "wp_head" actions, so the buttons weren't rendered on the actions that were called within the Block Theme widgets. )
+* PRO: Improvement: [PayPal Getting Started](https://nextendweb.com/nextend-social-login-docs/provider-paypal/#configuration) Update
+* PRO: Improvement: [PayPal](https://nextendweb.com/nextend-social-login-docs/provider-paypal/) integration updated according to the new PayPal endpoint and API changes.
+* PRO: New provider: [Reddit](https://nextendweb.com/nextend-social-login-docs/provider-reddit/)
+
+
+= 3.1.10 =
+* Fix: Fixed a crash during login when "Support login restrictions" is enabled while WP 2FA plugin is installed.
+* Fix: Fixed a PHP Warning issue related to Ultimate Member when "Support login restrictions" is enabled.
+* Fix: Indeed Ultimate Affiliate Pro compatibility - registration with social login didn't award rewards to the affiliates
+* Fix: Terms and conditions	text could not be translated
+* Improvement: Twitter provider has been rebranded as X
+* Improvement: [Facebook Getting Started](https://nextendweb.com/nextend-social-login-docs/provider-facebook/#configuration) Update
+
+* PRO: Fix: Added the now needed Content-Type: application/x-www-form-urlencoded header to the TikTok access token endpoint request.
+* PRO: Fix: Updated our code to use "Sign In with LinkedIn using OpenID Connect" instead of the old deprecated "Sign in with LinkedIn" product.
+* PRO: Improvement: [LinkedIn Getting Started](https://nextendweb.com/nextend-social-login-docs/provider-linkedin/) Update
+* PRO: Improvement: Added new "edd_before_purchase_form" action for our Easy Digital Downloads integration.
+* PRO: New provider: [Kakao](https://nextendweb.com/nextend-social-login-docs/provider-kakao/)
+
+
+= 3.1.9 =
+* Feature: Facebook provider - Added option to choose a custom profile image size.
+* Fix: renderButtonsWithContainerAndTitle() method will no longer render the connect buttons for the logged in users
+* Fix: renderLinkAndUnlinkButtons() method will no longer render the link and unlink buttons for the logged out users
+* Improvement: Developers can now use the "nsl_autolink_error_redirect_url" filter to override the redirect URL when auto-linking fails.
+
+* PRO: Feature: TikTok provider – [Sync data fields](https://nextendweb.com/nextend-social-login-docs/provider-tiktok/#sync_data) added.
+* PRO: Improvement: TikTok provider – new OAuth2 endpoints and redirect_url introduced.
+* PRO: Improvement: [TikTok Getting Started](https://nextendweb.com/nextend-social-login-docs/provider-tiktok/#configuration) Update
+
+
+= 3.1.8 =
+* Fix: In some cases we opened the login popup window in an incorrect position.
+* Fix: Some language files had wrong language codes in their names. For example es_LA had been renamed to es_ES and zh_ZH to zh_CN.
+* Improvement: [Facebook Getting Started](https://nextendweb.com/nextend-social-login-docs/provider-facebook/#configuration) Update
+* Improvement: The HTML of the "Register" submit button in our Register flow can now be overridden over template files.
+* Improvement: Registration – if the provider has account select screen, then the user will be able to select another account if an error prevented the registration.
+* Improvement: Auto-linking security improvements.
+* Improvement: Google provider – new OAuth2 authorization and token endpoints.
+* Improvement: Developers can now use the "nsl_required_capability" filter to override the default capability ( manage_options ) that is required to be able to access the backend of Nextend Social Login.
+* Improvement: Japanese translation added.
+* Improvement: Hebrew translation added.
+* Feature: Twitter – option to choose whether we should use v1.1 or the v2.0 OAuth flow and credentials. ( The different versions have different App creation guides depending on the selected value. )
+
+* PRO: Fix: Yahoo provider – The redirect URL suggestion will now contain the complete Yahoo endpoint URL, as new Apps now require an exact match ( earlier the URLs with query strings weren't accepted ).
+* PRO: Improvement: Developers can now add extra validation logics for the "Ask E-mail/Password/Username on registration" features by using the "nsl_validate_extra_input_password_errors", "nsl_validate_extra_input_username_errors" and "nsl_validate_extra_input_username_errors" filters.
+* PRO: Improvement: The HTML of the "Ask E-mail/Password/Username on registration" features can now be overridden over template files.
+* PRO: Feature: Line provider – added an option to allow the [auto login](https://nextendweb.com/nextend-social-login-docs/provider-line/#allow-auto-login).
+* PRO: Feature: BuddyPress registration integration – so BuddyPress can send its registration notifications upon registration with social login, too.
+* PRO: Feature: Discord provider – v10 API support
+* PRO: Feature: Discord provider – [Sync data fields](https://nextendweb.com/nextend-social-login-docs/provider-discord/#sync_data) added.
+
+
+= 3.1.7 =
+* Fix: The !important CSS rules can cause problems for AMP validators, so we will use more specific selectors instead.
+* Fix: Some object cache might caused a PHP warning when the login happened with third party login forms.
+* Fix: There was a JavaScript error in WordPress-like login forms that didn't fire any login specific actions
+* Improvement: [Twitter Getting Started](https://nextendweb.com/nextend-social-login-docs/provider-twitter/#configuration) Update
+* Improvement: Support login restrictions - BuddyPress activation integration - in this case the actual registration is done by BuddyPress, not Nextend Social Login.
+* Improvement: Developers can now define the NSL_DISABLE_IN_AMP_REQUESTS constant, to disable the social buttons and its assets in the AMP requests.
+* Improvement: Developers can now use the "nsl_disabled_register_redirect_url" and "nsl_disabled_login_redirect_url" filters to override the redirects in most cases when the registration or login with social login fails for some reason
+* Improvement: Introduced some public PHP functions that developers can use to get some user data outside of our normal flow
+* Improvement: Avatar storing improvements
+* Feature: Option to allow the profile syncing separately for the registration, login and link actions
+
+* PRO: Fix: Apple provider - There was an encoding problem with the scope parameter of the Apple authorization URL.
+* PRO: Improvement: Developers can now override the GitHub and Disqus client credentials over the "nsl_disqus_api_key" / "nsl_disqus_api_secret" and "nsl_github_client_id" / "nsl_github_client_secret" filters. ( Can be useful for multi sites and multi language sites, as the App of these providers support only a single redirect URL. )
+* PRO: Improvement: [Microsoft Getting Started](https://nextendweb.com/nextend-social-login-docs/provider-microsoft/#configuration) Update
+* PRO: New provider: [Twitch](https://nextendweb.com/nextend-social-login-docs/provider-twitch/)
+
 
 = 3.1.6 =
 * Fix: Google provider - Google OAuth no longer supports any kind of WebViews, so the Google button will be hidden in all WebView environments.
