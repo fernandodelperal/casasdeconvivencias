@@ -602,7 +602,7 @@ function validate_dates($post_id) {
 
 add_action('woocommerce_account_navigation', 'agregar_boton_mi_cuenta', 10);
 function agregar_boton_mi_cuenta() {
-    echo '<a href="' . site_url('/dashboard') . '" class="btn btn-primary" style="float: right; margin-right: 10px; padding: 10px 20px; background-color: #0071a1; color: white; border-radius: 5px; text-decoration: none;">Panel Administrador</a>';  
+    echo '<a href="' . site_url('/dashboard?section=dashboard-products') . '" class="btn btn-primary" style="float: right; margin-right: 10px; padding: 10px 20px; background-color: #0071a1; color: white; border-radius: 5px; text-decoration: none;">Panel Administrador</a>';  
 }
 
 
