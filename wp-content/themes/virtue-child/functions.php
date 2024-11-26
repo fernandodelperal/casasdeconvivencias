@@ -735,34 +735,7 @@ function agregar_boton_mi_cuenta() {
     echo '<a href="' . site_url('/dashboard?section=dashboard-products') . '" class="btn btn-primary" style="float: right; margin-right: 10px; padding: 10px 20px; background-color: #0071a1; color: white; border-radius: 5px; text-decoration: none;">Panel Administrador</a>';  
 }
 
-
-
-// Agregar checkbox de apellido de casada
-function agregar_checkbox_ajustes_woocommerce($settings) {
-    $new_settings = array();
-    foreach ($settings as $setting) {
-        $new_settings[] = $setting;
-        if (isset($setting['id']) && $setting['id'] === 'woocommerce_default_customer_address') {
-            $new_settings[] = array(
-                'title'    => __('Apellido de casada', 'storefront-child'),
-                'desc'     => __('Activar para usar el apellido de casada en la inscripción', 'storefront-child'),
-                'id'       => 'mi_checkbox_personalizado',
-                'default'  => 'no',
-                'type'     => 'checkbox',
-                'section'  => 'general'
-            );
-        }
-    }
-    return $new_settings;
-}
-add_action('wp_head', 'agregar_estilos_personalizados');
-
-
 add_action('woocommerce_account_navigation', 'agregar_boton_mi_cuenta', 10);
-function agregar_boton_mi_cuenta() {
-    echo '<a href="' . site_url('/dashboard?section=dashboard-products') . '" class="btn btn-primary" style="float: right; margin-right: 10px; padding: 10px 20px; background-color: #0071a1; color: white; border-radius: 5px; text-decoration: none;">Panel Administrador</a>';  
-}
-
 
 
 // Agregar checkbox de apellido de casada
