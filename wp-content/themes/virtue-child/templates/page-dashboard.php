@@ -30,24 +30,28 @@ get_header();
 
 <div class="dashboard-top-menu" style="display: flex; justify-content: space-between; padding: 10px;">
     <div class="site-switcher">
-        <form action="" method="get">
-            <select name="site_switch" onchange="this.form.submit()">
-                <?php
-                // Obtener todos los sitios de la red
-                $sites = get_sites();
-                $current_user_id = get_current_user_id();
+        <ul class="nav nav-tabs">
+            <?php
+            // Obtener todos los sitios de la red
+            $sites = get_sites();
+            $current_user_id = get_current_user_id();
 
-                foreach ($sites as $site) {
-                    // Verificar si el usuario está registrado en este sitio
-                    if (is_user_member_of_blog($current_user_id, $site->blog_id)) {
-                        $site_details = get_blog_details($site->blog_id);
-                        $selected = (get_current_blog_id() == $site->blog_id) ? 'selected' : '';
-                        echo '<option value="' . esc_url($site_details->siteurl) . '" ' . $selected . '>' . esc_html($site_details->blogname) . '</option>';
-                    }
+            foreach ($sites as $site) {
+                // Verificar si el usuario está registrado en este sitio
+                if (is_user_member_of_blog($current_user_id, $site->blog_id)) {
+                    $site_details = get_blog_details($site->blog_id);
+                    $active = (get_current_blog_id() == $site->blog_id) ? 'active' : '';
+                    ?>
+                    <li class="<?php echo $active; ?>">
+                        <a href="<?php echo esc_url($site_details->siteurl); ?>">
+                            <?php echo esc_html($site_details->blogname); ?>
+                        </a>
+                    </li>
+                    <?php
                 }
-                ?>
-            </select>
-        </form>
+            }
+            ?>
+        </ul>
     </div>
     <div class="user-menu" style="text-align: right;">
         <button class="btn btn-primary" style="margin-left: 10px;" onclick="window.location.href='<?php echo site_url('/mi-cuenta'); ?>'">Panel Personal</button>
