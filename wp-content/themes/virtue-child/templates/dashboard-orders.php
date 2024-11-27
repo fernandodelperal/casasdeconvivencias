@@ -77,16 +77,11 @@ $orders = wc_get_orders( array(
     'meta_query' => $meta_query,
 ) );
 
-// Calculate total orders for the filtered product
-$total_orders = 0;
-foreach ( $orders as $order ) {
-    $items = $order->get_items();
-    foreach ( $items as $item ) {
-        if (empty($product_id) || $item->get_product_id() == $product_id) {
-            $total_orders++;
-            break; // Count each order only once
-        }
-    }
+// If $product_id is not empty, simply count the number of orders
+if (!empty($product_id)) {
+    $total_orders = count($orders);
+} else {
+    $total_orders = null;
 }
 
 // Display total number of orders
