@@ -73,7 +73,7 @@ if ( isset( $_GET['filter_product'] ) && ! empty( $_GET['filter_product'] ) ) {
 
 $orders = wc_get_orders( array(
     'status'   => 'any',
-    'limit'    => -1,
+    'limit'    => 200,
     'meta_query' => $meta_query,
 ) );
 
