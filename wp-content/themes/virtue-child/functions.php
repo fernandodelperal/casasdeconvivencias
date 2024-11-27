@@ -746,7 +746,7 @@ function agregar_top_bar() {
                         $active = (get_current_blog_id() == $site->blog_id) ? 'active' : '';
                         ?>
                         <li class="<?php echo $active; ?>">
-                            <a href="<?php echo esc_url($site_details->siteurl . "/dashboard/?section=dashboard-products"); ?>">
+                            <a href="<?php echo esc_url($site_details->siteurl . "/mi-cuenta"); ?>">
                                 <?php echo esc_html($site_details->blogname); ?>
                             </a>
                         </li>
