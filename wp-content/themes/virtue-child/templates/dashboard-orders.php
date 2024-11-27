@@ -89,6 +89,7 @@ foreach ( $orders as $order ) {
             break; // Count each order only once
         }
     }
+}
 
 // Display total number of orders
 echo '<p>Total de pedidos: ' . esc_html($total_orders) . '</p>';
