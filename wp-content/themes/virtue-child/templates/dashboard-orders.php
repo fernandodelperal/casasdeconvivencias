@@ -134,7 +134,7 @@ if ( $orders ) { ?>
                 if (empty($product_id) || $item->get_product_id() == $product_id) { 
                     $num++;
                     ?>
-                    <tr>
+                    <tr <?php if ($order->get_status() == 'trash') { echo 'style="background-color: #ccc;"'; } ?>>
                         <td><?php echo esc_html( $num ); ?></td>
                         <td><?php echo esc_html( $order->get_billing_first_name() . ' ' . $order->get_billing_last_name() ); ?></td>
                         <td><?php echo esc_html( $order->get_billing_email() ); ?></td>
@@ -142,27 +142,22 @@ if ( $orders ) { ?>
                         <td><?php
                             echo esc_html( wc_get_order_status_name( $order->get_status() ) );
 
+
                             if ($order->payment_method == 'woo-mercado-pago-basic') {
                                 echo ' (de <a href="https://www.mercadopago.com.ar">'.'MercadoPago</a>)';
                             } else {
 
-                                if ($order->get_status() != 'cancelled') {
-                                    if ($order->get_status() != 'completed') {
-                                        $url_completed = wp_nonce_url( admin_url( 'admin-ajax.php?action=woocommerce_mark_order_status&status=completed&order_id=' . $order->id ), 'woocommerce-mark-order-status' );
-                                        echo ' <a href="' . $url_completed. '">'.'Completar</a>';
+                                if ($order->get_status() == 'cancelled') {
+                                    $url_delete = get_delete_post_link( $order->id);
 
-                                    }
-
-                                        $url_cancel = wp_nonce_url( admin_url( 'admin-ajax.php?action=woocommerce_mark_order_status&status=cancelled&order_id=' . $order->id ), 'woocommerce-mark-order-status' );
+                                    $url_processing = wp_nonce_url( admin_url( 'admin-ajax.php?action=woocommerce_mark_order_status&status=processing&order_id=' . $order->id ), 'woocommerce-mark-order-status' );
+                                    echo ' <a href="' . $url_delete. '">'.'Eliminar</a>' . ' <a href="' . $url_processing. '">'.'Reactivar</a>';
+                                } elseif ($order->get_status() == 'trash') {
+                                } else { 
+                                    $url_completed = wp_nonce_url( admin_url( 'admin-ajax.php?action=woocommerce_mark_order_status&status=completed&order_id=' . $order->id ), 'woocommerce-mark-order-status' );
+                                    echo ' <a href="' . $url_completed. '">'.'Completar</a>';
+                                    $url_cancel = wp_nonce_url( admin_url( 'admin-ajax.php?action=woocommerce_mark_order_status&status=cancelled&order_id=' . $order->id ), 'woocommerce-mark-order-status' );
                                         echo ' <a href="' . $url_cancel. '">'.'Cancelar</a>';
-                                    } else {
-
-
-                                        $url_delete = get_delete_post_link( $order->id);
-
-                                        $url_processing = wp_nonce_url( admin_url( 'admin-ajax.php?action=woocommerce_mark_order_status&status=processing&order_id=' . $order->id ), 'woocommerce-mark-order-status' );
-                                        echo ' <a href="' . $url_delete. '">'.'Eliminar</a>' . ' <a href="' . $url_processing. '">'.'Reactivar</a>';
-
                                 }
                             }
                             ?>
