@@ -729,13 +729,41 @@ add_action('wp_logout', 'custom_logout_redirect');
 
 
 
+function agregar_top_bar() {
+    ?>
+    <div class="dashboard-top-menu" style="display: flex; justify-content: space-between; padding: 10px;">
+        <div class="site-switcher">
+            <ul class="nav nav-tabs">
+                <?php
+                // Obtener todos los sitios de la red
+                $sites = get_sites();
+                $current_user_id = get_current_user_id();
 
-add_action('woocommerce_account_navigation', 'agregar_boton_mi_cuenta', 10);
-function agregar_boton_mi_cuenta() {
-    echo '<a href="' . site_url('/dashboard?section=dashboard-products') . '" class="btn btn-primary" style="float: right; margin-right: 10px; padding: 10px 20px; background-color: #0071a1; color: white; border-radius: 5px; text-decoration: none;">Panel Administrador</a>';  
+                foreach ($sites as $site) {
+                    // Verificar si el usuario está registrado en este sitio
+                    if (is_user_member_of_blog($current_user_id, $site->blog_id)) {
+                        $site_details = get_blog_details($site->blog_id);
+                        $active = (get_current_blog_id() == $site->blog_id) ? 'active' : '';
+                        ?>
+                        <li class="<?php echo $active; ?>">
+                            <a href="<?php echo esc_url($site_details->siteurl . "/dashboard/?section=dashboard-products"); ?>">
+                                <?php echo esc_html($site_details->blogname); ?>
+                            </a>
+                        </li>
+                        <?php
+                    }
+                }
+                ?>
+            </ul>
+        </div>
+        <div class="user-menu" style="text-align: right;">
+            <button class="btn btn-primary" style="margin-left: 10px;" onclick="window.location.href='<?php echo site_url('/dashboard/?section=dashboard-products'); ?>'">Panel Administrador</button>
+        </div>
+    </div>
+    <?php
 }
 
-add_action('woocommerce_account_navigation', 'agregar_boton_mi_cuenta', 10);
+add_action('woocommerce_account_navigation', 'agregar_top_bar', 10);
 
 
 // Agregar checkbox de apellido de casada
@@ -757,3 +785,4 @@ function agregar_checkbox_ajustes_woocommerce($settings) {
     return $new_settings;
 
 }
+
