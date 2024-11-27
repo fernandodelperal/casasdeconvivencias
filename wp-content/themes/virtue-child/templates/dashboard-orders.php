@@ -23,8 +23,8 @@ $columns = array(
 // Create a form with a dropdown list of products
 ?>
     <h1>Inscripciones</h1>
-    <form action="<?php echo esc_url( get_permalink() ); ?>" method="get">
-        <select name="filter_product" id="filter_product">
+    <form action="<?php echo esc_url( get_permalink() ); ?>" method="get" style="display: flex; justify-content: flex-end;">
+        <select name="filter_product" id="filter_product" style="margin-right: 10px;">
             <?php
                 $args = array(
                     'post_type'      => 'product',
@@ -100,13 +100,15 @@ foreach ( $orders as $order ) {
 ?>
 <div style="border: 1px solid #ddd; padding: 10px; background-color: #f8f9fa;">
     <?php foreach ( $total_orders as $status => $count ) : ?>
-        <span><?php echo esc_html( $status ); ?>: <?php echo esc_html( $count ); ?></span>
+        <span>
+            <?php echo esc_html( $status ); ?>: <?php echo esc_html( $count ); ?>
+        </span>
     <?php endforeach; ?>
 </div>
 <?php
 
 // Mostrar el enlace con la URL modificada
-echo '<a href="' . esc_url(add_query_arg('statuses', 'any', home_url(add_query_arg(array(),$_SERVER['REQUEST_URI'])))) . '">Todos</a> | ';
+echo '<a href="' . esc_url(add_query_arg('statuses', 'any', home_url(add_query_arg(array(),$_SERVER['REQUEST_URI'])))) . '">Activos</a> | ';
 echo '<a href="' . esc_url(add_query_arg('statuses', 'processing', home_url(add_query_arg(array(),$_SERVER['REQUEST_URI'])))) . '">En Proceso</a> | ';
 echo '<a href="' . esc_url(add_query_arg('statuses', 'completed', home_url(add_query_arg(array(),$_SERVER['REQUEST_URI'])))) . '">Completados</a> | ';
 echo '<a href="' . esc_url(add_query_arg('statuses', 'cancelled', home_url(add_query_arg(array(),$_SERVER['REQUEST_URI'])))) . '">Cancelados</a> | ';
