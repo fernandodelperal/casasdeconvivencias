@@ -1,9 +1,26 @@
 /*Reset css modified by WP core*/
-.wp-core-ui .button, .wp-core-ui .button-primary, .wp-core-ui .button-secondary {
+.wp-core-ui .button,
+.wp-core-ui .button-primary,
+.wp-core-ui .button-secondary {
     min-height: 22px;
 }
 
-input[type=color], input[type=date], input[type=datetime-local], input[type=datetime], input[type=email], input[type=month], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], input[type=week], select, textarea {
+input[type=color],
+input[type=date],
+input[type=datetime-local],
+input[type=datetime],
+input[type=email],
+input[type=month],
+input[type=number],
+input[type=password],
+input[type=search],
+input[type=tel],
+input[type=text],
+input[type=time],
+input[type=url],
+input[type=week],
+select,
+textarea {
     border: 1px solid #ccc;
     height: 28px;
 }
@@ -59,7 +76,8 @@ input[type=color], input[type=date], input[type=datetime-local], input[type=date
     margin: 10px;
 }
 
-#vgse-wrapper .chosen, .select2 {
+#vgse-wrapper .chosen,
+.select2 {
     min-width: 150px;
 }
 
@@ -89,7 +107,10 @@ input[type=color], input[type=date], input[type=datetime-local], input[type=date
     width: 100%;
 }
 
-.unstyled-list>li>input, .select2-container, #vgse-wrapper .chosen-container {
+.unstyled-list>li>input,
+.unstyled-list>li>textarea,
+.select2-container,
+#vgse-wrapper .chosen-container {
     min-width: 315px;
 }
 
@@ -141,7 +162,10 @@ input[type=color], input[type=date], input[type=datetime-local], input[type=date
 }
 
 @-webkit-keyframes sk-three-bounce {
-    0%, 80%, 100% {
+
+    0%,
+    80%,
+    100% {
         -webkit-transform: scale(0);
         transform: scale(0);
     }
@@ -153,7 +177,10 @@ input[type=color], input[type=date], input[type=datetime-local], input[type=date
 }
 
 @keyframes sk-three-bounce {
-    0%, 80%, 100% {
+
+    0%,
+    80%,
+    100% {
         -webkit-transform: scale(0);
         transform: scale(0);
     }
@@ -206,11 +233,12 @@ input[type=color], input[type=date], input[type=datetime-local], input[type=date
 }
 
 #vgse-wrapper .handsontable tr td {
-    border-top: 1px solid #CCC;
+    /* border-top: 1px solid #CCC; */
     padding: 5px;
 }
 
-#vgse-wrapper .handsontable tr th .button, #vgse-wrapper .handsontable tr td .button {
+#vgse-wrapper .handsontable tr th .button,
+#vgse-wrapper .handsontable tr td .button {
     vertical-align: bottom;
 }
 
@@ -242,7 +270,8 @@ Notifications oh-snap
     max-width: 400px;
 }
 
-#vgse-wrapper .alert, .alert {
+#vgse-wrapper .alert,
+.alert {
     padding: 15px;
     margin-bottom: 20px;
     border: 1px solid #eed3d7;
@@ -257,27 +286,32 @@ Notifications oh-snap
     clear: right;
 }
 
-#vgse-wrapper .alert-red, .alert-red {
+#vgse-wrapper .alert-red,
+.alert-red {
     color: white;
     background-color: #DA4453;
 }
 
-#vgse-wrapper .alert-green, .alert-green {
+#vgse-wrapper .alert-green,
+.alert-green {
     color: white;
     background-color: #37BC9B;
 }
 
-#vgse-wrapper .alert-blue, .alert-blue {
+#vgse-wrapper .alert-blue,
+.alert-blue {
     color: white;
     background-color: #4A89DC;
 }
 
-#vgse-wrapper .alert-yellow, .alert-yellow {
+#vgse-wrapper .alert-yellow,
+.alert-yellow {
     color: white;
     background-color: #F6BB42;
 }
 
-#vgse-wrapper .alert-orange, .alert-orange {
+#vgse-wrapper .alert-orange,
+.alert-orange {
     color: white;
     background-color: #E9573F;
 }
@@ -313,6 +347,8 @@ End Notifications oh-snap
     -webkit-box-shadow: none;
             box-shadow: none;
     line-height: 30px;
+    min-height: auto;
+    display: inline-block;
 }
 
 #vgse-wrapper #vg-header-toolbar .button.primary {
@@ -342,7 +378,8 @@ End Notifications oh-snap
     opacity: .9;
 }
 
-.remodal-confirm, .remodal-cancel {
+.remodal-confirm,
+.remodal-cancel {
     min-width: 60px !important;
 }
 
@@ -375,7 +412,8 @@ End Notifications oh-snap
     margin-bottom: 25px;
 }
 
-.remodal .bulk-saving-screen .tip-saving-speed-message, .remodal .bulk-saving-screen .saving-now-message {
+.remodal .bulk-saving-screen .tip-saving-speed-message,
+.remodal .bulk-saving-screen .saving-now-message {
     display: none;
 }
 
@@ -390,7 +428,8 @@ End Notifications oh-snap
     z-index: 99999;
 }
 
-#vgse-wrapper #be-formulas .alert, .remodal .alert {
+#vgse-wrapper #be-formulas .alert,
+.remodal .alert {
     position: relative;
     width: 100%;
     right: 0;
@@ -400,7 +439,8 @@ End Notifications oh-snap
             box-sizing: border-box;
 }
 
-.remodal-confirm:hover, .remodal-confirm:focus {
+.remodal-confirm:hover,
+.remodal-confirm:focus {
     color: #ffffff;
 }
 
@@ -416,7 +456,11 @@ End Notifications oh-snap
     min-width: 900px;
 }
 
-#vgse-wrapper, #vgse-wrapper button, #vgse-wrapper a.button, #vgse-wrapper p, body.wp-admin {
+#vgse-wrapper,
+#vgse-wrapper button,
+#vgse-wrapper a.button,
+#vgse-wrapper p,
+body.wp-admin {
     font-size: 14px;
     font-weight: normal;
     text-transform: none;
@@ -452,7 +496,12 @@ End Notifications oh-snap
     line-height: 16px;
 }
 
-#wpcontent, #wpfooter, #wpwrap, body.wp-admin, html.wp-toolbar, #wp-content-editor-tools {
+#wpcontent,
+#wpfooter,
+#wpwrap,
+body.wp-admin,
+html.wp-toolbar,
+#wp-content-editor-tools {
     background: #ffffff;
 }
 
@@ -464,7 +513,8 @@ End Notifications oh-snap
     width: 7px;
 }
 
-#vgse-wrapper .vg-toolbar .button, #vgse-wrapper input.labelauty+label {
+#vgse-wrapper .vg-toolbar .button,
+#vgse-wrapper input.labelauty+label {
     border: 0;
     background: transparent;
     color: #444444;
@@ -514,7 +564,8 @@ End Notifications oh-snap
     color: #444444;
 }
 
-#wpwrap #vgse-wrapper .handsontable tr th .button, #wpwrap #vgse-wrapper .handsontable tr td .button {
+#wpwrap #vgse-wrapper .handsontable tr th .button,
+#wpwrap #vgse-wrapper .handsontable tr td .button {
     border: 1px solid #999;
 }
 
@@ -522,7 +573,8 @@ End Notifications oh-snap
     margin: 10px 10px 13px;
 }
 
-#vgse-wrapper input.labelauty+label>span.labelauty-unchecked-image+span.labelauty-unchecked, #vgse-wrapper input.labelauty+label>span.labelauty-checked-image+span.labelauty-checked {
+#vgse-wrapper input.labelauty+label>span.labelauty-unchecked-image+span.labelauty-unchecked,
+#vgse-wrapper input.labelauty+label>span.labelauty-checked-image+span.labelauty-checked {
     margin-left: 0;
 }
 
@@ -536,27 +588,32 @@ End Notifications oh-snap
     background: #ffffff;
 }
 
-#vgse-wrapper .alert, .remodal .alert {
+#vgse-wrapper .alert,
+.remodal .alert {
     -webkit-border-radius: 0;
        -moz-border-radius: 0;
             border-radius: 0;
     border: 0;
 }
 
-.select2-container--default.select2-container--focus .select2-selection--multiple, .select2-container--default .select2-selection--multiple, .select2-container--default .select2-selection--single {
+.select2-container--default.select2-container--focus .select2-selection--multiple,
+.select2-container--default .select2-selection--multiple,
+.select2-container--default .select2-selection--single {
     -webkit-border-radius: 0;
        -moz-border-radius: 0;
             border-radius: 0;
     border: solid #ddd 1px;
 }
 
-#vgse-wrapper input, #vgse-wrapper select {
+#vgse-wrapper input,
+#vgse-wrapper select {
     -webkit-border-radius: 0;
        -moz-border-radius: 0;
             border-radius: 0;
 }
 
-.remodal-wrapper .remodal-confirm, .remodal-wrapper .remodal-cancel {
+.remodal-wrapper .remodal-confirm,
+.remodal-wrapper .remodal-cancel {
     padding: 12px 12px;
 }
 
@@ -565,7 +622,8 @@ End Notifications oh-snap
     z-index: 999;
 }
 
-#vgse-wrapper div#vg-header-toolbar.sticky #responseConsole, #vgse-wrapper div#vg-header-toolbar.sticky .vg-header-toolbar-inner {
+#vgse-wrapper div#vg-header-toolbar.sticky #responseConsole,
+#vgse-wrapper div#vg-header-toolbar.sticky .vg-header-toolbar-inner {
     padding-left: 180px;
 }
 
@@ -607,7 +665,8 @@ End Notifications oh-snap
     margin-bottom: 0;
 }
 
-#wpwrap #vgse-wrapper .vg-secondary-toolbar .button, #wpwrap #vgse-wrapper .vg-toolbar .toolbar-submenu .button {
+#wpwrap #vgse-wrapper .vg-secondary-toolbar .button,
+#wpwrap #vgse-wrapper .vg-toolbar .toolbar-submenu .button {
     background-color: #fff;
     color: #444444;
     height: auto;
@@ -650,7 +709,8 @@ End Notifications oh-snap
     text-shadow: 0 -1px 1px #006799, 1px 0 1px #006799, 0 1px 1px #006799, -1px 0 1px #006799;
 }
 
-.remodal-wrapper .remodal-confirm:hover, .remodal-wrapper .remodal-cancel:hover {
+.remodal-wrapper .remodal-confirm:hover,
+.remodal-wrapper .remodal-cancel:hover {
     color: white;
 }
 
@@ -658,7 +718,8 @@ End Notifications oh-snap
     background-color: #f8f8f8;
 }
 
-#vgse-wrapper .toplevel_page_vg_sheet_editor_setup #setting-error-tgmpa, #vgse-wrapper .toplevel_page_vg_sheet_editor_setup .vg-enter-license-notification {
+#vgse-wrapper .toplevel_page_vg_sheet_editor_setup #setting-error-tgmpa,
+#vgse-wrapper .toplevel_page_vg_sheet_editor_setup .vg-enter-license-notification {
     display: none;
 }
 
@@ -670,7 +731,9 @@ End Notifications oh-snap
     float: none;
 }
 
-.quick-setup-page-content p, .quick-setup-page-content .button, .quick-setup-page-content .button-primary {
+.quick-setup-page-content p,
+.quick-setup-page-content .button,
+.quick-setup-page-content .button-primary {
     font-size: 18px;
 }
 
@@ -714,7 +777,8 @@ End Notifications oh-snap
 }
 
 /* Truncate the long text in cells */
-#vgse-wrapper .htCore th, #vgse-wrapper .htCore td {
+#vgse-wrapper .htCore th,
+#vgse-wrapper .htCore td {
     max-width: 300px;
     min-width: 70px;
     overflow: hidden;
@@ -722,7 +786,8 @@ End Notifications oh-snap
     white-space: nowrap;
 }
 
-.remodal-wrapper .remodal-cancel, .remodal-wrapper .remodal-confirm {
+.remodal-wrapper .remodal-cancel,
+.remodal-wrapper .remodal-confirm {
     color: white;
 }
 
@@ -730,7 +795,8 @@ body.wp-admin {
     overflow: visible !important;
 }
 
-#vgse-wrapper #vg-header-toolbar button.button, #vgse-wrapper .vgse-bulk-run-formula .button {
+#vgse-wrapper #vg-header-toolbar button.button,
+#vgse-wrapper .vgse-bulk-run-formula .button {
     border-bottom: 0 !important;
     text-shadow: none !important;
 }
@@ -739,7 +805,9 @@ body.wp-admin {
     z-index: 10000;
 }
 
-.wp-core-ui #vgse-wrapper .button, .wp-core-ui #vgse-wrapper .button-primary, .wp-core-ui #vgse-wrapper .button-secondary {
+.wp-core-ui #vgse-wrapper .button,
+.wp-core-ui #vgse-wrapper .button-primary,
+.wp-core-ui #vgse-wrapper .button-secondary {
     padding: 0px 10px !important;
 }
 
@@ -747,7 +815,8 @@ body.wp-admin {
     z-index: 99999999;
 }
 
-.wp-core-ui #vgse-wrapper .alert, .wp-admin #vgse-wrapper .alert {
+.wp-core-ui #vgse-wrapper .alert,
+.wp-admin #vgse-wrapper .alert {
     color: white;
 }
 
@@ -828,7 +897,8 @@ body.wp-admin {
     clear: both;
 }
 
-.vgse-sorter.columns-disabled, .vgse-sorter.columns-enabled {
+.vgse-sorter.columns-disabled,
+.vgse-sorter.columns-enabled {
     min-height: 200px;
 }
 
@@ -904,7 +974,8 @@ div.mce-inline-toolbar-grp {
     padding: 0px 10px;
 }
 
-.remodal h3, .remodal h2 {
+.remodal h3,
+.remodal h2 {
     font-size: 16px;
     margin: 16px 0px;
 }
@@ -942,13 +1013,17 @@ div.mce-inline-toolbar-grp {
     display: inline-block;
 }
 
-#vgse-wrapper .handsontable tr td {
-    padding: 5px;
+#vgse-wrapper .handsontable tr td,
+#vgse-wrapper .ht_clone_left tbody th,
+#vgse-wrapper .ht_clone_left tbody td {
+    /* Disabled because it breaks the dynamic height set by handsontable on the fixed columns */
+    /* padding: 5px; */
     color: #444;
     font-size: 14px;
 }
 
-input[type=radio], input[type=checkbox] {
+input[type=radio],
+input[type=checkbox] {
     border: 1px solid #b4b9be;
     background: #fff;
     color: #555;
@@ -991,20 +1066,37 @@ input[type=checkbox]:checked:before {
     text-align: center;
 }
 
-#menu-management .menu-edit, #menu-settings-column .accordion-container, .comment-ays, .feature-filter, .imgedit-group, .manage-menus, .menu-item-handle, .popular-tags, .stuffbox, .widget-inside, .widget-top, .widgets-holder-wrap, .wp-editor-container, p.popular-tags, table.widefat {
+#menu-management .menu-edit,
+#menu-settings-column .accordion-container,
+.comment-ays,
+.feature-filter,
+.imgedit-group,
+.manage-menus,
+.menu-item-handle,
+.popular-tags,
+.stuffbox,
+.widget-inside,
+.widget-top,
+.widgets-holder-wrap,
+.wp-editor-container,
+p.popular-tags,
+table.widefat {
     border: 1px solid #e5e5e5;
     -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
             box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
 }
 
-.remodal button, .button {
+.remodal button,
+.button {
     -webkit-border-radius: 0;
        -moz-border-radius: 0;
             border-radius: 0;
     cursor: pointer;
 }
 
-.screen-reader-text, .screen-reader-text span, .ui-helper-hidden-accessible {
+.screen-reader-text,
+.screen-reader-text span,
+.ui-helper-hidden-accessible {
     position: absolute;
     margin: -1px;
     padding: 0;
@@ -1021,7 +1113,8 @@ input[type=checkbox]:checked:before {
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
-    padding: 6px;
+    padding: 4px;
+    margin-right: 4px;
 }
 
 #be-filters .advanced-filters .fields-wrap {
@@ -1037,7 +1130,8 @@ input[type=checkbox]:checked:before {
             box-sizing: border-box;
 }
 
-#be-filters .advanced-filters .field-wrap input:not([type="checkbox"]), #be-filters .advanced-filters .field-wrap select {
+#be-filters .advanced-filters .field-wrap input:not([type="checkbox"]),
+#be-filters .advanced-filters .field-wrap select {
     width: 100%;
 }
 
@@ -1069,7 +1163,8 @@ input[type=checkbox]:checked:before {
     display: inherit;
 }
 
-#vgse-wrapper.post-type-setup-wizard .modal-columns-visibility .vgse-modal-form .alert.alert-blue, #vgse-wrapper.post-type-setup-wizard .modal-columns-visibility .vgse-modal-form .vgse-allow-save-settings {
+#vgse-wrapper.post-type-setup-wizard .modal-columns-visibility .vgse-modal-form .alert.alert-blue,
+#vgse-wrapper.post-type-setup-wizard .modal-columns-visibility .vgse-modal-form .vgse-allow-save-settings {
     display: none;
 }
 
@@ -1078,7 +1173,8 @@ input[type=checkbox]:checked:before {
     text-align: left;
 }
 
-#vgse-wrapper.post-type-setup-wizard .modal-columns-visibility .vgse-modal-form .unstyled-list>li, #vgse-wrapper.post-type-setup-wizard .modal-columns-visibility .vgse-modal-form .vgse-sorter-section {
+#vgse-wrapper.post-type-setup-wizard .modal-columns-visibility .vgse-modal-form .unstyled-list>li,
+#vgse-wrapper.post-type-setup-wizard .modal-columns-visibility .vgse-modal-form .vgse-sorter-section {
     margin: 0;
     padding: 0 5px;
 }
@@ -1117,7 +1213,8 @@ input[type=checkbox]:checked:before {
     margin-bottom: 10px;
 }
 
-.extensions-list p, .extensions-list h3 {
+.extensions-list p,
+.extensions-list h3 {
     margin: 5px 0;
 }
 
@@ -1125,7 +1222,8 @@ input[type=checkbox]:checked:before {
     border: 1px solid #ddd;
 }
 
-.extensions-list .alert, .extensions-list p {
+.extensions-list .alert,
+.extensions-list p {
     clear: both;
     float: none;
 }
@@ -1236,7 +1334,8 @@ input[type=checkbox]:checked:before {
     display: block;
 }
 
-.extensions-list>.wpb_wrapper, .extensions-list .extensions-group>.wpb_wrapper {
+.extensions-list>.wpb_wrapper,
+.extensions-list .extensions-group>.wpb_wrapper {
     width: 100%;
     max-width: 100%;
     text-align: left;
@@ -1263,12 +1362,14 @@ input[type=checkbox]:checked:before {
     padding: 0 8px;
 }
 
-.extensions-list .addon-status, .extensions-list .addon-action {
+.extensions-list .addon-status,
+.extensions-list .addon-action {
     width: 15%;
     float: left;
 }
 
-.extensions-list .addon-status:empty, .extensions-list .addon-action:empty {
+.extensions-list .addon-status:empty,
+.extensions-list .addon-action:empty {
     display: none;
 }
 
@@ -1292,7 +1393,8 @@ input[type=checkbox]:checked:before {
 }
 
 /*Fix. When dropdown cells have too many terms, the dropdown arrow moves to a new row*/
-.handsontable td, .handsontable th {
+.handsontable td,
+.handsontable th {
     position: relative;
 }
 
@@ -1317,7 +1419,13 @@ input[type=checkbox]:checked:before {
     height: auto;
 }
 
-#vgse-wrapper .vg-secondary-toolbar .button-container a, #vgse-wrapper .vg-secondary-toolbar .button-container button, #vgse-wrapper .vg-toolbar .toolbar-submenu .button-container a, #vgse-wrapper .vg-toolbar .toolbar-submenu .button, #vgse-wrapper .vg-toolbar .toolbar-submenu .button, #vgse-wrapper .vg-toolbar .toolbar-submenu .button-container button, #vgse-wrapper .vg-secondary-toolbar input.labelauty+label {
+#vgse-wrapper .vg-secondary-toolbar .button-container a,
+#vgse-wrapper .vg-secondary-toolbar .button-container button,
+#vgse-wrapper .vg-toolbar .toolbar-submenu .button-container a,
+#vgse-wrapper .vg-toolbar .toolbar-submenu .button,
+#vgse-wrapper .vg-toolbar .toolbar-submenu .button,
+#vgse-wrapper .vg-toolbar .toolbar-submenu .button-container button,
+#vgse-wrapper .vg-secondary-toolbar input.labelauty+label {
     padding: 0 8px !important;
     line-height: 18px;
     height: auto;
@@ -1379,11 +1487,14 @@ input[type=checkbox]:checked:before {
     z-index: 999999999999;
 }
 
-.vi-preview-wrapper img {
-    width: 100%;
+.vi-preview-wrapper img,
+[data-remodal-id="image"] img {
+    max-width: 100%;
+    width: auto;
 }
 
-#vgse-wrapper .set_custom_images, #vgse-wrapper .view_custom_images {
+#vgse-wrapper .set_custom_images,
+#vgse-wrapper .view_custom_images {
     float: left;
 }
 
@@ -1439,12 +1550,13 @@ input[type=checkbox]:checked:before {
 }
 
 #vgse-wrapper .vg-toolbar .toolbar-submenu,
-#vgse-wrapper .vg-toolbar .button-container:not(.require-click-to-expand):hover .toolbar-submenu, #vgse-wrapper .vg-toolbar .button-container.expand-submenu .toolbar-submenu {
+#vgse-wrapper .vg-toolbar .button-container:not(.require-click-to-expand):hover .toolbar-submenu,
+#vgse-wrapper .vg-toolbar .button-container.expand-submenu .toolbar-submenu {
     display: none;
     position: absolute;
     width: 300px;
     background: white;
-    padding: 15px;
+    padding: 5px;
     z-index: 99999999;
     /* height: 300px; */
     left: 0px;
@@ -1462,7 +1574,8 @@ input[type=checkbox]:checked:before {
     position: relative;
 }
 
-#vgse-wrapper .vg-toolbar .button-container:not(.require-click-to-expand):hover .toolbar-submenu, #vgse-wrapper .vg-toolbar .button-container.expand-submenu .toolbar-submenu {
+#vgse-wrapper .vg-toolbar .button-container:not(.require-click-to-expand):hover .toolbar-submenu,
+#vgse-wrapper .vg-toolbar .button-container.expand-submenu .toolbar-submenu {
     display: block;
 }
 
@@ -1480,9 +1593,12 @@ input[type=checkbox]:checked:before {
     height: auto;
 }
 
+#vgse-wrapper .vg-toolbar .toolbar-submenu .button-container:first-child {
+    margin-top: 5px;
+}
+
 #vgse-wrapper .vg-toolbar .toolbar-submenu .button-container:last-child {
     border: 0;
-    margin-bottom: 0;
     padding-bottom: 0;
 }
 
@@ -1509,7 +1625,14 @@ input[type=checkbox]:checked:before {
     height: 1000px !important;
 }
 
-.remodal .vgse-variations-tool, .remodal .vgse-variations-tool .advanced-options, .remodal .vgse-variations-tool .use-search-query-container, .remodal .vgse-variations-tool .individual-product-selector, .merge-terms-modal .use-search-query-container, .merge-terms-modal .individual-term-selector, .merge-attributes-modal .confirmation-wrapper, .merge-attributes-modal .individual-term-selector {
+.remodal .vgse-variations-tool,
+.remodal .vgse-variations-tool .advanced-options,
+.remodal .vgse-variations-tool .use-search-query-container,
+.remodal .vgse-variations-tool .individual-product-selector,
+.merge-terms-modal .use-search-query-container,
+.merge-terms-modal .individual-term-selector,
+.merge-attributes-modal .confirmation-wrapper,
+.merge-attributes-modal .individual-term-selector {
     display: none;
 }
 
@@ -1529,11 +1652,16 @@ are rendered but handsontable sets visibility:hiden*/
     visibility: visible;
 }
 
-#wpwrap #vgse-wrapper .btn-popup-content, #wpwrap #vgse-wrapper .button.set_custom_images, #wpwrap #vgse-wrapper .view_custom_images, #wpwrap #vgse-wrapper .button-gutenberg-post-content {
+#wpwrap #vgse-wrapper .btn-popup-content,
+#wpwrap #vgse-wrapper .button.set_custom_images,
+#wpwrap #vgse-wrapper .view_custom_images,
+#wpwrap #vgse-wrapper .button-gutenberg-post-content {
     margin-right: 6px;
 }
 
-.quick-setup-page-content li p, .quick-setup-page-content li a, .quick-setup-page-content li span {
+.quick-setup-page-content li p,
+.quick-setup-page-content li a,
+.quick-setup-page-content li span {
     font-size: 14px;
 }
 
@@ -1561,7 +1689,8 @@ are rendered but handsontable sets visibility:hiden*/
     display: none;
 }
 
-#vgse-wrapper img.vg-logo:focus, #vgse-wrapper .logo-link:focus {
+#vgse-wrapper img.vg-logo:focus,
+#vgse-wrapper .logo-link:focus {
     outline: none;
     -webkit-box-shadow: none;
             box-shadow: none;
@@ -1602,7 +1731,9 @@ are rendered but handsontable sets visibility:hiden*/
     }
 }
 
-.modal-columns-visibility .columns-enabled .enable-column, .modal-columns-visibility .columns-enabled .remove-column, .modal-columns-visibility .columns-disabled .deactivate-column {
+.modal-columns-visibility .columns-enabled .enable-column,
+.modal-columns-visibility .columns-enabled .remove-column,
+.modal-columns-visibility .columns-disabled .deactivate-column {
     display: none;
 }
 
@@ -1629,7 +1760,8 @@ are rendered but handsontable sets visibility:hiden*/
     }
 }
 
-.export-csv-form .fields-to-export, .export-csv-form .export-response {
+.export-csv-form .fields-to-export,
+.export-csv-form .export-response {
     margin-bottom: 20px;
 }
 
@@ -1702,9 +1834,9 @@ are rendered but handsontable sets visibility:hiden*/
     max-width: 800px;
 }
 
-.import-csv-form .data-input input,
-.import-csv-form .data-input select,
-.import-csv-form .data-input .select2-container {
+.import-csv-form input:not([type="checkbox"]):not([type="radio"]),
+.import-csv-form li:not(.map-columns) select,
+.import-csv-form .select2-container {
     width: 330px;
     display: block;
     margin: 0 auto 10px;
@@ -1722,11 +1854,13 @@ are rendered but handsontable sets visibility:hiden*/
     display: none;
 }
 
-.wpse-full-screen div#wpadminbar, .wpse-full-screen #adminmenumain {
+.wpse-full-screen div#wpadminbar,
+.wpse-full-screen #adminmenumain {
     display: none !important;
 }
 
-.wpse-full-screen #wpcontent, .wpse-full-screen #wpfooter {
+.wpse-full-screen #wpcontent,
+.wpse-full-screen #wpfooter {
     margin-left: 0;
 }
 
@@ -1758,7 +1892,11 @@ html.wp-toolbar.wpse-full-screen {
     color: #444;
 }
 
-.import-csv-modal .import-column-list-headers, .import-csv-modal .import-auto-map-notice, .import-csv-modal .one-column-detected-tip, .import-csv-modal .map-columns .button-primario.next-step, .import-csv-modal .map-template {
+.import-csv-modal .import-column-list-headers,
+.import-csv-modal .import-auto-map-notice,
+.import-csv-modal .one-column-detected-tip,
+.import-csv-modal .map-columns .button-primario.next-step,
+.import-csv-modal .map-template {
     display: none;
 }
 
@@ -1814,7 +1952,8 @@ html.wp-toolbar.wpse-full-screen {
     display: none;
 }
 
-#vgse-wrapper .vg-toolbar .right-toolbar-item, #vgse-wrapper .share-container {
+#vgse-wrapper .vg-toolbar .right-toolbar-item,
+#vgse-wrapper .share-container {
     float: right;
     margin-right: 20px;
 }
@@ -1828,7 +1967,8 @@ html.wp-toolbar.wpse-full-screen {
     top: 30px;
 }
 
-#vgse-wrapper .vg-toolbar>.vg-header-toolbar-inner .toolbar-submenu, #vgse-wrapper .vg-toolbar .button-container.share-container:hover .toolbar-submenu {
+#vgse-wrapper .vg-toolbar>.vg-header-toolbar-inner .toolbar-submenu,
+#vgse-wrapper .vg-toolbar .button-container.share-container:hover .toolbar-submenu {
     /* Disabled left property because it interferes with the keyboard shortcut to auto expand the quick search dropdown, and it seems that it's not needed in general */
     /* left: auto; */
 right: 0;
@@ -1842,7 +1982,8 @@ position: relative;
 z-index: 999;
 }
 
-#vgse-wrapper #vg-header-toolbar.sticky-left, #vgse-wrapper #vg-footer-toolbar.sticky-left {
+#vgse-wrapper #vg-header-toolbar.sticky-left,
+#vgse-wrapper #vg-footer-toolbar.sticky-left {
 position: absolute;
 margin: 0;
 -webkit-box-sizing: border-box;
@@ -1897,7 +2038,8 @@ color: #444;
 width: 120px;
 }
 
-.remodal .individual-variations-wrapper, .remodal .individual-variations-selector-wrapper {
+.remodal .individual-variations-wrapper,
+.remodal .individual-variations-selector-wrapper {
 display: none;
 }
 
@@ -1913,6 +2055,7 @@ margin-bottom: 20px;
 -webkit-box-shadow: none;
         box-shadow: none;
 border: none;
+background-color: transparent;
 }
 
 .media-modal {
@@ -1928,11 +2071,13 @@ color: white;
 }
 
 /*Sticky menu styles*/
-.wpse-full-screen #vgse-wrapper div#vg-header-toolbar.sticky .vg-header-toolbar-inner, .wpse-full-screen #vgse-wrapper div#vg-header-toolbar.sticky #responseConsole {
+.wpse-full-screen #vgse-wrapper div#vg-header-toolbar.sticky .vg-header-toolbar-inner,
+.wpse-full-screen #vgse-wrapper div#vg-header-toolbar.sticky #responseConsole {
 padding-left: 20px;
 }
 
-#vgse-wrapper div#vg-header-toolbar.sticky .vgse-current-filters, #vgse-wrapper div#vg-header-toolbar.sticky #responseConsole {
+#vgse-wrapper div#vg-header-toolbar.sticky .vgse-current-filters,
+#vgse-wrapper div#vg-header-toolbar.sticky #responseConsole {
 display: inline-block;
 }
 
@@ -1980,7 +2125,9 @@ display: none;
 }
 
 /* this fixes the cells alignment issue, the elements inside cells should be display: inline*/
-#wpwrap #vgse-wrapper .handsontable tr td .button, #wpwrap #vgse-wrapper .handsontable tr td button, #wpwrap #vgse-wrapper .handsontable tr td a {
+#vgse-wrapper .handsontable tr td .button,
+#vgse-wrapper .handsontable tr td button,
+#vgse-wrapper .handsontable tr td a {
 display: inline;
 }
 
@@ -2008,7 +2155,8 @@ display: none;
 display: none;
 }
 
-.wpse-full-screen #vgse-wrapper .vg-toolbar.sticky .exit_full_screen-container, .wpse-full-screen #vgse-wrapper .vg-toolbar.sticky-left .exit_full_screen-container {
+.wpse-full-screen #vgse-wrapper .vg-toolbar.sticky .exit_full_screen-container,
+.wpse-full-screen #vgse-wrapper .vg-toolbar.sticky-left .exit_full_screen-container {
 display: inline-block;
 }
 
@@ -2025,7 +2173,8 @@ float: right !important;
 display: inline-block;
 }
 
-.modal-columns-visibility .column-settings, .modal-columns-visibility .column-settings-field.settings-for-type {
+.modal-columns-visibility .column-settings,
+.modal-columns-visibility .column-settings-field.settings-for-type {
 display: none;
 }
 
@@ -2033,7 +2182,9 @@ display: none;
 display: block;
 }
 
-.modal-columns-visibility .column-settings label, .modal-columns-visibility .column-settings textarea, .modal-columns-visibility .column-settings input[type="text"] {
+.modal-columns-visibility .column-settings label,
+.modal-columns-visibility .column-settings textarea,
+.modal-columns-visibility .column-settings input[type="text"] {
 display: block;
 }
 
@@ -2042,7 +2193,8 @@ width: 100%;
 height: 100px;
 }
 
-#vgse-wrapper #vg-footer-toolbar .pagination-links, #vgse-wrapper #vg-footer-toolbar .pagination-jump {
+#vgse-wrapper #vg-footer-toolbar .pagination-links,
+#vgse-wrapper #vg-footer-toolbar .pagination-jump {
 display: inline-block;
 }
 
@@ -2091,7 +2243,8 @@ border-bottom: 1px solid #aeaeae;
 display: none;
 }
 
-.wpse-settings-form-wrapper form.wpse-set-settings textarea, .wpse-settings-form-wrapper form.wpse-set-settings select {
+.wpse-settings-form-wrapper form.wpse-set-settings textarea,
+.wpse-settings-form-wrapper form.wpse-set-settings select {
 width: 100%;
 }
 
@@ -2115,12 +2268,14 @@ width: auto;
 width: 130px;
 }
 
-#be-filters .advanced-filters .fields-wrap.search-row-remove-wrap, #be-filters .advanced-filters .fields-wrap.search-row-add-new {
+#be-filters .advanced-filters .fields-wrap.search-row-remove-wrap,
+#be-filters .advanced-filters .fields-wrap.search-row-add-new {
 display: inline-block;
 padding-top: 24px;
 }
 
-#be-filters .advanced-filters .fields-wrap.search-row-add-new, #be-filters .advanced-filters .advanced-filters-list li:last-child .fields-wrap.search-row-remove-wrap {
+#be-filters .advanced-filters .fields-wrap.search-row-add-new,
+#be-filters .advanced-filters .advanced-filters-list li:last-child .fields-wrap.search-row-remove-wrap {
 display: none;
 }
 
@@ -2144,7 +2299,8 @@ padding: 4px;
 line-height: 24px;
 }
 
-#be-filters .advanced-filters .fields-wrap select, #be-filters .advanced-filters .fields-wrap .select2-container .select2-selection--single {
+#be-filters .advanced-filters .fields-wrap select,
+#be-filters .advanced-filters .fields-wrap .select2-container .select2-selection--single {
 min-height: 25px;
 height: 25px;
 line-height: 14px;
@@ -2191,7 +2347,8 @@ overflow: auto;
 width: 65%;
 }
 
-.remodal .vgse-sorter-section .wpse-columns-bulk-actions input, .remodal .vgse-sorter-section .wpse-columns-bulk-actions select {
+.remodal .vgse-sorter-section .wpse-columns-bulk-actions input,
+.remodal .vgse-sorter-section .wpse-columns-bulk-actions select {
 display: inline-block;
 float: left;
 border: 1px solid #999;
@@ -2239,16 +2396,24 @@ display: inline-block;
 padding: 0 !important;
 }
 
-#vgse-wrapper .vg-toolbar .toolbar-submenu .select2 li, #vgse-wrapper .vg-toolbar .toolbar-submenu .select2 input {
+#vgse-wrapper .vg-toolbar .toolbar-submenu .select2 li,
+#vgse-wrapper .vg-toolbar .toolbar-submenu .select2 input {
 margin: 0;
 padding: 0;
 }
 
-#vgse-wrapper .vg-toolbar .toolbar-submenu .wpse-start-quick-search, #vgse-wrapper .vg-toolbar .toolbar-submenu .search-tool-missing-column-tip, #vgse-wrapper .vg-toolbar .toolbar-submenu .advanced-field .search-operator-wrap label, #vgse-wrapper .vg-toolbar .toolbar-submenu .advanced-field .search-row-add-new, #vgse-wrapper .vg-toolbar .toolbar-submenu .advanced-field .search-row-remove-wrap, #vgse-wrapper .vg-toolbar .toolbar-submenu .advanced-field label {
+#vgse-wrapper .vg-toolbar .toolbar-submenu .wpse-start-quick-search,
+#vgse-wrapper .vg-toolbar .toolbar-submenu .search-tool-missing-column-tip,
+#vgse-wrapper .vg-toolbar .toolbar-submenu .advanced-field .search-operator-wrap label,
+#vgse-wrapper .vg-toolbar .toolbar-submenu .advanced-field .search-row-add-new,
+#vgse-wrapper .vg-toolbar .toolbar-submenu .advanced-field .search-row-remove-wrap,
+#vgse-wrapper .vg-toolbar .toolbar-submenu .advanced-field label {
 display: none;
 }
 
-#vgse-wrapper .vg-toolbar .toolbar-submenu .advanced-field .select2-container, #vgse-wrapper .vg-toolbar .toolbar-submenu .advanced-field select, #vgse-wrapper .vg-toolbar .toolbar-submenu .advanced-field input {
+#vgse-wrapper .vg-toolbar .toolbar-submenu .advanced-field .select2-container,
+#vgse-wrapper .vg-toolbar .toolbar-submenu .advanced-field select,
+#vgse-wrapper .vg-toolbar .toolbar-submenu .advanced-field input {
 max-width: 100px;
 min-width: 100px;
 }
@@ -2349,7 +2514,8 @@ color: black;
     overflow-x: auto !important;
 }
 
-.suggested-extensions-modal p, .suggested-extensions-modal table {
+.suggested-extensions-modal p,
+.suggested-extensions-modal table {
     text-align: left;
 }
 
@@ -2363,15 +2529,21 @@ color: black;
     margin: 20px 0;
 }
 
-.suggested-extensions-modal table th, .suggested-extensions-modal table td {
+.suggested-extensions-modal table th,
+.suggested-extensions-modal table td {
     border: 1px solid #bbb;
     padding: 5px;
 }
 
 /*FIX - If any other plugin has changed the min-height or margin of buttons and inputs, it will misalign the cells in the sheet*/
-#vgse-wrapper .handsontable .button, #vgse-wrapper .handsontable button, #vgse-wrapper .handsontable input[type='submit'], #vgse-wrapper .handsontable input[type='reset'], #vgse-wrapper .handsontable input[type='button'] {
+#vgse-wrapper .handsontable .button,
+#vgse-wrapper .handsontable button,
+#vgse-wrapper .handsontable input[type='submit'],
+#vgse-wrapper .handsontable input[type='reset'],
+#vgse-wrapper .handsontable input[type='button'] {
     min-height: unset !important;
-    margin: 0 !important;
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
 }
 
 .vg-toolbar.sticky .wpse-lite-version-message {
@@ -2416,12 +2588,14 @@ color: black;
     background: rgb(43 46 56 / 47%);
 }
 
-#vgse-wrapper.remodal-bg.remodal-is-opening, #vgse-wrapper.remodal-bg.remodal-is-opened {
+#vgse-wrapper.remodal-bg.remodal-is-opening,
+#vgse-wrapper.remodal-bg.remodal-is-opened {
     filter: blur(0px);
 }
 
 /*Lazy columns manager*/
-.lazy-modal-columns-visibility .modal-content:after, .lazy-modal-content .modal-content:after {
+.lazy-modal-columns-visibility .modal-content:after,
+.lazy-modal-content .modal-content:after {
     position: absolute;
     top: calc(50% - 10px);
     width: 20px;
@@ -2456,8 +2630,10 @@ color: black;
 }
 
 #vgse-wrapper .handsontable tr input[type="checkbox"].bulk-selector {
-    top: 3px;
+    top: 2px;
     position: relative;
+    height: 15px;
+    width: 15px;
 }
 
 /* css tooltip */
@@ -2581,7 +2757,20 @@ color: black;
             transform: translateY(50%);
 }
 
-[data-wpse-tooltip][aria-label]:hover::before, [data-wpse-tooltip][aria-label]:hover::after, [data-wpse-tooltip][data-wpse-visible]::before, [data-wpse-tooltip][data-wpse-visible]::after {
+[data-wpse-tooltip][aria-label=""]::before,
+[data-wpse-tooltip][aria-label=""]::after {
+    display: none;
+}
+
+span[data-wpse-tooltip] {
+    border-bottom: 1px dashed #c5c5c5;
+    cursor: help;
+}
+
+[data-wpse-tooltip][aria-label]:hover::before,
+[data-wpse-tooltip][aria-label]:hover::after,
+[data-wpse-tooltip][data-wpse-visible]::before,
+[data-wpse-tooltip][data-wpse-visible]::after {
     visibility: visible;
     opacity: 1;
     -webkit-transition-property: opacity;
@@ -2594,17 +2783,26 @@ color: black;
             transition-delay: 0s;
 }
 
-[data-wpse-tooltip$="100"][aria-label]:hover::before, [data-wpse-tooltip$="100"][aria-label]:hover::after, [data-wpse-tooltip$="100"][data-wpse-visible]::before, [data-wpse-tooltip$="100"][data-wpse-visible]::after {
+[data-wpse-tooltip$="100"][aria-label]:hover::before,
+[data-wpse-tooltip$="100"][aria-label]:hover::after,
+[data-wpse-tooltip$="100"][data-wpse-visible]::before,
+[data-wpse-tooltip$="100"][data-wpse-visible]::after {
     -webkit-transition-delay: 0.1s;
             transition-delay: 0.1s;
 }
 
-[data-wpse-tooltip$="500"][aria-label]:hover::before, [data-wpse-tooltip$="500"][aria-label]:hover::after, [data-wpse-tooltip$="500"][data-wpse-visible]::before, [data-wpse-tooltip$="500"][data-wpse-visible]::after {
+[data-wpse-tooltip$="500"][aria-label]:hover::before,
+[data-wpse-tooltip$="500"][aria-label]:hover::after,
+[data-wpse-tooltip$="500"][data-wpse-visible]::before,
+[data-wpse-tooltip$="500"][data-wpse-visible]::after {
     -webkit-transition-delay: 0.5s;
             transition-delay: 0.5s;
 }
 
-[data-wpse-tooltip$="1000"][aria-label]:hover::before, [data-wpse-tooltip$="1000"][aria-label]:hover::after, [data-wpse-tooltip$="500"][data-wpse-visible]::before, [data-wpse-tooltip$="500"][data-wpse-visible]::after {
+[data-wpse-tooltip$="1000"][aria-label]:hover::before,
+[data-wpse-tooltip$="1000"][aria-label]:hover::after,
+[data-wpse-tooltip$="500"][data-wpse-visible]::before,
+[data-wpse-tooltip$="500"][data-wpse-visible]::after {
     -webkit-transition-delay: 1s;
             transition-delay: 1s;
 }
@@ -2625,12 +2823,14 @@ color: black;
     border-color: #257f4f;
 }
 
-[data-wpse-tooltip^="down"][aria-label][data-wpse-tooltip-type]::after, [data-wpse-tooltip^="up"][aria-label][data-wpse-tooltip-type]::after {
+[data-wpse-tooltip^="down"][aria-label][data-wpse-tooltip-type]::after,
+[data-wpse-tooltip^="up"][aria-label][data-wpse-tooltip-type]::after {
     border-right-color: #0000;
     border-left-color: #0000;
 }
 
-[data-wpse-tooltip^="left"][aria-label][data-wpse-tooltip-type]::after, [data-wpse-tooltip^="right"][aria-label][data-wpse-tooltip-type]::after {
+[data-wpse-tooltip^="left"][aria-label][data-wpse-tooltip-type]::after,
+[data-wpse-tooltip^="right"][aria-label][data-wpse-tooltip-type]::after {
     border-top-color: #0000;
     border-bottom-color: #0000;
 }
@@ -2679,9 +2879,510 @@ a[data-remodal-target] {
 .wpse-advanced-filters-operator-selector option[data-value-type="date"] {
     display: none;
 }
-
-#vgse-wrapper .handsontable th {
+/* Disabled because it breaks the dynamic height set by handsontable on the fixed columns */
+/* #vgse-wrapper .handsontable th {
     height: 28px !important;
+} */
+
+#vgse-wrapper .chosen-container-single .chosen-search input[type=text] {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+#vgse-wrapper .chosen-container-single .chosen-drop {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+.import-csv-form .field-wrap {
+    margin-bottom: 15px;
+}
+
+.export-csv-form input:not([type="checkbox"]):not([type="radio"]),
+.export-csv-form select {
+    min-width: 350px;
+}
+
+.remodal .schedule-recurring-interval input,
+.remodal .schedule-recurring-interval select {
+    max-width: 180px;
+    min-width: auto !important;
+    display: inline !important;
+    width: auto !important;
+}
+
+/*Dark mode*/
+.vgse-dark-mode #wpcontent,
+.vgse-dark-mode #wpfooter,
+.vgse-dark-mode #wpwrap,
+.vgse-dark-mode body.wp-admin,
+html.wp-toolbar.vgse-dark-mode,
+.vgse-dark-mode #wp-content-editor-tools,
+.vgse-dark-mode #vgse-wrapper .vg-toolbar,
+.vgse-dark-mode #vgse-wrapper .vg-secondary-toolbar,
+.vgse-dark-mode #vgse-wrapper .handsontable th,
+.vgse-dark-mode #vgse-wrapper .handsontable td,
+.vgse-dark-mode .remodal .handsontable th,
+.vgse-dark-mode .remodal .handsontable td,
+.vgse-dark-mode #vgse-wrapper .vg-toolbar .toolbar-submenu,
+.vgse-dark-mode #vgse-wrapper .vg-toolbar .button-container:not(.require-click-to-expand):hover .toolbar-submenu,
+.vgse-dark-mode #vgse-wrapper .vg-toolbar .button-container.expand-submenu .toolbar-submenu,
+.vgse-dark-mode .remodal,
+.vgse-dark-mode #vgse-wrapper .automatic-loading-rows-disabled {
+    background: #222;
+}
+
+.vgse-dark-mode #vgse-wrapper .handsontable th,
+.vgse-dark-mode .remodal .handsontable th,
+.vgse-dark-mode .wpse-settings-form-wrapper .tabs-links a.tab-active,
+.vgse-dark-mode .unstyled-list>li:nth-child(odd),
+.vgse-dark-mode .select2-container--default .select2-selection--multiple,
+.vgse-dark-mode .select2-container--default .select2-selection--single,
+.vgse-dark-mode .select2-dropdown,
+.vgse-dark-mode .wp-core-ui #vgse-wrapper .button,
+.vgse-dark-mode .wp-core-ui #vgse-wrapper .button-secondary,
+.vgse-dark-mode .wp-core-ui .remodal .button,
+.vgse-dark-mode .wp-core-ui .remodal .button-secondary,
+.vgse-dark-mode #wpwrap #vgse-wrapper .button {
+    background: #363636;
+}
+
+.vgse-dark-mode .wp-core-ui #vgse-wrapper .button.hover,
+.vgse-dark-mode .wp-core-ui #vgse-wrapper .button:hover,
+.vgse-dark-mode .wp-core-ui #vgse-wrapper .button-secondary:hover,
+.vgse-dark-mode .wp-core-ui .remodal .button.hover,
+.vgse-dark-mode .wp-core-ui .remodal .button:hover,
+.vgse-dark-mode .wp-core-ui .remodal .button-secondary:hover {
+    background: #3c3c3c;
+}
+
+.vgse-dark-mode #vgse-wrapper input[type="text"],
+.vgse-dark-mode #vgse-wrapper input[type="password"],
+.vgse-dark-mode #vgse-wrapper input[type="color"],
+.vgse-dark-mode #vgse-wrapper input[type="date"],
+.vgse-dark-mode #vgse-wrapper input[type="datetime"],
+.vgse-dark-mode #vgse-wrapper input[type="datetime-local"],
+.vgse-dark-mode #vgse-wrapper input[type="email"],
+.vgse-dark-mode #vgse-wrapper input[type="month"],
+.vgse-dark-mode #vgse-wrapper input[type="number"],
+.vgse-dark-mode #vgse-wrapper input[type="search"],
+.vgse-dark-mode #vgse-wrapper input[type="tel"],
+.vgse-dark-mode #vgse-wrapper input[type="time"],
+.vgse-dark-mode #vgse-wrapper input[type="url"],
+.vgse-dark-mode #vgse-wrapper input[type="week"],
+.vgse-dark-mode #vgse-wrapper select,
+.vgse-dark-mode #vgse-wrapper textarea,
+.vgse-dark-mode #vgse-wrapper input[type=radio],
+.vgse-dark-mode #vgse-wrapper input[type=checkbox],
+.vgse-dark-mode .remodal input,
+.vgse-dark-mode .remodal textarea,
+.vgse-dark-mode #vgse-wrapper .htCommentTextArea,
+.vgse-dark-mode .remodal select,
+.vgse-dark-mode .wp-core-ui .remodal select[multiple],
+.vgse-dark-mode #vgse-wrapper input.labelauty:not(:checked):not([disabled])+label:hover,
+.vgse-dark-mode .modal-columns-visibility .column-action,
+.vgse-dark-mode #vgse-wrapper button {
+    background-color: #2a2a2a;
+}
+
+.vgse-dark-mode #vgse-wrapper,
+.vgse-dark-mode #vgse-wrapper .htCore th,
+.vgse-dark-mode #vgse-wrapper .handsontable tr td,
+.vgse-dark-mode #vgse-wrapper .handsontable .htDimmed,
+.vgse-dark-mode .remodal .htCore th,
+.vgse-dark-mode .remodal .handsontable tr td,
+.vgse-dark-mode .remodal .handsontable .htDimmed,
+.vgse-dark-mode #wpwrap #vgse-wrapper .button,
+.vgse-dark-mode .wp-core-ui .remodal select[multiple],
+.vgse-dark-mode #vgse-wrapper .vg-toolbar .button,
+.vgse-dark-mode #vgse-wrapper input.labelauty+label,
+.vgse-dark-mode #wpwrap #vgse-wrapper .vg-secondary-toolbar .button,
+.vgse-dark-mode #wpwrap #vgse-wrapper .vg-toolbar .toolbar-submenu .button,
+.vgse-dark-mode .wpse-settings-form-wrapper .tabs-links a,
+.vgse-dark-mode #vgse-wrapper input.labelauty:not(:checked):not([disabled])+label:hover,
+.vgse-dark-mode .remodal,
+.vgse-dark-mode .handsontableInput,
+.vgse-dark-mode .select2-dropdown,
+.vgse-dark-mode .wp-core-ui #vgse-wrapper .button.hover,
+.vgse-dark-mode .wp-core-ui #vgse-wrapper .button:hover,
+.vgse-dark-mode .wp-core-ui #vgse-wrapper .button-secondary:hover,
+.vgse-dark-mode .wp-core-ui #vgse-wrapper .button,
+.vgse-dark-mode .wp-core-ui #vgse-wrapper .button-secondary,
+.vgse-dark-mode .wp-core-ui #vgse-wrapper select,
+.vgse-dark-mode .wp-core-ui #vgse-wrapper select:hover,
+.vgse-dark-mode .wp-core-ui .remodal .button.hover,
+.vgse-dark-mode .wp-core-ui .remodal .button:hover,
+.vgse-dark-mode .wp-core-ui .remodal .button-secondary:hover,
+.vgse-dark-mode .wp-core-ui .remodal .button,
+.vgse-dark-mode .wp-core-ui .remodal .button-secondary,
+.vgse-dark-mode .wp-core-ui .remodal select:hover,
+.vgse-dark-mode #vgse-wrapper button,
+.vgse-dark-mode .remodal button,
+.vgse-dark-mode .select2-container--default .select2-selection--single .select2-selection__rendered,
+.vgse-dark-mode #vgse-wrapper input[type="text"],
+.vgse-dark-mode #vgse-wrapper input[type="password"],
+.vgse-dark-mode #vgse-wrapper input[type="color"],
+.vgse-dark-mode #vgse-wrapper input[type="date"],
+.vgse-dark-mode #vgse-wrapper input[type="datetime"],
+.vgse-dark-mode #vgse-wrapper input[type="datetime-local"],
+.vgse-dark-mode #vgse-wrapper input[type="email"],
+.vgse-dark-mode #vgse-wrapper input[type="month"],
+.vgse-dark-mode #vgse-wrapper input[type="number"],
+.vgse-dark-mode #vgse-wrapper input[type="search"],
+.vgse-dark-mode #vgse-wrapper input[type="tel"],
+.vgse-dark-mode #vgse-wrapper input[type="time"],
+.vgse-dark-mode #vgse-wrapper input[type="url"],
+.vgse-dark-mode #vgse-wrapper input[type="week"],
+.vgse-dark-mode #vgse-wrapper select,
+.vgse-dark-mode #vgse-wrapper textarea,
+.vgse-dark-mode .remodal input[type="text"],
+.vgse-dark-mode .remodal input[type="password"],
+.vgse-dark-mode .remodal input[type="color"],
+.vgse-dark-mode .remodal input[type="date"],
+.vgse-dark-mode .remodal input[type="datetime"],
+.vgse-dark-mode .remodal input[type="datetime-local"],
+.vgse-dark-mode .remodal input[type="email"],
+.vgse-dark-mode .remodal input[type="month"],
+.vgse-dark-mode .remodal input[type="number"],
+.vgse-dark-mode .remodal input[type="search"],
+.vgse-dark-mode .remodal input[type="tel"],
+.vgse-dark-mode .remodal input[type="time"],
+.vgse-dark-mode .remodal input[type="url"],
+.vgse-dark-mode .remodal input[type="week"],
+.vgse-dark-mode .remodal select,
+.vgse-dark-mode .remodal-draggable i.drag-modal,
+.vgse-dark-mode .remodal textarea {
+    color: #dbdbdb;
+}
+
+.vgse-dark-mode .handsontable i,
+.vgse-dark-mode .handsontable .htAutocompleteArrow {
+    color: #999;
+}
+
+.vgse-dark-mode #vgse-wrapper #post-data table a {
+    color: #bbb;
+}
+
+.vgse-dark-mode #vgse-wrapper.highlightCurrentRow .currentRow,
+.vgse-dark-mode #vgse-wrapper input.labelauty:checked+label,
+.vgse-dark-mode #vgse-wrapper input.labelauty:checked+label,
+.vgse-dark-mode .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #3b3b3b !important;
+}
+
+.vgse-dark-mode .select2-container--default .select2-results__option[aria-selected=true] {
+    background-color: #555 !important;
+}
+
+.vgse-dark-mode .pika-single,
+.vgse-dark-mode .pika-button,
+.vgse-dark-mode .pika-label {
+    background-color: #333;
+    color: #ddd;
+}
+
+.vgse-dark-mode .pika-prev,
+.vgse-dark-mode .pika-next,
+.vgse-dark-mode ::-webkit-calendar-picker-indicator {
+    filter: invert(100%);
+}
+
+.vgse-dark-mode .modal-google-sheets .login-with-google-btn,
+.vgse-dark-mode .modal-google-sheets .login-with-google-btn.disconnect[data-scope="current"] {
+    background-color: transparent;
+    color: #ddd;
+}
+
+.vgse-dark-mode #vgse-wrapper a,
+.vgse-dark-mode #vgse-wrapper h2,
+.vgse-dark-mode #vgse-wrapper h3,
+.vgse-dark-mode .remodal h2,
+.vgse-dark-mode .remodal h3,
+.vgse-dark-mode #vgse-wrapper #vg-footer-toolbar a {
+    color: #ebebeb;
+}
+
+.vgse-dark-mode .remodal a {
+    color: #3c9fef;
+}
+
+.vgse-dark-mode .modal-google-sheets .connection-status-connected {
+    color: #00bf00;
+}
+
+.vgse-dark-mode #vgse-wrapper .handsontableInput {
+    background-color: #ededed;
+    color: black;
+}
+
+.vgse-dark-mode #vgse-wrapper input[type=checkbox]:checked:before {
+    color: white;
+}
+
+.vgse-dark-mode .wp-core-ui #vgse-wrapper .button,
+.vgse-dark-mode .wp-core-ui #vgse-wrapper .button-secondary,
+.vgse-dark-mode .wp-core-ui .remodal .button,
+.vgse-dark-mode .wp-core-ui .remodal .button-secondary,
+.vgse-dark-mode #vgse-wrapper .handsontable th,
+.vgse-dark-mode #vgse-wrapper .handsontable td,
+.vgse-dark-mode #vgse-wrapper .vg-toolbar>.vg-header-toolbar-inner,
+.vgse-dark-mode #vgse-wrapper input,
+.vgse-dark-mode #vgse-wrapper button,
+.vgse-dark-mode #vgse-wrapper .button,
+.vgse-dark-mode .select2-container--default.select2-container--focus .select2-selection--multiple,
+.vgse-dark-mode .select2-container--default .select2-selection--multiple,
+.vgse-dark-mode .select2-container--default .select2-selection--single,
+.vgse-dark-mode #vgse-wrapper .vg-toolbar .toolbar-submenu,
+.vgse-dark-mode #vgse-wrapper .vg-toolbar .button-container:not(.require-click-to-expand):hover .toolbar-submenu,
+.vgse-dark-mode #vgse-wrapper .vg-toolbar .button-container.expand-submenu .toolbar-submenu,
+.vgse-dark-mode .select2-container--default.select2-container--focus .select2-selection--multiple,
+.vgse-dark-mode .select2-container--default .select2-selection--multiple,
+.vgse-dark-mode hr,
+.vgse-dark-mode .select2-container--default .select2-selection--single .vgse-dark-mode #vgse-wrapper .vg-toolbar .toolbar-submenu .button-container,
+.vgse-dark-mode #vgse-wrapper input[type=color],
+.vgse-dark-mode #vgse-wrapper input[type=date],
+.vgse-dark-mode #vgse-wrapper input[type=datetime-local],
+.vgse-dark-mode #vgse-wrapper input[type=datetime],
+.vgse-dark-mode #vgse-wrapper input[type=email],
+.vgse-dark-mode #vgse-wrapper input[type=month],
+.vgse-dark-mode #vgse-wrapper input[type=number],
+.vgse-dark-mode #vgse-wrapper input[type=password],
+.vgse-dark-mode #vgse-wrapper input[type=search],
+.vgse-dark-mode #vgse-wrapper input[type=tel],
+.vgse-dark-mode #vgse-wrapper input[type=text],
+.vgse-dark-mode #vgse-wrapper input[type=time],
+.vgse-dark-mode #vgse-wrapper input[type=url],
+.vgse-dark-mode #vgse-wrapper input[type=week],
+.vgse-dark-mode #vgse-wrapper select,
+.vgse-dark-mode #vgse-wrapper textarea,
+.vgse-dark-mode .remodal input[type=color],
+.vgse-dark-mode .remodal input[type=date],
+.vgse-dark-mode .remodal input[type=datetime-local],
+.vgse-dark-mode .remodal input[type=datetime],
+.vgse-dark-mode .remodal input[type=email],
+.vgse-dark-mode .remodal input[type=month],
+.vgse-dark-mode .remodal input[type=number],
+.vgse-dark-mode .remodal input[type=password],
+.vgse-dark-mode .remodal input[type=search],
+.vgse-dark-mode .remodal input[type=tel],
+.vgse-dark-mode .remodal input[type=text],
+.vgse-dark-mode .remodal input[type=time],
+.vgse-dark-mode .remodal input[type=url],
+.vgse-dark-mode .remodal input[type=week],
+.vgse-dark-mode .remodal select,
+.vgse-dark-mode .remodal textarea {
+    border-color: #777;
+}
+
+.vgse-dark-mode .remodal {
+    border: 1px solid #444;
+}
+
+.vgse-dark-mode #vgse-wrapper #vg-header-toolbar .vgse-current-filters .button {
+    border: 1px solid #777;
+    line-height: 20px;
+    padding: 0 4px !important;
+}
+
+.vgse-dark-mode [data-wpse-tooltip][aria-label]::before {
+    background-color: #dedede;
+    color: black;
+}
+
+.vgse-dark-mode [data-wpse-tooltip][aria-label]::after {
+    border-color: #dedede;
+}
+
+.vgse-dark-mode [data-wpse-tooltip^="up"][aria-label]::after {
+    border-right-color: #0000;
+    border-left-color: #0000;
+}
+
+.vgse-dark-mode [data-wpse-tooltip^="down"][aria-label]::after {
+    border-right-color: #0000;
+    border-left-color: #0000;
+}
+
+.vgse-dark-mode [data-wpse-tooltip^="left"][aria-label]::after {
+    border-top-color: #0000;
+    border-bottom-color: #0000;
+}
+
+.vgse-dark-mode [data-wpse-tooltip^="right"][aria-label]::after {
+    border-top-color: #0000;
+    border-bottom-color: #0000;
+}
+
+.vgse-dark-mode #vgse-wrapper ::placeholder,
+.vgse-dark-mode .remodal ::placeholder {
+    color: #b0b0b0;
+}
+
+.vgse-dark-mode #vgse-wrapper #vg-header-toolbar .button.primary {
+    background-color: #00a1ce;
+    color: white;
+}
+
+.vgse-dark-mode #vgse-wrapper .handsontableInput {
+    background-color: #ededed;
+    color: black;
+}
+
+hr {
+    clear: both;
+}
+
+.vgse-dark-mode #vgse-wrapper .alert-blue,
+.vgse-dark-mode .remodal .alert-blue {
+    background-color: #173b6a;
+    color: #ddd;
+}
+
+.vgse-dark-mode #vgse-wrapper .alert-green,
+.vgse-dark-mode .remodal .alert-green {
+    background-color: #1f450a;
+    color: #ddd;
+}
+
+.vgse-dark-mode #vgse-wrapper #vg-header-toolbar button:not(.button) {
+    border: 1px solid #999;
+}
+
+.vgse-dark-mode .remodal-confirm {
+    background-color: #037103;
+}
+
+.vgse-dark-mode .remodal-cancel {
+    background-color: #8e2727;
+}
+
+.vgse-dark-mode .remodal-confirm:hover {
+    background-color: #078e07;
+}
+
+.vgse-dark-mode .remodal-cancel:hover {
+    background-color: #b82424;
+}
+
+.vgse-dark-mode .wp-editor-wrap,
+.vgse-dark-mode .wp-editor-wrap button,
+.vgse-dark-mode .wp-editor-wrap .button,
+.vgse-dark-mode .wp-editor-wrap textarea {
+    color: #50575e;
+}
+
+.vgse-dark-mode .wp-editor-container textarea {
+    width: 100%;
+    margin: 0;
+    -webkit-box-shadow: none;
+            box-shadow: none;
+    background-color: #fff;
+    color: #2c3338;
+}
+
+.remodal .wp-editor-container textarea,
+iframe#editpost_ifr {
+    height: 200px;
+}
+
+html.wpse-loading-tinymce #wp-editpost-wrap,
+html.wpse-loading-tinymce .remodal .wp-editor-container textarea,
+html.wpse-loading-tinymce iframe#editpost_ifr {
+    max-height: 200px;
+    height: 200px;
+    overflow: hidden;
+}
+
+.remodal-error-log pre {
+    white-space: pre-wrap;
+    /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;
+    /* Mozilla, since 1999 */
+    white-space: -pre-wrap;
+    /* Opera 4-6 */
+    white-space: -o-pre-wrap;
+    /* Opera 7 */
+    word-wrap: break-word;
+    /* Internet Explorer 5.5+ */
+    text-align: left;
+    font-size: 13px;
+    font-family: monospace;
+    max-height: 90vh;
+    overflow-y: scroll;
+    border: 1px solid #999;
+    padding: 10px;
+}
+
+.handsontable .relative {
+    display: inline;
+}
+
+.vgse-dark-mode .modal-google-sheets .connection-status-disconnected {
+    color: #f76363;
+}
+
+.export-csv-form .export-response {
+    word-break: break-word;
+}
+
+.modal-google-sheets-create-file label {
+    display: block;
+}
+
+.modal-google-sheets-create-file .field {
+    margin-bottom: 15px;
+}
+
+/*FIX - The wpadmin menu appears on top of the sheet on RTL sites, so force the menu to behave like the LTR menu*/
+#adminmenuwrap {
+    float: left;
+}
+
+#wpbody-content {
+    float: left !important;
+}
+
+#wpcontent, #wpfooter {
+    margin-left: 160px;
+    margin-right: 0;
+}
+
+.ai-loading::before {
+    content: '';
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    position: relative;
+    display: inline-block;
+    top: 15%;
+    left: 0;
+    width: 15px;
+    height: 15px;
+    margin-top: -10px;
+    margin-left: 0;
+    -webkit-border-radius: 50%;
+       -moz-border-radius: 50%;
+            border-radius: 50%;
+    border: 2px solid #ccc;
+    border-top-color: #888;
+    -webkit-animation: spin 1s ease-in-out infinite;
+            animation: spin 1s ease-in-out infinite;
+    margin-right: 5px;
+}
+
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+    }
 }
 .be-loading-anim {
     position: relative;

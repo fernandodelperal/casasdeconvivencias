@@ -4,7 +4,7 @@ function qlwcdc_wcd_udpdate() {
 
 	if ( $active_plugins = get_option( 'active_plugins', array() ) ) {
 
-	  global $wpdb;
+		global $wpdb;
 
 		foreach ( $active_plugins as $key => $active_plugin ) {
 
@@ -15,7 +15,7 @@ function qlwcdc_wcd_udpdate() {
 			}
 		}
 
-	  update_option( 'active_plugins', $active_plugins );
+		update_option( 'active_plugins', $active_plugins );
 	}
 }
 

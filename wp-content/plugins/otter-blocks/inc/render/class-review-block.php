@@ -29,15 +29,17 @@ class Review_Block {
 		}
 
 		if ( isset( $attributes['title'] ) && ! empty( $attributes['title'] ) && isset( $attributes['features'] ) && count( $attributes['features'] ) > 0 && get_option( 'themeisle_blocks_settings_disable_review_schema', true ) ) {
+			$post_id = get_the_ID();
+
 			add_action(
 				'wp_footer',
-				function() use ( $attributes ) {
-					echo '<script type="application/ld+json">' . wp_json_encode( $this->get_json_ld( $attributes ) ) . '</script>';
+				function() use ( $attributes, $post_id ) {
+					echo '<script type="application/ld+json">' . wp_json_encode( $this->get_json_ld( $attributes, $post_id ) ) . '</script>';
 				}
 			);
 		}
 
-		$id            = isset( $attributes['id'] ) ? $attributes['id'] : 'wp-block-themeisle-blocks-review-' . wp_rand( 10, 100 );
+		$id            = isset( $attributes['id'] ) ? esc_attr( $attributes['id'] ) : 'wp-block-themeisle-blocks-review-' . wp_rand( 10, 100 );
 		$class         = '';
 		$details_class = ( isset( $attributes['image'] ) && isset( $attributes['description'] ) && ! empty( $attributes['description'] ) ) ? '' : 'is-single ';
 		$scale         = get_option( 'themeisle_blocks_settings_review_scale', false ) ? 2 : 1;
@@ -65,11 +67,14 @@ class Review_Block {
 			)
 		);
 
-		$main_heading = isset( $attributes['mainHeading'] ) ? $attributes['mainHeading'] : 'h2';
-		$sub_heading  = isset( $attributes['subHeading'] ) ? $attributes['subHeading'] : 'h3';
+		$is_one_colum_layout = strpos( $wrapper_attributes, 'is-style-single-column' ) !== false;
+		$is_inline_features  = strpos( $wrapper_attributes, 'is-style-inline-features' ) !== false;
+
+		$main_heading = isset( $attributes['mainHeading'] ) ? esc_attr( $attributes['mainHeading'] ) : 'h2';
+		$sub_heading  = isset( $attributes['subHeading'] ) ? esc_attr( $attributes['subHeading'] ) : 'h3';
 
 		$html  = '<div ' . $wrapper_attributes . '>';
-		$html .= '  <div class ="o-review__header">';
+		$html .= '  <div class="o-review__header">';
 
 		if ( isset( $attributes['title'] ) && ! empty( $attributes['title'] ) ) {
 			$html .= '<' . $main_heading . '>' . esc_html( $attributes['title'] ) . '</' . $main_heading . '>';
@@ -77,16 +82,22 @@ class Review_Block {
 
 		$html .= '		<div class="o-review__header_meta">';
 		$html .= '			<div class="o-review__header_ratings">';
+		$html .= '			    <div class="o-review__header_ratings__stars">';
 		$html .= $this->get_overall_stars( $this->get_overall_ratings( $attributes['features'] ), $scale );
-		// translators: Overall rating from 1 to 10.
-		$html .= '				<span>' . sprintf( __( '%1$g out of %2$g', 'otter-blocks' ), $this->get_overall_ratings( $attributes['features'], $scale ), 10 / $scale ) . '</span>';
+		$html .= '			    </div>';
+		$html .= '				<span>' . sprintf(
+			// translators: %1$g is the overall rating, %2$g is the maximum rating.
+			__( '%1$g out of %2$g', 'otter-blocks' ),
+			$this->get_overall_ratings( $attributes['features'], $scale ), 
+			10 / $scale 
+		) . '</span>';
 		$html .= '			</div>';
 
 		if ( ( isset( $attributes['price'] ) && ! empty( $attributes['price'] ) ) || isset( $attributes['discounted'] ) ) {
 			$html .= '			<span class="o-review__header_price">';
 
 			if ( ( isset( $attributes['price'] ) && ! empty( $attributes['price'] ) ) && isset( $attributes['discounted'] ) ) {
-				$html .= '			<del>' . self::get_currency( isset( $attributes['currency'] ) ? $attributes['currency'] : 'USD' ) . $attributes['price'] . '</del>';
+				$html .= '			<del>' . self::get_currency( isset( $attributes['currency'] ) ? $attributes['currency'] : 'USD' ) . esc_html( $attributes['price'] ) . '</del>';
 			}
 
 			$html .= self::get_currency( isset( $attributes['currency'] ) ? $attributes['currency'] : 'USD' ) . ( isset( $attributes['discounted'] ) ? $attributes['discounted'] : $attributes['price'] );
@@ -95,17 +106,17 @@ class Review_Block {
 
 		$html .= '		</div>';
 		if ( ( isset( $attributes['image'] ) || ( isset( $attributes['description'] ) && ! empty( $attributes['description'] ) ) ) ) {
-			$html .= '	<div class="o-review__header_details ' . trim( $details_class ) . '">';
+			$html .= '	<div class="o-review__header_details ' . trim( esc_attr( $details_class ) ) . '">';
 			if ( isset( $attributes['image'] ) ) {
 				if ( isset( $attributes['image']['id'] ) && wp_attachment_is_image( $attributes['image']['id'] ) ) {
-					$html .= wp_get_attachment_image( $attributes['image']['id'], isset( $attributes['imageSize'] ) ? $attributes['imageSize'] : 'medium' );
+					$html .= wp_get_attachment_image( $attributes['image']['id'], isset( $attributes['imageSize'] ) ? esc_attr( $attributes['imageSize'] ) : 'medium' );
 				} else {
 					$html .= '	<img src="' . esc_url( $attributes['image']['url'] ) . '" alt="' . esc_attr( $attributes['image']['alt'] ) . '"/>';
 				}
 			}
 
 			if ( isset( $attributes['description'] ) && ! empty( $attributes['description'] ) ) {
-				$html .= '	<p>' . $attributes['description'] . '</p>';
+				$html .= '	<p>' . wp_kses( $attributes['description'], array( 'br' => array() ) ) . '</p>';
 			}
 			$html .= '	</div>';
 		}
@@ -118,17 +129,25 @@ class Review_Block {
 			foreach ( $attributes['features'] as $feature ) {
 				$html .= '	<div class="o-review__left_feature">';
 				if ( isset( $feature['title'] ) ) {
-					$html .= '	<span class="o-review__left_feature_title">' . $feature['title'] . '</span>';
+					$html .= '	<span class="o-review__left_feature_title">' . esc_html( $feature['title'] ) . '</span>';
 				}
 
 				$html .= '		<div class="o-review__left_feature_ratings">';
+
+				$html .= '         <div class="o-review__left_feature_ratings__stars">';
 				$html .= $this->get_overall_stars( $feature['rating'], $scale );
-				// translators: Overall rating from 1 to 10.
-				$html .= '			<span>' . sprintf( __( '%1$g out of %2$g', 'otter-blocks' ), 1 <= round( $feature['rating'] / $scale, 1 ) ? round( $feature['rating'] / $scale, 1 ) : 1, 10 / $scale ) . '</span>';
+				$html .= '         </div>';
+				$html .= '			<span class="o-review__left_feature_num">' . sprintf(
+					// translators: %1$g is the overall rating, %2$g is the maximum rating.
+					__( '%1$g out of %2$g', 'otter-blocks' ),
+					1 <= round( $feature['rating'] / $scale, 1 ) ? round( $feature['rating'] / $scale, 1 ) : 1, 
+					10 / $scale
+				) . '</span>';
+
 				$html .= '		</div>';
 
 				if ( isset( $feature['description'] ) ) {
-					$html .= '	<span class="o-review__left_feature_description">' . $feature['description'] . '</span>';
+					$html .= '	<span class="o-review__left_feature_description">' . esc_html( $feature['description'] ) . '</span>';
 				}
 
 				$html .= '	</div>';
@@ -142,7 +161,7 @@ class Review_Block {
 			if ( isset( $attributes['pros'] ) && count( $attributes['pros'] ) > 0 ) {
 				$html .= '	<div class="o-review__right_pros">';
 				if ( isset( $attributes['prosLabel'] ) && ! empty( $attributes['prosLabel'] ) ) {
-					$html .= '		<' . $sub_heading . '>' . $attributes['prosLabel'] . '</' . $sub_heading . '>';
+					$html .= '		<' . $sub_heading . '>' . esc_html( $attributes['prosLabel'] ) . '</' . $sub_heading . '>';
 				}
 
 				foreach ( $attributes['pros'] as $pro ) {
@@ -157,7 +176,7 @@ class Review_Block {
 			if ( isset( $attributes['cons'] ) && count( $attributes['cons'] ) > 0 ) {
 				$html .= '	<div class="o-review__right_cons">';
 				if ( isset( $attributes['consLabel'] ) && ! empty( $attributes['consLabel'] ) ) {
-					$html .= '		<' . $sub_heading . '>' . $attributes['consLabel'] . '</' . $sub_heading . '>';
+					$html .= '		<' . $sub_heading . '>' . esc_html( $attributes['consLabel'] ) . '</' . $sub_heading . '>';
 				}
 
 				foreach ( $attributes['cons'] as $con ) {
@@ -174,21 +193,21 @@ class Review_Block {
 		if ( isset( $attributes['links'] ) && count( $attributes['links'] ) > 0 ) {
 			$html .= '	<div class="o-review__footer">';
 			if ( isset( $attributes['buttonsLabel'] ) && ! empty( $attributes['buttonsLabel'] ) ) {
-				$html .= '		<' . $sub_heading . ' class="o-review__footer_label">' . $attributes['buttonsLabel'] . '</' . $sub_heading . '>';
+				$html .= '		<' . $sub_heading . ' class="o-review__footer_label">' . esc_html( $attributes['buttonsLabel'] ) . '</' . $sub_heading . '>';
 			}
 
 			$html .= '		<div class="o-review__footer_buttons">';
 
 			foreach ( $attributes['links'] as $link ) {
 				$rel   = ( isset( $link['isSponsored'] ) && true === $link['isSponsored'] ) ? 'sponsored' : 'nofollow';
-				$html .= '	<a href="' . esc_url( $link['href'] ) . '" rel="' . $rel . '" target="_blank">' . esc_html( $link['label'] ) . '</a>';
+				$html .= '	<a href="' . esc_url( $link['href'] ) . '" rel="' . $rel . '" target="' . ( empty( $link['target'] ) ? '_blank' : esc_attr( $link['target'] ) ) . '">' . esc_html( $link['label'] ) . '</a>';
 			}
 			$html .= '		</div>';
 			$html .= '	</div>';
 		}
 		$html .= '</div>';
 
-		return $html;
+		return wp_kses_post( $html );
 	}
 
 	/**
@@ -246,22 +265,23 @@ class Review_Block {
 	 * Generate JSON-LD schema
 	 *
 	 * @param array $attributes Block attributes.
+	 * @param int   $post_id Post ID.
 	 *
 	 * @return array
 	 */
-	public function get_json_ld( $attributes ) {
+	public function get_json_ld( $attributes, $post_id ) {
 		$json = array(
 			'@context' => 'https://schema.org/',
 			'@type'    => 'Product',
-			'name'     => $attributes['title'],
+			'name'     => esc_attr( $attributes['title'] ),
 		);
 
 		if ( isset( $attributes['image'] ) && isset( $attributes['image']['url'] ) ) {
-			$json['image'] = $attributes['image']['url'];
+			$json['image'] = esc_url( $attributes['image']['url'] );
 		}
 
 		if ( isset( $attributes['description'] ) && ! empty( $attributes['description'] ) ) {
-			$json['description'] = $attributes['description'];
+			$json['description'] = esc_attr( $attributes['description'] );
 		}
 
 		$json['review'] = array(
@@ -273,7 +293,7 @@ class Review_Block {
 			),
 			'author'       => array(
 				'@type' => 'Person',
-				'name'  => get_the_author(),
+				'name'  => get_the_author_meta( 'display_name', intval( get_post_field( 'post_author', $post_id ) ) ),
 			),
 		);
 
@@ -336,8 +356,8 @@ class Review_Block {
 				$offer = array(
 					'@type'         => 'Offer',
 					'url'           => esc_url( $link['href'] ),
-					'priceCurrency' => isset( $attributes['currency'] ) ? $attributes['currency'] : 'USD',
-					'price'         => isset( $attributes['discounted'] ) ? $attributes['discounted'] : $attributes['price'],
+					'priceCurrency' => isset( $attributes['currency'] ) ? esc_attr( $attributes['currency'] ) : 'USD',
+					'price'         => isset( $attributes['discounted'] ) ? esc_attr( $attributes['discounted'] ) : esc_attr( $attributes['price'] ),
 				);
 
 				array_push( $offers, $offer );

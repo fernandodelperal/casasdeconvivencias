@@ -7,6 +7,8 @@
 
 namespace ThemeIsle\GutenbergBlocks;
 
+use enshrined\svgSanitize\Sanitizer;
+use ThemeIsle\GutenbergBlocks\Plugins\LimitedOffers;
 use ThemeIsle\GutenbergBlocks\Server\Dashboard_Server;
 
 /**
@@ -16,7 +18,7 @@ class Main {
 	/**
 	 * Singleton.
 	 *
-	 * @var Main Class object.
+	 * @var Main|null Class object.
 	 */
 	protected static $instance = null;
 
@@ -38,9 +40,16 @@ class Main {
 		add_action( 'init', array( $this, 'after_update_migration' ) );
 
 		if ( ! function_exists( 'is_wpcom_vip' ) ) {
-			add_filter( 'upload_mimes', array( $this, 'allow_meme_types' ) ); // phpcs:ignore WordPressVIPMinimum.Hooks.RestrictedHooks.upload_mimes
-			add_filter( 'wp_check_filetype_and_ext', array( $this, 'fix_mime_type_json_svg' ), 75, 4 );
+			add_filter( 'upload_mimes', array( $this, 'allow_meme_types' ), PHP_INT_MAX ); // phpcs:ignore WordPressVIPMinimum.Hooks.RestrictedHooks.upload_mimes
+			add_filter( 'wp_handle_upload_prefilter', array( $this, 'check_svg_and_sanitize' ) );
+			add_filter( 'wp_handle_sideload_prefilter', array( $this, 'check_svg_and_sanitize' ) );
+			add_filter( 'wp_check_filetype_and_ext', array( $this, 'fix_mime_type_json_svg' ), 75, 3 );
+			add_filter( 'wp_generate_attachment_metadata', array( $this, 'generate_svg_attachment_metadata' ), PHP_INT_MAX, 2 );
 		}
+
+		add_filter( 'otter_blocks_about_us_metadata', array( $this, 'about_page' ) );
+		
+		add_action( 'parse_query', array( $this, 'pagination_support' ) );
 	}
 
 	/**
@@ -62,15 +71,18 @@ class Main {
 			'\ThemeIsle\GutenbergBlocks\Plugins\Block_Conditions',
 			'\ThemeIsle\GutenbergBlocks\Plugins\Dashboard',
 			'\ThemeIsle\GutenbergBlocks\Plugins\Dynamic_Content',
+			'\ThemeIsle\GutenbergBlocks\Plugins\FSE_Onboarding',
 			'\ThemeIsle\GutenbergBlocks\Plugins\Options_Settings',
 			'\ThemeIsle\GutenbergBlocks\Plugins\Stripe_API',
 			'\ThemeIsle\GutenbergBlocks\Render\Masonry_Variant',
 			'\ThemeIsle\GutenbergBlocks\Server\Dashboard_Server',
 			'\ThemeIsle\GutenbergBlocks\Server\Dynamic_Content_Server',
 			'\ThemeIsle\GutenbergBlocks\Server\Stripe_Server',
+			'\ThemeIsle\GutenbergBlocks\Server\FSE_Onboarding_Server',
 			'\ThemeIsle\GutenbergBlocks\Integration\Form_Providers',
 			'\ThemeIsle\GutenbergBlocks\Integration\Form_Email',
 			'\ThemeIsle\GutenbergBlocks\Server\Form_Server',
+			'\ThemeIsle\GutenbergBlocks\Server\Prompt_Server',
 		);
 
 		$classnames = apply_filters( 'otter_blocks_autoloader', $classnames );
@@ -90,43 +102,6 @@ class Main {
 		if ( class_exists( '\ThemeIsle\GutenbergBlocks\Blocks_Animation' ) && get_option( 'themeisle_blocks_settings_blocks_animation', true ) ) {
 			\ThemeIsle\GutenbergBlocks\Blocks_Animation::instance();
 		}
-	}
-
-	/**
-	 * Get if the version of plugin in latest.
-	 *
-	 * @since   1.2.0
-	 * @access  public
-	 */
-	public static function is_compatible() {
-		if ( ! function_exists( 'plugins_api' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
-		}
-
-		if ( ! defined( 'OTTER_BLOCKS_VERSION' ) ) {
-			return true;
-		}
-
-		$current = OTTER_BLOCKS_VERSION;
-
-		$args = array(
-			'slug'   => 'otter-blocks',
-			'fields' => array(
-				'version' => true,
-			),
-		);
-
-		$call_api = plugins_api( 'plugin_information', $args );
-
-		if ( is_wp_error( $call_api ) ) {
-			return true;
-		} else {
-			if ( ! empty( $call_api->version ) ) {
-				$latest = $call_api->version;
-			}
-		}
-
-		return version_compare( $current, $latest, '>=' );
 	}
 
 	/**
@@ -201,6 +176,10 @@ class Main {
 			'text-transform',
 			'transform',
 		);
+		// Return $props if $attr is not an array, addressing a specific edge case.
+		if ( ! is_array( $attr ) ) {
+			return $props;
+		}
 
 		$list = array_merge( $props, $attr );
 
@@ -368,25 +347,142 @@ class Main {
 	 * @access public
 	 */
 	public function allow_meme_types( $mimes ) {
-		$mimes['json']   = 'application/json';
-		$mimes['lottie'] = 'application/zip';
-		$mimes['svg']    = 'image/svg+xml';
+		if ( ! isset( $mimes['json'] ) ) {
+			$mimes['json'] = 'application/json';
+		}
+
+		if ( ! isset( $mimes['lottie'] ) ) {
+			$mimes['lottie'] = 'application/zip';
+		}
+
+		if ( ! isset( $mimes['svg'] ) ) {
+			$mimes['svg'] = 'image/svg+xml';
+		}
+
+		if ( ! isset( $mimes['svgz'] ) ) {
+			$mimes['svgz'] = 'image/svg+xml';
+		}
+
 		return $mimes;
+	}
+
+	/**
+	 * Check if the file is an SVG, if so handle appropriately
+	 *
+	 * @param array $file An array of data for a single file.
+	 *
+	 * @return mixed
+	 */
+	public function check_svg_and_sanitize( $file ) {
+		// Ensure we have a proper file path before processing.
+		if ( ! isset( $file['tmp_name'] ) ) {
+			return $file;
+		}
+
+		$file_name   = isset( $file['name'] ) ? $file['name'] : '';
+		$wp_filetype = wp_check_filetype_and_ext( $file['tmp_name'], $file_name );
+		$type        = ! empty( $wp_filetype['type'] ) ? $wp_filetype['type'] : '';
+
+		if ( 'image/svg+xml' === $type ) {
+			if ( ! current_user_can( 'upload_files' ) ) {
+				$file['error'] = __(
+					'Sorry, you are not allowed to upload files.',
+					'otter-blocks'
+				);
+
+				return $file;
+			}
+
+			if ( ! $this->sanitize_svg( $file['tmp_name'] ) ) {
+				$file['error'] = __(
+					"Sorry, this file couldn't be sanitized so for security reasons wasn't uploaded",
+					'otter-blocks'
+				);
+			}
+
+			$path_info     = pathinfo( $file['name'] );
+			$unique_suffix = '-' . substr( md5( uniqid() ), 0, 6 );
+			$file['name']  = $path_info['filename'] . $unique_suffix . '.' . $path_info['extension'];
+		}
+
+		return $file;
+	}
+
+	/**
+	 * Sanitize the SVG
+	 *
+	 * @param string $file Temp file path.
+	 *
+	 * @return bool|int
+	 */
+	protected function sanitize_svg( $file ) {
+		// We can ignore the phpcs warning here as we're reading and writing to the Temp file.
+		$dirty = file_get_contents( $file ); // phpcs:ignore
+
+		// Is the SVG gzipped? If so we try and decode the string.
+		$is_zipped = $this->is_gzipped( $dirty );
+		if ( $is_zipped && ( ! function_exists( 'gzdecode' ) || ! function_exists( 'gzencode' ) ) ) {
+			return false;
+		}
+
+		if ( $is_zipped ) {
+			$dirty = gzdecode( $dirty );
+
+			// If decoding fails, bail as we're not secure.
+			if ( false === $dirty ) {
+				return false;
+			}
+		}
+
+		$sanitizer = new Sanitizer();
+		$clean     = $sanitizer->sanitize( $dirty );
+
+		if ( false === $clean ) {
+			return false;
+		}
+
+		// If we were gzipped, we need to re-zip.
+		if ( $is_zipped ) {
+			$clean = gzencode( $clean );
+		}
+
+		// We can ignore the phpcs warning here as we're reading and writing to the Temp file.
+		file_put_contents( $file, $clean ); // phpcs:ignore
+
+		return true;
+	}
+
+	/**
+	 * Check if the contents are gzipped
+	 *
+	 * @see http://www.gzip.org/zlib/rfc-gzip.html#member-format
+	 *
+	 * @param string $contents Content to check.
+	 *
+	 * @return bool
+	 */
+	protected function is_gzipped( $contents ) {
+		// phpcs:disable Generic.Strings.UnnecessaryStringConcat.Found
+		if ( function_exists( 'mb_strpos' ) ) {
+			return 0 === mb_strpos( $contents, "\x1f" . "\x8b" . "\x08" );
+		} else {
+			return 0 === strpos( $contents, "\x1f" . "\x8b" . "\x08" );
+		}
+		// phpcs:enable
 	}
 
 	/**
 	 * Allow JSON uploads
 	 *
-	 * @param null $data File data.
-	 * @param null $file File object.
-	 * @param null $filename File name.
-	 * @param null $mimes Supported mimes.
+	 * @param array  $data File data.
+	 * @param string $file File object.
+	 * @param string $filename File name.
 	 *
 	 * @return array
 	 * @since  1.5.7
 	 * @access public
 	 */
-	public function fix_mime_type_json_svg( $data = null, $file = null, $filename = null, $mimes = null ) {
+	public function fix_mime_type_json_svg( $data, $file, $filename ) {
 		$ext = isset( $data['ext'] ) ? $data['ext'] : '';
 		if ( 1 > strlen( $ext ) ) {
 			$exploded = explode( '.', $filename );
@@ -403,11 +499,60 @@ class Main {
 		return $data;
 	}
 
+	/**
+	 * Generate SVG attachment metadata if no other plugins does it.
+	 *
+	 * @param array   $metadata The metadata for and attachment.
+	 * @param numeric $attachment_id The attachment ID.
+	 * @return array
+	 */
+	public function generate_svg_attachment_metadata( $metadata, $attachment_id ) {
+
+		if ( 'image/svg+xml' !== get_post_mime_type( $attachment_id ) ) {
+			return $metadata;
+		}
+
+		if ( isset( $metadata['width'], $metadata['height'] ) ) {
+			return $metadata;
+		}
+
+		$svg_path = get_attached_file( $attachment_id );
+		$filename = basename( $svg_path );
+
+		$svg        = simplexml_load_file( $svg_path );
+		$attributes = $svg->attributes();
+
+		// Update metadata with SVG dimensions.
+		$metadata['width']  = intval( (string) $attributes->width );
+		$metadata['height'] = intval( (string) $attributes->height );
+		$metadata['file']   = $filename;
+
+		return $metadata;
+	}
+
+	/**
+	 * Disable canonical redirect to make Posts pagination feature work.
+	 * 
+	 * @param \WP_Query $request The query object.
+	 */
+	public function pagination_support( $request ) {
+		if (
+			true === $request->is_singular && 
+			-1 === $request->current_post && 
+			true === $request->is_paged &&
+			(
+				! empty( $request->query_vars['page'] ) ||
+				! empty( $request->query_vars['paged'] )
+			)
+		) {
+			add_filter( 'redirect_canonical', '__return_false' );
+		}
+	}
+
 
 	/**
 	 * After Update Migration
 	 *
-	 * @return bool
 	 * @since  2.0.9
 	 * @access public
 	 */
@@ -423,11 +568,28 @@ class Main {
 	}
 
 	/**
+	 * About page SDK
+	 *
+	 * @return array
+	 * @since  2.3.1
+	 * @access public
+	 */
+	public function about_page() {
+		return array(
+			'location'         => 'otter',
+			'logo'             => esc_url_raw( OTTER_BLOCKS_URL . 'assets/images/logo-alt.png' ),
+			'has_upgrade_menu' => ! DEFINED( 'OTTER_PRO_VERSION' ),
+			'upgrade_link'     => tsdk_translate_link( tsdk_utmify( Pro::get_url(), 'editor', Pro::get_reference() ) ),
+			'upgrade_text'     => __( 'Get Otter Pro', 'otter-blocks' ),
+		);
+	}
+
+	/**
 	 * Singleton method.
 	 *
 	 * @static
 	 *
-	 * @return  GutenbergBlocks
+	 * @return  Main
 	 * @since   1.0.0
 	 * @access  public
 	 */

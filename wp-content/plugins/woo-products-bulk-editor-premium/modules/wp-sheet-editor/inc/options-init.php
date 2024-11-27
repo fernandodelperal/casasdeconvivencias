@@ -12,6 +12,10 @@ if ( ! class_exists( 'WPSE_Options_Page' ) ) {
 		}
 
 		function getSections() {
+			if ( ! empty( $this->sections ) ) {
+				$this->prepare_sections();
+				return $this->sections;
+			}
 
 			$helpers                 = WP_Sheet_Editor_Helpers::get_instance();
 			$this->sections['speed'] = array(
@@ -23,8 +27,8 @@ if ( ! class_exists( 'WPSE_Options_Page' ) ) {
 						'type'     => 'text',
 						'validate' => 'numeric',
 						'title'    => __( 'Load rows faster: Number of rows to load per batch', 'vg_sheet_editor' ),
-						'desc'     => __( 'We use pagination to use few server resources. We load 20 rows first and load 20 more every time you scroll down. You can increase this number to load more rows per page. CAREFUL. Loading more than 200 rows per page might overload your server. If we detect that the server is overloaded we will automatically reset to 10 rows per page.', 'vg_sheet_editor' ),
-						'default'  => 20,
+						'desc'     => __( 'We use pagination to use few server resources. We load 40 rows first and load 20 more every time you scroll down. You can increase this number to load more rows per page. CAREFUL. Loading more than 200 rows per page might overload your server. If we detect that the server is overloaded we will automatically reset to 10 rows per page.', 'vg_sheet_editor' ),
+						'default'  => 40,
 					),
 					array(
 						'id'       => 'export_page_size',
@@ -39,8 +43,8 @@ if ( ! class_exists( 'WPSE_Options_Page' ) ) {
 						'type'     => 'text',
 						'validate' => 'numeric',
 						'title'    => __( 'Save changes faster: Number of rows to save per batch', 'vg_sheet_editor' ),
-						'desc'     => __( 'When you edit a large amount of posts in the spreadsheet editor we can\'t save all the changes at once, so we do it in batches. The recommended value is 4 , which means we will process only 4 posts at once. You can adjust it as it works best for you. If you get errors when saving you should lower the number', 'vg_sheet_editor' ),
-						'default'  => 4,
+						'desc'     => __( 'When you edit a large amount of posts in the spreadsheet editor we can\'t save all the changes at once, so we do it in batches. The recommended value is 8 , which means we will process only 4 posts at once. You can adjust it as it works best for you. If you get errors when saving you should lower the number', 'vg_sheet_editor' ),
+						'default'  => 8,
 					),
 					array(
 						'id'       => 'delete_posts_per_page',
@@ -103,25 +107,22 @@ if ( ! class_exists( 'WPSE_Options_Page' ) ) {
 				),
 			);
 
-			// We register this option only if this is not the editor page
-			// Because the used method get_sheet_sort_options() uses the list of columns
-			// And it causes an early cache set that breaks things in the sheet UI 
-			// because all the columns haven't been registered yet
-			if ( VGSE()->helpers->has_paid_addon_active() && ! VGSE()->helpers->is_editor_page()) {
+			if ( VGSE()->helpers->has_paid_addon_active() && ! VGSE()->helpers->is_editor_page() ) {
 				$enabled_sheets = VGSE()->helpers->get_enabled_post_types();
 				foreach ( $enabled_sheets as $sheet_key ) {
 					$provider = VGSE()->helpers->get_data_provider( $sheet_key );
-					if ( ! $provider->is_post_type ) {
+					if ( ! $provider->is_post_type && $provider->key !== 'user' ) {
 						continue;
 					}
-					$sort_options                               = VGSE()->helpers->get_sheet_sort_options( $sheet_key );
 					$this->sections['productivity']['fields'][] = array(
 						'id'         => 'default_sortby_' . $sheet_key,
 						'type'       => 'new_select',
 						'title'      => VGSE()->helpers->get_post_type_label( $sheet_key ) . ': ' . __( 'Default sort order', 'vg_sheet_editor' ),
 						'desc'       => __( 'We\'ll sort the rows in the spreadsheet by this field. We recommend you sort based on fields that have values in all the rows in order to get more accurate results. For example, it\'s better to sort 1k products by Title ASC because you know that all the rows will be sorted accurately, but if you sort 1k rows by SKU, the 500 rows with SKU will be sorted correctly but the 500 rows without SKU could potentially have random order as we don\'t have any value to sort them accurately.', 'vg_sheet_editor' ),
-						'options'    => $sort_options,
-						'default'    => '',
+						'options'    => function () use ( $sheet_key ) {
+							return VGSE()->helpers->get_sheet_sort_options( $sheet_key );
+						},
+						'default'    => $provider->is_post_type ? 'DESC:post_date' : 'ASC:user_login',
 						'class_name' => 'select2',
 					);
 				}
@@ -181,6 +182,25 @@ if ( ! class_exists( 'WPSE_Options_Page' ) ) {
 						'title'   => __( 'Deactivate the data prefetch', 'vg_sheet_editor' ),
 						'desc'    => __( 'When you load the spreadsheet, we get all the columns at once from the database to make it faster, this is called prefetch. This can cause issues if you have thousands of columns or rare database setups.', 'vg_sheet_editor' ),
 						'default' => false,
+					),
+					array(
+						'id'      => 'be_disable_post_meta_prefetch',
+						'type'    => 'switch',
+						'title'   => __( 'Deactivate the prefetch of post meta values', 'vg_sheet_editor' ),
+						'default' => false,
+					),
+					array(
+						'id'      => 'be_disable_post_terms_prefetch',
+						'type'    => 'switch',
+						'title'   => __( 'Deactivate the prefetch of post taxonomies values', 'vg_sheet_editor' ),
+						'default' => false,
+					),
+					array(
+						'id'       => 'be_prefetch_batch_size',
+						'type'     => 'text',
+						'validate' => 'numeric',
+						'title'    => __( 'Batch sizes used for the data prefetch', 'vg_sheet_editor' ),
+						'desc'     => __( 'By default, we prefetch in groups of 5000 rows. You can reduce this number if your server gets overloaded during the prefetch.', 'vg_sheet_editor' ),
 					),
 					array(
 						'id'    => 'keys_for_infinite_serialized_handler',
@@ -244,6 +264,21 @@ if ( ! class_exists( 'WPSE_Options_Page' ) ) {
 						'desc'    => __( 'By default, we run the save_post action only when a post data field is updated (fields other than meta and taxonomies) for performance reasons. Enable this if other plugins aren\'t detecting our changes or webhooks aren\'t running.', 'vg_sheet_editor' ),
 						'default' => false,
 					),
+					array(
+						'id'       => 'meta_fields_scan_limit',
+						'type'     => 'text',
+						'validate' => 'numeric',
+						'title'    => __( 'Maximum number of unique meta fields to scan?', 'vg_sheet_editor' ),
+						'desc'     => __( 'By default, we scan a maximum of 2500 unique meta keys to generate columns for the spreadsheet editor. But if you have a huge meta table, we might miss some meta fields and not show some columns. You can increase the number to scan more fields, which will help to display some missing columns, but it will use more server resources. The scan happens every 30 minutes on small sites, or weekly on medium-large sites.', 'vg_sheet_editor' ),
+						'default'  => 2500,
+					),
+					array(
+						'id'      => 'external_files_accept_url_parameters',
+						'type'    => 'switch',
+						'title'   => __( 'Don\'t remove query parameters from external URLs when saving files?', 'vg_sheet_editor' ),
+						'desc'    => __( 'By default, we remove the query strings from external URLs when importing external files, this improves the cache hits and helps us avoid downloading duplicate images that have slight differences in the URLs. For example, site.com/logo.png?m=1 and site.com/logo.png?m=2 are considered the same by default and we save it as site.com/logo.png. But this can break the saving of dynamic images where the parameters change the content of the image, for example, site.com/image-generator.php?image=1 can return a different image than site.com/image-generator.php?image=2. You can activate this option to make the saving of external images accept URL parameters.', 'vg_sheet_editor' ),
+						'default' => false,
+					),
 				),
 			);
 
@@ -304,9 +339,10 @@ if ( ! class_exists( 'WPSE_Options_Page' ) ) {
 					array(
 						'id'      => 'be_allowed_user_roles',
 						'title'   => __( 'User roles that can use the spreadsheet editor', 'vg_sheet_editor' ),
-						'desc'    => __( 'The plugin will not initialize for the user roles not selected here.', 'vg_sheet_editor' ),
+						'desc'    => __( 'The plugin will not initialize for the user roles not selected here. Leave empty and the editor will initialize for any role that has permission to edit this data source.', 'vg_sheet_editor' ),
 						'type'    => 'new_select',
 						'multi'   => true,
+						'class_name' => 'select2',
 						'options' => array_combine( array_keys( $roles->roles ), array_keys( $roles->roles ) ),
 					),
 					array(
@@ -365,7 +401,7 @@ if ( ! class_exists( 'WPSE_Options_Page' ) ) {
 						'type'     => 'text',
 						'validate' => 'numeric',
 						'title'    => __( 'Math formula roundup decimals', 'vg_sheet_editor' ),
-						'desc'     => __( 'We automatically round up to 2 decimals. You can enter any number here, for example, 1 to round to 1 decimal', 'vg_sheet_editor' ),
+						'desc'     => __( 'We automatically round up to 2 decimals. You can enter any number here, for example, 1 to round to 1 decimal, 0 to round to the nearest whole number (without decimals). Default: 2 decimals', 'vg_sheet_editor' ),
 						'default'  => 2,
 					),
 					array(
@@ -373,13 +409,6 @@ if ( ! class_exists( 'WPSE_Options_Page' ) ) {
 						'type'    => 'switch',
 						'title'   => __( 'Display raw value on select cells?', 'vg_sheet_editor' ),
 						'desc'    => __( 'By default, we show the label in the cell instead of the raw value. But you can enable this option to display the raw value in the cells.', 'vg_sheet_editor' ),
-						'default' => false,
-					),
-					array(
-						'id'      => 'wpmu_delete_account',
-						'type'    => 'switch',
-						'title'   => __( 'Delete user accounts in the entire network when deleting users in the spreadsheet?', 'vg_sheet_editor' ),
-						'desc'    => __( 'When you use WordPress multisite and you delete a user in the users spreadsheet, by default we only remove the user from the current site but the user remains in the network. Activate this option if you want to delete the user account from the entire network', 'vg_sheet_editor' ),
 						'default' => false,
 					),
 					array(
@@ -396,6 +425,46 @@ if ( ! class_exists( 'WPSE_Options_Page' ) ) {
 						'desc'    => __( 'By default, we show the file name as a preview next to the thumbnail, you can activate this to show the thumbnail and upload buttons only', 'vg_sheet_editor' ),
 						'default' => false,
 					),
+					array(
+						'id'      => 'add_html_class_status_value',
+						'type'    => 'switch',
+						'title'   => __( 'Add html classes to the "post status" cells based on their values?', 'vg_sheet_editor' ),
+						'desc'    => __( 'You can activate this option if you want to add html classes, and use those html classes to change the cell colors for each status using custom CSS', 'vg_sheet_editor' ),
+						'default' => false,
+					),
+					array(
+						'id'       => 'tinymce_preview_characters_limit',
+						'type'     => 'text',
+						'validate' => 'numeric',
+						'title'    => __( 'Maximum number of characters displayed in the preview of the values of tinymce columns?', 'vg_sheet_editor' ),
+						'desc'     => __( 'By default, we only display 30 characters. You can increase the number here to view larger previews.', 'vg_sheet_editor' ),
+						'default'  => 30,
+					),
+					array(
+						'id'      => 'manage_post_parents_with_id',
+						'type'    => 'switch',
+						'title'   => __( 'Manage the post parent column using IDs?', 'vg_sheet_editor' ),
+						'desc'    => __( 'By default, the "parent" column displays titles and saves using titles. If you activate this option, the column will display IDs and save IDs. This is useful if you have duplicate titles and you need to save the exact parent by ID.', 'vg_sheet_editor' ),
+						'default' => false,
+					),
+					array(
+						'id'      => 'color_mode',
+						'title'   => __( 'Enable the dark mode?', 'vg_sheet_editor' ),
+						'default' => '',
+						'type'    => 'new_select',
+						'options' => array(
+							''      => __( 'Auto (Default)', 'vg_sheet_editor' ),
+							'light' => __( 'Light mode', 'vg_sheet_editor' ),
+							'dark'  => __( 'Dark mode', 'vg_sheet_editor' ),
+						),
+					),
+					array(
+						'id'      => 'disable_post_modified_date_auto_update',
+						'title'   => __( 'Disable the automatic update of the "modified date" of the posts?', 'vg_sheet_editor' ),
+						'type'    => 'switch',
+						'desc'    => __( 'By default, the "modified date" of each post is updated every time you edit a post in our spreadsheet editor. WordPress automatically updates the "modified date" when you a edit a post in the regular editor, so we do this to keep a consistent experience in our sheet editor as the regular editor. You can enable this option to stop this behavior but this behavior will stop only when you edit taxonomies or meta fields, WordPress will still update the modified date when you post titles, content, excerpt, and other fields stored in the wp_posts table in the database.', 'vg_sheet_editor' ),
+						'default' => false,
+					),
 				),
 			);
 			$this->sections['general']            = array(
@@ -410,6 +479,11 @@ if ( ! class_exists( 'WPSE_Options_Page' ) ) {
 				),
 			);
 
+			if ( ! function_exists( 'get_intermediate_image_sizes' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/media.php';
+			}
+			$image_sizes            = get_intermediate_image_sizes();
+			$image_sizes[]          = 'full';
 			$this->sections['misc'] = array(
 				'icon'   => 'el-icon-plane',
 				'title'  => __( 'Misc', 'vg_sheet_editor' ),
@@ -447,8 +521,9 @@ if ( ! class_exists( 'WPSE_Options_Page' ) ) {
 						'id'      => 'be_post_types',
 						'type'    => 'new_select',
 						'multi'   => true,
-						'options' => $helpers->get_allowed_post_types(),
-						'title'   => __( 'Spreadsheets enabled for these post types', 'vg_sheet_editor' ),
+						'options' => array( $helpers, 'get_allowed_post_types' ),
+						'title'   => __( 'Enabled spreadsheets', 'vg_sheet_editor' ),
+						'class_name' => 'select2',
 					),
 					array(
 						'id'      => 'disable_help_toolbar',
@@ -470,6 +545,26 @@ if ( ! class_exists( 'WPSE_Options_Page' ) ) {
 						'type'    => 'switch',
 						'title'   => __( 'Don\'t show read-only columns in the advanced search?', 'vg_sheet_editor' ),
 						'default' => false,
+					),
+					array(
+						'id'    => 'allow_formula_remove_duplicates_meta_keys',
+						'type'  => 'text',
+						'title' => __( 'Allow to remove duplicate rows by these meta fields', 'vg_sheet_editor' ),
+						'desc'  => __( 'By default, our bulk edit allows you to remove duplicate posts by title+content, or by product SKU. You can add multiple meta keys separated with a comma here to allow to remove duplicate posts by a meta field. We don\'t allow this for any column because this should be used on meta fields that are supposed to contain unique values', 'vg_sheet_editor' ),
+					),
+					array(
+						'id'      => 'thumbnail_size_for_image_cell_previews',
+						'type'    => 'new_select',
+						'options' => array_combine( $image_sizes, $image_sizes ),
+						'title'   => __( 'Thumbnail size for the image cell previews', 'vg_sheet_editor' ),
+						'desc'    => __( 'By default, we show a thumbnail with medium size in the cell values and preview on the Image columns, and we export images in full size when you use our export tool. If you want to see smaller or bigger images in the cell values or previews, select a different size here', 'vg_sheet_editor' ),
+					),
+					array(
+						'id'      => 'disable_add_new_row_button',
+						'type'    => 'switch',
+						'title'   => __( 'Disable the "add new row" option from the toolbar?', 'vg_sheet_editor' ),
+						'default' => false,
+						'desc'  => __( 'Enable this option if you don\'t want people to create rows in our live sheet. This can be useful if you want them to create items using the regular editor to have all the fields filled in with default values.', 'vg_sheet_editor' ),
 					),
 				),
 			);
@@ -503,7 +598,23 @@ if ( ! class_exists( 'WPSE_Options_Page' ) ) {
 				);
 			}
 
+			$this->prepare_sections();
+			return $this->sections;
+		}
+
+		function prepare_sections() {
 			$this->sections = apply_filters( 'vg_sheet_editor/options_page/options', $this->sections );
+
+			// Auto generate section keys to prevent duplicate settings tabs in case we add sections without keys
+			$new_sections = array();
+			foreach ( $this->sections as $section_key => $section ) {
+				if ( is_numeric( $section_key ) ) {
+					$new_sections[ sanitize_html_class( $section['title'] ) ] = $section;
+				} else {
+					$new_sections[ $section_key ] = $section;
+				}
+			}
+			$this->sections = $new_sections;
 			// Redux filter is here for backwards compatibility
 			$this->sections = apply_filters( 'redux/options/' . VGSE()->options_key . '/sections', $this->sections );
 			return $this->sections;

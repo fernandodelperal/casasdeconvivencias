@@ -8,6 +8,7 @@
 namespace ThemeIsle\GutenbergBlocks;
 
 use ThemeIsle\GutenbergBlocks\Main, ThemeIsle\GutenbergBlocks\Pro, ThemeIsle\GutenbergBlocks\Plugins\Stripe_API;
+use ThemeIsle\GutenbergBlocks\Plugins\LimitedOffers;
 
 /**
  * Class Registration.
@@ -17,7 +18,7 @@ class Registration {
 	/**
 	 * The main instance var.
 	 *
-	 * @var Registration
+	 * @var Registration|null
 	 */
 	public static $instance = null;
 
@@ -36,23 +37,31 @@ class Registration {
 	public static $block_dependencies = array();
 
 	/**
+	 * The ids of the used widgets in the page.
+	 *
+	 * @var array<string>
+	 */
+	public static $widget_used = array(); // TODO: Monitor all the rendered widgets and enqueue the assets.
+
+	/**
 	 * Flag to mark that the scripts which have loaded.
 	 *
 	 * @var array
 	 */
 	public static $scripts_loaded = array(
-		'circle-counter' => false,
-		'countdown'      => false,
-		'form'           => false,
-		'google-map'     => false,
-		'leaflet-map'    => false,
-		'lottie'         => false,
-		'slider'         => false,
-		'sticky'         => false,
-		'tabs'           => false,
-		'popup'          => false,
-		'progress-bar'   => false,
-		'accordion'      => false,
+		'circle-counter'    => false,
+		'countdown'         => false,
+		'form'              => false,
+		'google-map'        => false,
+		'leaflet-map'       => false,
+		'lottie'            => false,
+		'slider'            => false,
+		'sticky'            => false,
+		'tabs'              => false,
+		'popup'             => false,
+		'progress-bar'      => false,
+		'accordion'         => false,
+		'condition_hide_on' => false,
 	);
 
 	/**
@@ -81,6 +90,8 @@ class Registration {
 		add_action( 'enqueue_block_assets', array( $this, 'enqueue_block_assets' ) );
 		add_filter( 'render_block', array( $this, 'load_sticky' ), 900, 2 );
 		add_filter( 'render_block', array( $this, 'subscribe_fa' ), 10, 2 );
+		add_filter( 'dynamic_sidebar_params', array( $this, 'watch_used_widgets' ), 9999 );
+		add_filter( 'render_block', array( $this, 'load_condition_hide_on_styles' ), 10, 2 );
 
 		add_action(
 			'wp_footer',
@@ -89,15 +100,16 @@ class Registration {
 					wp_enqueue_style( 'font-awesome-5' );
 					wp_enqueue_style( 'font-awesome-4-shims' );
 				}
-			}
+			},
+			11
 		);
 	}
 
 	/**
 	 * Register our custom block category.
 	 *
-	 * @param array                   $categories All categories.
-	 * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
+	 * @param array                    $categories All categories.
+	 * @param \WP_Block_Editor_Context $block_editor_context The current block editor context.
 	 *
 	 * @return mixed
 	 * @since   2.0.0
@@ -238,14 +250,14 @@ class Registration {
 			'themeisleGutenberg',
 			array(
 				'hasNeve'                 => defined( 'NEVE_VERSION' ),
-				'isCompatible'            => Main::is_compatible(),
 				'hasPro'                  => Pro::is_pro_installed(),
 				'isProActive'             => Pro::is_pro_active(),
-				'upgradeLink'             => tsdk_utmify( Pro::get_url(), 'editor', Pro::get_reference() ),
+				'upgradeLink'             => tsdk_translate_link( tsdk_utmify( Pro::get_url(), 'editor', Pro::get_reference() ) ),
+				'patternsLink'            => tsdk_translate_link( tsdk_utmify( Pro::get_patterns_url(), 'editor', Pro::get_reference() ) ),
 				'should_show_upsell'      => Pro::should_show_upsell(),
 				'assetsPath'              => OTTER_BLOCKS_URL . 'assets',
 				'updatePath'              => admin_url( 'update-core.php' ),
-				'optionsPath'             => admin_url( 'options-general.php?page=otter' ),
+				'optionsPath'             => admin_url( 'admin.php?page=otter' ),
 				'mapsAPI'                 => $api,
 				'hasStripeAPI'            => Stripe_API::has_keys(),
 				'globalDefaults'          => json_decode( get_option( 'themeisle_blocks_settings_global_defaults', '{}' ) ),
@@ -255,22 +267,31 @@ class Registration {
 				'canTrack'                => 'yes' === get_option( 'otter_blocks_logger_flag', false ) ? true : false,
 				'userRoles'               => $wp_roles->roles,
 				'isBlockEditor'           => 'post' === $current_screen->base,
-				'postTypes'               => get_post_types( [ 'public' => true ] ),
+				'postTypes'               => get_post_types(
+					[
+						'public'              => true,
+						'exclude_from_search' => false,
+					]
+				),
 				'rootUrl'                 => get_site_url(),
 				'restRoot'                => get_rest_url( null, 'otter/v1' ),
 				'isPrettyPermalinks'      => boolval( get_option( 'permalink_structure' ) ),
 				'showOnboarding'          => $this->show_onboarding(),
 				'ratingScale'             => get_option( 'themeisle_blocks_settings_review_scale', false ),
 				'hasModule'               => array(
+					'aiToolbar'       => boolval( get_option( 'themeisle_blocks_settings_block_ai_toolbar_module', true ) ),
 					'blockCSS'        => boolval( get_option( 'themeisle_blocks_settings_css_module', true ) ),
 					'blockAnimations' => boolval( get_option( 'themeisle_blocks_settings_blocks_animation', true ) ),
 					'blockConditions' => boolval( get_option( 'themeisle_blocks_settings_block_conditions', true ) ),
+					'patternsLibrary' => boolval( get_option( 'themeisle_blocks_settings_patterns_library', true ) ),
+					'dynamicContent'  => boolval( get_option( 'themeisle_blocks_settings_dynamic_content', true ) ),
 				),
 				'isLegacyPre59'           => version_compare( get_bloginfo( 'version' ), '5.8.22', '<=' ),
 				'isAncestorTypeAvailable' => version_compare( get_bloginfo( 'version' ), '5.9.22', '>=' ),
 				'version'                 => OTTER_BLOCKS_VERSION,
 				'isRTL'                   => is_rtl(),
 				'highlightDynamicText'    => get_option( 'themeisle_blocks_settings_highlight_dynamic', true ),
+				'hasOpenAiKey'            => ! empty( get_option( 'themeisle_open_ai_api_key' ) ),
 			)
 		);
 
@@ -316,6 +337,8 @@ class Registration {
 			return;
 		}
 
+
+
 		if ( is_singular() ) {
 			$this->enqueue_dependencies();
 		} else {
@@ -347,7 +370,16 @@ class Registration {
 		}
 
 		if ( $has_widgets ) {
-			$this->enqueue_dependencies( 'widgets' );
+
+			add_filter(
+				'wp_footer',
+				function ( $content ) {
+					$this->enqueue_dependencies( 'widgets' );
+
+					return $content;
+				}
+			);
+
 		}
 
 		if ( function_exists( 'get_block_templates' ) && function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() && current_theme_supports( 'block-templates' ) ) {
@@ -359,22 +391,14 @@ class Registration {
 	 * Handler which checks the blocks used and enqueue the assets which needs.
 	 *
 	 * @since   2.0.0
-	 * @param null $post Current post.
+	 * @param   string|int|null $post Current post.
 	 * @access  public
 	 */
 	public function enqueue_dependencies( $post = null ) {
 		$content = '';
 
 		if ( 'widgets' === $post ) {
-			$widgets = get_option( 'widget_block', array() );
-
-			foreach ( $widgets as $widget ) {
-				if ( is_array( $widget ) && isset( $widget['content'] ) ) {
-					$content .= $widget['content'];
-				}
-			}
-
-			$post = $content;
+			$post = self::get_active_widgets_content();
 		} elseif ( 'block-templates' === $post ) {
 			global $_wp_current_template_content;
 
@@ -390,7 +414,7 @@ class Registration {
 			$templates_parts = get_block_templates( array( 'slugs__in' => $slugs ), 'wp_template_part' );
 
 			foreach ( $templates_parts as $templates_part ) {
-				if ( isset( $templates_part->content ) && in_array( $templates_part->slug, $slugs ) ) {
+				if ( ! empty( $templates_part->content ) && ! empty( $templates_part->slug ) && in_array( $templates_part->slug, $slugs ) ) {
 					$content .= $templates_part->content;
 				}
 			}
@@ -505,13 +529,17 @@ class Registration {
 					'root'               => esc_url_raw( rest_url() ),
 					'nonce'              => wp_create_nonce( 'wp_rest' ),
 					'messages'           => array(
-						'submission'         => __( 'Form submission from', 'otter-blocks' ),
-						'captcha-not-loaded' => __( 'Captcha is not loaded. Please check your browser plugins to allow the Google reCaptcha.', 'otter-blocks' ),
-						'check-captcha'      => __( 'Please check the captcha.', 'otter-blocks' ),
-						'invalid-email'      => __( 'The email address is invalid!', 'otter-blocks' ),
-						'already-registered' => __( 'The email was already registered!', 'otter-blocks' ),
-						'try-again'          => __( 'Error. Something is wrong with the server! Try again later.', 'otter-blocks' ),
-						'privacy'            => __( 'I have read and agreed the privacy statement.', 'otter-blocks' ),
+						'submission'           => __( 'Form submission from', 'otter-blocks' ),
+						'captcha-not-loaded'   => __( 'Captcha is not loaded. Please check your browser plugins to allow the Google reCaptcha.', 'otter-blocks' ),
+						'check-captcha'        => __( 'Please check the captcha.', 'otter-blocks' ),
+						'invalid-email'        => __( 'The email address is invalid!', 'otter-blocks' ),
+						'already-registered'   => __( 'The email was already registered!', 'otter-blocks' ),
+						'try-again'            => __( 'Error. Something is wrong with the server! Try again later.', 'otter-blocks' ),
+						'privacy'              => __( 'I have read and agree to the privacy statement.', 'otter-blocks' ),
+						'too-many-files'       => __( 'Too many files loaded. Maximum is: ', 'otter-blocks' ),
+						'big-file'             => __( 'File size is to big. The limit is: ', 'otter-blocks' ),
+						'invalid-file'         => __( 'Invalid files type. The submitted files could not be processed.', 'otter-blocks' ),
+						'confirmingSubmission' => __( 'Confirming submission', 'otter-blocks' ),
 					),
 				)
 			);
@@ -597,7 +625,10 @@ class Registration {
 			wp_script_add_data( 'otter-tabs', 'defer', true );
 		}
 
-		if ( ! self::$scripts_loaded['popup'] && has_block( 'themeisle-blocks/popup', $post ) ) {
+		if (
+			! self::$scripts_loaded['popup'] && 
+			( has_block( 'themeisle-blocks/popup', $post ) || has_block( 'themeisle-blocks/modal', $post ) )
+		) {
 			$asset_file = include OTTER_BLOCKS_PATH . '/build/blocks/popup.asset.php';
 			wp_register_script( 'otter-popup', OTTER_BLOCKS_URL . 'build/blocks/popup.js', $asset_file['dependencies'], $asset_file['version'], true );
 			wp_script_add_data( 'otter-popup', 'defer', true );
@@ -635,6 +666,11 @@ class Registration {
 		foreach ( self::$blocks as $block ) {
 			if ( in_array( $block, self::$styles_loaded ) || ! has_block( 'themeisle-blocks/' . $block, $post ) ) {
 				continue;
+			}
+
+			// Shared styles.
+			if ( 'modal' === $block ) {
+				$block = 'popup';
 			}
 
 			$block_path = OTTER_BLOCKS_PATH . '/build/blocks/' . $block;
@@ -685,15 +721,16 @@ class Registration {
 	 */
 	public function register_blocks() {
 		$dynamic_blocks = array(
-			'about-author'    => '\ThemeIsle\GutenbergBlocks\Render\About_Author_Block',
-			'form-nonce'      => '\ThemeIsle\GutenbergBlocks\Render\Form_Nonce_Block',
-			'google-map'      => '\ThemeIsle\GutenbergBlocks\Render\Google_Map_Block',
-			'leaflet-map'     => '\ThemeIsle\GutenbergBlocks\Render\Leaflet_Map_Block',
-			'plugin-cards'    => '\ThemeIsle\GutenbergBlocks\Render\Plugin_Card_Block',
-			'posts-grid'      => '\ThemeIsle\GutenbergBlocks\Render\Posts_Grid_Block',
-			'review'          => '\ThemeIsle\GutenbergBlocks\Render\Review_Block',
-			'sharing-icons'   => '\ThemeIsle\GutenbergBlocks\Render\Sharing_Icons_Block',
-			'stripe-checkout' => '\ThemeIsle\GutenbergBlocks\Render\Stripe_Checkout_Block',
+			'about-author'         => '\ThemeIsle\GutenbergBlocks\Render\About_Author_Block',
+			'form-nonce'           => '\ThemeIsle\GutenbergBlocks\Render\Form_Nonce_Block',
+			'google-map'           => '\ThemeIsle\GutenbergBlocks\Render\Google_Map_Block',
+			'leaflet-map'          => '\ThemeIsle\GutenbergBlocks\Render\Leaflet_Map_Block',
+			'plugin-cards'         => '\ThemeIsle\GutenbergBlocks\Render\Plugin_Card_Block',
+			'posts-grid'           => '\ThemeIsle\GutenbergBlocks\Render\Posts_Grid_Block',
+			'review'               => '\ThemeIsle\GutenbergBlocks\Render\Review_Block',
+			'sharing-icons'        => '\ThemeIsle\GutenbergBlocks\Render\Sharing_Icons_Block',
+			'stripe-checkout'      => '\ThemeIsle\GutenbergBlocks\Render\Stripe_Checkout_Block',
+			'form-multiple-choice' => '\ThemeIsle\GutenbergBlocks\Render\Form_Multiple_Choice_Block',
 		);
 
 		$dynamic_blocks = apply_filters( 'otter_blocks_register_dynamic_blocks', $dynamic_blocks );
@@ -715,6 +752,7 @@ class Registration {
 			'form-input',
 			'form-nonce',
 			'form-textarea',
+			'form-multiple-choice',
 			'google-map',
 			'icon-list',
 			'icon-list-item',
@@ -722,6 +760,7 @@ class Registration {
 			'lottie',
 			'plugin-cards',
 			'popup',
+			'modal',
 			'posts-grid',
 			'pricing',
 			'progress-bar',
@@ -733,6 +772,8 @@ class Registration {
 			'tabs',
 			'tabs-item',
 			'testimonials',
+			'timeline',
+			'timeline-item',
 		);
 
 		self::$blocks = apply_filters( 'otter_blocks_register_blocks', self::$blocks );
@@ -751,7 +792,7 @@ class Registration {
 				'font-awesome-icons' => array( 'font-awesome-5', 'font-awesome-4-shims' ),
 				'icon-list-item'     => array( 'font-awesome-5', 'font-awesome-4-shims' ),
 				'plugin-cards'       => array( 'font-awesome-5', 'font-awesome-4-shims' ),
-				'sharing-icons'      => array( 'font-awesome-5', 'font-awesome-4-shims' ),
+				'timeline-item'      => array( 'font-awesome-5', 'font-awesome-4-shims' ),
 			)
 		);
 
@@ -851,8 +892,7 @@ class Registration {
 
 		// always load for those.
 		static $always_load = [
-			'themeisle-blocks/sharing-icons' => true,
-			'themeisle-blocks/plugin-cards'  => true,
+			'themeisle-blocks/plugin-cards' => true,
 		];
 
 		if ( isset( $always_load[ $block['blockName'] ] ) ) {
@@ -917,6 +957,13 @@ class Registration {
 			}
 		}
 
+		if ( 'themeisle-blocks/timeline-item' === $block['blockName'] &&
+			( isset( $block['innerHTML'] ) && false !== strpos( $block['innerHTML'], 'fa-' ) )
+		) {
+			self::$is_fa_loaded = true;
+			return $block_content;
+		}
+
 		return $block_content;
 	}
 
@@ -953,7 +1000,7 @@ class Registration {
 	}
 
 	/**
-	 * Add styles for sticky blocks.
+	 * Get styles for sticky blocks.
 	 *
 	 * @static
 	 * @since 2.0.14
@@ -964,13 +1011,110 @@ class Registration {
 	}
 
 	/**
+	 * Load the Hide on condition styles.
+	 *
+	 * @param string $block_content The block content.
+	 * @param array  $block The block data.
+	 * @return string
+	 */
+	public function load_condition_hide_on_styles( $block_content, $block ) {
+		if ( self::$scripts_loaded['condition_hide_on'] ) {
+			return $block_content;
+		}
+
+		if ( empty( $block['attrs']['otterConditions'] ) || ! is_array( $block['attrs']['otterConditions'] ) ) {
+			return $block_content;
+		}
+
+		$has_condition = false;
+
+		foreach ( $block['attrs']['otterConditions'] as $group ) {
+			foreach ( $group as $condition ) {
+				if ( array_key_exists( 'type', $condition ) && 'screenSize' === $condition['type'] && isset( $condition['screen_sizes'] ) && is_array( $condition['screen_sizes'] ) ) {
+					$has_condition = true;
+					break;
+				}
+			}
+
+			if ( $has_condition ) {
+				break;
+			}
+		}
+
+		if ( ! $has_condition ) {
+			return $block_content;
+		}
+
+		add_action( 'wp_footer', array( $this, 'condition_hide_on_style' ) );
+		self::$scripts_loaded['condition_hide_on'] = true;
+
+		return $block_content;
+	}
+
+	/**
+	 * Get the styles for Hide on condition.
+	 *
+	 * @static
+	 * @since 2.4
+	 * @access public
+	 */
+	public static function condition_hide_on_style() {
+		echo '<style id="o-condition-hide-inline-css">@media (max-width:768px){.o-hide-on-mobile{display:none!important}}@media (min-width:767px) and (max-width:1024px){.o-hide-on-tablet{display:none!important}}@media (min-width:1023px){.o-hide-on-desktop{display:none!important}}</style>';
+	}
+
+	/**
+	 * Get the content of all active widgets.
+	 *
+	 * @return string
+	 */
+	public static function get_active_widgets_content() {
+		$content = '';
+
+		if ( 0 === count( self::$widget_used ) ) {
+			return $content;
+		}
+
+		$valid_widgets = array();
+		$widget_data   = get_option( 'widget_block', array() );
+
+		foreach ( self::$widget_used as $widget_id ) {
+			$widget_id = str_replace( 'block-', '', $widget_id );
+			if ( isset( $widget_data[ $widget_id ] ) ) {
+				$valid_widgets[] = (object) $widget_data[ $widget_id ];
+			}
+		}
+
+		foreach ( $valid_widgets as $widget ) {
+			if ( isset( $widget->content ) ) {
+				$content .= $widget->content;
+			}
+		}
+
+		return $content;
+	}
+
+	/**
+	 * Watch and save the used widgets.
+	 *
+	 * @param array $params The widget params.
+	 * @return mixed
+	 */
+	public function watch_used_widgets( $params ) {
+		if ( isset( $params[0]['widget_id'] ) && ! in_array( $params[0]['widget_id'], self::$widget_used ) ) {
+			self::$widget_used[] = $params[0]['widget_id'];
+		}
+
+		return $params;
+	}
+
+	/**
 	 * The instance method for the static class.
 	 * Defines and returns the instance of the static class.
 	 *
 	 * @static
 	 * @since 1.0.0
 	 * @access public
-	 * @return Blocks_Export_Import
+	 * @return Registration
 	 */
 	public static function instance() {
 		if ( is_null( self::$instance ) ) {

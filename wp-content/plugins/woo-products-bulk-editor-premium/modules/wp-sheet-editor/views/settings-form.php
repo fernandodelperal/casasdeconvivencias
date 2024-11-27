@@ -22,8 +22,15 @@
 			<div class="tab<?php echo sanitize_html_class( $tab_index ); ?> <?php echo esc_attr( $section['title'] ); ?> tab-content">
 				<?php
 				foreach ( $section['fields'] as $field ) {
-					$value      = isset( VGSE()->options[ $field['id'] ] ) ? VGSE()->options[ $field['id'] ] : '';
+					$value = isset( VGSE()->options[ $field['id'] ] ) ? VGSE()->options[ $field['id'] ] : '';
+					if ( is_numeric( $value ) && isset( $field['default'] ) && is_int( $field['default'] ) ) {
+						$value = (int) $value;
+					}
 					$input_type = ! empty( $field['validate'] ) && $field['validate'] === 'numeric' ? 'number' : 'text';
+					if ( ! empty( $field['default'] ) ) {
+						$default_value_text = __( 'Default value: ', 'vg_sheet_editor' ) . $field['default'];
+						$field['desc']      = ! empty( $field['desc'] ) ? $field['desc'] . '. ' . $default_value_text : $default_value_text;
+					}
 					?>
 					<div class="field-wrapper">
 						<label for="<?php echo esc_attr( $field['id'] ); ?>">
@@ -46,11 +53,15 @@
 						<?php } ?>		
 						<?php
 						if ( $field['type'] === 'new_select' ) {
+							if ( is_callable( $field['options'] ) ) {
+								$field['options'] = call_user_func( $field['options'] );
+							}
 							$input_name = empty( $field['multi'] ) ? 'settings[' . $field['id'] . ']' : 'settings[' . $field['id'] . '][]';
 							if ( ! isset( $field['options'][''] ) ) {
 								$field['options'][''] = '---';
 							}
-							?>							 
+							?>
+														 
 							<select class="<?php echo sanitize_html_class( $field['class_name'] ); ?>" 
 							<?php
 							if ( ! empty( $field['multi'] ) ) {

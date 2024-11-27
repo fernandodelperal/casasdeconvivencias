@@ -253,6 +253,9 @@ add_action('plugins_loaded', 'vgse_universal_sheet', 99);
 
 if (!function_exists('vgse_universal_sheet')) {
 
+	/**
+	 * @return WP_Sheet_Editor_Universal_Sheet
+	 */
 	function vgse_universal_sheet() {
 		return WP_Sheet_Editor_Universal_Sheet::get_instance();
 	}

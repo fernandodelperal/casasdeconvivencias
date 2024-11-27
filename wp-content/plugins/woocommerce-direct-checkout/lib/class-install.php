@@ -53,7 +53,6 @@ class Install {
 	 * Aeactivation
 	 */
 	public static function deactivation() {
-
 	}
 
 	/**
@@ -138,5 +137,4 @@ class Install {
 			update_option( 'qlwcdc_wcd_imported2', true );
 		}
 	}
-
 }

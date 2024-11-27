@@ -1,3 +1,95 @@
+##### [Version 2.6.14](https://github.com/Codeinwp/wp-maintenance-mode/compare/v2.6.13...v2.6.14) (2024-11-11)
+
+- Fixed conflict with WPForms
+- Updated dependencies
+
+##### [Version 2.6.13](https://github.com/Codeinwp/wp-maintenance-mode/compare/v2.6.12...v2.6.13) (2024-10-14)
+
+- Codebase updates.
+
+##### [Version 2.6.12](https://github.com/Codeinwp/wp-maintenance-mode/compare/v2.6.11...v2.6.12) (2024-09-17)
+
+### Bug Fixes
+- **Compatibility with Elementor**: Fixes a compatibility issue with Elementor.
+- **Fixes Checkbox Styles**: Fixes a styling issue with Checkbox in the wizard that makes it almost invisible on screen.
+
+##### [Version 2.6.11](https://github.com/Codeinwp/wp-maintenance-mode/compare/v2.6.10...v2.6.11) (2024-04-18)
+
+### Improvements
+​- **Updated internal dependencies:​​** Enhanced performance and security.
+
+##### [Version 2.6.10](https://github.com/Codeinwp/wp-maintenance-mode/compare/v2.6.9...v2.6.10) (2024-02-28)
+
+### Fixes
+- Updated dependencies
+
+##### [Version 2.6.9](https://github.com/Codeinwp/wp-maintenance-mode/compare/v2.6.8...v2.6.9) (2023-12-22)
+
+### Bug Fixes
+- Fixed compatibility issue with WP 6.4
+- Fixed broken templates layout issue on the Safari browser
+- Enhanced security
+- Fixed compatibility issue with WP-Optimize
+
+##### [Version 2.6.8](https://github.com/Codeinwp/wp-maintenance-mode/compare/v2.6.7...v2.6.8) (2023-06-07)
+
+- Fix the Save button Module tab not working
+- Codebase updates
+
+##### [Version 2.6.7](https://github.com/Codeinwp/wp-maintenance-mode/compare/v2.6.6...v2.6.7) (2023-04-01)
+
+- Bug fix: Addressed an unnecessary 'no maintenance page' error occurrence.
+
+##### [Version 2.6.6](https://github.com/Codeinwp/wp-maintenance-mode/compare/v2.6.5...v2.6.6) (2023-03-31)
+
+- Remove error notice for users that use an overriding custom template
+- Update dependencies
+
+##### [Version 2.6.5](https://github.com/Codeinwp/wp-maintenance-mode/compare/v2.6.4...v2.6.5) (2023-03-01)
+
+Update dependencies
+
+##### [Version 2.6.4](https://github.com/Codeinwp/wp-maintenance-mode/compare/v2.6.3...v2.6.4) (2023-02-24)
+
+- Add the option to manage maintenance status on all sites from the network dashboard
+- Update dependencies
+
+##### [Version 2.6.3](https://github.com/Codeinwp/wp-maintenance-mode/compare/v2.6.2...v2.6.3) (2023-02-06)
+
+* Update dependencies
+
+##### [Version 2.6.2](https://github.com/Codeinwp/wp-maintenance-mode/compare/v2.6.1...v2.6.2) (2022-12-16)
+
+* Add the option in the wizard to skip importing a template and installing Otter
+* Improve the quality of the template screenshots
+* Fix the template overriding issue
+
+##### [Version 2.6.1](https://github.com/Codeinwp/wp-maintenance-mode/compare/v2.6.0...v2.6.1) (2022-11-03)
+
+* Add a notice to announce the rebrand of the plugin
+
+#### [Version 2.6.0](https://github.com/Codeinwp/wp-maintenance-mode/compare/v2.5.4...v2.6.0) (2022-11-02)
+
+* Adds Landing pages templates
+* Adds more Coming soon and Maintenance mode templates
+* Rebrand the plugin into LightStart
+
+##### [Version 2.5.4](https://github.com/Codeinwp/wp-maintenance-mode/compare/v2.5.3...v2.5.4) (2022-10-10)
+
+* Fix subscribers entry export for legacy forms.
+* Fix PHP notice showing up on edge cases new installs.
+
+##### [Version 2.5.3](https://github.com/Codeinwp/wp-maintenance-mode/compare/v2.5.2...v2.5.3) (2022-09-28)
+
+* Fix wrong template loaded when the current post template is empty.
+
+##### [Version 2.5.2](https://github.com/Codeinwp/wp-maintenance-mode/compare/v2.5.1...v2.5.2) (2022-09-27)
+
+* Fix maintenance mode issue for previously logged users [#321](https://github.com/Codeinwp/wp-maintenance-mode/issues/321) 
+* Allow comments into exclude textarea so that you can comment on the IP addresses for location, props [@joostdekeijzer](https://github.com/joostdekeijzer) 
+* Fix PHP notice errors on specific scenarios [#324](https://github.com/Codeinwp/wp-maintenance-mode/issues/324) 
+* Fix Otter for saving subscriber entry
+
 ##### [Version 2.5.1](https://github.com/Codeinwp/wp-maintenance-mode/compare/v2.5.0...v2.5.1) (2022-09-08)
 
 - Fixes a bug which was causing error on some instances

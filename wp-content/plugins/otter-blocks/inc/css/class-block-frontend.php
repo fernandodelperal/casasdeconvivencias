@@ -21,7 +21,7 @@ class Block_Frontend extends Base_CSS {
 	/**
 	 * The main instance var.
 	 *
-	 * @var Block_Frontend
+	 * @var Block_Frontend|null
 	 */
 	public static $instance = null;
 
@@ -94,12 +94,12 @@ class Block_Frontend extends Base_CSS {
 	/**
 	 * Method to define hooks needed.
 	 *
-	 * @param int $post_id Post id.
+	 * @param int|null $post_id Post id.
 	 *
 	 * @since   1.3.0
 	 * @access  public
 	 */
-	public function enqueue_google_fonts( $post_id = '' ) {
+	public function enqueue_google_fonts( $post_id = null ) {
 		if ( ! is_singular() && ! $post_id ) {
 			return;
 		}
@@ -109,7 +109,7 @@ class Block_Frontend extends Base_CSS {
 		$content    = get_post_field( 'post_content', $post_id );
 		$blocks     = parse_blocks( $content );
 
-		if ( is_array( $blocks ) || ! empty( $blocks ) ) {
+		if ( is_array( $blocks ) ) {
 			$this->enqueue_reusable_fonts( $blocks );
 		}
 
@@ -254,12 +254,12 @@ class Block_Frontend extends Base_CSS {
 	/**
 	 * Enqueue CSS file
 	 *
-	 * @param int $post_id Post id.
+	 * @param int|null $post_id Post id.
 	 *
 	 * @since   1.3.0
 	 * @access  public
 	 */
-	public function enqueue_styles( $post_id = '' ) {
+	public function enqueue_styles( $post_id = null ) {
 		$post_id = $post_id ? $post_id : get_the_ID();
 
 		if ( ! function_exists( 'has_blocks' ) ) {
@@ -275,7 +275,8 @@ class Block_Frontend extends Base_CSS {
 				'wp_footer',
 				function () use ( $post_id ) {
 					return $this->get_post_css( $post_id );
-				}
+				},
+				'the_content' === current_filter() ? PHP_INT_MAX : 10
 			);
 
 			return;
@@ -290,7 +291,8 @@ class Block_Frontend extends Base_CSS {
 				'wp_footer',
 				function () use ( $post_id ) {
 					return $this->get_post_css( $post_id );
-				}
+				},
+				'the_content' === current_filter() ? PHP_INT_MAX : 10
 			);
 
 			return;
@@ -304,7 +306,7 @@ class Block_Frontend extends Base_CSS {
 
 		$blocks = parse_blocks( $content );
 
-		if ( is_array( $blocks ) || ! empty( $blocks ) ) {
+		if ( is_array( $blocks ) ) {
 			$this->enqueue_reusable_styles( $blocks );
 		}
 
@@ -321,16 +323,22 @@ class Block_Frontend extends Base_CSS {
 				'wp_footer',
 				function () use ( $post_id ) {
 					return $this->get_post_css( $post_id );
-				}
+				},
+				'the_content' === current_filter() ? PHP_INT_MAX : 10
 			);
 
 			$this->total_inline_size += (int) $file_size;
 			return;
 		}
 
+		if ( 'the_content' === current_filter() ) {
+			wp_enqueue_style( 'otter-' . $file_name, $file_url, array(), OTTER_BLOCKS_VERSION );
+			return;
+		}
+
 		add_action(
 			'wp_footer',
-			function () use ( $file_name, $file_url, $file_path ) {
+			function () use ( $file_name, $file_url ) {
 				wp_enqueue_style( 'otter-' . $file_name, $file_url, array(), OTTER_BLOCKS_VERSION );
 			}
 		);
@@ -359,12 +367,12 @@ class Block_Frontend extends Base_CSS {
 	/**
 	 * Get Post CSS
 	 *
-	 * @param string $post_id Post id.
+	 * @param int $post_id Post id.
 	 *
 	 * @since   1.3.0
 	 * @access  public
 	 */
-	public function get_post_css( $post_id = '' ) {
+	public function get_post_css( $post_id = null ) {
 		$post_id = $post_id ? $post_id : get_the_ID();
 		if ( function_exists( 'has_blocks' ) && has_blocks( $post_id ) ) {
 			$css = $this->get_page_css_meta( $post_id );
@@ -453,25 +461,28 @@ class Block_Frontend extends Base_CSS {
 	public function get_page_css_inline( $post_id ) {
 		global $post;
 
-		if ( function_exists( 'has_blocks' ) && has_blocks( $post_id ) ) {
-			if ( is_preview() && ( $post_id === $post->ID ) ) {
-				$content = $post->post_content;
-			} else {
-				$content = get_post_field( 'post_content', $post_id );
-			}
-
-			$blocks = parse_blocks( $content );
-
-			if ( ! is_array( $blocks ) || empty( $blocks ) ) {
-				return '';
-			}
-
-			$animations = boolval( preg_match( '/\banimated\b/', $content ) );
-
-			$css = $this->cycle_through_blocks( $blocks, $animations );
+		// Do an early return if the condition if ( function_exists( 'has_blocks' ) && has_blocks( $post_id ) ) { isn't met.
+		if ( ! function_exists( 'has_blocks' ) || ! has_blocks( $post_id ) ) {
+			return '';
 		}
 
-		return $css;
+		if ( is_preview() && ( $post_id === $post->ID ) ) {
+			$content = $post->post_content;
+		} else {
+			$content = get_post_field( 'post_content', $post_id );
+		}
+
+		$blocks = parse_blocks( $content );
+
+		if ( ! is_array( $blocks ) || empty( $blocks ) ) {
+			return '';
+		}
+
+		$animations = boolval( preg_match( '/\banimated\b/', $content ) );
+
+		$css = $this->cycle_through_blocks( $blocks, $animations );
+
+		return stripslashes( $css );
 	}
 
 	/**
@@ -585,7 +596,7 @@ class Block_Frontend extends Base_CSS {
 		$templates_parts = get_block_templates( array( 'slugs__in' => $slugs ), 'wp_template_part' );
 
 		foreach ( $templates_parts as $templates_part ) {
-			if ( isset( $templates_part->content ) && in_array( $templates_part->slug, $slugs ) ) {
+			if ( ! empty( $templates_part->content ) && ! empty( $templates_part->slug ) && in_array( $templates_part->slug, $slugs ) ) {
 				$content .= $templates_part->content;
 			}
 		}

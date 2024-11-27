@@ -1,5 +1,0 @@
-[03-Dec-2021 20:12:36 UTC] PHP Fatal error:  Interface 'SimplePie_Cache_Base' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/SimplePie/Cache/Redis.php on line 27
-[04-Dec-2021 08:06:05 UTC] PHP Fatal error:  Uncaught Error: Class 'SimplePie_Cache_DB' not found in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/SimplePie/Cache/MySQL.php:56
-Stack trace:
-#0 {main}
-  thrown in /home/huerqrts/casasdeconvivencias.org.ar/wp-includes/SimplePie/Cache/MySQL.php on line 56

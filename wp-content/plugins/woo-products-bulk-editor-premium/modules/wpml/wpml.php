@@ -29,8 +29,37 @@ if (!class_exists('WP_Sheet_Editor_WPML')) {
 			foreach ($files as $file) {
 				require_once $file;
 			}
-			add_filter('vg_sheet_editor/js_data', array($this, 'always_use_initial_language'));
+			add_filter('vg_sheet_editor/global_js_data', array($this, 'always_use_initial_language'));
 			add_filter('vg_sheet_editor/data/taxonomy_terms/cache_key', array($this, 'modify_cache_key'));
+			
+			add_action( 'vg_sheet_editor/automations/core/after_job_saved', array( $this, 'save_lang_upon_job_edit' ) );
+			$categories = array('import-rows', 'export-rows', 'rows', 'bulk-edit', 'add-new');
+			foreach ($categories as $category) {
+				add_filter('vg_sheet_editor/scheduled/' . $category . '/request_params_for_task', array( $this, 'set_lang_before_job_execution'), 9);
+			}
+			add_action('vg_sheet_editor/scheduled/gs-sync/before_task_execution', array( $this,'set_lang_before_gs_sync'), 10, 3);
+		}
+		public function set_lang_before_gs_sync($content_ids, $operation, $job){
+			$this->set_lang_before_job_execution($job);
+		}
+
+		public function set_lang_before_job_execution($job){
+			global $sitepress;
+			if( $job && ! empty( $job['task_args']['wpml_lang'])){
+				$sitepress->switch_lang($job['task_args']['wpml_lang']);
+			}
+			return $job;
+		}
+		public function save_lang_upon_job_edit( $job ) {
+			global $sitepress;
+			
+			// Only save the wpml lang once
+			if( ! empty($job['task_args']['wpml_lang'])){
+				return;
+			}
+			WPSE_Automations_Core::update_task_args(array(
+				'wpml_lang' => $sitepress->get_current_language()
+			), $job);
 		}
 
 		function modify_cache_key($cache_key) {

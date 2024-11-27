@@ -1,9 +1,9 @@
 === WooCommerce Bulk Edit Products - WP Sheet Editor ===
 Contributors: wpsheeteditor,vegacorp,josevega
 Tags: woocommerce, bulk edit, products, spreadsheet, wp sheet editor
-Stable tag: 1.8.1
+Stable tag: 1.8.15
 Requires at least: 4.7
-Tested up to: 6.1
+Tested up to: 6.7
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -196,6 +196,71 @@ Yes. You can set up the number of posts to save per batch and the waiting betwee
 1. bulk editor
 
 == Changelog ==
+= V 1.8.15 - 2024-10-26 =
+* CHANGE - CORE - Performance improvements
+
+
+= V 1.8.14 - 2024-08-01 =
+* CHANGE - CORE - General bug fixes
+* CHANGE - CORE - Improve the search tool
+* CHANGE - CORE - Improve the handling of date values
+* CHANGE - CORE - Improve RTL compatibility
+
+
+= V 1.8.13 - 2024-03-28 =
+* FIX - CORE - Minor issues
+
+
+= V 1.8.12 - 2024-03-28 =
+* FIX - CORE - Minor issues
+
+
+= V 1.8.11 - 2024-03-27 =
+* FIX - CORE - Minor issues
+
+
+= V 1.8.10 - 2024-03-22 =
+* CHANGE - CORE - General improvements
+* CHANGE - CORE - Improve compatibility with PHP 8.2
+* CHANGE - CORE - Performance improvements
+
+
+= V 1.8.9 - 2024-01-26 =
+* CHANGE - CORE - General UI improvements
+* FIX - CORE - Small bug fixes
+
+
+= V 1.8.8 - 2023-12-13 =
+* FIX - CORE - General bug fixes
+
+
+= V 1.8.7 - 2023-11-02 =
+* FIX - CORE - Small bug fixes
+
+
+= V 1.8.6 - 2023-09-13 =
+* CHANGE - CORE - General improvements
+
+
+= V 1.8.5 - 2023-07-23 =
+* CHANGE - CORE - General improvements
+* FIX - CORE - General bug fixes
+
+
+= V 1.8.4 - 2023-07-13 =
+* CHANGE - CORE - General improvements
+* FIX - CORE - Some sheets initialized with the wrong columns
+
+
+= V 1.8.3 - 2023-07-06 =
+* CHANGE - CORE - Performance improvements
+* CHANGE - CORE - General improvements
+
+
+= V 1.8.2 - 2023-04-13 =
+* FIX - CORE - Several bug fixes
+
+
 = V 1.8.1 - 2023-02-03 =
 * CHANGE - CORE - Several improvements
 * FIX - CORE - Several bug fixes

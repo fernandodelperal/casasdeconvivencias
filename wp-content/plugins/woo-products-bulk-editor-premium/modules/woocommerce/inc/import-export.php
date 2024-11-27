@@ -6,7 +6,6 @@ if ( ! class_exists( 'WPSE_WC_Products_Universal_Sheet' ) ) {
 		private static $instance = false;
 
 		private function __construct() {
-
 		}
 
 		public function init() {
@@ -16,7 +15,7 @@ if ( ! class_exists( 'WPSE_WC_Products_Universal_Sheet' ) ) {
 			add_filter( 'vg_sheet_editor/export/final_headers', array( $this, 'add_friendly_column_headers_for_export' ), 10, 2 );
 			add_action( 'vg_sheet_editor/export/pre_cleanup', array( $this, 'add_special_columns_data_to_export' ), 10, 4 );
 			add_filter( 'vg_sheet_editor/export/columns', array( $this, 'add_special_columns_to_export_list' ), 10, 2 );
-			add_action( 'vg_sheet_editor/export/columns', array( $this, 'remove_core_fields_from_export_list' ), 20, 2 );
+			add_filter( 'vg_sheet_editor/export/columns', array( $this, 'remove_core_fields_from_export_list' ), 20, 2 );
 			add_filter( 'vg_sheet_editor/columns/all_items', array( $this, 'add_export_keys' ) );
 			add_filter( 'vg_sheet_editor/export/existing_file_keys', array( $this, 'convert_file_labels_to_keys_for_export' ), 10, 4 );
 			add_filter( 'vg_sheet_editor/export/is_not_supported', array( $this, 'is_import_export_supported' ), 10, 2 );
@@ -38,6 +37,124 @@ if ( ! class_exists( 'WPSE_WC_Products_Universal_Sheet' ) ) {
 			add_action( 'vg_sheet_editor/import/after_advanced_options', array( $this, 'import_after_advanced_options' ) );
 			add_filter( 'sanitize_taxonomy_name', array( $this, 'prevent_long_attribute_name_error_during_import' ) );
 
+			// Google Sheets
+			add_filter( 'vg_sheet_editor/google_sheets/sync/task_args_to_get_rows', array( $this, 'include_variations_on_sync_to_google_sheets' ), 10, 3 );
+			add_filter( 'vg_sheet_editor/google_sheets/task_args_synced_export_import', array( $this, 'add_task_arg_to_sync_export_import' ) );
+
+			// Automations
+			add_filter( 'vg_sheet_editor/automations/extra_fields_for_sync_settings', array( $this, 'register_sync_settings_fields' ) );
+			add_filter( 'vg_sheet_editor/automations/external_import/rows_to_append', array( $this, 'maybe_outofstock_removed_products_from_supplier' ), 10, 5 );
+			add_action( 'vg_sheet_editor/automations/after_what_happens_when_deleted_rows', array( $this, 'render_option_to_outofstock_removed_products_on_import' ) );
+		}
+
+		public function add_task_arg_to_sync_export_import( $task_args ) {
+			$task_args[] = 'outofstock_missing_rows';
+			return $task_args;
+		}
+
+		public function maybe_outofstock_removed_products_from_supplier( $rows_to_append, $file_path, $job, $runner, $importer ) {
+			global $wpdb;
+			$job_id = $job['job_id'];
+
+			if ( ! empty( $job['verbose_log'] ) ) {
+				WPSE_Logger_Obj()->entry( __CLASS__ . ':' . __FUNCTION__ . ': Line ' . __LINE__ . ' ' . var_export( compact( 'job', 'file_path', 'rows_to_append' ), true ), $job_id );
+			}
+
+			if ( empty( $job['task_args']['outofstock_missing_rows'] ) || empty( $job['task_args']['existing_check_csv_field'] ) || empty( $job['task_args']['existing_check_csv_field'][0] ) ) {
+				return $rows_to_append;
+			}
+			$setting_key = 'last_imported_product_ids_file_name';
+			if ( empty( $job[ $setting_key ] ) ) {
+				$job[ $setting_key ] = 'row-wc-product-ids-' . $job_id . '.txt';
+				WPSE_Automations_Core::set_new_job_settings(
+					$job_id,
+					array(
+						$setting_key => $job[ $setting_key ],
+					)
+				);
+			}
+			$identifier_column     = $job['task_args']['existing_check_csv_field'][0];
+			$identifiers_file_path = wp_normalize_path( WPSE_CSV_API_Obj()->long_lived_dir ) . $job[ $setting_key ];
+			if ( ! empty( $job['verbose_log'] ) ) {
+				WPSE_Logger_Obj()->entry( __CLASS__ . ':' . __FUNCTION__ . ': Line ' . __LINE__ . ' ' . var_export( compact( 'identifier_column', 'identifiers_file_path' ), true ), $job_id );
+			}
+
+			$current_ids = $importer->_get_row_ids_from_csv( $file_path, $identifier_column );
+			if ( file_exists( $identifiers_file_path ) ) {
+				if ( ! is_array( $rows_to_append ) ) {
+					$rows_to_append = array();
+				}
+				$decrypted_ids = WPSE_Automations_Core::decrypt( file_get_contents( $identifiers_file_path ), wpsea_fs()->get_site()->secret_key );
+				if ( ! empty( $decrypted_ids ) ) {
+					$previous_ids = json_decode( $decrypted_ids, true );
+
+					$removed_ids_from_external_file = array_diff( $previous_ids, $current_ids );
+					// Get first row of the CSV file to get the column headers.
+					$original_csv_data = WPSE_CSV_API_Obj()->get_rows( $file_path, $job['task_args']['separator'], false, 1 );
+					$sample_row        = array_fill_keys( array_keys( $original_csv_data['rows'][0] ), '' );
+
+					foreach ( $removed_ids_from_external_file as $removed_id ) {
+						if ( isset( $rows_to_append[ $removed_id ] ) ) {
+							$row_to_append = array_merge(
+								$sample_row,
+								$rows_to_append[ $removed_id ],
+								array(
+									$identifier_column     => $removed_id,
+									'wpse_mark_outofstock' => 'yes',
+								)
+							);
+						} else {
+							$row_to_append = array_merge(
+								$sample_row,
+								array(
+									$identifier_column     => $removed_id,
+									'wpse_mark_outofstock' => 'yes',
+								)
+							);
+						}
+						$rows_to_append[ $removed_id ] = $row_to_append;
+					}
+					if ( ! empty( $job['verbose_log'] ) ) {
+						WPSE_Logger_Obj()->entry( __CLASS__ . ':' . __FUNCTION__ . ': Line ' . __LINE__ . ' ' . var_export( compact( 'previous_ids', 'current_ids', 'removed_ids_from_external_file', 'rows_to_append' ), true ), $job_id );
+					}
+					if ( ! empty( $rows_to_append ) ) {
+						WPSE_Logger_Obj()->entry( sprintf( __( 'This import has been configured to mark the products as out-of-stock in WordPress when they have been deleted in the external source (%1$s). We detected these items that were removed from your external source and will be marked as out-of-stock in WordPress: %2$s.', 'vg_sheet_editor' ), $importer->source_label, implode( ', ', $removed_ids_from_external_file ) ), $job_id );
+					}
+				}
+			}
+
+			$encrypted_ids = WPSE_Automations_Core::encrypt( wp_json_encode( array_filter( array_unique( $current_ids ) ) ), wpsea_fs()->get_site()->secret_key );
+			file_put_contents( $identifiers_file_path, $encrypted_ids );
+			return $rows_to_append;
+		}
+		public function register_sync_settings_fields( $fields ) {
+			$field_keys        = array( 'outofstock_missing_rows' );
+			$fields['exports'] = array_merge( $fields['exports'], $field_keys );
+			$fields['imports'] = array_merge( $fields['imports'], $field_keys );
+			return $fields;
+		}
+
+		public function render_option_to_outofstock_removed_products_on_import( $post_type ) {
+			if ( $post_type !== 'product' ) {
+				return;
+			}
+			?>	
+			<br>		
+			<label><input value="yes" type="checkbox" name="outofstock_missing_rows"> <?php esc_html_e( 'Mark items in WordPress as out-of-stock when they are deleted in the external source?', 'vg_sheet_editor' ); ?> <a href="#" data-wpse-tooltip="right" aria-label="<?php esc_html_e( 'Activate this option if your external file is the main database of your products, and you want to hide the products from your store catalog when they no longer come in the external file from your supplier.', 'vg_sheet_editor' ); ?>">( ? )</a></label>
+			<?php
+		}
+
+		public function include_variations_on_sync_to_google_sheets( $task_args, $ids, $job ) {
+
+			if ( $job['sheet_key'] === 'product' ) {
+				$filters = json_decode( wp_unslash( $job['task_args']['filters'] ), true );
+				if ( ! empty( $filters['wc_display_variations'] ) && $filters['wc_display_variations'] === 'yes' ) {
+					$new_task_filters                          = json_decode( wp_unslash( $task_args['filters'] ), true );
+					$new_task_filters['wc_display_variations'] = 'yes';
+					$task_args['filters']                      = wp_json_encode( $new_task_filters );
+				}
+			}
+			return $task_args;
 		}
 		public function _file_contains_word( $file_path, $word ) {
 			// Loop in batches of 100 rows to prevent memory leaks
@@ -137,7 +254,7 @@ if ( ! class_exists( 'WPSE_WC_Products_Universal_Sheet' ) ) {
 							$attribute_string               = str_replace( '%d', $attribute_number, $attribute_string );
 							$row                            = array_merge( $row, json_decode( $attribute_string, true ) );
 							$csv_data['rows'][ $row_index ] = $row;
-							$attribute_number++;
+							++$attribute_number;
 						}
 					}
 				}
@@ -271,7 +388,7 @@ if ( ! class_exists( 'WPSE_WC_Products_Universal_Sheet' ) ) {
 				}
 				$sorted_headers_prepared = array_flip( $sorted_headers );
 				foreach ( $csv_data['rows'] as $row_index => $row ) {
-					$csv_data['rows'][ $row_index ] = array_merge( $sorted_headers_prepared, $row );
+					$csv_data['rows'][ $row_index ] = array_merge( $sorted_headers_prepared, array_intersect_key( $row, $sorted_headers_prepared ) );
 				}
 
 				if ( method_exists( WPSE_CSV_API_Obj(), '_str_putcsv' ) ) {
@@ -338,7 +455,7 @@ if ( ! class_exists( 'WPSE_WC_Products_Universal_Sheet' ) ) {
 		}
 
 		public function add_special_columns_to_api_import_list( $columns, $post_type ) {
-			if ( $post_type !== VGSE()->WC->post_type || ! VGSE()->helpers->is_rest_request() ) {
+			if ( $post_type !== VGSE()->WC->post_type ) {
 				return $columns;
 			}
 
@@ -421,9 +538,9 @@ if ( ! class_exists( 'WPSE_WC_Products_Universal_Sheet' ) ) {
 				if ( ! empty( $row['ID'] ) && in_array( 'ID', $check_wp_fields ) ) {
 					$post_id = get_post_status( $row['ID'] ) ? (int) $row['ID'] : 0;
 				} elseif ( ! empty( $row['sku'] ) && in_array( 'sku', $check_wp_fields ) ) {
-					$post_id = (int) wc_get_product_id_by_sku( str_replace( '&', 'and', $row['sku'] ) );
+					$post_id = (int) wc_get_product_id_by_sku( $row['sku'] );
 				} elseif ( ! empty( $row['name'] ) && in_array( 'name', $check_wp_fields ) ) {
-					$post = get_page_by_title( $row['name'], OBJECT, $post_type );
+					$post = VGSE()->helpers->get_page_by_title( $row['name'], $post_type );
 					if ( $post ) {
 						$post_id = $post->ID;
 					}
@@ -453,34 +570,41 @@ if ( ! class_exists( 'WPSE_WC_Products_Universal_Sheet' ) ) {
 
 		public function maybe_create_template_products( $data, $settings ) {
 
-			if ( $settings['post_type'] !== VGSE()->WC->post_type || empty( $settings['wpse_source'] ) || $settings['wpse_source'] !== 'import' ) {
+			if ( $settings['post_type'] !== VGSE()->WC->post_type || empty( $settings['wpse_source'] ) || $settings['wpse_source'] !== 'import' || empty( $settings['allow_to_create_new'] ) ) {
 				return $data;
 			}
 
-			if ( ! empty( $settings['allow_to_create_new'] ) ) {
-				$rows_missing_ids = wp_list_filter( $data, array( 'ID' => null ) );
-				foreach ( $rows_missing_ids as $row_index => $item ) {
-					$row_id  = null;
-					$row_sku = null;
-					if ( ! empty( $item['sku'] ) ) {
-						$row_sku = str_replace( '&', 'and', $item['sku'] );
-						$row_id  = wc_get_product_id_by_sku( $row_sku );
-					}
-					if ( ! $row_id ) {
-						$product = new WC_Product_Simple();
-						$product->set_name( 'Import placeholder' );
-						$product->set_status( 'importing' );
-
-						// If row has a SKU, make sure placeholder has it too.
-						if ( $row_sku ) {
-							$product->set_sku( $row_sku );
-						}
-						$row_id = $product->save();
-					}
+			$rows_missing_ids = wp_list_filter( $data, array( 'ID' => null ) );
+			$new_ids_count    = 0;
+			$skus_found_count = 0;
+			foreach ( $rows_missing_ids as $row_index => $item ) {
+				$row_id  = null;
+				$row_sku = null;
+				if ( ! empty( $item['sku'] ) ) {
+					$row_sku = $item['sku'];
+					$row_id  = wc_get_product_id_by_sku( $row_sku );
 					if ( $row_id ) {
-						$data[ $row_index ]['ID'] = $row_id;
+						++$skus_found_count;
 					}
 				}
+				if ( ! $row_id ) {
+					$product = new WC_Product_Simple();
+					$product->set_name( 'Import placeholder' );
+					$product->set_status( 'importing' );
+
+					// If row has a SKU, make sure placeholder has it too.
+					if ( $row_sku ) {
+						$product->set_sku( $row_sku );
+					}
+					$row_id = $product->save();
+					++$new_ids_count;
+				}
+				if ( $row_id ) {
+					$data[ $row_index ]['ID'] = $row_id;
+				}
+			}
+			if ( function_exists( 'WPSE_Logger_Obj' ) && ! empty( VGSE()->helpers->get_job_id_from_request() ) ) {
+				WPSE_Logger_Obj()->entry( sprintf( 'Before saving: We found %d new rows that need a placeholder product. Created %d rows as placeholder that will be used for saving real data later. We didn\'t create placeholder products for %d rows because the SKUs matched existing products', count( $rows_missing_ids ), $new_ids_count, $skus_found_count ), sanitize_text_field( VGSE()->helpers->get_job_id_from_request() ) );
 			}
 
 			return $data;
@@ -530,9 +654,15 @@ if ( ! class_exists( 'WPSE_WC_Products_Universal_Sheet' ) ) {
 				return $data;
 			}
 
-			$import_settings = $settings['wpse_import_settings'];
 			$original_data   = $data;
 			$product_type    = null;
+
+			if ( ! empty( $data['wpse_mark_outofstock'] ) && $data['wpse_mark_outofstock'] === 'yes' ) {
+				unset( $data['wpse_mark_outofstock'] );
+				$data['stock_status'] = 'outofstock';
+				$data['stock']        = 0;
+				WPSE_Logger_Obj()->entry( sprintf( 'Marking product as out of stock: %s', print_r( $data, true ) ), sanitize_text_field( VGSE()->helpers->get_job_id_from_request() ) );
+			}
 
 			if ( ! empty( $data['type'] ) ) {
 				$product_type = $data['type'];
@@ -540,6 +670,9 @@ if ( ! class_exists( 'WPSE_WC_Products_Universal_Sheet' ) ) {
 				$product_type = VGSE()->WC->get_product_type( $data['ID'] );
 			} elseif ( ! empty( $data['id'] ) ) {
 				$product_type = VGSE()->WC->get_product_type( $data['id'] );
+			}
+			if ( ! empty( VGSE()->options['wc_product_attributes_not_variation'] ) ) {
+				$attributes_not_used_for_variations = array_map( 'preg_quote', array_filter( array_map( 'sanitize_title', array_map( 'trim', explode( ',', VGSE()->get_option( 'wc_product_attributes_not_variation', '' ) ) ) ) ) );
 			}
 
 			// Convert the special column keys from attribute_name to attribute:name,
@@ -553,31 +686,38 @@ if ( ! class_exists( 'WPSE_WC_Products_Universal_Sheet' ) ) {
 					unset( $data[ $key ] );
 				}
 
-				// WC uses the ID as id
-				if ( ! empty( $data['ID'] ) ) {
-					$data['id'] = $data['ID'];
-				}
-
 				// Make sure there is a default attribute always, otherwise WC won't save the variations
 				if ( strpos( $key, 'attributes:value' ) !== false && $product_type === 'variable' ) {
 					$default_attribute_key = str_replace( 'attributes:value', 'attributes:default', $key );
+
 					if ( empty( $data[ $default_attribute_key ] ) ) {
 						$data[ $default_attribute_key ] = current( array_map( 'trim', explode( ',', $value ) ) );
 					}
-				}
 
-				// Copy the category_ids column to product_cat to save it with
-				// WPSE CORE so the wpse_old_platform_id option works
-				if ( ! empty( $data['category_ids'] ) ) {
-					$data['product_cat']  = $data['category_ids'];
-					$data['category_ids'] = '';
+					$attribute_name_column_key = str_replace( 'attributes:value', 'attributes:name', $key );
+					if ( ! empty( $data[ $attribute_name_column_key ] ) && ! empty( $attributes_not_used_for_variations ) ) {
+						$attribute_key = sanitize_title( $data[ $attribute_name_column_key ] );
+						if ( preg_match( '/(' . implode( '|', $attributes_not_used_for_variations ) . ')/', $attribute_key ) && isset( $data[ $default_attribute_key ] ) ) {
+							unset( $data[ $default_attribute_key ] );
+						}
+					}
 				}
 			}
 
-			// Weird bug on WC's side. It returns a "SKU duplicated" error when
-			// the SKU contains & and it's not really duplicated.
-			if ( ! empty( $data['sku'] ) ) {
-				$data['sku'] = str_replace( '&', 'and', $data['sku'] );
+			// WC uses the ID as id
+			if ( ! empty( $data['ID'] ) ) {
+				$data['id'] = $data['ID'];
+			}
+
+			// Copy the category_ids column to product_cat to save it with
+			// WPSE CORE so the wpse_old_platform_id option works
+			if ( ! empty( $data['category_ids'] ) ) {
+				$data['product_cat']  = $data['category_ids'];
+				$data['category_ids'] = '';
+			}
+			if ( ! empty( $data['tag_ids'] ) ) {
+				$data['product_tag'] = $data['tag_ids'];
+				$data['tag_ids']     = '';
 			}
 
 			// Prevent error. Notify when variation references a non-existent parent
@@ -600,6 +740,14 @@ if ( ! class_exists( 'WPSE_WC_Products_Universal_Sheet' ) ) {
 				}
 			}
 
+			// WC won't save variation rows when the parent id is not defined in the CSV file, so get the parent id from the database as a fallback
+			if ( empty( $data['parent_id'] ) && ! empty( $data['id'] ) ) {
+				$parent_id = (int) $wpdb->get_var( $wpdb->prepare( "SELECT post_parent FROM $wpdb->posts WHERE ID = %d AND post_type = 'product_variation' ", $data['id'] ) );
+				if ( $parent_id ) {
+					$data['parent_id'] = 'id:' . $parent_id;
+				}
+			}
+
 			// If the user allows skipping broken images, we try to download them with our CORE function
 			// and save the downloaded ids, this way WooCommerce won't stop the import if the images fail
 			if ( ! empty( $settings['wpse_import_settings']['skip_broken_images'] ) && ! empty( $data['images'] ) ) {
@@ -613,10 +761,25 @@ if ( ! class_exists( 'WPSE_WC_Products_Universal_Sheet' ) ) {
 
 			// Updating the SKU is very expensive in terms of DB queries, even if the SKU did not change
 			// So we will remove the SKU field if the value did not change
-			$existing_sku = get_post_meta( $data['ID'], '_sku', true );
-			if ( isset( $data['sku'] ) && $data['sku'] === $existing_sku ) {
-				unset( $data['sku'] );
+			$removed_unchanged_fields = array(
+				'sku'            => '_sku',
+				'regular_price'  => '_regular_price',
+				'sale_price'     => '_sale_price',
+				'stock_quantity' => '_stock',
+			);
+			foreach ( $removed_unchanged_fields as $wc_api_key => $meta_key ) {
+				if ( isset( $data[ $wc_api_key ] ) && $data[ $wc_api_key ] === get_post_meta( $data['ID'], $meta_key, true ) ) {
+					unset( $data[ $wc_api_key ] );
+				}
 			}
+			if ( isset( $data['stock_status'] ) ) {
+				$db_in_stock_value = (int) $data['stock_status'] ? 'instock' : 'outofstock';
+				if ( $db_in_stock_value === get_post_meta( $data['ID'], '_stock_status', true ) ) {
+					unset( $data['stock_status'] );
+				}
+			}
+
+			$data    = apply_filters( 'vg_sheet_editor/woocommerce/prepared_data_for_wc_api_import', $data, $post_id, $spreadsheet_columns, $settings );
 			$mapping = array_combine( array_keys( $data ), array_keys( $data ) );
 
 			$keys_to_be_updated = array_diff( array_keys( $data ), array( 'id', 'ID', '', 'post_type' ) );
@@ -645,53 +808,64 @@ if ( ! class_exists( 'WPSE_WC_Products_Universal_Sheet' ) ) {
 				);
 			} else {
 
+				$data_to_update_with_wc_api = array_diff_key( $data, array_flip( array( 'id', 'ID', '', 'post_type' ) ) );
+
 				// The mapping somehow contains an element with empty key,
 				// we can't remove it, if we remove it the mapping breaks in the WC importer class
 				// Save row
-				$importer = $this->get_importer(
-					array(
-						'data'            => array( $data ), // This is designed to import multiple rows at once, we import one in this case
-						'mapping'         => $mapping, // wpse already mapped the fields
-						'update_existing' => $update_existing,
-					)
-				);
-				$result   = $importer->import();
 
-				if ( ! empty( $result['skipped'] ) ) {
-					return current( $result['skipped'] );
-				}
-				if ( ! empty( $result['failed'] ) ) {
-					return current( $result['failed'] );
-				}
+				// Call the WC API only if there are any fields to save, except id, ID, post_type
+				if ( ! empty( $data_to_update_with_wc_api ) ) {
+					// Throw a friendly error if they are updating a simple row that already exists by
+					// SKU as a variation, because WC will throw a non-descriptive error
+					if ( isset( $data['type'] ) && $data['type'] === 'simple' && ! empty( $original_data['sku'] ) && (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->posts WHERE ID = %d AND post_type = 'product_variation'", $data['ID'] ) ) ) {
+						return new WP_Error( 'wpse', sprintf( __( 'There is an error in the CSV Data. You are saving the SKU "%s" as a simple product, but the same SKU already exists as a variation in WordPress. Please edit your CSV file to use a different SKU, or verify if the CSV row should be a variation of another product instead.', 'vg_sheet_editor' ), $original_data['sku'] ) );
+					}
+					$importer = $this->get_importer(
+						array(
+							'data'            => array( $data ), // This is designed to import multiple rows at once, we import one in this case
+							'mapping'         => $mapping, // wpse already mapped the fields
+							'update_existing' => $update_existing,
+						)
+					);
+					$result   = $importer->import();
 
-				// Resave the custom attribute values because WC removes line breaks
-				// from attribute values and we want to preserve them
-				if ( ! empty( VGSE()->options['allow_line_breaks_export_import'] ) ) {
-					$saved_attributes    = get_post_meta( $data['ID'], '_product_attributes', true );
-					$modified_attributes = $saved_attributes;
-					$all_data            = json_encode( $data );
-					if ( ! empty( $saved_attributes ) && is_array( $saved_attributes ) && strpos( $all_data, 'attributes:taxonomy' ) !== false ) {
-						foreach ( $data as $key => $value ) {
-							if ( strpos( $key, 'attributes:taxonomy' ) !== 0 || (int) $value !== 0 ) {
-								continue;
-							}
-							$attribute_number = (int) str_replace( 'attributes:taxonomy', '', $key );
-							if ( empty( $data[ 'attributes:value' . $attribute_number ] ) || empty( $data[ 'attributes:name' . $attribute_number ] ) ) {
-								continue;
-							}
-							$attribute_name     = $data[ 'attributes:name' . $attribute_number ];
-							$attribute_name_key = sanitize_title( $attribute_name );
-							if ( ! isset( $saved_attributes[ $attribute_name_key ] ) ) {
-								continue;
-							}
-							$attribute_value = $data[ 'attributes:value' . $attribute_number ];
-							if ( $saved_attributes[ $attribute_name_key ]['value'] !== $attribute_value ) {
-								$modified_attributes[ $attribute_name_key ]['value'] = wp_kses_post( $attribute_value );
-							}
-						}
+					if ( ! empty( $result['skipped'] ) ) {
+						return current( $result['skipped'] );
+					}
+					if ( ! empty( $result['failed'] ) ) {
+						return current( $result['failed'] );
+					}
 
-						if ( $saved_attributes !== $modified_attributes ) {
-							update_post_meta( $data['ID'], '_product_attributes', $modified_attributes );
+					// Resave the custom attribute values because WC removes line breaks
+					// from attribute values and we want to preserve them
+					if ( ! empty( VGSE()->options['allow_line_breaks_export_import'] ) ) {
+						$saved_attributes    = get_post_meta( $data['ID'], '_product_attributes', true );
+						$modified_attributes = $saved_attributes;
+						$all_data            = json_encode( $data );
+						if ( ! empty( $saved_attributes ) && is_array( $saved_attributes ) && strpos( $all_data, 'attributes:taxonomy' ) !== false ) {
+							foreach ( $data as $key => $value ) {
+								if ( strpos( $key, 'attributes:taxonomy' ) !== 0 || (int) $value !== 0 ) {
+									continue;
+								}
+								$attribute_number = (int) str_replace( 'attributes:taxonomy', '', $key );
+								if ( empty( $data[ 'attributes:value' . $attribute_number ] ) || empty( $data[ 'attributes:name' . $attribute_number ] ) ) {
+									continue;
+								}
+								$attribute_name     = $data[ 'attributes:name' . $attribute_number ];
+								$attribute_name_key = sanitize_title( $attribute_name );
+								if ( ! isset( $saved_attributes[ $attribute_name_key ] ) ) {
+									continue;
+								}
+								$attribute_value = $data[ 'attributes:value' . $attribute_number ];
+								if ( $saved_attributes[ $attribute_name_key ]['value'] !== $attribute_value ) {
+									$modified_attributes[ $attribute_name_key ]['value'] = wp_kses_post( $attribute_value );
+								}
+							}
+
+							if ( $saved_attributes !== $modified_attributes ) {
+								update_post_meta( $data['ID'], '_product_attributes', $modified_attributes );
+							}
 						}
 					}
 				}
@@ -775,7 +949,11 @@ if ( ! class_exists( 'WPSE_WC_Products_Universal_Sheet' ) ) {
 
 				$all_exported_keys = array();
 				foreach ( $cleaned_rows as $cleaned_row_index => $cleaned_row ) {
-					$new_data = $exporter->generate_row_data( wc_get_product( $cleaned_row['ID'] ) );
+					$product = wc_get_product( $cleaned_row['ID'] );
+					if ( ! $product ) {
+						throw new Exception( sprintf( __( 'Error: We weren\'t able to export data for product ID %1$d because WooCommerce didn\'t recognize the ID, please make sure this product ID has a valid product type and status. Row: %2$s', 'vg_sheet_editor' ), $cleaned_row['ID'], wp_json_encode( $cleaned_row ) ), E_USER_ERROR );
+					}
+					$new_data = $exporter->generate_row_data( $product );
 					// WPSE core has the ID key, remove duplicate from WC
 					if ( isset( $new_data['id'] ) ) {
 						unset( $new_data['id'] );
@@ -798,6 +976,17 @@ if ( ! class_exists( 'WPSE_WC_Products_Universal_Sheet' ) ) {
 					unset( $column_headers[ $id_index ] );
 				}
 
+				// FIX. For some strange reason, sometimes there are more columns in the WPSE rows than the manually enabled in the export, which caused a fatal error during the array_combine below. Now we standarize the length of both arrays to avoid the fatal error
+				if ( count( $all_exported_keys ) > count( $column_headers ) ) {
+					foreach ( $all_exported_keys as $index => $key ) {
+						if ( ! isset( $column_headers[ $index ] ) ) {
+							$column_headers[ $index ] = $key;
+						}
+					}
+				}
+				if ( count( $column_headers ) > count( $all_exported_keys ) ) {
+					$column_headers = array_slice( $column_headers, 0, count( $all_exported_keys ) );
+				}
 				$GLOBALS['wpse_wc_last_exported_keys'] = array_combine( $all_exported_keys, $column_headers );
 			}
 
@@ -866,7 +1055,6 @@ if ( ! class_exists( 'WPSE_WC_Products_Universal_Sheet' ) ) {
 		public function __get( $name ) {
 			return $this->$name;
 		}
-
 	}
 
 }

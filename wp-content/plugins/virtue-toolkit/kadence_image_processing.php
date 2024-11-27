@@ -74,14 +74,16 @@ if ( ! class_exists( 'Kadence_Image_Processing' ) ) {
 			return $check;
 		}
 		public function process( $id = null, $width = '', $height = '' ) {
-			$sizes = array(array($width, $height));
+			$width = absint( $width );
+			$height = absint( $height );
+			$sizes = array( array( $width, $height ) );
 			$retina = array();
 			if ( apply_filters( 'kadence_retina_support', true ) ) {
-                    $retina_w = $width*2;
-                    $retina_h = $height*2;
-                    $retina = array(array($retina_w,  $retina_h));
-            }
-            $sizes = array_reverse(array_merge($sizes,$retina));
+					$retina_w = $width*2;
+					$retina_h = $height*2;
+					$retina = array(array($retina_w,  $retina_h));
+			}
+			$sizes = array_reverse(array_merge($sizes,$retina));
 			// If we haven't created the image yet, lets do that now.
 			$created = false;
 			foreach ( $sizes as $size ) {

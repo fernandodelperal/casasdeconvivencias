@@ -1,3 +1,342 @@
+##### [Version 3.0.7](https://github.com/Codeinwp/otter-blocks/compare/v3.0.6...v3.0.7) (2024-11-21)
+
+- Enhanced security
+
+##### [Version 3.0.6](https://github.com/Codeinwp/otter-blocks/compare/v3.0.5...v3.0.6) (2024-11-12)
+
+- Fixed issue where spaces couldnt be typed directly in the Form blocks Submit button
+- Updated dependencies
+
+##### [Version 3.0.5](https://github.com/Codeinwp/otter-blocks/compare/v3.0.4...v3.0.5) (2024-10-30)
+
+- Improve strings structure for translation workflow
+- Enhanced security
+- Update internal dependencies
+
+##### [Version 3.0.4](https://github.com/Codeinwp/otter-blocks/compare/v3.0.3...v3.0.4) (2024-10-08)
+
+- Fixed styling that was breaking Otters notice
+- Fixed PHP fatal error appearing in some edge cases
+- Fixed border width and border-radius not working for Button Group block
+- Enhanced security
+- Fixed an issue with the user survey display
+
+##### [Version 3.0.3](https://github.com/Codeinwp/otter-blocks/compare/v3.0.2...v3.0.3) (2024-08-28)
+
+### Bug Fixes
+
+- **Fix WP Compatibility**: Fixed compatibility with versions of WordPress 6.5 or earlier.
+- **Fix Popup Block Recurring Dismission**: Fixed Popup Block not dismissing recurring visitors option.
+
+##### [Version 3.0.2](https://github.com/Codeinwp/otter-blocks/compare/v3.0.1...v3.0.2) (2024-08-19)
+
+### Bug Fixes
+- **Revert Slider Overflow**: Reverts a previous Slider fix that breaks overflow in Section Block.
+
+##### [Version 3.0.1](https://github.com/Codeinwp/otter-blocks/compare/v3.0.0...v3.0.1) (2024-08-19)
+
+### Bug Fixes
+- **Fix items getting cut off in Section Block on Mobile**: Fixes the regression caused by the last release that makes some items hidden in mobile that are children of Section block.
+
+#### [Version 3.0.0](https://github.com/Codeinwp/otter-blocks/compare/v2.6.13...v3.0.0) (2024-08-12)
+
+### New Features
+- **Patterns Library in Otter**: Added a new Patterns Library to Otter, including dozens of new patterns.
+- **Content Timeline Block**: Added a new Content Timeline Block for enhanced content structuring.
+- **New Tiled Layout for Posts Block**: Added a new tiled layout option to the Posts Block, providing more versatility in content presentation.
+- **Additional WooCommerce Conditions in Block Conditions**: Added more WooCommerce conditions to Block Conditions, including Product Category (has/has not), Product Tag, and Product Attribute.
+- **Modal Block in Pro Version**: Introduced a new Modal Block in the Pro version for creating modals.
+- **Mailchimp Merge Fields in Form Block**: Added the ability to link the value of the fields with some types for Mailchimp Merge Fields in the Form Block.
+- **Responsive Controls for Column Width in Section Block**: Enabled responsive controls for column width in the Section Block.
+- **Custom Text for Button in WooCommerce Add to Cart Block**: Allowed using custom text for buttons in the WooCommerce Add to Cart Block.
+- **Search Within Categories for Posts in Live Search Extension**: Enabled searching within categories for posts in the Live Search extension.
+- **Image Ratio Settings for Posts Block**: Improved the handling of images in the Posts Block with the addition of new Image Ratio settings, allowing for better control over image presentation.
+
+### Improvements
+- **OpenAI API Validation Key**: Added a validation key step in the settings for the OpenAI API.
+- **Visual Improvements to AI Block Variation Picker**: Enhanced the visual appearance and user interface of the AI Block Variation picker for a smoother user experience.
+- **Changes to Default Settings for Posts Block**: Updated the default settings for the Posts Block to optimize performance and ease of use.
+- **Dynamic Data Feature in Block Toolbar**: Relocated the Dynamic Data feature to the Block Toolbar for easier access and streamlined workflow.
+- **Increase Height for Popup in Editor on Auto Mode**: Increased the height for the popup in the editor when in auto mode.
+- **Block Tools Display by Default**: Changed Block tools settings to show them by default.
+- **Improved Error Messages in Form Block**: Enhanced error messages when the tester is an admin in the Form Block.
+- **Twitter Icon to X in Sharing Block**: Updated the Twitter icon to X in the Sharing Block.
+- **Disable Content AI Actions in Sidebar**: Added a setting in the dashboard to disable Content AI actions from the sidebar.
+- **ESC Key to Close Popup Block**: Added the option to close popups using the ESC key in the Popup Block.
+- **Various Quality of Life Improvements**: Ongoing enhancements to improve overall user experience.
+
+### Bug Fixes
+- **Removal of Copy/Paste Styles Feature**: Removed the Copy/Paste Styles feature to simplify the user interface and reduce potential conflicts.
+- **Padding Fix in Advanced Heading Block**: Fixed the issue where padding was not working correctly on mobile in the Advanced Heading block.
+- **Slider Width in Section Column**: Fixed the issue where the slider inside a section column was ignoring the width setting.
+- **Fix Blocks Using Empty ID**: Corrected the issue where blocks could use an empty ID.
+- **Blocks Not Working as Widgets**: Resolved the problem where blocks were not working properly when used as widgets.
+- **Replace Option in AI Block**: Fixed the issue where the replace option in the AI block was not working.
+- **Tabs and Accordion Block Scrolling**: Fixed the issue in the Tabs and Accordion Block where it was scrolling when the content exceeded one screen, adding a jump effect.
+- **Section Block Margin and Padding Inheritance**: Fixed the default inheritance for margin and padding in the Section Block.
+- **Flip Card Image Background Size**: Corrected the issue where the flip card image background size wasnt working on the frontend.
+
+##### [Version 2.6.13](https://github.com/Codeinwp/otter-blocks/compare/v2.6.12...v2.6.13) (2024-07-17)
+
+- Fixed Button Group block - Appearance, Letter case, and Line height options are now working
+- Fixed issue where some characters were not supported in the category of the posts block
+- Fixed typo on the default label of the consent checkbox
+
+##### [Version 2.6.12](https://github.com/Codeinwp/otter-blocks/compare/v2.6.11...v2.6.12) (2024-05-02)
+
+- Enhanced security
+
+##### [Version 2.6.11](https://github.com/Codeinwp/otter-blocks/compare/v2.6.10...v2.6.11) (2024-04-26)
+
+- Fixed issue of HTML code appearing on the front-end by allowing partial HTML tag rendering for Multiple Choice Label
+- Fix fatal crash in Block Conditions when rendering condition is set to false 
+- Fixed issue with multiple instances of Pattern Upsell appearing on the same page
+- Updated internal dependencies
+
+##### [Version 2.6.10](https://github.com/Codeinwp/otter-blocks/compare/v2.6.9...v2.6.10) (2024-04-16)
+
+### Fixes
+- **Updated internal dependencies:​** Enhanced performance and security.
+
+##### [Version 2.6.9](https://github.com/Codeinwp/otter-blocks/compare/v2.6.8...v2.6.9) (2024-04-10)
+
+### Improvements
+**Updated internal dependencies​:** for enhanced performance and security
+
+##### [Version 2.6.8](https://github.com/Codeinwp/otter-blocks/compare/v2.6.7...v2.6.8) (2024-04-05)
+
+### Improvements
+**Updated internal dependencies​:** for enhanced performance and stability.
+
+##### [Version 2.6.7](https://github.com/Codeinwp/otter-blocks/compare/v2.6.6...v2.6.7) (2024-04-03)
+
+### Improvements
+- **Updated internal dependencies**: for enhanced performance and stability.
+
+##### [Version 2.6.6](https://github.com/Codeinwp/otter-blocks/compare/v2.6.5...v2.6.6) (2024-03-27)
+
+### Bug Fixes
+- **Harden Security in SSR Blocks**: Improve SSR block sanitization to protect against security vulnerabilities.
+### Bug Fixes
+- **Harden Security in SSR Blocks**: Improve SSR block sanitization to protect against security vulnerabilities.
+
+##### [Version 2.6.5](https://github.com/Codeinwp/otter-blocks/compare/v2.6.4...v2.6.5) (2024-03-13)
+
+### Bug Fixes
+
+- **Fix NPS Survey**: Fixed survey appearing instantly when theme installed programmatically.
+- **Fix Google Maps Block ID Escaping**: Fixes ID of Google Maps block not being escaped properly.
+
+##### [Version 2.6.4](https://github.com/Codeinwp/otter-blocks/compare/v2.6.3...v2.6.4) (2024-02-26)
+
+### Improvements
+- **Improved Re-Loading Behaviour Between FSE Onboarding Steps**: Enhances the user experience by streamlining transitions and re-loading behavior between steps in the Full Site Editing (FSE) onboarding process.
+
+### Bug Fixes
+- **Resolves Compatibility Issue with Blocks on WordPress.com**: Fixes a critical issue to ensure the plugin now works seamlessly on WordPress.com.
+- **Hardens Security in Form Block**: Enhances sanitization of SVG files uploaded through the Form Block to protect against security vulnerabilities.
+- **Hardens Security in Pro Form Blocks**: Improves sanitization processes in Pro Form Blocks to bolster security measures.
+
+##### [Version 2.6.3](https://github.com/Codeinwp/otter-blocks/compare/v2.6.2...v2.6.3) (2024-02-14)
+
+### Improvements
+
+- **Blocks CSS Module Performance**: Enhanced the performance of the Blocks CSS module.
+- **New Hook Introduced**: Introduced the otter_blocks_posts_author hook for extending functionality.
+
+### Bug Fixes
+
+- **Maps Rendering in Tabs Block**: Corrected the issue where maps were not being rendered inside the Tabs block.
+- **Console Errors Due to Older React Methods**: Fixed console errors that were caused by the use of outdated React methods.
+
+##### [Version 2.6.2](https://github.com/Codeinwp/otter-blocks/compare/v2.6.1...v2.6.2) (2023-12-26)
+
+### Bug Fixes
+- **Fixes form submit button issue**: Fixes an issue when the form submit button accepts line-breaks in the editor.
+- **Fixes animation trigger for large elements**: Fixes an issue where animation does not trigger for large elements on the screen.
+
+##### [Version 2.6.1](https://github.com/Codeinwp/otter-blocks/compare/v2.6.0...v2.6.1) (2023-12-19)
+
+### Bug Fixes
+- **Fixes infinite redirect loop**: Fixes an issue where activating Raft leads to an infinite loop.
+- **Fixes third-party style conflicts**: Fixes CSS messing up styles of some third-party plugins.
+- **Fixes Woo products conditions not working**: Fixes Woo conditions in the Block Conditions module not working correctly.
+
+#### [Version 2.6.0](https://github.com/Codeinwp/otter-blocks/compare/v2.5.2...v2.6.0) (2023-12-18)
+
+### New Features
+- **New Onboarding Wizard for Raft Theme**: Introduced a New Onboarding Wizard to enhance the setup experience for the Raft theme.
+
+### Bug Fixes
+- **Button Group Error on Nofollow Disable**: Resolved an issue where disabling Add Nofollow and refreshing the page caused errors in the Button group.
+- **Block Conditions PHP Array Issue**: Fixed a problem where block conditions were throwing a PHP array error.
+- **Styling Loss in Widgets Area with Elementor**: Addressed the issue where blocks added in the widgets area lost styling when Elementor was activated.
+- **Slider Images in Neves Header Not Rendering**: Fixed a bug where slider images were not being rendered if added in Neves header.
+
+##### [Version 2.5.2](https://github.com/Codeinwp/otter-blocks/compare/v2.5.1...v2.5.2) (2023-11-22)
+
+### Bug Fixes
+- **Fixes Performance Issue**: Fixes an issue with Otter making repeated calls to Rest API and slowing down the editor.
+
+##### [Version 2.5.1](https://github.com/Codeinwp/otter-blocks/compare/v2.5.0...v2.5.1) (2023-11-18)
+
+### Bug Fixes
+- **Fixes Posts Block Query**: Fixed Posts Block category selection not working.
+- **Fixes Blocks Animation**: Fixed Blocks Animation module not working as a standalone plugin.
+
+#### [Version 2.5.0](https://github.com/Codeinwp/otter-blocks/compare/v2.4.1...v2.5.0) (2023-11-16)
+
+### New Features
+- **AI Patterns Layout Generator**: Introducing a new AI-driven utility for designing layouts with Otter Patterns.
+- **Block Management Page**: A new centralized page to manage all Otter blocks visibility.
+- **Pagination in Posts Block**: Adds pagination functionality for better navigation.
+- **Enhanced Block Animations**: Customizable delay/speed, animation offset, and hover controls for dynamic block animations.
+- **Export Option in Form Submission**: Facilitates exporting form submissions to CSV for easier data management.
+- **New Block Visibility Conditions**: Option to hide blocks depending on the device used.
+
+### Improvements
+- **Form Marketing Enhancements**: Improved Marketing Action explanations and email field detection.
+- **Advanced Heading Enhancements**: New Bottom Margin option added to the Advanced Heading block.
+
+### Bug Fixes
+- **Fix Maps Block Compatibility with Neve**: Resolved integration issues with Neve.
+- **Fix Live Search Styling**: Corrected CSS calculation problems in Live Search Popup.
+- **Fix RankMath Compatibility**: Addressed a recent regression affecting Otters functionality with RankMath.
+- **Fix Form Generating Error**: Removed outdated base64 checks in Form File validation.
+- **Fix Count Animation Settings**: Adjusted delay and speed settings for consistent Count Animation performance.
+
+##### [Version 2.4.1](https://github.com/Codeinwp/otter-blocks/compare/v2.4.0...v2.4.1) (2023-10-25)
+
+### New Features
+- **Live Search Extension Asset Loading**: Now allows you to load assets required for live search with a hook.
+- **Rank Math Compatibility**: Added support for Rank Maths internal links detection in Posts Block.
+
+### Improvements
+- **Enhancement for Tabs Block**: Makes it easier to switch between tabs in the editor.
+- **Decrease Delay in Dashboard Options**: This PR decreases the delay in enabling/disabling dashboard options.
+- **State Consistency for Dashboard Buttons**: Improved the state consistency of buttons in the Dashboard.
+- **Typography Control Enhancements**: Made enhancements to typography controls for better user experience.
+- **Black Friday Preparations**: Getting set for upcoming Black Friday updates.
+
+### Bug Fixes
+- **Widget Assets**: Fixed the issue where assets for widgets appeared even in pages where the asset doesn’t exist.
+- **Typing Animation Cursor Color**: Addressed the issue with the typing animation cursor color not being correct.
+- **Build Files Placement**: Resolved the problem of build files being added to unnecessary places.
+
+#### [Version 2.4.0](https://github.com/Codeinwp/otter-blocks/compare/v2.3.4...v2.4.0) (2023-09-21)
+
+- Introducing Otter AI Block With Form AI & Content AI Support
+- Added Webhooks Integration to Form Block
+- Added Hidden Field to Form Block
+- Circle Counter Block Enhancements
+- Adding RequestAnimationFrame() to Scroll Sniffing for Better Performance
+- Added Stripe Field to Form Block
+- Add Link Target Setting in Product Review Block
+- Fix Slider Block Image Arrangement Behaving Weirdly
+- Fix CSS Not Generating When Switching to FSE Theme
+- Fix Visual Issues in Section’s Background & Overlay Controls
+- Fix Box Shadow Not Changing on Section Columns
+- Fix Block Settings Panel Being Visible for Non-Admins
+- Fix Form Block Not Saving Changes in FSE Templates
+- Fix Multiple Otter Notices Appearing at Once
+- Various Small Fixes
+
+##### [Version 2.3.4](https://github.com/Codeinwp/otter-blocks/compare/v2.3.3...v2.3.4) (2023-08-23)
+
+- Fix z-index with Shape Divider in Section
+- Fix Tabs Block Resetting Editor Sidebar When Changing Viewport
+- Fix Fatal Error in Form Submission Page in Certain Cases If Viewed as Super Admin
+- Fix Progress Bar Height for Mobile Devices
+- Fix Stripe Block Not Working Correctly in WP 5.9
+- Fix Form Submit Messages Not Working
+
+##### [Version 2.3.3](https://github.com/Codeinwp/otter-blocks/compare/v2.3.2...v2.3.3) (2023-08-11)
+
+- WordPress 6.3 Compatibility
+
+##### [Version 2.3.2](https://github.com/Codeinwp/otter-blocks/compare/v2.3.1...v2.3.2) (2023-07-17)
+
+- Added Autoresponder to Stripe Block
+- Adding Alternative Style to Review Block
+- Improvements to Dynamic Value Module
+- Fix Form Redirection Not Working Correctly
+- Fix Bow Shadow Not Visible in the Editor
+
+##### [Version 2.3.1](https://github.com/Codeinwp/otter-blocks/compare/v2.3.0...v2.3.1) (2023-06-20)
+
+- Added Option to Allow Block Tools to Be Enabled by Default
+- Improvements for Social Sharing Block
+- Improvements to Posts Block’s Handling of WooCommerce Products
+- Fix Dynamic Tags Not Working with Neve Pro Custom Layouts
+- Fix Wrong Defaults in Form
+- Fix Form Submissions Not Saving to Database If SMTP Fails
+- Fix the Option to save Google Fonts Locally Not Working
+- Fix Form Option Not Saving
+- Fix Illegal String Offset on Minimal Version Check
+- Fix the Issue with Otter Menu Pointing to the Old URL
+- Fix Form Submission Email Being Used as Post Title of Form Submissions
+
+#### [Version 2.3.0](https://github.com/Codeinwp/otter-blocks/compare/v2.2.7...v2.3.0) (2023-05-25)
+
+- Add Custom Taxonomy Support to Dynamic Values
+- Add More New Fields to Form Block
+- Add Option to Store Form Block Emails to WordPress Dashboard
+- Add Api Field in Stripe Block
+- Add Support for HTML in Stripe Block Messages
+- Add CDN Links in Patterns
+- Various Form Block Enhancements
+- Bump Minimum PHP Compatibility to 5.6
+- Fix Dynamic Tags Not Working in Widgets
+- Fix Review Comparison Table Not Taking Reusable Review Blocks into Consideration
+- Fix Unused Assets Being Loaded When a Block Is Removed from Widgets
+- Fix Custom CSS Module Not Working with FSE
+- Fix Accordion Block Schema Conflicts with Neve PRO Performance Module and Lazy-loading Off-screen Elements
+
+##### [Version 2.2.7](https://github.com/Codeinwp/otter-blocks/compare/v2.2.6...v2.2.7) (2023-05-08)
+
+- Add Width Option to Form Block
+- Improve Stripe Block Error Handling
+- Fix the Issue with SVG Logos Not Being Able to Get Picked Logo
+- Fix Background Color Detection
+- Fix Shape Divider Covering Section Block
+- Fix Accordion Block Schema Not Being Removed
+
+##### [Version 2.2.6](https://github.com/Codeinwp/otter-blocks/compare/v2.2.5...v2.2.6) (2023-04-26)
+
+- Hardening Dynamic Content security
+
+##### [Version 2.2.5](https://github.com/Codeinwp/otter-blocks/compare/v2.2.4...v2.2.5) (2023-04-21)
+
+- Fixes a bug with the new WP release causing blocks to crash during transformation
+
+##### [Version 2.2.4](https://github.com/Codeinwp/otter-blocks/compare/v2.2.3...v2.2.4) (2023-03-30)
+
+- Add Preview for Dynamic Data in the Popover Control
+- Add New Patterns & Templates
+- Add New Closing/Opening Anchor Actions in Popup
+- Add Autoresponder Option to Form Block
+- WordPress 6.2 Compatibility Testing & Fixes
+- Fix CSS Class Not Being Removed If Custom CSS Is Empty
+- Fix Custom CSS Not Reflected on Front-end When Used with FSE
+- Fix Block Styles Not Loading with Custom Layouts
+- Fix WooCommerce Blocks Not Working with the Latest Version of Woo
+
+##### [Version 2.2.3](https://github.com/Codeinwp/otter-blocks/compare/v2.2.2...v2.2.3) (2023-03-06)
+
+- Button Group Block Enhancements
+- Tabs Block Enhancements
+- Add Better Onboarding & Placeholders for Content Blocks
+- Add Unlinked Margin Option for the Icon Block
+- Add Live Font Preview in Font Picker
+- Add In-build Spam Protection in Form Block
+- Fix i18n Compatibilities
+- Fix Mailchimp Integration in Form Not Getting All Lists
+- Fix the Issue with the Line Heading in Advanced Heading
+- Fix Issue with Block ID Duplicating When Duplicating Block
+- Fix the Wrong Author in Review Block Schema in Certain Cases
+- Fix Weird Behaviour When Removing CSS Class in CSS Extension
+- Fix Block CSS Not Loading for Dynamic Content
+
 ##### [Version 2.2.2](https://github.com/Codeinwp/otter-blocks/compare/v2.2.1...v2.2.2) (2023-02-06)
 
 - Fix Social Sharing Links When Used with FSE

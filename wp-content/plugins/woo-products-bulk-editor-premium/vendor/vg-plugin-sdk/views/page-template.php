@@ -8,7 +8,7 @@ if (empty($page_id)) {
 	$page_id = 'vg-plugin-sdk-page';
 }
 ?>
-<div class="vg-plugin-sdk-page" style="margin-top: 20px;" id="<?php echo esc_attr($this->settings['plugin_prefix'] . $page_id); ?>" data-nonce="<?php echo $nonce; ?>">
+<div class="vg-plugin-sdk-page" style="margin-top: 20px;" id="<?php echo esc_attr($this->settings['plugin_prefix'] . $page_id); ?>" data-nonce="<?php echo esc_attr($nonce); ?>">
 	<div class="">
 		<h2 class="hidden"><?php echo esc_html($this->settings['plugin_name']); ?></h2>
 
@@ -38,7 +38,7 @@ if (empty($page_id)) {
 			<div class="clear"></div>
 			<hr>
 			<?php echo $upgrade_message; ?>
-			<a href="<?php echo esc_url($this->settings['buy_link']); ?>" class="button button-primary button-large" style="margin-bottom: 20px; display: inline-block;"> <?php echo esc_html($this->settings['buy_link_text']); ?> </a>
+			<a href="<?php echo esc_url($this->settings['buy_link']); ?>" class="button button-primary button-large" style="margin-bottom: 20px; display: inline-block;"> <?php echo esc_url($this->settings['buy_link_text']); ?> </a>
 		<?php } ?>
 
 	</div>

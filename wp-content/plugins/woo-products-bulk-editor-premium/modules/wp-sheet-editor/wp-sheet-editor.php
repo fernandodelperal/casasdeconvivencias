@@ -32,32 +32,45 @@ if ( ! class_exists( 'WP_Sheet_Editor' ) ) {
 	class WP_Sheet_Editor {
 
 		private $post_type;
-		public $version          = '2.25.1';
-		public $textname         = 'vg_sheet_editor';
-		var $options_key         = 'vg_sheet_editor';
-		public $plugin_url       = null;
-		var $logo_url            = null;
-		public $plugin_dir       = null;
-		var $options             = null;
-		var $data_helpers        = null;
+		public $version     = '2.25.15';
+		public $textname    = 'vg_sheet_editor';
+		public $options_key = 'vg_sheet_editor';
+		public $plugin_url  = null;
+		public $logo_url    = null;
+		public $plugin_dir  = null;
+		public $options     = null;
+		/**
+		 * @var WP_Sheet_Editor_Data
+		 */
+		public $data_helpers = null;
 		/**
 		 * @var WP_Sheet_Editor_Helpers
 		 */
-		var $helpers             = null;
-		var $registered_columns  = null;
-		var $toolbar             = null;
-		var $columns             = null;
-		var $support_links       = array();
-		var $extensions          = array();
-		var $bundles             = array();
-		public $buy_link         = null;
-		private static $instance = null;
-		var $current_provider    = null;
-		var $editors             = array();
-		var $user_path           = array();
-		// When we execute ajax calls, we always store the deleted post IDs and return this field,
-		// so the JS can remove the rows from the sheet
-		var $deleted_rows_ids = array();
+		public $helpers            = null;
+		public $registered_columns = null;
+		public $toolbar            = null;
+		public $columns            = null;
+		public $WC                 = null;
+		public $support_links      = array();
+		public $extensions         = array();
+		public $bundles            = array();
+		public $buy_link           = null;
+		private static $instance   = null;
+		public $current_provider   = null;
+		/**
+		 * Registered editors instances grouped by provider key
+		 * I.e. all the editors that use the "post" provider, would appear as enabled_post_types in the "post" WP_Sheet_Editor_Factory instance
+		 *
+		 * @var WP_Sheet_Editor_Factory[]
+		 */
+		public $editors   = array();
+		public $user_path = array();
+		/**
+		 * When we execute ajax calls, we always store the deleted post IDs and return this field, so the JS can remove the rows from the sheet
+		 *
+		 * @var int[]
+		 */
+		public $deleted_rows_ids = array();
 
 		/**
 		 * Creates or returns an instance of this class.
@@ -84,7 +97,7 @@ if ( ! class_exists( 'WP_Sheet_Editor' ) ) {
 		}
 
 		public static function allow_to_initialize() {
-			if ( ! is_admin() && ! wp_doing_cron() && ! apply_filters( 'vg_sheet_editor/allowed_on_frontend', false ) ) {
+			if ( ! is_admin() && ! ( defined( 'WP_CLI' ) && WP_CLI ) && ! wp_doing_cron() && ! apply_filters( 'vg_sheet_editor/allowed_on_frontend', false ) ) {
 				return false;
 			}
 			return true;
@@ -99,6 +112,11 @@ if ( ! class_exists( 'WP_Sheet_Editor' ) ) {
 			// Exit if frontend and it\'s not allowed
 			if ( ! self::allow_to_initialize() ) {
 				return;
+			}
+
+			// This key is used for the file names created by our plugin for extra security
+			if ( ! get_option( 'vgse_secret_key' ) ) {
+				update_option( 'vgse_secret_key', md5( wp_generate_uuid4() ), false );
 			}
 
 			// Disable WC's marketplace ads
@@ -134,10 +152,10 @@ if ( ! class_exists( 'WP_Sheet_Editor' ) ) {
 				'be_post_types'              => array(
 					'post',
 				),
-				'be_posts_per_page'          => 20,
+				'be_posts_per_page'          => 40,
 				'be_load_items_on_scroll'    => 1,
 				'be_fix_columns_left'        => 2,
-				'be_posts_per_page_save'     => 4,
+				'be_posts_per_page_save'     => 8,
 				'be_timeout_between_batches' => 6,
 				'be_disable_post_actions'    => 0,
 			);
@@ -152,13 +170,7 @@ if ( ! class_exists( 'WP_Sheet_Editor' ) ) {
 
 			do_action( 'vg_sheet_editor/initialized' );
 
-			$post_type = $options['be_post_types'];
-			if ( is_array( $post_type ) && ! empty( $post_type ) && function_exists( 'wpsewcp_freemius' ) && wpsewcp_freemius()->can_use_premium_code__premium_only() ) {
-				$products_index = array_search( 'product', $post_type );
-				if ( $products_index !== false && isset( $post_type[ $products_index ] ) ) {
-					unset( $post_type[ $products_index ] );
-				}
-			}
+			$post_type       = $options['be_post_types'];
 			$this->post_type = $post_type;
 
 			$this->plugin_url = plugins_url( '/', __FILE__ );
@@ -272,7 +284,7 @@ if ( ! class_exists( 'WP_Sheet_Editor' ) ) {
 						'bundle'                => false,
 						'class_function_name'   => 'VGSE_WC_ORDERS_IS_PREMIUM',
 						'wp_org_slug'           => '',
-						'post_types'            => array( 'shop_order' ),
+						'post_types'            => array( 'shop_order', $GLOBALS['wpdb']->prefix . 'wc_orders', 'shop_subscription' ),
 						'extension_id'          => 79,
 					),
 					'comments'            => array(
@@ -331,6 +343,20 @@ if ( ! class_exists( 'WP_Sheet_Editor' ) ) {
 						'wp_org_slug'           => 'bulk-edit-events',
 						'post_types'            => array( 'tribe_events', 'tribe_organizer', 'tribe_venue' ),
 						'extension_id'          => 22,
+					),
+					'give'                => array(
+						'title'                 => __( 'Give Spreadsheet', 'vg_sheet_editor' ),
+						'icon'                  => 'fa-gift',
+						'image'                 => '',
+						'description'           => __( '<p>This includes spreadsheets to manage Donation Forms, Donations, and Donors. You can bulk edit, export, import, and quickly manage your donations website created with GiveWP</p>', 'vg_sheet_editor' ), // incluir <p>
+						'inactive_action_url'   => 'https://wpsheeteditor.com/extensions/givewp-donations-spreadsheet/?utm_source=wp-admin&utm_medium=extensions-list&utm_campaign=givewp',
+						'inactive_action_label' => __( 'Buy', 'vg_sheet_editor' ),
+						'freemius_function'     => 'wpsegwf_fs',
+						'bundle'                => false,
+						'class_function_name'   => 'VGSE_GIVEWP_IS_PREMIUM',
+						'wp_org_slug'           => '',
+						'post_types'            => array( 'give_forms', 'give_payment', $GLOBALS['wpdb']->prefix . 'give_donors' ),
+						'extension_id'          => 129,
 					),
 					'frontend_editor'     => array(
 						'title'                 => __( 'Display the spreadsheet editor in the frontend', 'vg_sheet_editor' ),
@@ -604,7 +630,9 @@ if ( ! class_exists( 'WP_Sheet_Editor' ) ) {
 			add_filter( 'wp_kses_allowed_html', array( $this, 'allow_iframes_in_html' ), 10, 2 );
 
 			VGSE()->options['be_allowed_user_roles'] = ( empty( VGSE()->options['be_allowed_user_roles'] ) || ! is_array( VGSE()->options['be_allowed_user_roles'] ) ) ? array() : array_filter( VGSE()->options['be_allowed_user_roles'] );
-			if ( ! empty( VGSE()->options['be_allowed_user_roles'] ) ) {
+
+			// Don't apply the role restrictions if the user can install plugins
+			if ( ! empty( VGSE()->options['be_allowed_user_roles'] ) && ! current_user_can( 'install_plugins' ) ) {
 				if ( ! is_user_logged_in() ) {
 					add_filter( 'vg_sheet_editor/use_rest_api_only', '__return_true' );
 				} else {
@@ -629,6 +657,9 @@ if ( ! class_exists( 'WP_Sheet_Editor' ) ) {
 
 			do_action( 'vg_sheet_editor/after_init' );
 
+			// Register the settings page options
+			WPSE_Options_Page_Obj()->getSections();
+
 			// clear internal caches
 			add_action( 'created_term', array( $this, 'clear_cache_after_term_created' ), 10, 3 );
 			add_filter( 'wp_update_term_data', array( $this, 'clear_cache_after_term_edited' ), 10, 4 );
@@ -636,6 +667,23 @@ if ( ! class_exists( 'WP_Sheet_Editor' ) ) {
 			add_action( 'user_register', array( $this, 'clear_cache_after_user_created' ), 10, 1 );
 			add_action( 'vg_sheet_editor/on_uninstall', array( $this, 'on_uninstall' ) );
 			add_action( 'admin_page_access_denied', array( $this, 'catch_license_page_error' ) );
+			$this->maybe_auto_enable_sheet();
+		}
+
+		function maybe_auto_enable_sheet() {
+			if ( empty( $_GET['wpse_auto_enable_sheet'] ) || ! is_admin() || ! VGSE()->helpers->user_can_manage_options() || ! VGSE()->helpers->is_editor_page() || ! VGSE()->helpers->verify_nonce_from_request( '_wpnonce' ) ) {
+				return;
+			}
+
+			$post_types        = VGSE()->get_option( 'be_post_types' );
+			$current_sheet_key = VGSE()->helpers->get_provider_from_query_string( false );
+			if ( $current_sheet_key && ! in_array( $current_sheet_key, $post_types, true ) ) {
+				$post_types[] = $current_sheet_key;
+				VGSE()->update_option( 'be_post_types', $post_types );
+				$redirect_to = esc_url_raw( remove_query_arg( array( '_wpnonce', 'wpse_auto_enable_sheet' ) ) );
+				wp_safe_redirect( $redirect_to );
+				exit();
+			}
 		}
 
 		function catch_license_page_error() {
@@ -665,8 +713,18 @@ if ( ! class_exists( 'WP_Sheet_Editor' ) ) {
 
 		function get_option( $key, $default = null ) {
 			$out = null;
+			if ( empty( $this->options ) ) {
+				$this->options = get_option( $this->options_key );
+			}
 			if ( isset( $this->options[ $key ] ) ) {
 				$out = $this->options[ $key ];
+			}
+
+			if ( empty( $out ) && is_object( VGSE()->helpers ) && empty( $default ) && ! empty( WPSE_Options_Page_Obj()->sections ) ) {
+				$registered_settings = WP_Sheet_Editor_Ajax_Obj()->get_registered_settings();
+				if ( isset( $registered_settings[ $key ] ) && ! empty( $registered_settings[ $key ]['default'] ) ) {
+					$default = $registered_settings[ $key ]['default'];
+				}
 			}
 
 			if ( ! is_null( $default ) && empty( $out ) ) {
@@ -683,7 +741,7 @@ if ( ! class_exists( 'WP_Sheet_Editor' ) ) {
 			// If this field is not registered, automatically sanitize as text field
 			if ( empty( $new_options ) ) {
 				$new_options = array(
-					sanitize_text_field($key) => sanitize_text_field($value),
+					sanitize_text_field( $key ) => sanitize_text_field( $value ),
 				);
 			}
 			$existing_options = get_option( $this->options_key );
@@ -776,6 +834,7 @@ if ( ! class_exists( 'WP_Sheet_Editor' ) ) {
 				'vgse_welcome_redirect',
 				'vgse_favorite_search_fields',
 				'vgse_saved_searches',
+				'vgse_json_fields',
 			);
 			// We no longer remove the key vg_sheet_editor because it
 			// caused issues when using the frontend sheet, the enabled post types
@@ -1111,7 +1170,10 @@ if ( ! class_exists( 'WP_Sheet_Editor' ) ) {
 				add_submenu_page( 'vg_sheet_editor_setup', __( 'Extensions', 'vg_sheet_editor' ), __( 'Extensions', 'vg_sheet_editor' ), 'manage_options', 'vg_sheet_editor_extensions', array( $this, 'render_extensions_page' ) );
 			}
 
-			add_submenu_page( null, __( 'Sheet Editor', 'vg_sheet_editor' ), __( 'Sheet Editor', 'vg_sheet_editor' ), 'manage_options', 'vg_sheet_editor_whats_new', array( $this, 'render_whats_new_page' ) );
+			// Add the whats_new page only when we need to see the page
+			if ( strpos( $_SERVER['REQUEST_URI'], 'vg_sheet_editor_whats_new' ) !== false ) {
+				add_submenu_page( null, __( 'Sheet Editor', 'vg_sheet_editor' ), __( 'Sheet Editor', 'vg_sheet_editor' ), 'manage_options', 'vg_sheet_editor_whats_new', array( $this, 'render_whats_new_page' ) );
+			}
 		}
 
 		/**
@@ -1165,45 +1227,6 @@ if ( ! class_exists( 'WP_Sheet_Editor' ) ) {
 			$this->_register_scripts( $current_post );
 		}
 
-		function _register_scripts_lite( $current_post ) {
-			$spreadsheet_columns = VGSE()->helpers->get_provider_columns( $current_post );
-
-			if ( VGSE_DEBUG ) {
-				wp_enqueue_script( 'notifications_js', VGSE()->plugin_url . 'assets/vendor/oh-snap/ohsnap.js', array( 'jquery' ), '0.1', false );
-				wp_enqueue_script( 'bep_global', VGSE()->plugin_url . 'assets/js/global.js', array(), '0.1', false );
-			} else {
-				wp_enqueue_script( 'bep_libraries_js', VGSE()->plugin_url . 'assets/vendor/js/libraries.min.js', array(), VGSE()->version, false );
-				wp_enqueue_script( 'bep_global', VGSE()->plugin_url . 'assets/js/scripts.min.js', array( 'bep_libraries_js' ), VGSE()->version, false );
-			}
-
-			wp_localize_script(
-				'bep_global',
-				'vgse_editor_settings',
-				apply_filters(
-					'vg_sheet_editor/js_data',
-					array(
-						'startRows'            => ( ! empty( VGSE()->options ) && ! empty( VGSE()->options['be_posts_per_page'] ) ) ? (int) VGSE()->options['be_posts_per_page'] : 20,
-						'startCols'            => isset( $spreadsheet_columns ) ? count( $spreadsheet_columns ) : 0,
-						'total_posts'          => VGSE()->data_helpers->total_posts( $current_post ),
-						'posts_per_page'       => ( ! empty( VGSE()->options ) && ! empty( VGSE()->options['be_posts_per_page'] ) ) ? (int) VGSE()->options['be_posts_per_page'] : 20,
-						'save_posts_per_page'  => ( ! empty( VGSE()->options ) && ! empty( VGSE()->options['be_posts_per_page_save'] ) ) ? (int) VGSE()->options['be_posts_per_page_save'] : 4,
-						'texts'                => array(),
-						'wait_between_batches' => ( ! empty( VGSE()->options ) && ! empty( VGSE()->options['be_timeout_between_batches'] ) ) ? (int) VGSE()->options['be_timeout_between_batches'] : 6,
-						'watch_cells_to_lock'  => false,
-					),
-					$current_post
-				)
-			);
-
-			if ( VGSE_DEBUG ) {
-				wp_enqueue_style( 'wpse-fontawesome', VGSE()->plugin_url . 'assets/vendor/font-awesome/css/font-awesome.min.css', '', '0.1', 'all' );
-				wp_enqueue_style( 'wp-sheet-editor-main-css', VGSE()->plugin_url . 'assets/css/style.css', '', '0.1', 'all' );
-			} else {
-				wp_enqueue_style( 'wp-sheet-editor-libraries-css', VGSE()->plugin_url . 'assets/vendor/css/libraries.min.css', '', VGSE()->version, 'all' );
-				wp_enqueue_style( 'wp-sheet-editor-main-css', VGSE()->plugin_url . 'assets/css/styles.min.css', '', VGSE()->version, 'all' );
-			}
-		}
-
 		function _register_scripts( $current_post = null ) {
 
 			wp_add_inline_script( 'jquery-core', 'window.$ = jQuery;' );
@@ -1234,6 +1257,16 @@ if ( ! class_exists( 'WP_Sheet_Editor' ) ) {
 				wp_enqueue_script( 'bep_init_js', $this->plugin_url . 'assets/js/scripts' . $min_extension . '.js', array( 'bep_libraries_js' ), $this->version, false );
 				$localize_handle = 'bep_init_js';
 			}
+			wp_localize_script(
+				$localize_handle,
+				'vgse_global_data',
+				apply_filters(
+					'vg_sheet_editor/global_js_data',
+					array(
+						'ajax_url' => admin_url( 'admin-ajax.php' ),
+					)
+				)
+			);
 			do_action( 'vg_sheet_editor/after_enqueue_assets' );
 		}
 
@@ -1260,12 +1293,15 @@ if ( ! class_exists( 'WP_Sheet_Editor' ) ) {
 			return esc_url( add_query_arg( 'vgseup_t', $id, $url ) );
 		}
 
-		function get_buy_link( $id = '', $url = null, $append_page_slug = false, $post_type = null ) {
+		function get_buy_link( $id = '', $url = null, $append_page_slug = false, $post_type = '' ) {
 			if ( ! $url ) {
 				$url = $this->buy_link;
 			}
 			if ( ! $post_type ) {
 				$post_type = VGSE()->helpers->get_provider_from_query_string( false );
+			}
+			if ( ! $post_type ) {
+				$post_type = '';
 			}
 			$extension = VGSE()->helpers->get_extension_by_post_type( $post_type );
 			if ( $extension && ! empty( $extension['inactive_action_url'] ) ) {
@@ -1387,6 +1423,11 @@ if ( ! class_exists( 'WP_Sheet_Editor' ) ) {
 
 if ( ! function_exists( 'VGSE' ) ) {
 
+	/**
+	 * Main WP Sheet Editor object
+	 *
+	 * @return WP_Sheet_Editor
+	 */
 	function VGSE() {
 		return WP_Sheet_Editor::get_instance();
 	}
@@ -1395,27 +1436,64 @@ if ( ! function_exists( 'VGSE' ) ) {
 		VGSE()->init();
 	}
 
-	if ( is_admin() || wp_doing_cron() ) {
+	if ( is_admin() || wp_doing_cron() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
 		add_action( 'wp_loaded', 'vgse_init', 999 );
 	} else {
-		add_action( 'wp', 'vgse_init', 999 );
+		// Priority 9 because the Google Sheets Sync needs the WPSE core to initialize before the front end forms save their submissions to be able to detect the changes and sync
+		add_action( 'wp', 'vgse_init', 9 );
 	}
 }
 
 
 // If the locale is RTL, force the locale to en_US because we don't support RTL
-if ( ! function_exists( 'vgse_force_editor_in_english' ) ) {
-	add_filter( 'init', 'vgse_force_editor_in_english', 1 );
+// if ( ! function_exists( 'vgse_force_editor_in_english' ) && preg_match( '/^(ar|he|fa|ku|ur)/', $wp_locale ) ) {
+	// function vgse_force_editor_in_english() {
+	// 	if ( ! is_admin() ) {
+	// 		return;
+	// 	}
+	// 	$is_editor_page           = isset( $_GET['page'] ) && strpos( $_GET['page'], 'vgse-bulk-edit-' ) !== false;
+	// 	$is_editor_export_request = ! empty( $_REQUEST['vgse_csv_export'] );
 
-	function vgse_force_editor_in_english() {
-		if ( ! is_admin() || ! is_rtl() ) {
-			return;
-		}
+	// 	if ( $is_editor_page || $is_editor_export_request ) {
+	// 		// This is required to switch the admin language without WPML
+	// 		add_action(
+	// 			'init',
+	// 			function() {
+	// 				switch_to_locale( 'en_US' );
+	// 			},
+	// 			1
+	// 		);
+	// 		// This is required to switch the admin language when using WPML
+	// 		if ( defined( 'ICL_SITEPRESS_VERSION' ) ) {
+	// 			add_filter(
+	// 				'get_user_metadata',
+	// 				function( $check, $object_id, $meta_key ) {
+	// 					if ( 'icl_admin_language' === $meta_key ) {
+	// 						return array( 'en' );
+	// 					}
+
+	// 					return $check; // Go on with the normal execution
+	// 				},
+	// 				10,
+	// 				3
+	// 			);
+	// 		}
+	// 	}
+	// }
+	// vgse_force_editor_in_english();
+// }
+
+if ( ! function_exists( 'vgse_force_editor_to_ltr' ) ) {
+	// Experimental way to change RTL to LTR without changing the language to English
+	function vgse_force_editor_to_ltr() {
 		$is_editor_page           = isset( $_GET['page'] ) && strpos( $_GET['page'], 'vgse-bulk-edit-' ) !== false;
 		$is_editor_export_request = ! empty( $_REQUEST['vgse_csv_export'] );
-
-		if ( $is_editor_page || $is_editor_export_request ) {
-			switch_to_locale( 'en_US' );
+		$is_editor_ajax_request   = wp_doing_ajax() && ! empty( $_REQUEST['action'] ) && strpos( $_REQUEST['action'], 'vgse_' ) === 0;
+		if ( $is_editor_export_request || $is_editor_page || $is_editor_ajax_request ) {
+			$GLOBALS['text_direction'] = 'ltr';
 		}
 	}
+	vgse_force_editor_to_ltr();
+	add_action( 'init', 'vgse_force_editor_to_ltr' );
+	add_action( 'setup_theme', 'vgse_force_editor_to_ltr' );
 }

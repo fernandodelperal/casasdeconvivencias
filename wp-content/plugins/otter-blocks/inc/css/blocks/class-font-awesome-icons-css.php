@@ -100,15 +100,41 @@ class Font_Awesome_Icons_CSS extends Base_CSS {
 					array(
 						'property' => '--margin',
 						'value'    => 'margin',
-						'default'  => 5,
-						'unit'     => 'px',
+						'format'   => function( $value ) {
+							if ( is_numeric( $value ) ) {
+								return $value . 'px';
+							}
+
+							return CSS_Utility::box_values(
+								$value,
+								array(
+									'top'    => '5px',
+									'right'  => '5px',
+									'bottom' => '5px',
+									'left'   => '5px',
+								)
+							);
+						},
 						'hasSync'  => 'icon-margin',
 					),
 					array(
 						'property' => '--padding',
 						'value'    => 'padding',
-						'default'  => 5,
-						'unit'     => 'px',
+						'format'   => function( $value ) {
+							if ( is_numeric( $value ) ) {
+								return $value . 'px';
+							}
+
+							return CSS_Utility::box_values(
+								$value,
+								array(
+									'top'    => '5px',
+									'right'  => '5px',
+									'bottom' => '5px',
+									'left'   => '5px',
+								)
+							);
+						},
 						'hasSync'  => 'icon-padding',
 					),
 					array(
@@ -185,22 +211,6 @@ class Font_Awesome_Icons_CSS extends Base_CSS {
 
 		$css->add_item(
 			array(
-				'selector'   => ' .wp-block-themeisle-blocks-font-awesome-icons-container i',
-				'properties' => array(
-					array(
-						'property' => 'font-size',
-						'value'    => 'fontSize',
-						'format'   => function( $value, $attrs ) {
-							return is_numeric( $value ) ? $value . 'px' : $value;
-						},
-						'hasSync'  => 'icon-font-size',
-					),
-				),
-			)
-		);
-
-		$css->add_item(
-			array(
 				'selector'   => ' .wp-block-themeisle-blocks-font-awesome-icons-container svg',
 				'properties' => array(
 					array(
@@ -239,7 +249,7 @@ class Font_Awesome_Icons_CSS extends Base_CSS {
 	/**
 	 * Generate Accordion Global CSS
 	 *
-	 * @return string
+	 * @return  string|void
 	 * @since   2.0.0
 	 * @access  public
 	 */

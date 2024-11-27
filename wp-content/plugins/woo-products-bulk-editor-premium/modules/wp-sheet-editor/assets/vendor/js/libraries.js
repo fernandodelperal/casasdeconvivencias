@@ -71793,7 +71793,7 @@ function tableToArray(element) {
 
       for (var column = 0; column < cellsLen; column += 1) {
         var cell = cells[column];
-        cell.innerHTML = cell.innerHTML.trim().replace(/<br(.|)>(\n?)/, '\n');
+        cell.innerHTML = cell.innerHTML.trim().replace(/<br(.|)>(\n?)/g, '\n');
         var cellText = cell.innerText;
         newRow.push(cellText);
       }

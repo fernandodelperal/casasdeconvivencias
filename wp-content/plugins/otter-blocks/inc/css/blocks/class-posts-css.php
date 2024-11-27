@@ -63,6 +63,10 @@ class Posts_CSS extends Base_CSS {
 						'value'    => 'backgroundColor',
 					),
 					array(
+						'property' => '--background-overlay',
+						'value'    => 'backgroundOverlay',
+					),
+					array(
 						'property' => '--border-color',
 						'value'    => 'borderColor',
 					),
@@ -205,6 +209,10 @@ class Posts_CSS extends Base_CSS {
 						},
 					),
 					array(
+						'property' => '--image-ratio',
+						'value'    => 'imageRatio',
+					),
+					array(
 						'property' => '--border-width',
 						'value'    => 'borderWidth',
 					),
@@ -313,10 +321,120 @@ class Posts_CSS extends Base_CSS {
 						'property' => '--content-gap',
 						'value'    => 'contentGap',
 					),
+					array(
+						'property' => '--pag-gap',
+						'value'    => 'pagGap',
+					),
+					array(
+						'property' => '--pag-color',
+						'value'    => 'pagColor',
+					),
+					array(
+						'property' => '--pag-bg-color',
+						'value'    => 'pagBgColor',
+					),
+					array(
+						'property' => '--pag-color-hover',
+						'value'    => 'pagColorHover',
+					),
+					array(
+						'property' => '--pag-bg-color-hover',
+						'value'    => 'pagBgColorHover',
+					),
+					array(
+						'property' => '--pag-color-active',
+						'value'    => 'pagColorActive',
+					),
+					array(
+						'property' => '--pag-bg-color-active',
+						'value'    => 'pagBgColorActive',
+					),
+					array(
+						'property' => '--pag-border-color',
+						'value'    => 'pagBorderColor',
+					),
+					array(
+						'property' => '--pag-border-color-hover',
+						'value'    => 'pagBorderColorHover',
+					),
+					array(
+						'property' => '--pag-border-color-active',
+						'value'    => 'pagBorderColorActive',
+					),
+					array(
+						'property' => '--pag-size',
+						'value'    => 'pagSize',
+					),
+					array(
+						'property' => '--pag-border-radius',
+						'value'    => 'pagBorderRadius',
+						'format'   => function( $value, $attrs ) {
+							return CSS_Utility::box_values( $value );
+						},
+					),
+					array(
+						'property' => '--pag-border-width',
+						'value'    => 'pagBorderWidth',
+						'format'   => function( $value, $attrs ) {
+							return CSS_Utility::box_values( $value );
+						},
+					),
+					array(
+						'property' => '--pag-padding',
+						'value'    => 'pagPadding',
+						'format'   => function( $value, $attrs ) {
+							return CSS_Utility::box_values( $value );
+						},
+					),
+					array(
+						'property' => '--pag-cont-margin',
+						'value'    => 'pagContMargin',
+						'format'   => function( $value, $attrs ) {
+							return CSS_Utility::box_values(
+								$value,
+								array(
+									'top'    => '10px',
+									'bottom' => '30px',
+								)
+							);
+						},
+					),
 				),
 			)
 		);
 
+		if ( isset( $block['attrs']['cardBorderRadius'] ) && is_array( $block['attrs']['cardBorderRadius'] ) ) {
+			$border_radius_properties = array(
+				'top'    => '--border-radius-start-start',
+				'right'  => '--border-radius-start-end',
+				'bottom' => '--border-radius-end-start',
+				'left'   => '--border-radius-end-end',
+			);
+		
+			$properties = array_map(
+				function( $position, $css_variable ) {
+					return array(
+						'property'  => $css_variable,
+						'value'     => 'cardBorderRadius',
+						'format'    => function( $value, $attrs ) use ( $position ) {
+							return $value[ $position ];
+						},
+						'condition' => function( $attrs ) {
+							// @phpstan-ignore-next-line
+							return isset( $attrs['className'] ) && strpos( $attrs['className'], 'is-style-tiled' ) !== false;
+						},
+					);
+				},
+				array_keys( $border_radius_properties ),
+				$border_radius_properties
+			);
+		
+			$css->add_item(
+				array(
+					'properties' => $properties,
+				)
+			);
+		}
 
 		$style = $css->generate();
 

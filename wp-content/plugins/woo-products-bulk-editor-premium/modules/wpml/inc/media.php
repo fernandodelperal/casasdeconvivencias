@@ -82,7 +82,7 @@ if (!class_exists('WPSE_WPML_Media')) {
 		function get_urls_related_to_image($urls, $attachment_id) {
 			$original_attachment_id = WP_Sheet_Editor_WPML_Obj()->get_main_id($attachment_id, 'post_attachment');
 			remove_filter('vg_sheet_editor/media/get_all_urls_related_to_image', array($this, 'get_urls_related_to_image'), 10);
-			$urls = WPSE_Media_Library_Sheet_Obj()->_get_all_urls_related_to_image($original_attachment_id);
+			$urls = $GLOBALS['wpse_media_sheet_object']->_get_all_urls_related_to_image($original_attachment_id);
 			add_filter('vg_sheet_editor/media/get_all_urls_related_to_image', array($this, 'get_urls_related_to_image'), 10, 2);
 			return $urls;
 		}

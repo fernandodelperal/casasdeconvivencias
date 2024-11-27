@@ -3,15 +3,16 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 
 	class WPSE_CSV_API {
 
-		private static $instance     = false;
-		var $uploads_dir             = null;
-		var $imports_dir             = null;
-		var $exports_dir             = null;
-		var $current_import_settings = array();
-		var $column_mappings_key     = 'vgse_import_column_mappings';
+		private static $instance        = false;
+		public $uploads_dir             = null;
+		public $imports_dir             = null;
+		public $exports_dir             = null;
+		public $long_lived_dir          = null;
+		public $current_import_settings = array();
+		public $column_mappings_key     = 'vgse_import_column_mappings';
+		public $is_import_running       = false;
 
 		private function __construct() {
-
 		}
 
 		function get_current_import_settings() {
@@ -25,10 +26,10 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 		}
 
 		function init() {
-			$this->uploads_dir    = apply_filters( 'vg_sheet_editor/csv/base_folder', WP_CONTENT_DIR . '/uploads/wp-sheet-editor' );
-			$this->imports_dir    = $this->uploads_dir . '/imports/';
-			$this->exports_dir    = $this->uploads_dir . '/exports/';
-			$this->long_lived_dir = $this->uploads_dir . '/long-lived/';
+			$this->uploads_dir    = wp_normalize_path( apply_filters( 'vg_sheet_editor/csv/base_folder', WP_CONTENT_DIR . '/uploads/wp-sheet-editor' ) );
+			$this->imports_dir    = wp_normalize_path( $this->uploads_dir . '/imports/' );
+			$this->exports_dir    = wp_normalize_path( $this->uploads_dir . '/exports/' );
+			$this->long_lived_dir = wp_normalize_path( $this->uploads_dir . '/long-lived/' );
 
 			if ( is_admin() ) {
 				$this->maybe_create_directories();
@@ -135,10 +136,10 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 			add_action( 'wp_ajax_vgse_load_data', array( $this, 'disable_floating_columns_on_export' ), 1 );
 			add_action( 'wp_ajax_vgse_import_csv', array( $this, 'import_csv' ) );
 			add_action( 'wp_ajax_vgse_upload_file_for_import', array( $this, 'upload_data_for_import' ) );
-			do_action( 'wpse_delete_old_csvs', array( $this, 'delete_old_csvs' ) );
+			add_action( 'wpse_delete_old_csvs', array( $this, 'delete_old_csvs' ) );
 			$this->delete_old_csvs();
 			$this->delete_old_directory();
-			$this->maybe_download_file();
+			add_action( 'admin_init', array( $this, 'maybe_download_file' ) );
 
 			add_filter( 'vg_sheet_editor/js_data', array( $this, 'add_settings_js' ), 9, 2 );
 		}
@@ -215,39 +216,44 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 		}
 
 		function maybe_create_directories() {
-
-			if ( ! is_dir( $this->imports_dir ) ) {
-				wp_mkdir_p( $this->imports_dir );
-				if ( ! file_exists( $this->imports_dir . 'index.html' ) ) {
-					file_put_contents( $this->imports_dir . 'index.html', '' );
+			$directories = array( $this->imports_dir, $this->exports_dir, $this->long_lived_dir, $this->uploads_dir );
+			foreach ( $directories as $directory ) {
+				$directory = trailingslashit( $directory );
+				if ( ! is_dir( $directory ) ) {
+					wp_mkdir_p( $directory );
 				}
-			}
-			if ( ! is_dir( $this->exports_dir ) ) {
-				wp_mkdir_p( $this->exports_dir );
-				if ( ! file_exists( $this->exports_dir . 'index.html' ) ) {
-					file_put_contents( $this->exports_dir . 'index.html', '' );
+				if ( ! file_exists( $directory . 'index.html' ) ) {
+					file_put_contents( $directory . 'index.html', '' );
 				}
-			}
-			if ( ! is_dir( $this->long_lived_dir ) ) {
-				wp_mkdir_p( $this->long_lived_dir );
-				if ( ! file_exists( $this->long_lived_dir . 'index.html' ) ) {
-					file_put_contents( $this->long_lived_dir . 'index.html', '' );
+				if ( ! file_exists( $directory . '.htaccess' ) ) {
+					file_put_contents( $directory . '.htaccess', 'deny from all' );
 				}
-			}
-			if ( is_dir( $this->uploads_dir ) && ! file_exists( $this->uploads_dir . '/index.html' ) ) {
-				file_put_contents( $this->uploads_dir . '/index.html', '' );
 			}
 		}
 
 		function delete_old_csvs() {
+			$last_check = get_option( 'vgse_last_csv_purge_check' );
+			if ( $last_check && ( time() - $last_check < 24 * 60 * 60 ) ) {
+				return;
+			}
+			update_option( 'vgse_last_csv_purge_check', time() );
 			$files = array_merge( VGSE()->helpers->get_files_list( $this->imports_dir, '.csv' ), VGSE()->helpers->get_files_list( $this->exports_dir, '.csv' ) );
+			if ( empty( $files ) ) {
+				return;
+			}
+			$deleted_files = array();
+
 			foreach ( $files as $file ) {
-				// Delete csv files older than 6 hours to avoid deleting exports in progress.
+				// Delete csv files older than X hours to avoid deleting exports in progress.
 				$expiration_hours = (int) $this->file_expiration_hours();
 				if ( file_exists( $file ) && ( time() - filemtime( $file ) > $expiration_hours * 3600 ) ) {
+					$deleted_files[ $file ] = date( 'Y-m-d H:i:s', filemtime( $file ) );
 					unlink( $file );
 				}
 			}
+
+			// Maybe remove this log entry in the future
+			WPSE_Logger_Obj()->entry( __CLASS__ . ':' . __FUNCTION__ . ': Line ' . __LINE__ . ' $files processed : ' . var_export( compact( 'files', 'deleted_files' ), true ), 'global_info' );
 		}
 
 		function count_rows_in_file( $file_path, $separator ) {
@@ -274,14 +280,14 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 				if ( count( $headers ) !== count( $line ) && VGSE_DEBUG ) {
 					continue;
 				}
-				$count++;
+				++$count;
 			}
 
 			fclose( $handle );
 			return $count;
 		}
 
-		function replace_file( $path, $string, $replace ) {
+		function replace_in_file( $path, $string, $replace ) {
 			if ( ! file_exists( $path ) ) {
 				return false;
 			}
@@ -324,13 +330,14 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 			$out = array(
 				'rows'          => array(),
 				'file_position' => 0,
+				'headers'       => array(),
 			);
 			if ( ! file_exists( $file_path ) ) {
 				return $out;
 			}
 
 			if ( $decode_quotes ) {
-				$this->replace_file( $file_path, '&quot;', '"' );
+				$this->replace_in_file( $file_path, '&quot;', '"' );
 			}
 			$handle  = fopen( $file_path, 'r' );
 			$headers = fgetcsv( $handle, 0, $separator );
@@ -344,6 +351,13 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 			if ( isset( $headers[0] ) ) {
 				$headers[0] = $this->remove_utf8_bom( $headers[0] );
 			}
+
+			// Fix. When the first column contains quotes in the name, the fgetcsv won't
+			//parse the quotes because of the utf8bom, so we need to reparse the string as
+			// CSV again after we remove the utf8bom
+			$csv_headers    = $this->_str_putcsv( $headers, ',' );
+			$headers        = str_getcsv( $csv_headers );
+			$out['headers'] = $headers;
 
 			if ( $start_position ) {
 				fseek( $handle, $start_position );
@@ -450,6 +464,9 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 		}
 
 		function import_csv() {
+			if ( ! empty( $_REQUEST['form_data'] ) ) {
+				$_REQUEST = array_merge( json_decode( wp_unslash( $_REQUEST['form_data'] ), true ), $_REQUEST );
+			}
 			$required_fields = array(
 				'nonce',
 				'post_type',
@@ -464,11 +481,11 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 			);
 
 			foreach ( $required_fields as $required_field ) {
-				if ( empty( $_POST[ $required_field ] ) ) {
+				if ( empty( $_REQUEST[ $required_field ] ) ) {
 					wp_send_json_error( array( 'message' => __( 'Missing required field. Please start the process again.', 'vg_sheet_editor' ) ) );
 				}
 			}
-			if ( ! in_array( $_POST['writing_type'], array( 'both', 'all_new', 'only_new', 'only_update' ) ) ) {
+			if ( ! in_array( $_REQUEST['writing_type'], array( 'both', 'all_new', 'only_new', 'only_update' ) ) ) {
 				wp_send_json_error( array( 'message' => __( 'Writing type not allowed.', 'vg_sheet_editor' ) ) );
 			}
 
@@ -486,6 +503,7 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 				'remember_column_mapping'      => ! empty( $_REQUEST['remember_column_mapping'] ),
 				'pending_post_if_image_failed' => ! empty( $_REQUEST['pending_post_if_image_failed'] ),
 				'skip_broken_images'           => ! empty( $_REQUEST['skip_broken_images'] ),
+				'auto_column_names'            => ! empty( $_REQUEST['auto_column_names'] ),
 				'separator'                    => sanitize_text_field( $_REQUEST['separator'] ),
 				'sheet_editor_column'          => wp_unslash( array_map( 'sanitize_text_field', $_REQUEST['sheet_editor_column'] ) ),
 				'source_column'                => wp_unslash( array_map( 'sanitize_text_field', $_REQUEST['source_column'] ) ),
@@ -497,9 +515,10 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 				'import_type'                  => sanitize_text_field( $_REQUEST['import_type'] ),
 				'wpse_job_id'                  => sanitize_text_field( VGSE()->helpers->get_job_id_from_request() ),
 				'wpse_source_suffix'           => sanitize_text_field( $_REQUEST['wpse_source_suffix'] ),
+				'source'                       => sanitize_text_field( $_REQUEST['source'] ),
 				'file_position'                => isset( $_REQUEST['file_position'] ) ? intval( $_REQUEST['file_position'] ) : 0,
 			);
-			$out      = $this->import_data( $settings );
+			$out      = $this->import_data( apply_filters( 'vg_sheet_editor/csv/import/params', $settings ) );
 
 			if ( is_wp_error( $out ) ) {
 				wp_send_json_error( array_merge( array( 'message' => $out->get_error_message() ), (array) $out->get_error_data() ) );
@@ -508,14 +527,92 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 			wp_send_json_success( $out );
 		}
 
+		function add_ids_to_rows_with_lookup( $rows, $post_type, $check_wp_fields, $writing_type ) {
+
+			$nonce         = wp_create_nonce( 'bep-nonce' );
+			$all_meta_keys = VGSE()->helpers->get_all_meta_keys( $post_type );
+			foreach ( $rows as $row_index => $row ) {
+				$search_args = array_filter( array_intersect_key( $row, array_combine( $check_wp_fields, array_fill( 0, count( $check_wp_fields ), '' ) ) ) );
+
+				$meta_query = array(
+					'meta_query' => array(),
+				);
+				// If the row has all the wp fields required for the search and they're not empty, make the search
+				if ( count( $search_args ) === count( $check_wp_fields ) && ! empty( $check_wp_fields ) ) {
+					$rows[ $row_index ]['ID'] = null;
+					foreach ( $check_wp_fields as $field_key ) {
+						// Allow to search by post name for the update
+						if ( $field_key === 'post_name__in' && ! empty( $row[ $field_key ] ) ) {
+							$search_value      = basename( $row[ $field_key ] );
+							$field_key         = 'post_name';
+							$row[ $field_key ] = $search_value;
+						}
+						$meta_query['meta_query'][] = array(
+							'key'     => $field_key,
+							'value'   => $row[ $field_key ],
+							'source'  => in_array( $field_key, $all_meta_keys ) ? 'meta' : 'post_data',
+							'compare' => '=',
+						);
+					}
+					$found_post_id = apply_filters( 'vg_sheet_editor/import/find_post_id', null, $row, $post_type, $meta_query, $writing_type, $check_wp_fields );
+					if ( is_null( $found_post_id ) ) {
+						$find_row_args       = apply_filters(
+							'vg_sheet_editor/import/find_post_id_args',
+							array(
+								'nonce'              => $nonce,
+								'post_type'          => $post_type,
+								'return_raw_results' => true,
+								'wp_query_args'      => array(
+									'posts_per_page' => 1,
+									'fields'         => 'ids',
+								),
+								'filters'            => wp_json_encode( $meta_query ),
+								'wpse_source'        => 'load_rows',
+							)
+						);
+						$_REQUEST['filters'] = $find_row_args['filters'];
+						$found               = VGSE()->helpers->get_rows( $find_row_args );
+
+						if ( is_array( $found ) && ! empty( $found[0] ) && is_numeric( $found[0] ) ) {
+							$found_post_id = $found[0];
+						}
+					}
+
+					// The find_post_id filter can return a single ID or array of IDs (in case we use a wp_check field
+					// that uses a search to match existing rows, so we might need to update multiple IDs
+					// In this case we duplicate the import row for every ID found
+					if ( ! empty( $found_post_id ) ) {
+						if ( is_int( $found_post_id ) ) {
+							$rows[ $row_index ]['ID'] = $found_post_id;
+						} elseif ( is_array( $found_post_id ) ) {
+							unset( $rows[ $row_index ] );
+							foreach ( $found_post_id as $found_post_id_single ) {
+								$row['ID'] = $found_post_id_single;
+								$rows[]    = $row;
+							}
+						}
+						if ( function_exists( 'WPSE_Logger_Obj' ) && ! empty( $settings['wpse_job_id'] ) ) {
+							WPSE_Logger_Obj()->entry( sprintf( 'Found existing ID for the update: %d', $found_post_id ), sanitize_text_field( $settings['wpse_job_id'] ) );
+						}
+					}
+				}
+			}
+			// We used this inside the previous foreach to make the advanced search work with get_rows()
+			if ( isset( $_REQUEST['filters'] ) ) {
+				unset( $_REQUEST['filters'] );
+			}
+			return $rows;
+		}
+
 		function import_data( $settings ) {
-			$post_type    = $settings['post_type'];
-			$writing_type = $settings['writing_type'];
-			$nonce        = wp_create_nonce( 'bep-nonce' );
-			$per_page     = ( empty( $settings['per_page'] ) && ! empty( VGSE()->options ) && ! empty( VGSE()->options['be_posts_per_page_save'] ) ) ? (int) VGSE()->options['be_posts_per_page_save'] : (int) $settings['per_page'];
+			$this->is_import_running = true;
+			$post_type               = $settings['post_type'];
+			$writing_type            = $settings['writing_type'];
+			$nonce                   = wp_create_nonce( 'bep-nonce' );
+			$per_page                = ( empty( $settings['per_page'] ) && ! empty( VGSE()->options ) && ! empty( VGSE()->options['be_posts_per_page_save'] ) ) ? (int) VGSE()->options['be_posts_per_page_save'] : (int) $settings['per_page'];
 
 			if ( empty( $per_page ) ) {
-				$per_page = 4;
+				$per_page = 8;
 			}
 
 			$settings['per_page'] = $per_page;
@@ -568,12 +665,20 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 				$out['message']        = __( 'The import is completed.', 'vg_sheet_editor' );
 				$out['force_complete'] = true;
 				do_action( 'vg_sheet_editor/import/completed', $out, $settings );
+
+				// Delete import file after the import finished when it was a manual import
+				if ( $total === $processed && ! empty( $settings['source'] ) && in_array( $settings['source'], array( 'csv_upload', 'paste', 'csv_url' ), true ) && file_exists( $this->imports_dir . $settings['import_file'] ) ) {
+					unlink( $this->imports_dir . $settings['import_file'] );
+				}
+
+				$this->is_import_running = false;
 				return $out;
 			}
 			if ( is_wp_error( $prepared_rows ) ) {
 				if ( function_exists( 'WPSE_Logger_Obj' ) && ! empty( $settings['wpse_job_id'] ) ) {
 					WPSE_Logger_Obj()->entry( sprintf( 'This batch failed with error: %s', $prepared_rows->get_error_message() ), sanitize_text_field( $settings['wpse_job_id'] ) );
 				}
+				$this->is_import_running = false;
 				return $prepared_rows;
 			}
 
@@ -652,92 +757,23 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 			}
 
 			// If writing_type says all rows are new posts
+			$id_value_for_new_rows = taxonomy_exists( $post_type ) ? PHP_INT_MAX : null;
 			if ( $writing_type === 'all_new' ) {
 				foreach ( $rows as $row_index => $row ) {
-					$rows[ $row_index ]['ID'] = null;
+					$rows[ $row_index ]['ID'] = $id_value_for_new_rows;
 				}
 			} else {
-				$all_meta_keys = VGSE()->helpers->get_all_meta_keys( $post_type );
-				foreach ( $rows as $row_index => $row ) {
-					$search_args = array_filter( array_intersect_key( $row, array_combine( $check_wp_fields, array_fill( 0, count( $check_wp_fields ), '' ) ) ) );
-
-					$meta_query = array(
-						'meta_query' => array(),
-					);
-					// If the row has all the wp fields required for the search and they're not empty, make the search
-					if ( count( $search_args ) === count( $check_wp_fields ) && ! empty( $check_wp_fields ) ) {
-						$rows[ $row_index ]['ID'] = null;
-						foreach ( $check_wp_fields as $field_key ) {
-							// Allow to search by post name for the update
-							if ( $field_key === 'post_name__in' && ! empty( $row[ $field_key ] ) ) {
-								$search_value      = basename( $row[ $field_key ] );
-								$field_key         = 'post_name';
-								$row[ $field_key ] = $search_value;
-							}
-							$meta_query['meta_query'][] = array(
-								'key'     => $field_key,
-								'value'   => $row[ $field_key ],
-								'source'  => in_array( $field_key, $all_meta_keys ) ? 'meta' : 'post_data',
-								'compare' => '=',
-							);
-						}
-						$found_post_id = apply_filters( 'vg_sheet_editor/import/find_post_id', null, $row, $post_type, $meta_query, $writing_type, $check_wp_fields );
-						if ( is_null( $found_post_id ) ) {
-							$find_row_args       = apply_filters(
-								'vg_sheet_editor/import/find_post_id_args',
-								array(
-									'nonce'              => $nonce,
-									'post_type'          => $post_type,
-									'return_raw_results' => true,
-									'wp_query_args'      => array(
-										'posts_per_page' => 1,
-										'fields'         => 'ids',
-									),
-									'filters'            => http_build_query( $meta_query ),
-									'wpse_source'        => 'load_rows',
-								)
-							);
-							$_REQUEST['filters'] = $find_row_args['filters'];
-							$found               = VGSE()->helpers->get_rows( $find_row_args );
-
-							if ( is_array( $found ) && ! empty( $found[0] ) && is_numeric( $found[0] ) ) {
-								$found_post_id = $found[0];
-							}
-						}
-
-						// The find_post_id filter can return a single ID or array of IDs (in case we use a wp_check field
-						// that uses a search to match existing rows, so we might need to update multiple IDs
-						// In this case we duplicate the import row for every ID found
-						if ( ! empty( $found_post_id ) ) {
-							if ( is_int( $found_post_id ) ) {
-								$rows[ $row_index ]['ID'] = $found_post_id;
-							} elseif ( is_array( $found_post_id ) ) {
-								unset( $rows[ $row_index ] );
-								foreach ( $found_post_id as $found_post_id_single ) {
-									$row['ID'] = $found_post_id_single;
-									$rows[]    = $row;
-								}
-							}
-							if ( function_exists( 'WPSE_Logger_Obj' ) && ! empty( $settings['wpse_job_id'] ) ) {
-								WPSE_Logger_Obj()->entry( sprintf( 'Found existing ID for the update: %d', $found_post_id ), sanitize_text_field( $settings['wpse_job_id'] ) );
-							}
-						}
-					}
-				}
-				// We used this inside the previous foreach to make the advanced search work with get_rows()
-				if ( isset( $_REQUEST['filters'] ) ) {
-					unset( $_REQUEST['filters'] );
-				}
+				$rows = $this->add_ids_to_rows_with_lookup( $rows, $post_type, $check_wp_fields, $writing_type );
 
 				if ( $writing_type === 'only_update' ) {
-					$rows = wp_list_filter( $rows, array( 'ID' => null ), 'NOT' );
+					$rows = wp_list_filter( $rows, array( 'ID' => $id_value_for_new_rows ), 'NOT' );
 				} elseif ( $writing_type === 'only_new' ) {
-					$rows = wp_list_filter( $rows, array( 'ID' => null ) );
+					$rows = wp_list_filter( $rows, array( 'ID' => $id_value_for_new_rows ) );
 				}
 			}
 
 			// If writing_type allows to create (either only new or both)
-			$created       = count( wp_list_filter( $rows, array( 'ID' => null ) ) ) + count( wp_list_filter( $rows, array( 'ID' => PHP_INT_MAX ) ) );
+			$created       = count( wp_list_filter( $rows, array( 'ID' => $id_value_for_new_rows ) ) );
 			$total_updated = count( $rows ) - $created;
 
 			if ( function_exists( 'WPSE_Logger_Obj' ) && ! empty( $settings['wpse_job_id'] ) ) {
@@ -769,6 +805,7 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 				if ( function_exists( 'WPSE_Logger_Obj' ) && ! empty( $settings['wpse_job_id'] ) ) {
 					WPSE_Logger_Obj()->entry( sprintf( 'Error found while saving: %s', $save_result->get_error_message() ), sanitize_text_field( $settings['wpse_job_id'] ) );
 				}
+				$this->is_import_running = false;
 				return $save_result;
 			}
 
@@ -781,11 +818,17 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 				)
 			);
 
+			// Delete import file after the import finished when it was a manual import
+			if ( $total === $processed && ! empty( $settings['source'] ) && in_array( $settings['source'], array( 'csv_upload', 'paste', 'csv_url' ), true ) && file_exists( $this->imports_dir . $settings['import_file'] ) ) {
+				unlink( $this->imports_dir . $settings['import_file'] );
+			}
+
 			if ( function_exists( 'WPSE_Logger_Obj' ) && ! empty( $settings['wpse_job_id'] ) ) {
 				$out['log_url'] = WPSE_Logger_Obj()->get_log_download_url( $settings['wpse_job_id'] );
 				WPSE_Logger_Obj()->entry( sprintf( 'Batch completed successfully. Processed from the file: %d, Updated in this batch: %d, Created in this batch: %d, File position: %d', $processed, $total_updated, $created, $prepared_rows['file_position'] ), sanitize_text_field( $settings['wpse_job_id'] ) );
 			}
 
+			$this->is_import_running = false;
 			return $out;
 		}
 
@@ -794,14 +837,77 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 			return $new_id;
 		}
 
+		function prepend_to_file( $string, $file_path ) {
+			$orig_file     = fopen( $file_path, 'r' );
+			$temp_filename = tempnam( sys_get_temp_dir(), 'php_prepend_' );
+
+			file_put_contents( $temp_filename, $string . PHP_EOL );
+
+			while ( ! feof( $orig_file ) ) {
+				file_put_contents( $temp_filename, fgets( $orig_file ), FILE_APPEND );
+			}
+
+			fclose( $orig_file );
+
+			unlink( $file_path );
+			rename( $temp_filename, $file_path );
+		}
+
+		function maybe_add_auto_column_names_to_file( $file_path, $separator = ',', $decode_quotes = false ) {
+
+			$file_content = $this->get_rows( $file_path, $separator, $decode_quotes, 1 );
+			if ( empty( $file_content['headers'] ) ) {
+				return false;
+			}
+			$first_row     = json_encode( $file_content['headers'] );
+			$columns_count = count( $file_content['headers'] );
+			$column_name   = __( 'Column %d', 'vg_sheet_editor' );
+			if ( strpos( $first_row, sprintf( $column_name, 1 ) ) === false ) {
+				$new_column_names = array();
+				for ( $i = 0; $i < $columns_count; $i++ ) {
+					$new_column_names[] = sprintf( $column_name, $i + 1 );
+				}
+				$this->prepend_to_file( $this->_str_putcsv( $new_column_names ), $file_path );
+				return true;
+			}
+			return false;
+		}
+
+		function get_remote_file( $url, $target_file_path = null ) {
+
+			$allowed_input_type = array( 'csv', 'json' );
+			if ( filter_var( $url, FILTER_VALIDATE_URL ) === false ) {
+				return new WP_Error( 'wrong_file_url', __( 'Wrong file url', 'vg_sheet_editor' ) );
+			}
+			$file_type = pathinfo( basename( strtok( $url, '?' ) ), PATHINFO_EXTENSION );
+			if ( ! in_array( $file_type, $allowed_input_type ) ) {
+				return new WP_Error( 'wrong_file_url', __( 'Wrong file extension. We accept CSV only', 'vg_sheet_editor' ) );
+			}
+			if ( ! function_exists( 'download_url' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/image.php';
+				require_once ABSPATH . 'wp-admin/includes/file.php';
+				require_once ABSPATH . 'wp-admin/includes/media.php';
+			}
+			$tmp_file = download_url( $url );
+
+			if ( ! is_wp_error( $tmp_file ) && file_exists( $tmp_file ) && $target_file_path ) {
+				rename( $tmp_file, $target_file_path );
+			}
+			return $tmp_file;
+		}
+
 		function upload_data_for_import() {
 			if ( empty( $_REQUEST['post_type'] ) || ! isset( $_REQUEST['data'] ) || empty( $_REQUEST['data_type'] ) || ! VGSE()->helpers->verify_nonce_from_request() || ! VGSE()->helpers->verify_sheet_permissions_from_request( 'edit' ) ) {
 				wp_send_json_error( array( 'message' => __( 'Not allowed. Please start the process again.', 'vg_sheet_editor' ) ) );
 			}
 
-			$data_type     = sanitize_text_field( $_REQUEST['data_type'] );
-			$post_type     = sanitize_text_field( $_REQUEST['post_type'] );
-			$separator     = sanitize_text_field( $_REQUEST['separator'] );
+			$data_type         = sanitize_text_field( $_REQUEST['data_type'] );
+			$post_type         = sanitize_text_field( $_REQUEST['post_type'] );
+			$separator         = sanitize_text_field( $_REQUEST['separator'] );
+			$auto_column_names = ! empty( $_REQUEST['auto_column_names'] );
+			if ( empty( $separator ) ) {
+				$separator = ',';
+			}
 			$decode_quotes = ( empty( $_REQUEST['decode_quotes'] ) ) ? false : true;
 			$data          = $_REQUEST['data'];
 
@@ -811,17 +917,9 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 
 			$allowed_input_type = array( 'csv', 'json' );
 			if ( $data_type === 'url' ) {
-				if ( filter_var( $data, FILTER_VALIDATE_URL ) === false ) {
-					wp_send_json_error( array( 'message' => __( 'Wrong file url', 'vg_sheet_editor' ) ) );
-				}
-				$file_type = pathinfo( basename( strtok( $data, '?' ) ), PATHINFO_EXTENSION );
-				if ( ! in_array( $file_type, $allowed_input_type ) ) {
-					wp_send_json_error( array( 'message' => __( 'Wrong file extension. We accept CSV only', 'vg_sheet_editor' ) ) );
-				}
-				$tmp_file = download_url( $data );
-
-				if ( ! is_wp_error( $tmp_file ) && file_exists( $tmp_file ) ) {
-					rename( $tmp_file, $file_path );
+				$download_response = $this->get_remote_file( $data, $file_path );
+				if ( is_wp_error( $download_response ) ) {
+					wp_send_json_error( array( 'message' => $download_response->get_error_message() ) );
 				}
 			} elseif ( $data_type === 'local' ) {
 
@@ -877,6 +975,15 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 			$file_content = $this->get_rows( $file_path, $separator, $decode_quotes, 5 );
 			$first_rows   = $file_content['rows'];
 
+			if ( $auto_column_names ) {
+				$added_column_names = $this->maybe_add_auto_column_names_to_file( $file_path, $separator, $decode_quotes );
+				if ( $added_column_names ) {
+					$total        = $this->count_rows_in_file( $file_path, $separator );
+					$file_content = $this->get_rows( $file_path, $separator, $decode_quotes, 5 );
+					$first_rows   = $file_content['rows'];
+				}
+			}
+
 			if ( empty( $first_rows ) ) {
 				wp_send_json_error( array( 'message' => __( 'File uploaded succesfully but it\'s not a valid CSV file or it uses the wrong encoding. If you edited the file in Excel, verify it was saved as UTF-8 and keep in mind that, sometimes copy pasting from external places adds invalid characters. So make sure you paste only the values and not paste the formatting to avoid pasting invalid characters.', 'vg_sheet_editor' ) ) );
 			}
@@ -920,7 +1027,7 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 			}
 			usort(
 				$saved_exports[ $post_type ],
-				function( $a, $b ) {
+				function ( $a, $b ) {
 					return strcmp( $a['name'], $b['name'] );
 				}
 			);
@@ -976,7 +1083,7 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 				return $out;
 			}
 
-			if ( ! empty( $clean_data['save_for_later'] ) && VGSE()->helpers->user_can_manage_options() ) {
+			if ( ! empty( $clean_data['save_for_later'] ) && VGSE()->helpers->user_can_manage_options() && apply_filters( 'vg_sheet_editor/exports/allow_to_save_for_later', true, $out, $clean_data, $wp_query_args, $spreadsheet_columns ) ) {
 				$this->save_export( $clean_data['save_for_later'] );
 			}
 
@@ -1025,7 +1132,7 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 					}
 
 					// Fields with objects as value aren't compatible, so we export them as an empty string
-					if ( is_object( $row[ $column_key ] ) ) {
+					if ( is_object( $row[ $column_key ] ) || is_array( $row[ $column_key ] ) ) {
 						$row[ $column_key ] = '';
 					}
 
@@ -1115,6 +1222,9 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 		}
 
 		function _array_to_csv( $data, $filepath, $csv_headers = null, $delimiter = ',' ) {
+			if ( empty( $data ) ) {
+				return false;
+			}
 
 			// Create the csv headers if missing
 			if ( empty( $csv_headers ) ) {
@@ -1169,13 +1279,15 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 		function __get( $name ) {
 			return $this->$name;
 		}
-
 	}
 
 }
 
 if ( ! function_exists( 'WPSE_CSV_API_Obj' ) ) {
 
+	/**
+	 * @return WPSE_CSV_API
+	 */
 	function WPSE_CSV_API_Obj() {
 		return WPSE_CSV_API::get_instance();
 	}

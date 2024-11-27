@@ -8,14 +8,25 @@ if ( ! class_exists( 'WP_Maintenance_Mode' ) ) {
 
 	class WP_Maintenance_Mode {
 
-		const VERSION = '2.5.1';
+		const VERSION = '2.6.14';
+
+		const MAINTENANCE  = 'maintenance';
+		const COMING_SOON  = 'coming-soon';
+		const LANDING_PAGE = 'landing-page';
 
 		protected $plugin_slug = 'wp-maintenance-mode';
 		protected $plugin_settings;
+		protected $plugin_network_settings = array(
+			'general' => array(
+				'status'       => 0,
+				'network_mode' => 0,
+			),
+		);
 		protected $plugin_basename;
 		protected static $instance = null;
 
 		private $style_buffer;
+		private $current_page_category;
 
 		/**
 		 * 3, 2, 1... Start!
@@ -36,6 +47,21 @@ if ( ! class_exists( 'WP_Maintenance_Mode' ) ) {
 
 			$this->plugin_settings = wpmm_get_option( 'wpmm_settings', array() );
 			$this->plugin_basename = plugin_basename( WPMM_PATH . $this->plugin_slug . '.php' );
+
+			if ( is_multisite() ) {
+				$plugin_network_settings       = get_network_option( get_current_network_id(), 'wpmm_settings_network', $this->plugin_network_settings );
+				$plugin_network_settings       = array_filter( $plugin_network_settings );
+				$this->plugin_network_settings = wp_parse_args( $plugin_network_settings, $this->plugin_network_settings );
+				if ( ! isset( $this->plugin_network_settings['general']['network_mode'] ) ) {
+					$this->plugin_network_settings['general']['network_mode'] = 0;
+				}
+				if ( ! empty( $this->plugin_network_settings ) ) {
+					$this->plugin_settings['general']['network_mode'] = ! empty( $this->plugin_network_settings['general']['network_mode'] ) ? 1 : 0;
+					if ( $this->plugin_settings['general']['network_mode'] ) {
+						$this->plugin_settings['general']['status'] = ! empty( $this->plugin_network_settings['general']['status'] ) ? 1 : 0;
+					}
+				}
+			}
 
 			// Load plugin text domain
 			add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
@@ -69,8 +95,13 @@ if ( ! class_exists( 'WP_Maintenance_Mode' ) ) {
 				add_action( 'wp_ajax_wpmm_add_subscriber', array( $this, 'add_subscriber' ) );
 				add_action( 'wp_ajax_nopriv_wpmm_send_contact', array( $this, 'send_contact' ) );
 				add_action( 'wp_ajax_wpmm_send_contact', array( $this, 'send_contact' ) );
+				add_action( 'otter_form_after_submit', array( $this, 'otter_add_subscriber' ) );
 
 				if ( isset( $this->plugin_settings['design']['page_id'] ) && get_option( 'wpmm_new_look' ) && get_post_status( $this->plugin_settings['design']['page_id'] ) === 'private' ) {
+					add_filter( 'wpo_purge_all_cache_on_update', '__return_true' );
+					if ( function_exists( 'wp_functionality_constants' ) ) {
+						wp_functionality_constants();
+					}
 					wp_publish_post( $this->plugin_settings['design']['page_id'] );
 				}
 
@@ -78,7 +109,7 @@ if ( ! class_exists( 'WP_Maintenance_Mode' ) ) {
 				add_filter(
 					'pre_option_page_on_front',
 					function ( $value ) {
-						if ( ! is_user_logged_in() && isset( $this->plugin_settings['design']['page_id'] ) && get_option( 'wpmm_new_look' ) ) {
+						if ( ( ! $this->check_user_role() && ! $this->check_exclude() ) && isset( $this->plugin_settings['design']['page_id'] ) && get_option( 'wpmm_new_look' ) ) {
 							$page_id = $this->plugin_settings['design']['page_id'];
 
 							if ( ! function_exists( 'is_plugin_active' ) ) {
@@ -161,6 +192,45 @@ if ( ! class_exists( 'WP_Maintenance_Mode' ) ) {
 		 */
 		public function get_plugin_settings() {
 			return $this->plugin_settings;
+		}
+
+		/**
+		 * Return plugin network site settings
+		 *
+		 * @since 2.6.2
+		 * @return array
+		 */
+		public function get_plugin_network_settings() {
+			return $this->plugin_network_settings;
+		}
+
+		/**
+		 * Return the plugin's page categories
+		 *
+		 * @return array
+		 */
+		public static function get_page_categories() {
+			return array(
+				self::COMING_SOON  => __( 'Coming Soon', 'wp-maintenance-mode' ),
+				self::MAINTENANCE  => __( 'Maintenance mode', 'wp-maintenance-mode' ),
+				self::LANDING_PAGE => __( 'Landing Page', 'wp-maintenance-mode' ),
+			);
+		}
+
+		/**
+		 * Return the plugin's page categories with labels
+		 *
+		 * @return string
+		 */
+		public static function get_page_status_by_category( $category ) {
+			switch ( $category ) {
+				case self::MAINTENANCE:
+					return __( 'Maintenance Page', 'wp-maintenance-mode' );
+				case self::COMING_SOON:
+					return __( 'Coming Soon Page', 'wp-maintenance-mode' );
+				case self::LANDING_PAGE:
+					return __( 'Landing Page', 'wp-maintenance-mode' );
+			}
 		}
 
 		/**
@@ -394,7 +464,7 @@ if ( ! class_exists( 'WP_Maintenance_Mode' ) ) {
 						'msg'   => sprintf(
 									/* translators: plugin settings url */
 							__( 'WP Maintenance Mode plugin was relaunched and you MUST revise <a href="%s">settings</a>.', 'wp-maintenance-mode' ),
-							add_query_arg( array( 'page' => self::get_instance()->plugin_slug ), admin_url( 'options-general.php' ) )
+							add_query_arg( array( 'page' => self::get_instance()->plugin_slug ), admin_url( 'admin.php' ) )
 						),
 					)
 				);
@@ -650,7 +720,8 @@ if ( ! class_exists( 'WP_Maintenance_Mode' ) ) {
 					! $this->check_search_bots() &&
 					! ( defined( 'WP_CLI' ) && WP_CLI )
 			) {
-				if ( get_option( 'wpmm_new_look' ) ) {
+				if ( isset( $this->plugin_settings['design']['page_id'] ) && get_option( 'wpmm_new_look' ) ) {
+					define( 'IS_MAINTENANCE', true );
 					include_once wpmm_get_template_path( 'maintenance.php', true );
 					return;
 				}
@@ -861,6 +932,10 @@ if ( ! class_exists( 'WP_Maintenance_Mode' ) ) {
 				$request_uri    = isset( $_SERVER['REQUEST_URI'] ) ? rawurldecode( $_SERVER['REQUEST_URI'] ) : '';
 				$request_uri    = wp_sanitize_redirect( $request_uri );
 				foreach ( $excluded_list as $item ) {
+					if ( false !== strpos( $item, '#' ) ) {
+						$item = trim( substr( $item, 0, strpos( $item, '#' ) ) );
+					}
+
 					if ( empty( $item ) ) { // just to be sure :-)
 						continue;
 					}
@@ -979,7 +1054,7 @@ if ( ! class_exists( 'WP_Maintenance_Mode' ) ) {
 			return array_merge(
 				$templates,
 				array(
-					'templates/wpmm-page-template.php' => html_entity_decode( '&harr; ' ) . __( 'WP Maintenance Mode', 'wp-maintenance-mode' ),
+					'templates/wpmm-page-template.php' => html_entity_decode( '&harr; ' ) . __( 'LightStart template', 'wp-maintenance-mode' ),
 				)
 			);
 		}
@@ -992,16 +1067,35 @@ if ( ! class_exists( 'WP_Maintenance_Mode' ) ) {
 		 */
 		public function use_maintenance_template( $template ) {
 			global $post;
+
+			// Return the default template for Elementor when:
+			if (
+				class_exists( '\Elementor\Plugin', false ) &&
+				(
+					// Edit Mode is on.
+					( isset( $_GET['action'] ) && 'elementor' === $_GET['action'] ) || // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+					// Preview Mode is on.
+					isset( $_GET['elementor-preview'] ) // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				)
+			) {
+				return $template;
+			}
+
+			// Return the default template if the current post is empty.
 			if ( empty( $post ) ) {
 				return $template;
 			}
 
 			$current_template = get_post_meta( $post->ID, '_wp_page_template', true );
+
+			if ( empty( $current_template ) ) {
+				return $template;
+			}
 			if ( 'templates/wpmm-page-template.php' !== $current_template ) {
 				return $template;
 			}
 
-			$file = WPMM_VIEWS_PATH . '/wpmm-page-template.php';
+			$file = WPMM_VIEWS_PATH . 'wpmm-page-template.php';
 			if ( file_exists( $file ) ) {
 				return $file;
 			}
@@ -1216,18 +1310,8 @@ if ( ! class_exists( 'WP_Maintenance_Mode' ) ) {
 				) {
 					throw new Exception( __( 'Security check.', 'wp-maintenance-mode' ) );
 				}
-				// save
-				$exists = $wpdb->get_row( $wpdb->prepare( "SELECT id_subscriber FROM {$wpdb->prefix}wpmm_subscribers WHERE email = %s", $email ), ARRAY_A );
-				if ( empty( $exists ) ) {
-					$wpdb->insert(
-						$wpdb->prefix . 'wpmm_subscribers',
-						array(
-							'email'       => $email,
-							'insert_date' => date( 'Y-m-d H:i:s' ),
-						),
-						array( '%s', '%s' )
-					);
-				}
+				// save.
+				$this->insert_subscriber( $email );
 
 				wp_send_json_success( __( 'You successfully subscribed. Thanks!', 'wp-maintenance-mode' ) );
 			} catch ( Exception $ex ) {
@@ -1293,6 +1377,78 @@ if ( ! class_exists( 'WP_Maintenance_Mode' ) ) {
 			}
 		}
 
+		/**
+		 * Save subscriber into database.
+		 *
+		 * @param Form_Data_Request $form_data The form data.
+		 * @return void
+		 */
+		public function otter_add_subscriber( $form_data ) {
+			if ( $form_data ) {
+				$input_data = $form_data->get_payload_field( 'formInputsData' );
+				$input_data = array_map(
+					function( $input_field ) {
+						if ( isset( $input_field['type'] ) && 'email' === $input_field['type'] ) {
+							return $input_field['value'];
+						}
+						return false;
+					},
+					$input_data
+				);
+				$input_data = array_filter( $input_data );
+				if ( ! empty( $input_data ) ) {
+					foreach ( $input_data as $email ) {
+						$this->insert_subscriber( $email );
+					}
+				}
+			}
+		}
+
+		/**
+		 * Save subscriber into database.
+		 *
+		 * @param string $email Email address.
+		 * @global object $wpdb
+		 *
+		 * @return void
+		 */
+		public function insert_subscriber( $email = '' ) {
+			global $wpdb;
+			if ( ! empty( $email ) ) {
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+				$exists = $wpdb->get_row( $wpdb->prepare( "SELECT id_subscriber FROM {$wpdb->prefix}wpmm_subscribers WHERE email = %s", $email ), ARRAY_A );
+				if ( empty( $exists ) ) {
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+					$wpdb->insert(
+						$wpdb->prefix . 'wpmm_subscribers',
+						array(
+							'email'       => sanitize_email( $email ),
+							'insert_date' => date( 'Y-m-d H:i:s' ),
+						),
+						array( '%s', '%s' )
+					);
+				}
+			}
+		}
+
+		/**
+		 * Set the current_page_category property
+		 * @param $category
+		 *
+		 * @return void
+		 */
+		public function set_current_page_category( $category ) {
+			$this->current_page_category = $category;
+		}
+
+		/**
+		 * Get the current_page_category property
+		 *
+		 * @return mixed
+		 */
+		public function get_current_page_category() {
+			return $this->current_page_category;
+		}
 	}
 
 }

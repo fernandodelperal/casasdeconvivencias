@@ -36,8 +36,6 @@ if ( ! class_exists( 'WP_Sheet_Editor_Serialized_Field' ) ) {
 			// Priority 12 to allow to instantiate from another editor/before_init function
 			add_action( 'vg_sheet_editor/editor/register_columns', array( $this, 'register_columns' ), $this->settings['column_init_priority'] );
 
-			add_filter( 'vg_sheet_editor/provider/user/get_item_meta', array( $this, 'filter_cell_data_for_readings_user' ), 10, 5 );
-			add_filter( 'vg_sheet_editor/provider/post/get_item_meta', array( $this, 'filter_cell_data_for_readings_post' ), 10, 5 );
 			add_filter( 'vg_sheet_editor/formulas/sql_execution/can_execute', array( $this, 'can_execute_sql_formula' ), 10, 4 );
 
 			if ( ! empty( $this->settings['allow_in_wc_product_variations'] ) ) {
@@ -63,20 +61,6 @@ if ( ! class_exists( 'WP_Sheet_Editor_Serialized_Field' ) ) {
 			return false;
 		}
 
-		function filter_cell_data_for_readings_user( $value, $id, $key, $single, $context ) {
-			if ( strpos( $key, $this->settings['sample_field_key'] ) === false || $context !== 'read' || ! $this->post_type_has_serialized_field( 'user' ) ) {
-				return $value;
-			}
-			return $this->filter_cell_data_for_readings( $value, $id, $key );
-		}
-
-		function filter_cell_data_for_readings_post( $value, $id, $key, $single, $context ) {
-			if ( strpos( $key, $this->settings['sample_field_key'] ) === false || $context !== 'read' || ! $this->post_type_has_serialized_field( get_post_type( $id ) ) ) {
-				return $value;
-			}
-			return $this->filter_cell_data_for_readings( $value, $id, $key );
-		}
-
 		function preload_all_subfield_column_data( $data, $posts, $wp_query_args, $settings, $spreadsheet_columns ) {
 			if ( ! $this->post_type_has_serialized_field( $settings['post_type'] ) ) {
 				return $data;
@@ -91,12 +75,16 @@ if ( ! class_exists( 'WP_Sheet_Editor_Serialized_Field' ) ) {
 				return $data;
 			}
 
-			remove_filter( 'vg_sheet_editor/provider/user/get_item_meta', array( $this, 'filter_cell_data_for_readings_user' ), 10, 5 );
-			remove_filter( 'vg_sheet_editor/provider/post/get_item_meta', array( $this, 'filter_cell_data_for_readings_post' ), 10, 5 );
 			foreach ( $posts as $post ) {
 				$serialized_columns_values = $this->_get_serialized_column_values( $post->ID );
 				$serialized_columns_values = array_intersect_key( $serialized_columns_values, $enabled_sub_columns );
-				$data[ $post->ID ]         = array_merge( isset( $data[ $post->ID ] ) ? $data[ $post->ID ] : array(), $enabled_sub_columns, $serialized_columns_values );
+				// Make sure that no objects/arrays are included in the final values
+				foreach ( $serialized_columns_values as $key => $value ) {
+					if ( is_object( $value ) || is_array( $value ) ) {
+						$serialized_columns_values[ $key ] = '';
+					}
+				}
+				$data[ $post->ID ] = array_merge( isset( $data[ $post->ID ] ) ? $data[ $post->ID ] : array(), $enabled_sub_columns, $serialized_columns_values );
 			}
 			return $data;
 		}
@@ -155,6 +143,10 @@ if ( ! class_exists( 'WP_Sheet_Editor_Serialized_Field' ) ) {
 				$value = $serialized_columns_values[ $column_key ];
 			}
 
+			if ( is_object( $value ) ) {
+				$value = '';
+			}
+
 			return $value;
 		}
 
@@ -164,7 +156,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Serialized_Field' ) ) {
 		}
 
 		function save_column( $item, $post_type, $column_settings, $key ) {
-			if ( ! $this->post_type_has_serialized_field( $post_type ) || strpos( $key, $this->settings['sample_field_key'] ) === false || ! empty( $column_settings['infinite_serialized_handler'] ) ) {
+			if ( ! $this->post_type_has_serialized_field( $post_type ) || strpos( $key, $this->settings['sample_field_key'] ) === false || ! empty( $column_settings['infinite_serialized_handler'] ) || empty( $column_settings['serialized_field_original_key'] ) ) {
 				return;
 			}
 
@@ -194,7 +186,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Serialized_Field' ) ) {
 
 			if ( ! empty( $column_settings['is_single_level'] ) ) {
 				$post_criterias[ $criteria_key ] = $value;
-			} else {
+			} elseif ( is_array( $post_criterias[ $criteria_index ] ) ) {
 				$post_criterias[ $criteria_index ][ $criteria_key ] = $value;
 			}
 
@@ -203,7 +195,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Serialized_Field' ) ) {
 				$number_of_empty_strings = 0;
 				foreach ( $post_criterias as $value ) {
 					if ( is_string( $value ) && empty( $value ) ) {
-						$number_of_empty_strings++;
+						++$number_of_empty_strings;
 					}
 				}
 
@@ -322,7 +314,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Serialized_Field' ) ) {
 							$this->column_keys[] = $key;
 						}
 					}
-					$label_index++;
+					++$label_index;
 				}
 			}
 		}
@@ -334,7 +326,6 @@ if ( ! class_exists( 'WP_Sheet_Editor_Serialized_Field' ) ) {
 		function __get( $name ) {
 			return $this->$name;
 		}
-
 	}
 
 }

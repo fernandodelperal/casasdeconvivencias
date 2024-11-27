@@ -50,7 +50,7 @@ class General {
 	 * Add header
 	 */
 	public static function add_header() {
-		 global $current_section;
+		global $current_section;
 		?>
 	<li><a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-settings&tab=' . QLWCDC_PREFIX . '&section' ) ); ?>" class="<?php echo ( '' == $current_section ? 'current' : '' ); ?>"><?php esc_html_e( 'General', 'woocommerce-direct-checkout' ); ?></a> | </li>
 		<?php

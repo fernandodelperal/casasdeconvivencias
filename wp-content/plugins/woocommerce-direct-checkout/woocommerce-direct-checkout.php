@@ -4,7 +4,7 @@
  * Plugin Name:             WooCommerce Direct Checkout
  * Plugin URI:              https://quadlayers.com/products/woocommerce-direct-checkout/
  * Description:             Simplifies the checkout process to improve your sales rate.
- * Version:                 3.3.9
+ * Version:                 3.4.0
  * Text Domain:             woocommerce-direct-checkout
  * Author:                  QuadLayers
  * Author URI:              https://quadlayers.com
@@ -14,7 +14,7 @@
  * Tested up to:            6.6
  * Requires PHP:            5.6
  * WC requires at least:    4.0
- * WC tested up to:         9.2
+ * WC tested up to:         9.3
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Definition globals varibles
  */
 define( 'QLWCDC_PLUGIN_NAME', 'WooCommerce Direct Checkout' );
-define( 'QLWCDC_PLUGIN_VERSION', '3.3.9' );
+define( 'QLWCDC_PLUGIN_VERSION', '3.4.0' );
 define( 'QLWCDC_PLUGIN_FILE', __FILE__ );
 define( 'QLWCDC_PLUGIN_DIR', __DIR__ . DIRECTORY_SEPARATOR );
 define( 'QLWCDC_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -59,7 +59,7 @@ require_once __DIR__ . '/lib/class-plugin.php';
  */
 register_activation_hook(
 	__FILE__,
-	function() {
+	function () {
 		do_action( 'wcdc_activation' );
 	}
 );
@@ -69,7 +69,7 @@ register_activation_hook(
  */
 register_deactivation_hook(
 	__FILE__,
-	function() {
+	function () {
 		do_action( 'wcdc_deactivation' );
 	}
 );
@@ -79,7 +79,7 @@ register_deactivation_hook(
  */
 add_action(
 	'before_woocommerce_init',
-	function() {
+	function () {
 		if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
 			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
 		}
@@ -91,7 +91,7 @@ add_action(
  */
 add_action(
 	'before_woocommerce_init',
-	function() {
+	function () {
 		if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
 			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'cart_checkout_blocks', __FILE__, false );
 		}

@@ -62,5 +62,4 @@ class Premium {
 		}
 		return self::$instance;
 	}
-
 }

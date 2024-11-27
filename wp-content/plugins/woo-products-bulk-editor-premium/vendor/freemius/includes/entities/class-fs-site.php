@@ -13,6 +13,7 @@
     /**
      * @property int $blog_id
      */
+    #[AllowDynamicProperties]
     class FS_Site extends FS_Scope_Entity {
         /**
          * @var number
@@ -181,13 +182,17 @@
                 fs_ends_with( $subdomain, '.staging.wpengine.com' ) ||
                 fs_ends_with( $subdomain, '.dev.wpengine.com' ) ||
                 fs_ends_with( $subdomain, '.wpengine.com' ) ||
+                fs_ends_with( $subdomain, '.wpenginepowered.com' ) ||
                 // Pantheon
                 ( fs_ends_with( $subdomain, 'pantheonsite.io' ) &&
                   ( fs_starts_with( $subdomain, 'test-' ) || fs_starts_with( $subdomain, 'dev-' ) ) ) ||
                 // Cloudways
                 fs_ends_with( $subdomain, '.cloudwaysapps.com' ) ||
                 // Kinsta
-                ( fs_starts_with( $subdomain, 'staging-' ) && ( fs_ends_with( $subdomain, '.kinsta.com' ) || fs_ends_with( $subdomain, '.kinsta.cloud' ) ) ) ||
+                (
+                    ( fs_starts_with( $subdomain, 'staging-' ) || fs_starts_with( $subdomain, 'env-' ) ) &&
+                    ( fs_ends_with( $subdomain, '.kinsta.com' ) || fs_ends_with( $subdomain, '.kinsta.cloud' ) )
+                ) ||
                 // DesktopServer
                 fs_ends_with( $subdomain, '.dev.cc' ) ||
                 // Pressable
@@ -197,7 +202,9 @@
                 // Vendasta
                 ( fs_ends_with( $subdomain, '.websitepro-staging.com' ) || fs_ends_with( $subdomain, '.websitepro.hosting' ) ) ||
                 // InstaWP
-                fs_ends_with( $subdomain, '.instawp.xyz' )
+                fs_ends_with( $subdomain, '.instawp.xyz' ) ||
+                // 10Web Hosting
+                ( fs_ends_with( $subdomain, '-dev.10web.site' ) || fs_ends_with( $subdomain, '-dev.10web.cloud' ) )
             );
         }
 

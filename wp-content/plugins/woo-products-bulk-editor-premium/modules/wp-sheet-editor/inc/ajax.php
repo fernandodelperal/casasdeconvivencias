@@ -47,9 +47,9 @@ if ( ! class_exists( 'WP_Sheet_Editor_Ajax' ) ) {
 				wp_send_json_error( $error_message );
 			}
 
-			$post_type    = VGSE()->helpers->sanitize_table_key( $_REQUEST['post_type'] );
+			$post_type = VGSE()->helpers->sanitize_table_key( $_REQUEST['post_type'] );
 			// If this is a WC attribute, use WC's sanitization function
-			if( class_exists('WooCommerce') && strpos( $_REQUEST['taxonomy_key'], 'pa_') === 0 ){
+			if ( class_exists( 'WooCommerce' ) && strpos( $_REQUEST['taxonomy_key'], 'pa_' ) === 0 ) {
 				$taxonomy_key = wc_sanitize_taxonomy_name( $_REQUEST['taxonomy_key'] );
 			} else {
 				$taxonomy_key = VGSE()->helpers->sanitize_table_key( $_REQUEST['taxonomy_key'] );
@@ -63,6 +63,16 @@ if ( ! class_exists( 'WP_Sheet_Editor_Ajax' ) ) {
 
 			if ( is_array( $out ) ) {
 				$out = array_map( 'html_entity_decode', $out );
+
+				$search_term = ( ! empty( $_REQUEST['search'] ) ) ? html_entity_decode( sanitize_text_field( $_REQUEST['search'] ) ) : '';
+				if ( ! empty( $search_term ) ) {
+					foreach ( $out as $index => $term ) {
+						if ( stripos( $term, $search_term ) === false ) {
+							unset( $out[ $index ] );
+						}
+					}
+				}
+				$out = array_values( $out );
 			}
 			wp_send_json_success( $out );
 		}
@@ -162,10 +172,14 @@ if ( ! class_exists( 'WP_Sheet_Editor_Ajax' ) ) {
 			if ( ! VGSE()->helpers->verify_nonce_from_request() || ! VGSE()->helpers->verify_sheet_permissions_from_request( 'edit' ) ) {
 				wp_send_json_error( array( 'message' => __( 'You dont have enough permissions to create new rows.', 'vg_sheet_editor' ) ) );
 			}
-			$post_type = VGSE()->helpers->sanitize_table_key( $_REQUEST['post_type'] );
-			$rows      = (int) $_REQUEST['rows'];
+			$post_type            = VGSE()->helpers->sanitize_table_key( $_REQUEST['post_type'] );
+			$rows                 = (int) $_REQUEST['rows'];
+			$dont_return_new_rows = ! empty( $_REQUEST['dont_return_new_rows'] ) && $_REQUEST['dont_return_new_rows'] === 'yes';
 
-			$result = VGSE()->helpers->create_placeholder_posts( $post_type, $rows );
+			$result = VGSE()->helpers->create_placeholder_posts( $post_type, $rows, $dont_return_new_rows ? 'ids' : 'rows' );
+			if ( $dont_return_new_rows ) {
+				$result = array();
+			}
 
 			if ( is_wp_error( $result ) ) {
 				wp_send_json_error(
@@ -180,6 +194,23 @@ if ( ! class_exists( 'WP_Sheet_Editor_Ajax' ) ) {
 					'deleted' => array_unique( VGSE()->deleted_rows_ids ),
 				)
 			);
+		}
+
+		function list_posts_by_title() {
+			global $wpdb;
+
+			if ( empty( $_REQUEST['search_post_type'] ) || empty( VGSE()->helpers->get_nonce_from_request() ) ) {
+				wp_send_json_error( array( 'message' => __( 'Missing parameters.', 'vg_sheet_editor' ) ) );
+			}
+			$post_type = VGSE()->helpers->sanitize_table_key( $_REQUEST['search_post_type'] );
+
+			if ( ! VGSE()->helpers->verify_nonce_from_request() || ! VGSE()->helpers->user_can_view_post_type( $post_type ) ) {
+				wp_send_json_error( array( 'message' => __( 'Request not allowed. Try again later.', 'vg_sheet_editor' ) ) );
+			}
+
+			$titles = $wpdb->get_col( $wpdb->prepare( "SELECT post_title FROM $wpdb->posts WHERE post_type = %s LIMIT 500", $post_type ) );
+
+			wp_send_json_success( array( 'data' => $titles ) );
 		}
 
 		/**
@@ -270,6 +301,10 @@ if ( ! class_exists( 'WP_Sheet_Editor_Ajax' ) ) {
 			}
 		}
 
+		function search_users_select2() {
+			$_REQUEST['include_ids'] = 'yes';
+			return $this->search_users();
+		}
 		/**
 		 * Search taxonomy term
 		 * @global obj $wpdb
@@ -283,9 +318,15 @@ if ( ! class_exists( 'WP_Sheet_Editor_Ajax' ) ) {
 			if ( ! VGSE()->helpers->verify_nonce_from_request() || ! VGSE()->helpers->user_can_view_post_type( $_REQUEST['post_type'] ) ) {
 				wp_send_json_error( array( 'message' => __( 'You dont have enough permissions to search taxonomy terms.', 'vg_sheet_editor' ) ) );
 			}
-			$search = sanitize_text_field( $_REQUEST['search'] );
+			$search      = sanitize_text_field( $_REQUEST['search'] );
+			$include_ids = ! empty( $_REQUEST['include_ids'] );
 
-			$out = $wpdb->get_col( $wpdb->prepare( "SELECT user_login FROM $wpdb->users WHERE user_email LIKE %s OR user_nicename LIKE %s OR user_login LIKE %s OR display_name LIKE %s LIMIT 5", '%' . $wpdb->esc_like( $search ) . '%', '%' . $wpdb->esc_like( $search ) . '%', '%' . $wpdb->esc_like( $search ) . '%', '%' . $wpdb->esc_like( $search ) . '%' ) );
+			if ( $include_ids ) {
+				$rows = $wpdb->get_results( $wpdb->prepare( "SELECT ID,user_login FROM $wpdb->users WHERE user_email LIKE %s OR user_nicename LIKE %s OR user_login LIKE %s OR display_name LIKE %s LIMIT 5", '%' . $wpdb->esc_like( $search ) . '%', '%' . $wpdb->esc_like( $search ) . '%', '%' . $wpdb->esc_like( $search ) . '%', '%' . $wpdb->esc_like( $search ) . '%' ) );
+				$out  = wp_list_pluck( $rows, 'user_login', 'ID' );
+			} else {
+				$out = $wpdb->get_col( $wpdb->prepare( "SELECT user_login FROM $wpdb->users WHERE user_email LIKE %s OR user_nicename LIKE %s OR user_login LIKE %s OR display_name LIKE %s LIMIT 5", '%' . $wpdb->esc_like( $search ) . '%', '%' . $wpdb->esc_like( $search ) . '%', '%' . $wpdb->esc_like( $search ) . '%', '%' . $wpdb->esc_like( $search ) . '%' ) );
+			}
 			wp_send_json_success( array( 'data' => $out ) );
 		}
 
@@ -303,7 +344,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Ajax' ) ) {
 				wp_send_json_error( array( 'message' => __( 'You dont have enough permissions to search taxonomy terms.', 'vg_sheet_editor' ) ) );
 			}
 
-			$search        = sanitize_text_field( $_REQUEST['search'] );
+			$search        = wp_unslash( sanitize_text_field( $_REQUEST['search'] ) );
 			$output_format = ( isset( $_REQUEST['output_format'] ) ) ? sanitize_text_field( $_REQUEST['output_format'] ) : '';
 
 			if ( $is_global_search ) {
@@ -373,7 +414,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Ajax' ) ) {
 				wp_send_json_error( array( 'message' => __( 'Missing parameters.', 'vg_sheet_editor' ) ) );
 			}
 			if ( ! VGSE()->helpers->verify_nonce_from_request() || ! VGSE()->helpers->user_can_manage_options() ) {
-				wp_send_json_error( array( 'message' => __( 'You dont have enough permissions to search taxonomy terms.', 'vg_sheet_editor' ) ) );
+				wp_send_json_error( array( 'message' => __( 'You dont have enough permissions to perform this action.', 'vg_sheet_editor' ) ) );
 			}
 			$post_types = array_map( array( VGSE()->helpers, 'sanitize_table_key' ), $_REQUEST['post_types'] );
 			$append     = sanitize_text_field( $_REQUEST['append'] );
@@ -424,14 +465,14 @@ if ( ! class_exists( 'WP_Sheet_Editor_Ajax' ) ) {
 			foreach ( $new_settings as $key => $value ) {
 				// If this is not a registered setting, delete it
 				if ( ! isset( $registered_settings[ $key ] ) ) {
-					unset( $registered_settings[ $key ] );
+					unset( $new_settings[ $key ] );
 				}
 				// Empty values don't need sanitization
 				if ( empty( $value ) ) {
 					continue;
 				}
 				if ( ! isset( $registered_settings[ $key ] ) ) {
-					$new_settings[ $key ] = sanitize_text_field( $value );
+					$new_settings[ $key ] = sanitize_text_field( wp_unslash( $value ) );
 					continue;
 				}
 				$args = $registered_settings[ $key ];
@@ -451,7 +492,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Ajax' ) ) {
 				} elseif ( $args['type'] === 'new_select' && ! empty( $args['multi'] ) ) {
 					$new_settings[ $key ] = array_map( 'sanitize_text_field', $value );
 				} else {
-					$new_settings[ $key ] = sanitize_text_field( $value );
+					$new_settings[ $key ] = sanitize_text_field( wp_unslash( $value ) );
 				}
 			}
 			return $new_settings;
@@ -563,10 +604,12 @@ if ( ! class_exists( 'WP_Sheet_Editor_Ajax' ) ) {
 			add_action( 'wp_ajax_vgse_save_gutenberg_content', array( $this, 'save_gutenberg_content' ) );
 			add_action( 'wp_ajax_vgse_save_data', array( $this, 'save_rows' ) );
 			add_action( 'wp_ajax_vgse_find_post_by_name', array( $this, 'find_post_by_name' ) );
+			add_action( 'wp_ajax_vgse_list_post_titles', array( $this, 'list_posts_by_title' ) );
 			add_action( 'wp_ajax_vgse_save_individual_post', array( $this, 'save_single_post_data' ) );
 			add_action( 'wp_ajax_vgse_insert_individual_post', array( $this, 'insert_individual_post' ) );
 			add_action( 'wp_ajax_vgse_search_taxonomy_terms', array( $this, 'search_taxonomy_terms' ) );
 			add_action( 'wp_ajax_vgse_find_users_by_keyword', array( $this, 'search_users' ) );
+			add_action( 'wp_ajax_vgse_find_users_by_keyword_for_select2', array( $this, 'search_users_select2' ) );
 			add_action( 'wp_ajax_vgse_save_post_types_setting', array( $this, 'save_post_types_setting' ) );
 			add_action( 'wp_ajax_vgse_set_settings', array( $this, 'set_settings' ) );
 		}

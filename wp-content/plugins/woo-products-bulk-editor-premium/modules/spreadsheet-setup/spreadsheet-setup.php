@@ -198,12 +198,14 @@ if (!class_exists('WPSE_Post_Type_Setup_Wizard')) {
 
 			$post_types = array_unique($post_types);
 
+			$request_post_type = sanitize_text_field($_POST['post_type']);
+
 			$registered_post_type = current(VGSE()->helpers->get_all_post_types(array(
-						'name' => sanitize_text_field($_POST['post_type']),
-						'label' => sanitize_text_field($_POST['post_type']),
+						'name' => $request_post_type,
+						'label' => $request_post_type,
 			)));
 
-			if (!empty($registered_post_type)) {
+			if (!empty($registered_post_type) && ( $registered_post_type->name === $request_post_type || $registered_post_type->label === $request_post_type ) ) {
 				$out = array(
 					'slug' => $registered_post_type->name,
 					'label' => $registered_post_type->label
@@ -214,7 +216,7 @@ if (!class_exists('WPSE_Post_Type_Setup_Wizard')) {
 				}
 				$out = array(
 					'slug' => sanitize_title($_POST['post_type']),
-					'label' => sanitize_text_field($_POST['post_type']),
+					'label' => $request_post_type,
 				);
 			}
 

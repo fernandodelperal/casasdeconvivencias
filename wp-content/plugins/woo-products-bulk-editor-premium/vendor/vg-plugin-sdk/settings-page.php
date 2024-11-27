@@ -1,5 +1,5 @@
-<?php
-
+<?php 
+ 
 if (!class_exists('VGFP_SDK_Settings_Page')) {
 
 	class VGFP_SDK_Settings_Page {
@@ -39,6 +39,48 @@ if (!class_exists('VGFP_SDK_Settings_Page')) {
 			}
 
 			add_action('wp_ajax_vgfpsdk_settings_' . $args['opt_name'], array($this, 'save_settings'));
+			if (!empty($_GET['vgjpsdk_hard_reset']) && !empty($_GET['vgjpsdk_nonce']) && current_user_can($this->args['page_permissions']) && wp_verify_nonce($_GET['vgjpsdk_nonce'], 'vgfpsdk_settings_' . $this->args['opt_name'])) {
+				$this->delete_settings();
+				if (!headers_sent()) {
+					wp_redirect(remove_query_arg(array('vgjpsdk_hard_reset', 'vgjpsdk_nonce')));
+					exit();
+				}
+			}
+			if (!empty($_GET['vgjpsdk_export_settings']) && !empty($_GET['vgjpsdk_nonce']) && current_user_can($this->args['page_permissions']) && wp_verify_nonce($_GET['vgjpsdk_nonce'], 'vgfpsdk_settings_' . $this->args['opt_name'])) {
+				$this->export_settings();
+			}
+		}
+
+		function export_settings() {
+			global $wpdb;
+
+			if (!current_user_can($this->args['page_permissions'])) {
+				return;
+			}
+
+			$option_keys_like = apply_filters('vg_plugin_sdk/settings/' . $this->args['opt_name'] . '/export/option_keys_like', array());
+			$option_keys_equal = apply_filters('vg_plugin_sdk/settings/' . $this->args['opt_name'] . '/export/option_keys_equal', array($this->args['opt_name']));
+
+			if (is_multisite() && $this->args['enable_wpmu_mode']) {
+				$current_blog_id = get_current_blog_id();
+				switch_to_blog(1);
+			}
+			$out = array();
+			foreach ($option_keys_like as $option_key) {
+				$out = array_merge($out, $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options WHERE option_name LIKE '%" . esc_sql($option_key) . "%' ", ARRAY_A));
+			}
+			foreach ($option_keys_equal as $option_key) {
+				$out = array_merge($out, $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options WHERE option_name =  '" . esc_sql($option_key) . "' ", ARRAY_A));
+			}
+			if (is_multisite() && $this->args['enable_wpmu_mode']) {
+				switch_to_blog($current_blog_id);
+			}
+
+			$final = array_map('maybe_unserialize', wp_list_pluck($out, 'option_value', 'option_name'));
+			header("Content-type: application/json");
+			header("Content-disposition: attachment; filename = " . basename('settings-' . date('Ymd-His') . '.json'));
+			echo json_encode($final, JSON_PRETTY_PRINT);
+			die();
 		}
 
 		function get_setting($key = null, $default = null, $skip_filter = false) {
@@ -85,9 +127,17 @@ if (!class_exists('VGFP_SDK_Settings_Page')) {
 		}
 
 		function _sanitize_field_value($value, $field) {
+			$value = is_string( $value ) ? str_replace(array('{', '}'), array('-a-', '-b-'), $value) : $value;
 			switch ($field['type']) {
 				case 'textarea':
-					$value = sanitize_textarea_field($value);
+					if (!empty($field['validate']) && $field['validate'] === 'urls_list') {
+						$urls = array_map('trim', preg_split('/\r\n|\r|\n/', $value));
+						$value = implode(PHP_EOL, array_map('esc_url_raw', $urls));
+					} elseif (!empty($field['validate']) && $field['validate'] === 'html') {
+						$value = wp_unslash($value);
+					} else {
+						$value = sanitize_textarea_field($value);
+					}
 					break;
 				case 'editor':
 					$value = wp_kses_post($value);
@@ -106,12 +156,13 @@ if (!class_exists('VGFP_SDK_Settings_Page')) {
 					foreach ($value as $value_index => $single_value) {
 						if (empty($single_value[0]) && empty($single_value[1])) {
 							unset($value[$value_index]);
-						}
+						} 
 					}
 					break;
 				case 'select':
 				case 'checkbox':
 				case 'radio':
+					$first_option_value = is_array( $field['options'] ) ? current( array_keys( $field['options'] ) ) : null;
 					if (is_array($value)) {
 						foreach ($value as $value_index => $single_value) {
 							if (!isset($field['options'][$single_value])) {
@@ -120,6 +171,9 @@ if (!class_exists('VGFP_SDK_Settings_Page')) {
 						}
 					} elseif (!isset($field['options'][$value])) {
 						$value = '';
+					}
+					if( $value && is_string( $value ) && is_int( $first_option_value )){
+						$value = (int) $value;
 					}
 					break;
 
@@ -145,11 +199,13 @@ if (!class_exists('VGFP_SDK_Settings_Page')) {
 						break;
 				}
 			}
+			$value = is_string( $value ) ? str_replace(array('-a-', '-b-'), array('{', '}'), $value) : $value;
 			return $value;
 		}
 
 		function save_settings() {
-			$data = $this->_clean($_POST);
+			// We won't clean the array here because every field will be cleaned individually with _sanitize_field_value()
+			$data = $_POST;
 			$nonce = $data['nonce'];
 			if (empty($data['nonce']) || !wp_verify_nonce($nonce, 'vgfpsdk_settings_' . $this->args['opt_name']) || !current_user_can($this->args['page_permissions'])) {
 				wp_send_json_error();
@@ -170,16 +226,48 @@ if (!class_exists('VGFP_SDK_Settings_Page')) {
 			// zero chance of editing other site options
 			// and we run this only if the user can manage_options
 
+
 			if (is_multisite() && $this->args['enable_wpmu_mode']) {
 				$options = get_blog_option(1, $this->args['opt_name'], array());
 			}
 			if (empty($options)) {
 				$options = get_option($this->args['opt_name'], array());
 			}
-
 			if (empty($options) || !is_array($options)) {
 				$options = array();
 			}
+
+			if (!empty($data['vgjpsdk_import_settings'])) {
+				$import_settings = json_decode(html_entity_decode(wp_unslash($data['vgjpsdk_import_settings'])), true);
+				if (is_array($import_settings)) {
+					$option_keys_like = apply_filters('vg_plugin_sdk/settings/' . $this->args['opt_name'] . '/export/option_keys_like', array());
+					$option_keys_equal = apply_filters('vg_plugin_sdk/settings/' . $this->args['opt_name'] . '/export/option_keys_equal', array($this->args['opt_name']));
+					foreach ($import_settings as $setting_key => $setting_value) {
+						$like_option_matched = false;
+						foreach ($option_keys_like as $option_key_like) {
+							if (strpos($setting_key, $option_key_like) !== false) {
+								$like_option_matched = true;
+								break;
+							}
+						}
+						if (in_array($setting_key, $option_keys_equal, true) || $like_option_matched) {
+							if (is_multisite() && $this->args['enable_wpmu_mode']) {
+								update_blog_option(1, $setting_key, $setting_value);
+							} else {
+								update_option($setting_key, $setting_value);
+							}
+						}
+					}
+					do_action('vg_plugin_sdk/settings/' . $this->args['opt_name'] . '/after_import', $import_settings, $this->args['opt_name'], $data, $this);
+					wp_send_json_success();
+				} else {
+					wp_send_json_error();
+				}
+			}
+			if (isset($data['vgjpsdk_import_settings'])) {
+				unset($data['vgjpsdk_import_settings']);
+			}
+
 			$options = wp_parse_args($new_settings, $options);
 			$options = apply_filters('vg_plugin_sdk/settings/' . $this->args['opt_name'] . '/before_saving', $options, $this->args['opt_name'], $data, $this);
 			if (is_multisite() && $this->args['enable_wpmu_mode']) {
@@ -190,6 +278,24 @@ if (!class_exists('VGFP_SDK_Settings_Page')) {
 			do_action('vg_plugin_sdk/settings/' . $this->args['opt_name'] . '/after_saving', $options, $this->args['opt_name'], $data, $this);
 
 			wp_send_json_success();
+		}
+
+		function delete_settings() {
+			if (!current_user_can($this->args['page_permissions'])) {
+				return;
+			}
+			$options = array();
+			if (is_multisite() && $this->args['enable_wpmu_mode']) {
+				$options = get_blog_option(1, $this->args['opt_name'], array());
+			}
+			if (empty($options)) {
+				$options = get_option($this->args['opt_name'], array());
+			}
+			if (is_multisite() && $this->args['enable_wpmu_mode']) {
+				delete_blog_option(1, $this->args['opt_name']);
+			}
+			delete_option($this->args['opt_name']);
+			do_action('vg_plugin_sdk/settings/' . $this->args['opt_name'] . '/after_reset', $options, $this->args['opt_name'], $this);
 		}
 
 		function get_sections() {

@@ -9,7 +9,11 @@ $nonce = wp_create_nonce( 'bep-nonce' );
 if ( empty( $current_post_type ) ) {
 	$current_post_type = VGSE()->helpers->get_provider_from_query_string();
 }
-$editor = VGSE()->helpers->get_provider_editor( $current_post_type );
+$editor          = VGSE()->helpers->get_provider_editor( $current_post_type );
+if ( ! $editor ) {
+	return;
+}
+$editor_settings = $editor->get_editor_settings( $current_post_type );
 
 if ( function_exists( 'WPSE_Profiler_Obj' ) ) {
 	WPSE_Profiler_Obj()->record( 'Start ' . __FUNCTION__ );
@@ -38,6 +42,16 @@ $subtle_lock = in_array( date( 'Y-m-d' ), array( '2019-10-22', '2019-10-24', '20
 	.notice, div.error, div.updated {
 		display: none !important;
 	}	
+	/*Fix misaligned rows when they set custom image preview heights*/
+	/* Disabled because it was initially added as the fixed columns were misaligned when rows had content taller than the regular row height and this CSS forced all the rows to have the same height. But this is no longer necessary since we fixed the misalignment issue in our CSS and now rows can have dynamic height without misalignment. */
+	<?php if ( ! empty( $editor_settings['media_cell_preview_max_height'] ) ) { ?>
+	/*#vgse-wrapper :not(.htContextMenu) .ht_master.handsontable tbody th, 
+	#vgse-wrapper .ht_clone_left tbody td,
+	#vgse-wrapper .ht_clone_left tbody th,
+	#vgse-wrapper .ht_master.handsontable tbody td:not(.htSeparator) {
+		height: <?php echo (int) $editor_settings['media_cell_preview_max_height']; ?>px !important;
+	}*/
+	<?php } ?>
 </style>
 <div class="remodal-bg highlightCurrentRow 
 <?php
@@ -133,7 +147,7 @@ if ( function_exists( 'WPSE_Profiler_Obj' ) ) {
 					$console_items = array(
 						'be-current-sheet' => array(
 							'label' => __( 'Current spreadsheet', 'vg_sheet_editor' ),
-							'value' => VGSE()->helpers->get_post_type_label($current_post_type),
+							'value' => VGSE()->helpers->get_post_type_label( $current_post_type ),
 						),
 						'be-total-rows'    => array(
 							'label' => __( 'Rows', 'vg_sheet_editor' ),
@@ -141,10 +155,10 @@ if ( function_exists( 'WPSE_Profiler_Obj' ) ) {
 						),
 					);
 					if ( ! empty( VGSE()->options[ 'default_sortby_' . $current_post_type ] ) ) {
-						$custom_order_by                  = preg_replace( '/^(ASC|DESC):/', '', VGSE()->options[ 'default_sortby_' . $current_post_type ] );
-						$custom_order                     = strpos( VGSE()->options[ 'default_sortby_' . $current_post_type ], 'ASC:' ) === 0 ? 'ASC' : 'DESC';
-						$spreadsheet_columns              = VGSE()->helpers->get_provider_columns( $current_post_type );
-						$sort_name                        = isset( $spreadsheet_columns[ $custom_order_by ] ) ? $spreadsheet_columns[ $custom_order_by ]['title'] : $custom_order_by;
+						$custom_order_by                 = preg_replace( '/^(ASC|DESC):/', '', VGSE()->options[ 'default_sortby_' . $current_post_type ] );
+						$custom_order                    = strpos( VGSE()->options[ 'default_sortby_' . $current_post_type ], 'ASC:' ) === 0 ? 'ASC' : 'DESC';
+						$spreadsheet_columns             = VGSE()->helpers->get_provider_columns( $current_post_type );
+						$sort_name                       = isset( $spreadsheet_columns[ $custom_order_by ] ) ? $spreadsheet_columns[ $custom_order_by ]['title'] : $custom_order_by;
 						$console_items['be-global-sort'] = array(
 							'label' => __( 'Global sort', 'vg_sheet_editor' ),
 							'value' => $sort_name . ' (' . $custom_order . ')',
@@ -294,24 +308,21 @@ if ( function_exists( 'WPSE_Profiler_Obj' ) ) {
 		<div class="modal-content">
 			<h3 class="post-title-modal"><?php esc_html_e( 'Editing:', 'vg_sheet_editor' ); ?> <span class="post-title"></span></h3>
 			<?php
-			$editor_id = 'editpost';
-			wp_editor(
-				'',
-				$editor_id,
-				array(
-					'default_editor' => 'html',
-				)
-			);
+			wp_enqueue_editor();
+
+			// This is required to make WP render the tinyMCEPreInit variable with all the tinymce settings that we can use in the JS initialization
+			_WP_Editors::editor_settings( 'editpost', _WP_Editors::parse_settings( 'editpost', array() ) );
 			?>
+			<textarea id="editpost" rows="30"></textarea>
 			<span class="vgse-resize-editor-indicator vgse-tinymce-popup-indicators"><?php esc_html_e( 'You can resize the editor', 'vg_sheet_editor' ); ?> <i class="fa fa-arrow-up"></i></span>
 		</div>
 		<br>
 		<?php do_action( 'vg_sheet_editor/editor_page/tinymce/before_action_buttons' ); ?>
-		<button class="remodal-mover anterior remodal-secundario guardar-popup-tinymce"><i class="fa fa-chevron-left"></i>&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-save"></i></button><a href="#" data-wpse-tooltip="left" aria-label="<?php esc_html_e( 'Save changes and edit the previous row', 'vg_sheet_editor' ); ?>">( ? )</a>
+		<button class="remodal-mover anterior remodal-secundario"><i class="fa fa-chevron-left"></i>&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-save"></i></button><a href="#" data-wpse-tooltip="left" aria-label="<?php esc_html_e( 'Save changes and edit the previous row', 'vg_sheet_editor' ); ?>">( ? )</a>
 		<button class="remodal-confirm guardar-popup-tinymce" data-remodal-action="confirm"><i class="fa fa-save"></i></button><a href="#" data-wpse-tooltip="down" aria-label="<?php esc_html_e( 'Just save changes', 'vg_sheet_editor' ); ?>">( ? )</a>
 		<?php do_action( 'vg_sheet_editor/editor_page/tinymce/between_action_buttons' ); ?>
 		<button data-remodal-action="confirm" class="remodal-cancel"><i class="fa fa-close"></i></button><a href="#" data-wpse-tooltip="down" aria-label="<?php esc_html_e( 'Cancel the changes and close popup', 'vg_sheet_editor' ); ?>">( ? )</a>
-		<button class="siguiente remodal-secundario guardar-popup-tinymce"><i class="fa fa-save"></i>&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-chevron-right"></i></button><a href="#" data-wpse-tooltip="right" aria-label="<?php esc_html_e( 'Save changes and edit the next row', 'vg_sheet_editor' ); ?>">( ? )</a>
+		<button class="siguiente remodal-secundario"><i class="fa fa-save"></i>&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-chevron-right"></i></button><a href="#" data-wpse-tooltip="right" aria-label="<?php esc_html_e( 'Save changes and edit the next row', 'vg_sheet_editor' ); ?>">( ? )</a>
 		<?php do_action( 'vg_sheet_editor/editor_page/tinymce/after_action_buttons' ); ?>
 	</div>
 <?php

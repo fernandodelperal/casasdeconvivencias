@@ -9,6 +9,7 @@ namespace ThemeIsle\GutenbergBlocks\CSS;
 
 use ThemeIsle\GutenbergBlocks\Base_CSS;
 
+use ThemeIsle\GutenbergBlocks\Registration;
 use tubalmartin\CssMin\Minifier as CSSmin;
 
 /**
@@ -19,7 +20,7 @@ class CSS_Handler extends Base_CSS {
 	/**
 	 * The main instance var.
 	 *
-	 * @var CSS_Handler
+	 * @var CSS_Handler|null
 	 */
 	public static $instance = null;
 
@@ -30,7 +31,89 @@ class CSS_Handler extends Base_CSS {
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 		add_action( 'rest_api_init', array( $this, 'autoload_block_classes' ) );
 		add_action( 'before_delete_post', array( __CLASS__, 'delete_css_file' ) );
-		add_action( 'customize_save_after', array( __CLASS__, 'save_widgets_styles' ) );
+		add_action( 'customize_save_after', array( $this, 'customize_save_after' ) );
+		add_filter( 'customize_dynamic_partial_args', array( $this, 'customize_dynamic_partial_args' ), 10, 2 );
+	}
+
+	/**
+	 * Method used to register actively used widgets.
+	 *
+	 * @return void
+	 */
+	private function register_used_widgets() {
+		$registration = Registration::instance();
+		$widgets_used = $registration::$widget_used;
+		if ( empty( $widgets_used ) ) {
+			$sidebar_widgets = get_option( 'sidebars_widgets' );
+			foreach ( $sidebar_widgets as $sidebar => $widgets ) {
+				if ( 'wp_inactive_widgets' === $sidebar || ! is_array( $widgets ) ) {
+					continue;
+				}
+				foreach ( $widgets as $widget ) {
+					$widgets_used[] = $widget;
+				}
+			}
+			$registration::$widget_used = $widgets_used;
+		}
+	}
+
+	/**
+	 * Method used to add a filter for widget rendering before the partial is rendered.
+	 *
+	 * @param array  $partial_args Partial args.
+	 * @param string $partial_id Partial ID.
+	 *
+	 * @return array
+	 */
+	public function customize_dynamic_partial_args( $partial_args, $partial_id ) {
+		if ( preg_match( '/^widget\[(?P<widget_id>.+)\]$/', $partial_id, $matches ) ) {
+			add_filter( 'widget_block_content', array( $this, 'customize_widget_block_content' ), 10, 3 );
+		}
+
+		return $partial_args;
+	}
+
+	/**
+	 * Add inline styles for partially rendered block inside customizer.
+	 *
+	 * @param string     $block_content The block content.
+	 * @param array      $block The block data.
+	 * @param \WP_Widget $instance The widget instance.
+	 *
+	 * @return string
+	 */
+	public function customize_widget_block_content( $block_content, $block, $instance ) {
+		$widget_data    = get_option( 'widget_block', array() );
+		$partial_widget = (object) $widget_data[ $instance->number ];
+		if ( ! isset( $widget_data[ $instance->number ] ) ) {
+			return $block_content;
+		}
+		if ( ! $widget_data[ $instance->number ] ) {
+			return $block_content;
+		}
+
+		$content = $partial_widget->content;
+		$blocks  = parse_blocks( $content );
+
+		if ( ! is_array( $blocks ) || empty( $blocks ) ) {
+			return $block_content;
+		}
+
+		$animations = boolval( preg_match( '/\banimated\b/', $content ) );
+		$css        = $this->cycle_through_static_blocks( $blocks, $animations );
+
+		return '<style>.customize-previewing ' . $css . '</style>' . $block_content;
+	}
+
+	/**
+	 * Method after the customizer save is done.
+	 *
+	 * @return void
+	 */
+	public function customize_save_after() {
+		$this->register_used_widgets();
+
+		$this->save_widgets_styles();
 	}
 
 	/**
@@ -59,8 +142,8 @@ class CSS_Handler extends Base_CSS {
 							},
 						),
 					),
-					'permission_callback' => function () {
-						return current_user_can( 'publish_posts' );
+					'permission_callback' => function ( $request ) {
+						return current_user_can( 'edit_post', $request->get_param( 'id' ) );
 					},
 				),
 			)
@@ -83,8 +166,8 @@ class CSS_Handler extends Base_CSS {
 							},
 						),
 					),
-					'permission_callback' => function () {
-						return current_user_can( 'publish_posts' );
+					'permission_callback' => function ( $request ) {
+						return current_user_can( 'edit_post', $request->get_param( 'id' ) );
 					},
 				),
 			)
@@ -96,13 +179,30 @@ class CSS_Handler extends Base_CSS {
 			array(
 				array(
 					'methods'             => \WP_REST_Server::EDITABLE,
-					'callback'            => array( $this, 'save_widgets_styles' ),
+					'callback'            => array( $this, 'save_widgets_styles_rest' ),
 					'permission_callback' => function () {
 						return current_user_can( 'edit_theme_options' );
 					},
 				),
 			)
 		);
+	}
+
+	/**
+	 * When in REST API context, autoload widgets used so that all css data is updated.
+	 *
+	 * @param \WP_REST_Request $request The request object.
+	 *
+	 * @return \WP_REST_Response | \WP_Error
+	 */
+	public function save_widgets_styles_rest( \WP_REST_Request $request ) {
+		$this->register_used_widgets();
+
+		$response = $this->save_widgets_styles();
+		if ( is_null( $response ) ) {
+			$response = true;
+		}
+		return rest_ensure_response( $response );
 	}
 
 	/**
@@ -122,6 +222,8 @@ class CSS_Handler extends Base_CSS {
 		$post_id = $request->get_param( 'id' );
 		self::generate_css_file( $post_id );
 
+		self::mark_review_block_metadata( $post_id );
+
 		return rest_ensure_response( array( 'message' => __( 'CSS updated.', 'otter-blocks' ) ) );
 	}
 
@@ -138,9 +240,9 @@ class CSS_Handler extends Base_CSS {
 	/**
 	 * Get CSS url for post.
 	 *
-	 * @param int/string $type Post ID or Widget.
+	 * @param int|string $type Post ID or Widget.
 	 *
-	 * @return string File url.
+	 * @return string|false File url.
 	 */
 	public static function get_css_url( $type = 'widgets' ) {
 		$file_name = '';
@@ -164,7 +266,7 @@ class CSS_Handler extends Base_CSS {
 	/**
 	 * Check if we have a CSS file for this post.
 	 *
-	 * @param int/string $type Post ID or Widget.
+	 * @param int|string $type Post ID or Widget.
 	 *
 	 * @return bool
 	 */
@@ -207,9 +309,10 @@ class CSS_Handler extends Base_CSS {
 
 		self::save_css_file( $post_id, $css );
 
+		self::mark_review_block_metadata( $post_id );
+
 		return rest_ensure_response( array( 'message' => __( 'CSS updated.', 'otter-blocks' ) ) );
 	}
-
 
 	/**
 	 * Function to save CSS into WordPress Filesystem.
@@ -217,7 +320,6 @@ class CSS_Handler extends Base_CSS {
 	 * @param int    $post_id Post id.
 	 * @param string $css CSS string.
 	 *
-	 * @return bool
 	 * @since   1.3.0
 	 * @access  public
 	 */
@@ -267,14 +369,12 @@ class CSS_Handler extends Base_CSS {
 				wp_mkdir_p( $upload_dir );
 			}
 
-			$wp_filesystem->put_contents( $file_path, $css, FS_CHMOD_FILE );
+			$wp_filesystem->put_contents( $file_path, stripslashes( $css ), FS_CHMOD_FILE );
 
 			if ( file_exists( $file_path ) ) {
 				update_post_meta( $post_id, '_themeisle_gutenberg_block_stylesheet', $file_name );
 			}
 		}
-
-		return true;
 	}
 
 	/**
@@ -282,7 +382,6 @@ class CSS_Handler extends Base_CSS {
 	 *
 	 * @param int $post_id Post id.
 	 *
-	 * @return bool
 	 * @since   1.3.0
 	 * @access  public
 	 */
@@ -317,14 +416,11 @@ class CSS_Handler extends Base_CSS {
 		}
 
 		$wp_filesystem->delete( $file_path, true );
-
-		return true;
 	}
 
 	/**
 	 * Function to save/resave widget styles.
 	 *
-	 * @return  bool
 	 * @since   1.7.0
 	 * @access  public
 	 */
@@ -385,14 +481,12 @@ class CSS_Handler extends Base_CSS {
 				wp_mkdir_p( $upload_dir );
 			}
 
-			$wp_filesystem->put_contents( $file_path, $css, FS_CHMOD_FILE );
+			$wp_filesystem->put_contents( $file_path, stripslashes( $css ), FS_CHMOD_FILE );
 
 			if ( file_exists( $file_path ) ) {
 				update_option( 'themeisle_blocks_widgets_css_file', $file_name );
 			}
 		}
-
-		return true;
 	}
 
 	/**
@@ -441,6 +535,37 @@ class CSS_Handler extends Base_CSS {
 		$css = $compressor->run( $css );
 
 		return $css;
+	}
+
+	/**
+	 * Mark in post meta if the post has a review block.
+	 *
+	 * @param int $post_id Post ID.
+	 * @since 2.4.0
+	 * @access public
+	 */
+	public static function mark_review_block_metadata( $post_id ) {
+		if ( empty( $post_id ) ) {
+			return;
+		}
+
+		$content     = get_the_content( '', false, $post_id );
+		$saved_value = boolval( get_post_meta( $post_id, '_themeisle_gutenberg_block_has_review', true ) );
+
+		if ( empty( $content ) ) {
+
+			if ( true === $saved_value ) {
+				delete_post_meta( $post_id, '_themeisle_gutenberg_block_has_review' );
+			}
+
+			return;
+		}
+
+		$has_review = false !== strpos( $content, '<!-- wp:themeisle-blocks/review' );
+
+		if ( $has_review !== $saved_value ) {
+			update_post_meta( $post_id, '_themeisle_gutenberg_block_has_review', $has_review );
+		}
 	}
 
 	/**

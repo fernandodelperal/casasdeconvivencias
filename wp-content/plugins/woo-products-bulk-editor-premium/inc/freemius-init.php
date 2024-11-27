@@ -1,13 +1,10 @@
 <?php
 
 defined( 'ABSPATH' ) || exit;
-
 if ( !function_exists( 'wpsewcp_freemius' ) ) {
     // Create a helper function for easy SDK access.
-    function wpsewcp_freemius()
-    {
-        global  $wpsewcp_freemius ;
-        
+    function wpsewcp_freemius() {
+        global $wpsewcp_freemius;
         if ( !isset( $wpsewcp_freemius ) ) {
             if ( !defined( 'WP_FS__PRODUCT_2812_MULTISITE' ) ) {
                 define( 'WP_FS__PRODUCT_2812_MULTISITE', true );
@@ -21,17 +18,16 @@ if ( !function_exists( 'wpsewcp_freemius' ) ) {
                 'has_addons'     => false,
                 'has_paid_plans' => true,
                 'menu'           => array(
-                'slug'       => 'wpsewcp_welcome_page',
-                'first-path' => 'admin.php?page=wpsewcp_welcome_page',
-                'support'    => false,
-            ),
+                    'slug'       => 'wpsewcp_welcome_page',
+                    'first-path' => 'admin.php?page=wpsewcp_welcome_page',
+                    'support'    => false,
+                ),
                 'is_live'        => true,
             ) );
         }
-        
         return $wpsewcp_freemius;
     }
-    
+
     // Init Freemius.
     wpsewcp_freemius();
     // Signal that SDK was initiated.

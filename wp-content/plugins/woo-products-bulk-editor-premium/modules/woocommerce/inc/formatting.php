@@ -130,7 +130,7 @@ if ( ! class_exists( 'WPSE_WC_Products_Data_Formatting' ) ) {
 
 			$product_exists_in_lookup_table = (bool) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}wc_product_meta_lookup WHERE product_id = %d", $product_id ) );
 
-			$product_lookup_keys        = array( '_price', '_regular_price', '_sale_price', '_sale_price_dates_from', '_sale_price_dates_to', '_sku', '_stock', '_stock_status', '_manage_stock', '_downloadable', '_virtual', '_thumbnail_id' );
+			$product_lookup_keys        = array( '_price', '_regular_price', '_sale_price', '_sale_price_dates_from', '_sale_price_dates_to', '_sku', '_stock', '_stock_status', '_manage_stock', '_downloadable', '_virtual', '_thumbnail_id', 'total_sales' );
 			$lookup_already_synced      = in_array( $product_id, $this->wc_lookuptable_after_save_synced, true );
 			$update_lookup_table_always = ! empty( VGSE()->options['update_lookup_table_always'] );
 			$sync_required              = ! $product_exists_in_lookup_table || array_intersect( $modified_data, $product_lookup_keys ) || $update_lookup_table_always;
@@ -139,10 +139,25 @@ if ( ! class_exists( 'WPSE_WC_Products_Data_Formatting' ) ) {
 			if ( ! $product ) {
 				return;
 			}
+
+			// Disable the recounting of terms because it's very expensive and super slow on big stores,
+			// And we just want to sync the lookup, prices, stock; not terms.
+			add_filter( 'woocommerce_product_recount_terms', '__return_false', 999 );
+
 			$taxonomy_keys = wc_get_attribute_taxonomy_names();
 			if ( array_intersect( $modified_data, $taxonomy_keys ) && class_exists( '\Automattic\WooCommerce\Internal\ProductAttributesLookup\LookupDataStore' ) ) {
 				wc_get_container()->get( \Automattic\WooCommerce\Internal\ProductAttributesLookup\LookupDataStore::class )->on_product_changed( $product );
 			}
+
+			// Hooks required by some plugins that sync stock or deal with stock
+			if ( in_array( '_stock', $modified_data, true ) ) {
+				if ( $product->is_type( 'variation' ) ) {
+					do_action( 'woocommerce_variation_set_stock', $product );
+				} else {
+					do_action( 'woocommerce_product_set_stock', $product );
+				}
+			}
+
 			if ( ! $lookup_already_synced && $sync_required ) {
 
 				// We resave the regular price to force WC to execute the internal, protected method update_lookup_table()
@@ -404,7 +419,7 @@ if ( ! class_exists( 'WPSE_WC_Products_Data_Formatting' ) ) {
 				}
 				if ( isset( $parent_product['_sale_price_dates_to'] ) ) {
 					if ( ! empty( $parent_product['_sale_price_dates_to'] ) ) {
-						$parent_product['_sale_price_dates_to'] = date( 'Y-m-d', strtotime( $parent_product['_sale_price_dates_to'] ) );
+						$parent_product['_sale_price_dates_to'] = date( 'Y-m-d 23:59:59', strtotime( $parent_product['_sale_price_dates_to'] ) );
 					}
 					$new_data['date_on_sale_to'] = $parent_product['_sale_price_dates_to'];
 				}
@@ -551,7 +566,7 @@ if ( ! class_exists( 'WPSE_WC_Products_Data_Formatting' ) ) {
 						}
 						if ( isset( $variation['_sale_price_dates_to'] ) ) {
 							if ( ! empty( $variation['_sale_price_dates_to'] ) ) {
-								$variation['_sale_price_dates_to'] = date( 'Y-m-d', strtotime( $variation['_sale_price_dates_to'] ) );
+								$variation['_sale_price_dates_to'] = date( 'Y-m-d 23:59:59', strtotime( $variation['_sale_price_dates_to'] ) );
 							}
 							$new_data['variations'][ $index ]['date_on_sale_to'] = $variation['_sale_price_dates_to'];
 						}
@@ -586,10 +601,10 @@ if ( ! class_exists( 'WPSE_WC_Products_Data_Formatting' ) ) {
 
 			foreach ( $data as $row_index => $row ) {
 				if ( ! empty( $row['_sale_price_dates_from'] ) && is_numeric( $row['_sale_price_dates_from'] ) ) {
-					$data[ $row_index ]['_sale_price_dates_from'] = date( 'Y-m-d', $row['_sale_price_dates_from'] );
+					$data[ $row_index ]['_sale_price_dates_from'] = wp_date( 'Y-m-d', $row['_sale_price_dates_from'] );
 				}
 				if ( ! empty( $row['_sale_price_dates_to'] ) && is_numeric( $row['_sale_price_dates_to'] ) ) {
-					$data[ $row_index ]['_sale_price_dates_to'] = date( 'Y-m-d', $row['_sale_price_dates_to'] );
+					$data[ $row_index ]['_sale_price_dates_to'] = wp_date( 'Y-m-d', $row['_sale_price_dates_to'] );
 				}
 			}
 			return $data;

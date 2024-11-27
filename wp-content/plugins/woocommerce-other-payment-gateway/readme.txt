@@ -1,13 +1,14 @@
 === WooCommerce Custom Payment Gateway ===
 Contributors: waseem_senjer,wprubyplugins
 Donate link: https://wpruby.com/plugin/woocommerce-custom-payment-gateway-pro/
-Tags: woocommerce,payment gateway, woocommerce extension, other payment,payment, payment option, custom payment
+Tags: woocommerce,payment gateway, woocommerce extension, other payment, custom payment
 Requires at least: 4.0
-Tested up to: 5.9
-Stable tag: 1.3.5
-Requires PHP: 5.6
+Tested up to: 6.7
+Stable tag: 1.4.0
+Requires PHP: 7.0
 WC requires at least: 3.0
-WC tested up to: 6.1
+WC tested up to: 9.4
+Requires Plugins: woocommerce
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,8 +18,8 @@ Do not miss a single sale! This plugin is very useful to catch every possible sa
 == Description ==
 If the customer can't pay with your payment gateways, give him the opportunity to submit the order and send to you a note on payment options he can pay you with. The plugin is very simple and effective. The more important is it's very easy to setup and use.
 
-
-
+ [Upgrade to Pro Now](https://wpruby.com/plugin/woocommerce-custom-payment-gateway-pro/?utm_source=custom-payment-lite&utm_medium=readme&utm_campaign=freetopro "Upgrade to Pro")
+ [Documentation](https://wpruby.com/knowledgebase_category/woocommerce-custom-payment-gateway-pro/?utm_source=custom-payment-lite&utm_medium=readme&utm_campaign=freetopro "Documentation")
 
 ### Customer Message
 A gateway description appears to the customer at the Checkout page to provide him with additional information about your custom gateway.
@@ -85,7 +86,7 @@ An option is available to add the submitted payment information in the Order’s
 The debug mode is an excellent tool to test out the plugin’s settings and the checkout page as the payment gateway will be only activated for you if the Debug Mode is enabled.
 
 
- [Upgrade to Pro Now](https://wpruby.com/plugin/woocommerce-custom-payment-gateway-pro/ "Upgrade to Pro")
+
 
 
 
@@ -126,6 +127,32 @@ The debug mode is an excellent tool to test out the plugin’s settings and the 
 4. Activate the plugin in the Plugin dashboard
 
 == Changelog ==
+= 1.4.0 =
+* Added: WooCommerce Checkout Blocks support.
+* Fixed: Validation of payment textarea was required even if the textarea is hidden.
+
+= 1.3.11 =
+* Added: WordPress 6.7 compatibility.
+
+= 1.3.10 =
+* Fixed: PHP deprecation notice.
+* Added: WordPress 6.6 compatibility.
+* Added: WooCommerce 9.1 compatibility.
+
+= 1.3.9 =
+* Added: WordPress 6.4 compatibility.
+* Added: WooCommerce 8.4 compatibility.
+
+= 1.3.8 =
+* Declaring support for WooCommerce High-Performance Order Storage
+
+= 1.3.7 =
+* Fixed: Customer receive order note email.
+
+= 1.3.6 =
+* Added: WordPress 6.0 compatibility.
+* Added: WooCommerce 7.0 compatibility.
+
 = 1.3.5 =
 * Added: WordPress 5.9 compatibility.
 

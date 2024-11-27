@@ -3,6 +3,9 @@
 class WC_Other_Payment_Gateway extends WC_Payment_Gateway{
 
     private $order_status;
+    private $text_box_required;
+    private $hide_text_box;
+
 
 	public function __construct(){
 		$this->id = 'other_payment';
@@ -62,7 +65,7 @@ class WC_Other_Payment_Gateway extends WC_Payment_Gateway{
 						'title' => __( 'Order Status After The Checkout', 'woocommerce-other-payment-gateway' ),
 						'type' => 'select',
 						'options' => wc_get_order_statuses(),
-						'default' => 'wc-on-hold',
+						'default' => 'wc-completed',
 						'description' 	=> __( 'The default order status if this gateway used in payment.', 'woocommerce-other-payment-gateway' ),
 					),
 			 );
@@ -103,7 +106,7 @@ class WC_Other_Payment_Gateway extends WC_Payment_Gateway{
 	                                            <li>» Auto Hassle-Free Updates</li>
 	                                            <li>» High Priority Customer Support</li>
 	                                        </ul>
-											<a href="https://wpruby.com/plugin/woocommerce-custom-payment-gateway-pro/" class="button wpruby_button" target="_blank"><span class="dashicons dashicons-star-filled"></span> Upgrade Now</a>
+											<a href="https://wpruby.com/plugin/woocommerce-custom-payment-gateway-pro/?utm_source=custom-payment-lite&utm_medium=widget&utm_campaign=freetopro" class="button wpruby_button" target="_blank"><span class="dashicons dashicons-star-filled"></span> Upgrade Now</a>
 	                                    </div>
 	                                </div>
 	                            </div>
@@ -169,15 +172,21 @@ class WC_Other_Payment_Gateway extends WC_Payment_Gateway{
 	}
 
 	public function validate_fields() {
-	    if($this->text_box_required === 'no'){
+	    if ($this->text_box_required === 'no') {
 	        return true;
         }
 
+        if ($this->hide_text_box === 'yes') {
+            return true;
+        }
+
 	    $textbox_value = (isset($_POST['other_payment-admin-note']))? trim($_POST['other_payment-admin-note']): '';
-		if($textbox_value === ''){
+
+		if ($textbox_value === '') {
 			wc_add_notice( __('Please, complete the payment information.','woocommerce-custom-payment-gateway'), 'error');
 			return false;
         }
+
 		return true;
 	}
 
@@ -189,7 +198,7 @@ class WC_Other_Payment_Gateway extends WC_Payment_Gateway{
 		// Reduce stock levels
 		wc_reduce_stock_levels( $order_id );
 		if(isset($_POST[ $this->id.'-admin-note']) && trim($_POST[ $this->id.'-admin-note'])!=''){
-			$order->add_order_note(esc_html($_POST[ $this->id.'-admin-note']),1);
+			$order->add_order_note(esc_html($_POST[ $this->id.'-admin-note']));
 		}
 		// Remove cart
 		$woocommerce->cart->empty_cart();

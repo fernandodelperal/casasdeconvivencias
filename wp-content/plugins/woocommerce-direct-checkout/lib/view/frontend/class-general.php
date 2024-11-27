@@ -28,7 +28,7 @@ class General {
 	 * Construct
 	 */
 	public function __construct() {
-		 add_filter( 'woocommerce_get_script_data', array( $this, 'add_to_cart_params' ) );
+		add_filter( 'woocommerce_get_script_data', array( $this, 'add_to_cart_params' ) );
 		add_filter( 'wc_add_to_cart_message_html', array( $this, 'add_to_cart_message' ) );
 		add_filter( 'woocommerce_add_to_cart_redirect', array( $this, 'add_to_cart_redirect' ) );
 		add_filter( 'woocommerce_get_cart_url', array( $this, 'replace_cart_url' ) );

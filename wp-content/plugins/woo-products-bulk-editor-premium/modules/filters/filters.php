@@ -11,7 +11,6 @@ if ( ! class_exists( 'WP_Sheet_Editor_Filters' ) ) {
 		var $plugin_dir          = null;
 
 		private function __construct() {
-
 		}
 
 		function init() {
@@ -23,7 +22,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Filters' ) ) {
 			add_action( 'vg_sheet_editor/editor/before_init', array( $this, 'register_toolbar_search' ), 8 );
 			add_action( 'vg_sheet_editor/after_enqueue_assets', array( $this, 'register_assets' ) );
 			add_filter( 'vg_sheet_editor/load_rows/wp_query_args', array( $this, 'filter_posts' ), 10, 2 );
-			add_filter( 'vg_sheet_editor/load_rows/after_processing', array( $this, 'save_session_filters' ), 10, 4 );
+			add_action( 'vg_sheet_editor/load_rows/after_processing', array( $this, 'save_session_filters' ), 10, 4 );
 
 			add_filter( 'vg_sheet_editor/handsontable/custom_args', array( $this, 'enable_cell_locator_js' ) );
 			add_filter( 'posts_clauses', array( $this, 'search_by_keyword' ), 10, 2 );
@@ -50,7 +49,6 @@ if ( ! class_exists( 'WP_Sheet_Editor_Filters' ) ) {
 
 					// Start auto export if the URL contains wpse_auto_export=1
 					jQuery('body').on('vgSheetEditor:afterRowsInsert', function (event, data) {
-						console.log('data', data);
 						if (data.length && window.location.href.indexOf('wpse_auto_export=1') > -1) {
 							jQuery('[data-remodal-target="export-csv-modal"]').click();
 							jQuery('.export-csv-modal .export-columns option').prop('selected', true).trigger('change');
@@ -138,18 +136,35 @@ if ( ! class_exists( 'WP_Sheet_Editor_Filters' ) ) {
 				$internal_join = 'OR';
 			}
 
-			$checks   = array();
-			$keywords = array_map( 'trim', explode( ';', $raw_keywords ) );
-			foreach ( $keywords as $single_keyword ) {
-				$checks[] = " $wpdb->posts.post_title $operator '%" . esc_sql( $single_keyword ) . "%' $internal_join $wpdb->posts.post_content $operator '%" . esc_sql( $single_keyword ) . "%' $internal_join $wpdb->posts.post_excerpt $operator '%" . esc_sql( $single_keyword ) . "%' ";
-				// Allow to search by ID
-				if ( is_numeric( $single_keyword ) ) {
-					$checks[ count( $checks ) - 1 ] .= " $internal_join $wpdb->posts.ID = '" . intval( $single_keyword ) . "' ";
+			$checks          = array();
+			$search_columns  = array( 'post_title', 'post_content', 'post_excerpt' );
+			$phrases         = array_map( 'trim', explode( ';', $raw_keywords ) );
+			$prepared_values = array();
+			$phrase_checks   = array();
+			foreach ( $phrases as $phrase ) {
+				$words = explode( ' ', $phrase );
+				if ( empty( $words ) ) {
+					continue;
 				}
-				$checks[ count( $checks ) - 1 ] = apply_filters( 'vg_sheet_editor/filters/search_by_keyword_clauses/keyword_check', $checks[ count( $checks ) - 1 ], $single_keyword, $clauses, $raw_keywords, $operator, $internal_join );
+
+				foreach ( $words as $word ) {
+					$word_checks = array();
+					foreach ( $search_columns as $search_column ) {
+						$word_checks[]   = $wpdb->posts . '.%i ' . $operator . ' %s';
+						$prepared_values = array_merge( $prepared_values, array( $search_column, '%' . $wpdb->esc_like( $word ) . '%' ) );
+					}
+					if ( is_numeric( $phrase ) ) {
+						$word_checks[]     = $wpdb->posts . '.%i = %d';
+						$prepared_values[] = 'ID';
+						$prepared_values[] = intval( $phrase );
+					}
+					$phrase_checks[] = '( ' . implode( " $internal_join ", $word_checks ) . ' )';
+				}
+				$all_checks = implode( ' AND ', $phrase_checks );
+				$checks     = apply_filters( 'vg_sheet_editor/filters/search_by_keyword_clauses/keyword_check', $all_checks, $phrase, $clauses, $raw_keywords, $operator, $internal_join );
 			}
-			$join              = $operator === 'LIKE' ? ' OR ' : ' AND ';
-			$clauses['where'] .= ' AND ( ' . implode( $join, $checks ) . ' ) ';
+			$checks            = $wpdb->prepare( $checks, $prepared_values );
+			$clauses['where'] .= ' AND ( ( ' . $checks . ' ) ) ';
 			return apply_filters( 'vg_sheet_editor/filteres/search_by_keyword_clauses', $clauses, $raw_keywords, $operator, $internal_join );
 		}
 
@@ -245,6 +260,10 @@ if ( ! class_exists( 'WP_Sheet_Editor_Filters' ) ) {
 				'last_days',
 				'last_weeks',
 				'last_months',
+				'older_than_hours',
+				'older_than_days',
+				'older_than_weeks',
+				'older_than_months',
 			);
 		}
 
@@ -255,7 +274,9 @@ if ( ! class_exists( 'WP_Sheet_Editor_Filters' ) ) {
 			}
 
 			$post_type = VGSE()->helpers->get_provider_from_query_string();
-			$columns   = VGSE()->helpers->get_unfiltered_provider_columns( $post_type );
+
+			// Cache variable that will hold the unfiltered columns that we get and use below
+			$columns = null;
 
 			foreach ( $filters as $filter_key => $filter ) {
 				if ( empty( $filter ) || empty( $filter_key ) ) {
@@ -270,7 +291,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Filters' ) ) {
 				if ( in_array( $filter_key, array( 'search_name', 'date_from', 'date_to' ) ) ) {
 					$out[ $filter_key ] = sanitize_text_field( $filter );
 				} elseif ( $filter_key === 'apply_to' ) {
-					$out[ $filter_key ] = array_map( 'sanitize_text_field', array_filter( $filter ) );
+					$out[ $filter_key ] = array_map( 'sanitize_text_field', array_map( 'urldecode', array_filter( $filter ) ) );
 				} elseif ( $filter_key === 'post__in' ) {
 					$out[ $filter_key ] = sanitize_textarea_field( $filter );
 				} elseif ( $filter_key === 'keyword' ) {
@@ -305,6 +326,9 @@ if ( ! class_exists( 'WP_Sheet_Editor_Filters' ) ) {
 							$meta_query['value'] = '';
 						}
 
+						if ( is_null( $columns ) ) {
+							$columns = VGSE()->helpers->get_unfiltered_provider_columns( $post_type );
+						}
 						$is_date_filter = isset( $columns[ $meta_query['key'] ] ) && $columns[ $meta_query['key'] ]['value_type'] === 'date';
 						if ( $is_date_filter ) {
 							$date_format_for_db = isset( $columns[ $meta_query['key'] ]['formatted']['customDatabaseFormat'] ) ? $columns[ $meta_query['key'] ]['formatted']['customDatabaseFormat'] : $columns[ $meta_query['key'] ]['formatted']['dateFormatPhp'];
@@ -317,18 +341,12 @@ if ( ! class_exists( 'WP_Sheet_Editor_Filters' ) ) {
 						if ( $is_date_filter && $operator === 'LIKE' && strpos( $meta_query['value'], ' 00:00:00' ) !== false ) {
 							$meta_query['value'] = str_replace( ' 00:00:00', '', $meta_query['value'] );
 						}
-						if ( in_array( $operator, array( 'last_hours', 'last_days', 'last_weeks', 'last_months' ), true ) ) {
-							$time_unit             = str_replace( 'last_', '', $operator );
-							$operator              = '>=';
-							$meta_query['compare'] = $operator;
-							$meta_query['value']   = date( $date_format_for_db, strtotime( '-' . (int) $meta_query['value'] . ' ' . $time_unit . ' 00:00:00' ) );
-						}
 
 						$meta_filter = array(
 							'key'     => sanitize_text_field( $meta_query['key'] ),
 							'compare' => $operator,
 							'source'  => sanitize_text_field( $meta_query['source'] ),
-							'value'   => wp_kses_post( $meta_query['value'] ),
+							'value'   => html_entity_decode( wp_kses_post( $meta_query['value'] ) ),
 						);
 						// Create a unique id so we can automatically remove duplicate filters
 						$meta_filter_unique_id                        = md5( wp_json_encode( $meta_filter ) );
@@ -342,19 +360,41 @@ if ( ! class_exists( 'WP_Sheet_Editor_Filters' ) ) {
 			return apply_filters( 'vg_sheet_editor/filters/sanitize_request_filters', array_filter( $out ), $filters );
 		}
 
+		/**
+		 * Return sanitized filters
+		 *
+		 * @param  string|array $raw_filters This accepts a JSON or urlencoded string, or array with key values.
+		 * @return array
+		 */
 		function _get_raw_filters( $raw_filters ) {
 			if ( empty( $raw_filters ) ) {
 				return array();
 			}
 
-			$json_decoded = json_decode( $raw_filters, true );
-			if ( is_array( $json_decoded ) ) {
-				$filters = $json_decoded;
-			} else {
+			if ( is_string( $raw_filters ) && strpos( $raw_filters, '{' ) !== false ) {
+				$json_decoded = json_decode( wp_unslash( $raw_filters ), true );
+				if ( is_array( $json_decoded ) ) {
+					$filters = $json_decoded;
+				}
+			} elseif ( is_string( $raw_filters ) ) {
 				parse_str( urldecode( html_entity_decode( $raw_filters ) ), $filters );
+			} elseif ( is_array( $raw_filters ) ) {
+				$filters = $raw_filters;
+			}
+			if ( empty( $filters ) ) {
+				return array();
 			}
 			$filters = $this->_sanitize_filters( $filters );
 			return $filters;
+		}
+
+		function has_filter( $key, $value, $filters = null ) {
+			if ( ! $filters ) {
+				$filters = $this->get_raw_filters();
+			}
+
+			$filter_value = VGSE()->helpers->get_with_dot_notation( $filters, $key );
+			return $filter_value === $value;
 		}
 		function get_raw_filters( $data = array() ) {
 			$raw_filters = null;
@@ -385,6 +425,13 @@ if ( ! class_exists( 'WP_Sheet_Editor_Filters' ) ) {
 						unset( $out['meta_query'][ $index ] );
 					}
 				}
+				if ( count( $out['meta_query'] ) > 50 ) {
+					$out['meta_query'] = array_slice( $out['meta_query'], 0, 50 );
+				}
+			}
+			// Limit the number of filters to prevent the case where they set a huge number of filters and have difficulty removing them in the UI
+			if ( count( $out ) > 50 ) {
+				$out = array_slice( $out, 0, 50 );
 			}
 
 			return apply_filters( 'vg_sheet_editor/filters/last_session_filters', $out );
@@ -525,17 +572,8 @@ if ( ! class_exists( 'WP_Sheet_Editor_Filters' ) ) {
 									<label><?php echo wp_kses_post( $filters['post_author']['label'] ); ?>  <?php
 									if ( ! empty( $filters['post_author']['description'] ) ) {
 										?>
-										<a href="#" data-wpse-tooltip="right" aria-label="<?php echo esc_attr( $filters['post_author']['description'] ); ?>">( ? )</a><?php } ?></label>
-									<select name="post_author[]" multiple data-placeholder="<?php _e( 'Select...', 'vg_sheet_editor' ); ?>" class="select2">
-										<?php
-										$authors = VGSE()->data_helpers->get_authors_list( null, true );
-										if ( ! empty( $authors ) && is_array( $authors ) ) {
-											foreach ( $authors as $item => $value ) {
-												echo '<option value="' . esc_attr( $item ) . '" ';
-												echo '>' . esc_html( $value ) . '</option>';
-											}
-										}
-										?>
+										<a href="#" data-wpse-tooltip="right" aria-label="<?php echo esc_attr( $filters['post_author']['description'] ); ?>">( ? )</a><?php } ?></label>										
+									<select data-placeholder="<?php _e( 'Enter a username or email...', 'vg_sheet_editor' ); ?>" name="post_author[]" class="select2"  multiple data-remote="true" data-action="vgse_find_users_by_keyword_for_select2" data-min-input-length="4">
 									</select>
 								</li>
 							<?php } ?>
@@ -578,7 +616,6 @@ if ( ! class_exists( 'WP_Sheet_Editor_Filters' ) ) {
 		function __get( $name ) {
 			return $this->$name;
 		}
-
 	}
 
 	add_action( 'vg_sheet_editor/initialized', 'vgse_filters_init' );

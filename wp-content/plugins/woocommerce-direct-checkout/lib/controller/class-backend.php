@@ -72,5 +72,4 @@ class Backend {
 	public function add_menu() {
 		add_submenu_page( 'woocommerce', esc_html__( 'Direct Checkout', 'woocommerce-direct-checkout' ), esc_html__( 'Direct Checkout', 'woocommerce-direct-checkout' ), 'manage_woocommerce', admin_url( 'admin.php?page=wc-settings&tab=' . sanitize_title( QLWCDC_PREFIX ) ) );
 	}
-
 }

@@ -264,7 +264,7 @@ class Accordion_CSS extends Base_CSS {
 						'property'  => 'content',
 						'value'     => 'icon',
 						'format'    => function( $value ) use ( $fa_icons ) {
-							return '"' . str_replace( 'f', '\\\f', $fa_icons[ $value['name'] ]['unicode'] ) . '"';
+							return '"\\\\' . $fa_icons[ $value['name'] ]['unicode'] . '"';
 						},
 						'condition' => function( $attrs ) {
 							return isset( $attrs['icon'] );
@@ -273,7 +273,7 @@ class Accordion_CSS extends Base_CSS {
 					array(
 						'property'  => 'font-weight',
 						'value'     => 'icon',
-						'format'    => function( $value ) use ( $fa_icons ) {
+						'format'    => function( $value ) {
 							return 'fas' !== $value['prefix'] ? 400 : 900;
 						},
 						'condition' => function( $attrs ) {
@@ -302,7 +302,7 @@ class Accordion_CSS extends Base_CSS {
 						'property'  => 'content',
 						'value'     => 'openItemIcon',
 						'format'    => function( $value ) use ( $fa_icons ) {
-							return '"' . str_replace( 'f', '\\\f', $fa_icons[ $value['name'] ]['unicode'] ) . '"';
+							return '"\\\\' . $fa_icons[ $value['name'] ]['unicode'] . '"';
 						},
 						'condition' => function( $attrs ) {
 							return isset( $attrs['openItemIcon'] );
@@ -311,7 +311,7 @@ class Accordion_CSS extends Base_CSS {
 					array(
 						'property'  => 'font-weight',
 						'value'     => 'openItemIcon',
-						'format'    => function( $value ) use ( $fa_icons ) {
+						'format'    => function( $value ) {
 							return 'fas' !== $value['prefix'] ? 400 : 900;
 						},
 						'condition' => function( $attrs ) {

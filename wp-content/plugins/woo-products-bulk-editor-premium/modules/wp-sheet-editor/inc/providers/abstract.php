@@ -17,6 +17,16 @@ if (!class_exists('VGSE_Provider_Abstract')) {
 			return $data;
 		}
 
+		/**
+		 * Update the modified date field of every item
+		 *
+		 * @param  int[] $ids
+		 * @return void
+		 */
+		function update_modified_date( $ids ) {
+			do_action('vg_sheet_editor/provider/' . $this->key . '/update_modified_date', $ids );
+		}
+
 		function get_random_string($length, $spChars = false) {
 			$alpha = 'abcdefghijklmnopqrstwvxyz';
 			$alphaUp = strtoupper($alpha);
@@ -81,6 +91,22 @@ if (!class_exists('VGSE_Provider_Abstract')) {
 		abstract function get_item_data($id, $key);
 
 		abstract function update_item_data($values, $wp_error = false);
+
+		function delete_item_meta($id, $key) {
+			$this->update_item_meta($id, $key, '');
+		}
+
+		/**
+		 * Used by the custom_table provider only
+		 *
+		 * @param  string $table_name
+		 * @param  string $meta_table_name
+		 * @param  array $filters
+		 * @return array|false
+		 */
+		function get_meta_query_sql( $table_name, $meta_table_name, $filters ) {
+
+		}
 
 		abstract function update_item_meta($id, $key, $value);
 

@@ -42,7 +42,7 @@ final class Plugin {
 		load_plugin_textdomain( 'woocommerce-direct-checkout', false, QLWCDC_PLUGIN_DIR . '/languages/' );
 		add_action(
 			'woocommerce_init',
-			function() {
+			function () {
 				new Backend();
 				new General();
 				new Archives();
@@ -128,7 +128,6 @@ final class Plugin {
 		}(jQuery));
 		</script>
 		<?php
-
 	}
 
 	/**

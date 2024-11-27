@@ -616,7 +616,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_WooCommerce_Attrs' ) ) {
 			if ( ! empty( $current_attribute_settings ) ) {
 				$is_variation = (int) $current_attribute_settings['is_variation'];
 			} elseif ( ! empty( VGSE()->options['wc_product_attributes_not_variation'] ) ) {
-				$attributes_not_used_for_variations = array_filter( array_map( 'trim', explode( ',', VGSE()->options['wc_product_attributes_not_variation'] ) ) );
+				$attributes_not_used_for_variations = array_filter( array_map( 'sanitize_title', array_map( 'trim', explode( ',', VGSE()->options['wc_product_attributes_not_variation'] ) ) ) );
 				foreach ( $attributes_not_used_for_variations as $attribute_not_used_for_variations ) {
 					if ( stripos( $attribute_key, $attribute_not_used_for_variations ) !== false ) {
 						$is_variation = 0;
@@ -632,7 +632,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_WooCommerce_Attrs' ) ) {
 			if ( ! empty( $current_attribute_settings ) ) {
 				$attribute_visible = (int) $current_attribute_settings['is_visible'];
 			} elseif ( ! empty( VGSE()->options['wc_product_attributes_is_not_visible'] ) ) {
-				$attributes_not_visible = array_filter( array_map( 'trim', explode( ',', VGSE()->options['wc_product_attributes_is_not_visible'] ) ) );
+				$attributes_not_visible = array_filter( array_map( 'sanitize_title', array_map( 'trim', explode( ',', VGSE()->options['wc_product_attributes_is_not_visible'] ) ) ) );
 				foreach ( $attributes_not_visible as $attribute_not_visible ) {
 					if ( stripos( $attribute_key, $attribute_not_visible ) !== false ) {
 						$attribute_visible = 0;
@@ -672,7 +672,6 @@ if ( ! class_exists( 'WP_Sheet_Editor_WooCommerce_Attrs' ) ) {
 						'type'                  => '',
 						'supports_formulas'     => true,
 						'supports_sql_formulas' => false,
-						'allow_to_hide'         => true,
 						'allow_to_rename'       => true,
 						'allow_plain_text'      => true,
 						'get_value_callback'    => array( $this, 'get_custom_attribute_for_cell' ),
@@ -722,7 +721,6 @@ if ( ! class_exists( 'WP_Sheet_Editor_WooCommerce_Attrs' ) ) {
 						'renderer' => 'html',
 						'readOnly' => true,
 					),
-					'allow_to_hide'              => true,
 					'allow_to_save'              => false,
 					'allow_to_rename'            => true,
 					'type'                       => 'handsontable',

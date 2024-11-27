@@ -75,7 +75,11 @@ class Advanced_Heading_CSS extends Base_CSS {
 							return isset( $attrs['lineHeight'] ) && is_numeric( $attrs['lineHeight'] );
 						},
 						'format'    => function( $value ) {
-							return 3 < $value ? $value . 'px' : $value;
+							if ( is_numeric( $value ) && ! is_string( $value ) ) {
+								return 3 < $value ? $value . 'px' : $value;
+							}
+
+							return $value;
 						},
 					),
 					array(
@@ -486,7 +490,7 @@ class Advanced_Heading_CSS extends Base_CSS {
 						'property'  => '--padding-mobile',
 						'value'     => 'paddingMobile',
 						'condition' => function( $attrs ) {
-							return isset( $attrs['paddingTablet'] ) && is_array( $attrs['paddingTablet'] );
+							return isset( $attrs['paddingMobile'] ) && is_array( $attrs['paddingMobile'] );
 						},
 						'format'    => function( $value ) {
 							return CSS_Utility::render_box( $value );

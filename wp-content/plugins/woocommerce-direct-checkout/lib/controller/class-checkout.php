@@ -274,5 +274,4 @@ class Checkout {
 			woocommerce_update_options( $this->get_settings() );
 		}
 	}
-
 }

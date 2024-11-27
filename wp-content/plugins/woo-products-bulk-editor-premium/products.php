@@ -2,15 +2,15 @@
 /*
   Plugin Name: WP Sheet Editor - WooCommerce Products (Premium)
   Description: Edit WooCommerce products in spreadsheet.
-  Version: 1.8.1
+  Version: 1.8.15
   Update URI: https://api.freemius.com
   Author:      WP Sheet Editor
   Author URI:  http://wpsheeteditor.com/?utm_source=wp-admin&utm_medium=plugins-list&utm_campaign=products
   Plugin URI: https://wpsheeteditor.com/go/woocommerce-addon?utm_source=wp-admin&utm_medium=plugins-list&utm_campaign=products
   License:     GPL2
   License URI: https://www.gnu.org/licenses/gpl-2.0.html
-  WC requires at least: 3.0
-  WC tested up to: 7.1
+  WC requires at least: 4.0
+  WC tested up to: 9.3
   Text Domain: vg_sheet_editor_wc_products
   Domain Path: /lang
   @fs_premium_only /modules/user-path/send-user-path.php, /modules/advanced-filters/, /modules/columns-renaming/, /modules/formulas/, /modules/custom-columns/, /modules/spreadsheet-setup/, /modules/woocommerce/, /modules/acf/, /modules/posts-templates/, /modules/universal-sheet/, /modules/yoast-seo/, /modules/wpml/, /modules/columns-manager/,  /modules/wp-sheet-editor/inc/integrations/notifier.php,/modules/wp-sheet-editor/inc/integrations/extensions.json,
@@ -50,6 +50,7 @@ if (!class_exists('WP_Sheet_Editor_WC_Products')) {
 		public $args = null;
 		var $vg_plugin_sdk = null;
 		var $post_type = null;
+		public $modules_controller = null;
 
 		private function __construct() {
 			
@@ -95,33 +96,27 @@ if (!class_exists('WP_Sheet_Editor_WC_Products')) {
 			$this->init_plugin_sdk();
 
 			// After core has initialized
-			add_filter('vg_sheet_editor/woocommerce/teasers/allowed_columns', array($this, 'allow_columns'));
 			add_action('vg_sheet_editor/initialized', array($this, 'after_core_init'));
-			add_action('vg_sheet_editor/after_init', array($this, 'after_full_core_init'), 11);
 
 			add_action('admin_init', array($this, 'disable_free_plugins_when_premium_active'), 1);
 			add_action('init', array($this, 'after_init'));
+			
+			add_action(
+				'before_woocommerce_init',
+				function() {
+					if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+						$main_file  = __FILE__;
+						$parent_dir = dirname( dirname( $main_file ) );
+						$new_path   = str_replace( $parent_dir, '', $main_file );
+						$new_path   = wp_normalize_path( ltrim( $new_path, '\\/' ) );
+						\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', $new_path, true );
+					}
+				}
+			);
 		}
 
 		function after_init() {
 			load_plugin_textdomain($this->textname, false, basename(dirname(__FILE__)) . '/lang/');
-		}
-
-		function allow_columns($columns) {
-			$enable = array(
-				'ID',
-				'post_title',
-				'_sku',
-				'_regular_price',
-				'_sale_price',
-				'_manage_stock',
-				'_stock_status',
-				'_stock',
-				'post_content',
-				'_virtual'
-			);
-
-			return array_unique(array_merge($enable, $columns));
 		}
 
 		function disable_free_plugins_when_premium_active() {
@@ -141,7 +136,7 @@ if (!class_exists('WP_Sheet_Editor_WC_Products')) {
 		}
 
 		function after_core_init() {
-			if (version_compare(VGSE()->version, '2.24.22-beta.1') < 0) {
+			if (version_compare(VGSE()->version, '2.25.9-beta.1') < 0) {
 				add_action('admin_notices', array($this, 'notify_wrong_core_version'));
 				return;
 			}
@@ -151,47 +146,6 @@ if (!class_exists('WP_Sheet_Editor_WC_Products')) {
 
 			// Enable admin pages in case "frontend sheets" addon disabled them
 			add_filter('vg_sheet_editor/register_admin_pages', '__return_true', 11);
-			add_action('vg_sheet_editor/editor/before_init', array($this, 'register_toolbar_items'));
-		}
-
-		function register_toolbar_items($editor) {
-			if ($editor->args['provider'] !== $this->post_type) {
-				return;
-			}
-			if (!WP_Sheet_Editor_Helpers::current_user_can('install_plugins')) {
-				return;
-			}
-			$editor->args['toolbars']->register_item('wpse_license', array(
-				'type' => 'button',
-				'content' => __('My license', vgse_wc_products()->textname),
-				'url' => wpsewcp_freemius()->get_account_url(),
-				'toolbar_key' => 'secondary',
-				'extra_html_attributes' => ' target="_blank" ',
-				'allow_in_frontend' => false,
-				'fs_id' => wpsewcp_freemius()->get_id()
-					), $this->post_type);
-		}
-
-		function after_full_core_init() {
-			if (function_exists('vgse_freemius') && vgse_freemius()->can_use_premium_code__premium_only() && !wpsewcp_freemius()->can_use_premium_code__premium_only()) {
-				return;
-			}
-
-			// Set up spreadsheet.
-			// Allow to bootstrap editor manually later.
-			if (!apply_filters('vg_sheet_editor/wc_products/bootstrap/manual_init', false)) {
-				$this->sheets_bootstrap = new WP_Sheet_Editor_Bootstrap(array(
-					'allowed_post_types' => array(),
-					'only_allowed_spreadsheets' => false,
-					'enabled_post_types' => array($this->post_type),
-					'register_toolbars' => true,
-					'register_columns' => true,
-					'register_taxonomy_columns' => true,
-					'register_admin_menus' => true,
-					'register_spreadsheet_editor' => true,
-					'current_provider' => VGSE()->helpers->get_provider_from_query_string()
-				));
-			}
 		}
 
 		/**

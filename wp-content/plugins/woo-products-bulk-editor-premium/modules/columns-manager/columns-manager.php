@@ -11,7 +11,6 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns_Manager' ) ) {
 		public $settings         = array();
 
 		private function __construct() {
-
 		}
 
 		/**
@@ -122,7 +121,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns_Manager' ) ) {
 					if ( ! is_scalar( $value ) ) {
 						continue;
 					}
-					if ( empty( $value ) || preg_match( '/^(\d{4}-\d{2}-\d{2} \d{1,2}:\d{1,2}:\d{1,2}|\d{9,10})$/', $value ) ) {
+					if ( empty( $value ) || preg_match( '/^(\d{4}-\d{2}-\d{2} \d{1,2}:\d{1,2}:\d{1,2}|-?\d{9,10})$/', $value ) ) {
 						$out['possible_dates'][] = $value;
 					}
 				}
@@ -134,7 +133,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns_Manager' ) ) {
 						$out['save_format'] = 'Y-m-d G:i:s';
 					} elseif ( preg_match( '/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $first_value ) ) {
 						$out['save_format'] = 'Y-m-d H:i:s';
-					} elseif ( is_numeric( $first_value ) && in_array( strlen( $first_value ), array( 9, 10 ), true ) ) {
+					} elseif ( preg_match( '/^-?\d{9,10}$/', $first_value ) ) {
 						$out['save_format'] = 'U';
 					}
 				}
@@ -219,8 +218,9 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns_Manager' ) ) {
 						$date_detection = $this->are_values_dates( $column_settings['detected_type']['sample_values'] );
 						if ( $date_detection['is_date'] ) {
 							$new_formatting[ $column_key ] = array(
-								'field_type'       => 'date',
-								'date_format_save' => $date_detection['save_format'],
+								'field_type'          => 'date',
+								'date_format_save'    => $date_detection['save_format'],
+								'date_format_display' => 'Y-m-d',
 							);
 						}
 					}
@@ -228,8 +228,9 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns_Manager' ) ) {
 						$date_detection = $this->are_values_date_time( $column_settings['detected_type']['sample_values'] );
 						if ( $date_detection['is_date'] ) {
 							$new_formatting[ $column_key ] = array(
-								'field_type'            => 'date_time',
-								'date_time_format_save' => $date_detection['save_format'],
+								'field_type'               => 'date_time',
+								'date_time_format_save'    => $date_detection['save_format'],
+								'date_time_format_display' => 'Y-m-d H:i:s',
 							);
 						}
 					}
@@ -421,9 +422,10 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns_Manager' ) ) {
 			}
 
 			if ( $column_settings['field_type'] === 'text' ) {
-				$out['formatted'] = array(
+				$out['formatted']     = array(
 					'data' => $key,
 				);
+				$out['default_value'] = '';
 			} elseif ( $column_settings['field_type'] === 'button' ) {
 				$out['formatted']   = array(
 					'data'     => $key,
@@ -469,7 +471,6 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns_Manager' ) ) {
 					'renderer'      => 'wp_chosen_dropdown',
 					'data'          => $key,
 					'editor'        => 'chosen',
-					'width'         => 150,
 					'source'        => $column_options,
 					'chosenOptions' => array(
 						'multiple'        => true,
@@ -490,10 +491,10 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns_Manager' ) ) {
 				);
 				$out['default_value'] = $column_settings['unchecked_template'];
 			} elseif ( $column_settings['field_type'] === 'date' && ! empty( $column_settings['date_format_save'] ) ) {
-				$out                             = $this->get_format_settings_for_date_column( $key, $column_settings['date_format_save'] );
+				$out                             = $this->get_format_settings_for_date_column( $key, $column_settings['date_format_save'], $column_settings['date_format_display'] );
 				$out['columns_manager_settings'] = $column_settings;
 			} elseif ( $column_settings['field_type'] === 'date_time' && ! empty( $column_settings['date_time_format_save'] ) ) {
-				$out = $this->get_format_settings_for_date_time_column( $key, $column_settings['date_time_format_save'] );
+				$out                             = $this->get_format_settings_for_date_time_column( $key, $column_settings['date_time_format_save'], $column_settings['date_time_format_display'] );
 				$out['columns_manager_settings'] = $column_settings;
 			} elseif ( $column_settings['field_type'] === 'file' ) {
 				$out['type']                       = $column_settings['allow_multiple_files'] ? 'boton_gallery_multiple' : 'boton_gallery';
@@ -516,6 +517,12 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns_Manager' ) ) {
 				);
 				$out['custom_sanitization_before_saving'] = 'sanitize_email';
 				$out['value_type']                        = 'email';
+			} elseif ( $column_settings['field_type'] === 'color_picker' ) {
+				$out['formatted']                         = array(
+					'editor' => 'wp_color_picker',
+					'data'   => $key,
+				);
+				$out['custom_sanitization_before_saving'] = 'sanitize_hex_color';
 			} elseif ( $column_settings['field_type'] === 'raw_html' && WP_Sheet_Editor_Helpers::current_user_can( 'unfiltered_html' ) ) {
 				$out['formatted']                         = array(
 					'data' => $key,
@@ -538,7 +545,6 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns_Manager' ) ) {
 					$formatted = array(
 						'data'          => $key,
 						'editor'        => 'chosen',
-						'width'         => 150,
 						'source'        => array( VGSE()->data_helpers, 'get_taxonomy_terms' ),
 						'callback_args' => array( $taxonomy_filter ),
 						'chosenOptions' => array(
@@ -826,13 +832,34 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns_Manager' ) ) {
 			return $value;
 		}
 
-		function get_format_settings_for_date_column( $key, $date_format_save ) {
+		function get_format_settings_for_date_column( $key, $date_format_save, $date_format_display ) {
 			$settings                               = array();
 			$settings['formatted']                  = array(
 				'data'                 => $key,
 				'type'                 => 'date',
 				'customDatabaseFormat' => $date_format_save,
-				'dateFormatPhp'        => 'Y-m-d',
+				'dateFormatPhp'        => $date_format_display,
+				'correctFormat'        => true,
+				'defaultDate'          => '',
+				'datePickerConfig'     => array(
+					'firstDay'       => 0,
+					'showWeekNumber' => true,
+					'numberOfMonths' => 1,
+					'yearRange'      => array( 1900, (int) date( 'Y' ) + 20 ),
+				),
+			);
+			$settings['prepare_value_for_database'] = array( $this, 'prepare_date_for_database' );
+			$settings['prepare_value_for_display']  = array( $this, 'format_date_for_cell' );
+			return $settings;
+		}
+		function get_format_settings_for_date_time_column( $key, $date_format_save, $date_format_display ) {
+			$settings                               = array();
+			$settings['formatted']                  = array(
+				'editor'               => 'wp_datetime',
+				'data'                 => $key,
+				'type'                 => 'date',
+				'customDatabaseFormat' => $date_format_save,
+				'dateFormatPhp'        => $date_format_display,
 				'correctFormat'        => true,
 				'defaultDate'          => '',
 				'datePickerConfig'     => array(
@@ -843,26 +870,8 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns_Manager' ) ) {
 			);
 			$settings['prepare_value_for_database'] = array( $this, 'prepare_date_for_database' );
 			$settings['prepare_value_for_display']  = array( $this, 'format_date_for_cell' );
-			return $settings;
-		}
-		function get_format_settings_for_date_time_column( $key, $date_format_save ) {
-			$settings                               = array();
-			$settings['formatted']                  = array(
-				'editor'               => 'wp_datetime',
-				'data'                 => $key,
-				'type'                 => 'date',
-				'customDatabaseFormat' => $date_format_save,
-				'dateFormatPhp'        => 'Y-m-d H:i:s',
-				'correctFormat'        => true,
-				'defaultDate'          => date( 'Y-m-d H:i:s' ),
-				'datePickerConfig'     => array(
-					'firstDay'       => 0,
-					'showWeekNumber' => true,
-					'numberOfMonths' => 1,
-				),
-			);
-			$settings['prepare_value_for_database'] = array( $this, 'prepare_date_for_database' );
-			$settings['prepare_value_for_display']  = array( $this, 'format_date_for_cell' );
+			$settings['value_type'] = 'date';
+
 			return $settings;
 		}
 
@@ -871,12 +880,17 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns_Manager' ) ) {
 			if ( ! in_array( $column_settings['field_type'], array( 'date', 'date_time' ), true ) ) {
 				return $value;
 			}
-			$value  = VGSE()->helpers->get_current_provider()->get_item_meta( $post->ID, $cell_key, true, 'read' );
+			// Disabled this because it only worked with meta columns, we use the received $value as is
+			// $value  = VGSE()->helpers->get_current_provider()->get_item_meta( $post->ID, $cell_key, true, 'read' );
 			$format = $column_settings['field_type'] === 'date' ? 'Y-m-d' : 'Y-m-d H:i:s';
+			if ( ! empty( $column_settings[ $column_settings['field_type'] . '_format_display' ] ) ) {
+				$format = $column_settings[ $column_settings['field_type'] . '_format_display' ];
+			}
 			if ( ! empty( $value ) ) {
-				$timestamp = preg_match( '/^\d{9,10}$/', $value ) ? (int) $value : strtotime( $value );
+				$timestamp = preg_match( '/^-?\d{9,10}$/', $value ) ? (int) $value : strtotime( $value );
 				$value     = date( $format, $timestamp );
 			}
+
 			return $value;
 		}
 
@@ -886,7 +900,13 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns_Manager' ) ) {
 				return $data_to_save;
 			}
 			if ( ! empty( $data_to_save ) ) {
-				$data_to_save = date( $column_settings[ $column_settings['field_type'] . '_format_save' ], strtotime( $data_to_save ) );
+				$save_format = $column_settings[ $column_settings['field_type'] . '_format_save' ];
+				$date        = DateTime::createFromFormat( $column_settings[ $column_settings['field_type'] . '_format_display' ], $data_to_save );
+				if ( $date ) {
+					$data_to_save = $date->format( $save_format );
+				} else {
+					$data_to_save = date( $save_format, strtotime( $data_to_save ) );
+				}
 			}
 			return $data_to_save;
 		}
@@ -901,6 +921,9 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns_Manager' ) ) {
 				if ( $column_settings['file_saved_format'] === 'id' ) {
 					$file_ids = VGSE()->helpers->maybe_replace_urls_with_file_ids( $urls, $post_id );
 				} else {
+					foreach ( $urls as $index => $url ) {
+						$urls[ $index ] = remove_query_arg( 'wpId', $url );
+					}
 					$file_ids = $urls;
 				}
 				if ( $column_settings['allow_multiple_files'] ) {
@@ -976,7 +999,9 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns_Manager' ) ) {
 						'allow_multiple_files'        => isset( $args['allow_multiple_files'] ) ? sanitize_text_field( $args['allow_multiple_files'] ) : null,
 						'multiple_files_format'       => isset( $args['multiple_files_format'] ) ? sanitize_text_field( $args['multiple_files_format'] ) : null,
 						'date_format_save'            => isset( $args['date_format_save'] ) ? sanitize_text_field( $args['date_format_save'] ) : null,
+						'date_format_display'         => isset( $args['date_format_display'] ) ? sanitize_text_field( $args['date_format_display'] ) : null,
 						'date_time_format_save'       => isset( $args['date_time_format_save'] ) ? sanitize_text_field( $args['date_time_format_save'] ) : null,
+						'date_time_format_display'    => isset( $args['date_time_format_display'] ) ? sanitize_text_field( $args['date_time_format_display'] ) : null,
 						'is_read_only'                => isset( $args['is_read_only'] ) ? sanitize_text_field( $args['is_read_only'] ) : '',
 						'user_capabilities_can_read'  => isset( $args['user_capabilities_can_read'] ) ? sanitize_text_field( $args['user_capabilities_can_read'] ) : '',
 						'user_capabilities_can_edit'  => isset( $args['user_capabilities_can_edit'] ) ? sanitize_text_field( $args['user_capabilities_can_edit'] ) : '',
@@ -1038,7 +1063,9 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns_Manager' ) ) {
 				'allow_multiple_files'        => '',
 				'multiple_files_format'       => '',
 				'date_format_save'            => '',
+				'date_format_display'         => '',
 				'date_time_format_save'       => '',
+				'date_time_format_display'    => '',
 				'user_capabilities_can_read'  => '',
 				'user_capabilities_can_edit'  => '',
 				'is_read_only'                => false,
@@ -1076,9 +1103,15 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns_Manager' ) ) {
 			}
 			$column_options = array(
 				'custom_format'         => false,
-				'read_only'             => array( $this, 'render_read_only_option' ),
-				'required_capabilities' => array( $this, 'render_required_capabilities_options' ),
+				'read_only'             => false,
+				'required_capabilities' => false,
 			);
+			if ( ! empty( $column['allow_readonly_option_in_columns_manager'] ) ) {
+				$column_options['read_only'] = array( $this, 'render_read_only_option' );
+			}
+			if ( ! empty( $column['allow_role_restrictions_in_columns_manager'] ) ) {
+				$column_options['required_capabilities'] = array( $this, 'render_required_capabilities_options' );
+			}
 			if ( ! empty( $column['allow_custom_format'] ) ) {
 				$column_options['custom_format'] = array( $this, 'render_custom_format_options' );
 			}
@@ -1105,11 +1138,10 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns_Manager' ) ) {
 			?>
 
 			<div class="column-settings-field">					
-				<label><?php esc_html_e( 'Is read only?', 'vg_sheet_editor' ); ?></label>				
+				<label for="<?php echo sanitize_html_class( 'column_settings' . $column['key'] . 'is_read_only' ); ?>"><?php esc_html_e( 'Is read only?', 'vg_sheet_editor' ); ?>  <a href="#" data-wpse-tooltip="right" aria-label="cm_readonly_tip">( ? )</a></label>
 
-				<select data-lazy-key="columnsManagerIsReadOnly" data-selected="<?php echo esc_attr( $column_settings['is_read_only'] ); ?>" name="column_settings[<?php echo esc_attr( $column['key'] ); ?>][is_read_only]">					
-				</select>
-				<p><?php esc_html_e( 'Read-only columns will display a lock and it won\'t be possible to edit them anywhere in the spreadsheet. This is not a security feature because people still can edit in the regular WP screens.', 'vg_sheet_editor' ); ?></p>				
+				<select id="<?php echo sanitize_html_class( 'column_settings' . $column['key'] . 'is_read_only' ); ?>" data-lazy-key="columnsManagerIsReadOnly" data-selected="<?php echo esc_attr( $column_settings['is_read_only'] ); ?>" name="column_settings[<?php echo esc_attr( $column['key'] ); ?>][is_read_only]">					
+				</select>				
 			</div>
 			<?php
 		}
@@ -1118,11 +1150,11 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns_Manager' ) ) {
 			?>
 
 			<div class="column-settings-field">
-				<label><?php esc_html_e( 'User capabilities that can read this column', 'vg_sheet_editor' ); ?> <a href="#" data-wpse-tooltip="right" aria-label="<?php esc_attr_e( 'The column will appear in the spreadsheet and exports if the user has a role with the required capability.', 'vg_sheet_editor' ); ?>">( ? )</a></label>
-				<select  data-lazy-key="columnsManagerUserCapabilities" data-selected="<?php echo esc_attr( $column_settings['user_capabilities_can_read'] ); ?>"   name="column_settings[<?php echo esc_attr( $column['key'] ); ?>][user_capabilities_can_read]"></select>
+				<label for="<?php echo sanitize_html_class( 'column_settings' . $column['key'] . 'user_capabilities_can_read' ); ?>"><?php esc_html_e( 'User capabilities that can read this column', 'vg_sheet_editor' ); ?> <a href="#" data-wpse-tooltip="right" aria-label="cm_read_role_tip">( ? )</a></label>
+				<select id="<?php echo sanitize_html_class( 'column_settings' . $column['key'] . 'user_capabilities_can_read' ); ?>"  data-lazy-key="columnsManagerUserCapabilities" data-selected="<?php echo esc_attr( $column_settings['user_capabilities_can_read'] ); ?>"   name="column_settings[<?php echo esc_attr( $column['key'] ); ?>][user_capabilities_can_read]"></select>
 
-				<label><?php esc_html_e( 'User capabilities that can edit this column', 'vg_sheet_editor' ); ?> <a href="#" data-wpse-tooltip="right" aria-label="<?php esc_attr_e( 'The column will be read only if the user doesn\'t have a role with the required capability.', 'vg_sheet_editor' ); ?>">( ? )</a></label>
-				<select data-lazy-key="columnsManagerUserCapabilities" data-selected="<?php echo esc_attr( $column_settings['user_capabilities_can_edit'] ); ?>"  name="column_settings[<?php echo esc_attr( $column['key'] ); ?>][user_capabilities_can_edit]"></select>			
+				<label for="<?php echo sanitize_html_class( 'column_settings' . $column['key'] . 'user_capabilities_can_edit' ); ?>"><?php esc_html_e( 'User capabilities that can edit this column', 'vg_sheet_editor' ); ?> <a href="#" data-wpse-tooltip="right" aria-label="cm_edit_role_tip">( ? )</a></label>
+				<select id="<?php echo sanitize_html_class( 'column_settings' . $column['key'] . 'user_capabilities_can_edit' ); ?>" data-lazy-key="columnsManagerUserCapabilities" data-selected="<?php echo esc_attr( $column_settings['user_capabilities_can_edit'] ); ?>"  name="column_settings[<?php echo esc_attr( $column['key'] ); ?>][user_capabilities_can_edit]"></select>			
 			</div>
 			<?php
 		}
@@ -1194,6 +1226,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns_Manager' ) ) {
 				'number'       => __( 'Number', 'vg_sheet_editor' ),
 				'button'       => __( 'Clickable button', 'vg_sheet_editor' ),
 				'raw_html'     => __( 'Raw HTML', 'vg_sheet_editor' ),
+				'color_picker' => __( 'Color picker', 'vg_sheet_editor' ),
 			);
 
 			$capabilities = $this->_get_all_capabilities();
@@ -1211,105 +1244,114 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns_Manager' ) ) {
 			$column_key = $column['key'];
 			?>
 			<div class="column-settings-field field-type">
-				<label><?php esc_html_e( 'Column format', 'vg_sheet_editor' ); ?></label>
-				<select data-lazy-key="columnsManagerFormats" data-selected="<?php echo esc_attr( $column_settings['field_type'] ); ?>" name="column_settings[<?php echo esc_attr( $column_key ); ?>][field_type]">					
+				<label for="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'field_type' ); ?>"><?php esc_html_e( 'Column format', 'vg_sheet_editor' ); ?></label>
+				<select id="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'field_type' ); ?>" data-lazy-key="columnsManagerFormats" data-selected="<?php echo esc_attr( $column_settings['field_type'] ); ?>" name="column_settings[<?php echo esc_attr( $column_key ); ?>][field_type]">					
 				</select>
 			</div>
 			<div class="column-settings-field settings-for-type settings-for-raw_html">
 				<p><?php esc_html_e( 'This format will only allow administrators with the capability unfiltered_html to save any HTML in this column, we\'ll still remove unsafe html tags when non-administrators save values in this column.', 'vg_sheet_editor' ); ?></p>
 			</div>
+			<div class="column-settings-field settings-for-type settings-for-color_picker">
+				<p><?php esc_html_e( 'This will allow users to edit colors using a color picker. The values will be saved in hex format. For example: #000000', 'vg_sheet_editor' ); ?></p>
+			</div>
 			<div class="column-settings-field settings-for-type settings-for-button">
 				<p><?php esc_html_e( 'This can be used if the cell value will always be a URL, so the cell will be displayed as readonly and it will contain a button that will open the URL from the cell value.', 'vg_sheet_editor' ); ?></p>
 			</div>
 			<div class="column-settings-field settings-for-type settings-for-select">
-				<label><?php esc_html_e( 'Allowed values', 'vg_sheet_editor' ); ?></label>
+				<label for="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'allowed_values' ); ?>"><?php esc_html_e( 'Allowed values', 'vg_sheet_editor' ); ?></label>
 				<p><?php esc_html_e( 'Enter each choice on a new line. For more control, you may specify both a value and label like this: red : Red', 'vg_sheet_editor' ); ?></p>
-				<textarea name="column_settings[<?php echo esc_attr( $column_key ); ?>][allowed_values]"><?php echo esc_html( $column_settings['allowed_values'] ); ?></textarea>
+				<textarea id="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'allowed_values' ); ?>" name="column_settings[<?php echo esc_attr( $column_key ); ?>][allowed_values]"><?php echo esc_html( $column_settings['allowed_values'] ); ?></textarea>
 			</div>
 			<div class="column-settings-field settings-for-type settings-for-multi_select">
-				<label><?php esc_html_e( 'Allowed values', 'vg_sheet_editor' ); ?></label>
+				<label for="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'multi_select_allowed_values' ); ?>"><?php esc_html_e( 'Allowed values', 'vg_sheet_editor' ); ?></label>
 				<p><?php esc_html_e( 'Enter each choice on a new line. For more control, you may specify both a value and label like this: red : Red', 'vg_sheet_editor' ); ?></p>
-				<textarea name="column_settings[<?php echo esc_attr( $column_key ); ?>][multi_select_allowed_values]"><?php echo esc_html( $column_settings['multi_select_allowed_values'] ); ?></textarea>
-				<label><?php esc_html_e( 'How are the multiple values saved in the database?', 'vg_sheet_editor' ); ?></label>	
-				<select data-lazy-key="columnsManagerMultiSelectSavedFormat"  data-selected="<?php echo esc_attr( $column_settings['multi_select_saved_format'] ); ?>"  name="column_settings[<?php echo esc_attr( $column_key ); ?>][multi_select_saved_format]">
+				<textarea id="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'multi_select_allowed_values' ); ?>" name="column_settings[<?php echo esc_attr( $column_key ); ?>][multi_select_allowed_values]"><?php echo esc_html( $column_settings['multi_select_allowed_values'] ); ?></textarea>
+				<label for="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'multi_select_saved_format' ); ?>"><?php esc_html_e( 'How are the multiple values saved in the database?', 'vg_sheet_editor' ); ?></label>	
+				<select id="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'multi_select_saved_format' ); ?>" data-lazy-key="columnsManagerMultiSelectSavedFormat"  data-selected="<?php echo esc_attr( $column_settings['multi_select_saved_format'] ); ?>"  name="column_settings[<?php echo esc_attr( $column_key ); ?>][multi_select_saved_format]">
 				</select>
 			</div>
 			<div class="column-settings-field settings-for-type settings-for-checkbox">
-				<label><?php esc_html_e( 'What value is saved when the checkbox is checked?', 'vg_sheet_editor' ); ?></label>					
-				<input value="<?php echo esc_attr( $column_settings['checked_template'] ); ?>" type="text" name="column_settings[<?php echo esc_attr( $column_key ); ?>][checked_template]">
-				<label><?php esc_html_e( 'What value is saved when the checkbox is unchecked?', 'vg_sheet_editor' ); ?></label>					
-				<input value="<?php echo esc_attr( $column_settings['unchecked_template'] ); ?>" type="text" name="column_settings[<?php echo esc_attr( $column_key ); ?>][unchecked_template]">
+				<label for="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'checked_template' ); ?>"><?php esc_html_e( 'What value is saved when the checkbox is checked?', 'vg_sheet_editor' ); ?></label>					
+				<input id="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'checked_template' ); ?>" value="<?php echo esc_attr( $column_settings['checked_template'] ); ?>" type="text" name="column_settings[<?php echo esc_attr( $column_key ); ?>][checked_template]">
+				<label for="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'unchecked_template' ); ?>"><?php esc_html_e( 'What value is saved when the checkbox is unchecked?', 'vg_sheet_editor' ); ?></label>					
+				<input id="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'unchecked_template' ); ?>" value="<?php echo esc_attr( $column_settings['unchecked_template'] ); ?>" type="text" name="column_settings[<?php echo esc_attr( $column_key ); ?>][unchecked_template]">
 			</div>
 			<div class="column-settings-field settings-for-type settings-for-user">	
 				<p><?php esc_html_e( 'You will be able to type the username in the cell and the cell will show a dropdown with suggestions.', 'vg_sheet_editor' ); ?></p>
-				<label><?php esc_html_e( 'How is the user saved in the database?', 'vg_sheet_editor' ); ?></label>	
-				<select data-lazy-key="columnsManagerUserSavedFormat" data-selected="<?php echo esc_attr( $column_settings['user_saved_format'] ); ?>" name="column_settings[<?php echo esc_attr( $column_key ); ?>][user_saved_format]">
+				<label for="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'user_saved_format' ); ?>"><?php esc_html_e( 'How is the user saved in the database?', 'vg_sheet_editor' ); ?></label>	
+				<select id="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'user_saved_format' ); ?>" data-lazy-key="columnsManagerUserSavedFormat" data-selected="<?php echo esc_attr( $column_settings['user_saved_format'] ); ?>" name="column_settings[<?php echo esc_attr( $column_key ); ?>][user_saved_format]">
 				</select>
 			</div>
 			<div class="column-settings-field settings-for-type settings-for-term">	
 				<p><?php esc_html_e( 'You will be able to type the term name in the cell and the cell will show a dropdown with suggestions.', 'vg_sheet_editor' ); ?></p>
-				<label><?php esc_html_e( 'How is the taxonomy term saved in the database?', 'vg_sheet_editor' ); ?></label>	
-				<select data-lazy-key="columnsManagerTermSavedFormat" data-selected="<?php echo esc_attr( $column_settings['term_saved_format'] ); ?>" name="column_settings[<?php echo esc_attr( $column_key ); ?>][term_saved_format]">
+				<label for="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'term_saved_format' ); ?>"><?php esc_html_e( 'How is the taxonomy term saved in the database?', 'vg_sheet_editor' ); ?></label>	
+				<select id="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'term_saved_format' ); ?>" data-lazy-key="columnsManagerTermSavedFormat" data-selected="<?php echo esc_attr( $column_settings['term_saved_format'] ); ?>" name="column_settings[<?php echo esc_attr( $column_key ); ?>][term_saved_format]">
 					
 				</select>
 				<br>
 				<label><input  <?php checked( $column_settings['allow_multiple_terms'], 'yes' ); ?> value="yes" type="checkbox" name="column_settings[<?php echo esc_attr( $column_key ); ?>][allow_multiple_terms]"> <?php esc_html_e( 'Allow multiple terms per field?', 'vg_sheet_editor' ); ?></label>
 
-				<label><?php esc_html_e( 'How do you want to save the multiple terms?', 'vg_sheet_editor' ); ?></label>
-				<select data-lazy-key="columnsManagerMultipleTermsFormat" data-selected="<?php echo esc_attr( $column_settings['multiple_terms_format'] ); ?>" name="column_settings[<?php echo esc_attr( $column_key ); ?>][multiple_terms_format]">
+				<label for="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'multiple_terms_format' ); ?>"><?php esc_html_e( 'How do you want to save the multiple terms?', 'vg_sheet_editor' ); ?></label>
+				<select id="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'multiple_terms_format' ); ?>" data-lazy-key="columnsManagerMultipleTermsFormat" data-selected="<?php echo esc_attr( $column_settings['multiple_terms_format'] ); ?>" name="column_settings[<?php echo esc_attr( $column_key ); ?>][multiple_terms_format]">
 				</select>
-				<label><?php esc_html_e( 'Accept terms from this taxonomy', 'vg_sheet_editor' ); ?></label>	
+				<label for="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'taxonomy_filter' ); ?>"><?php esc_html_e( 'Accept terms from this taxonomy', 'vg_sheet_editor' ); ?></label>	
 				<p><?php esc_html_e( 'For example, if you select the blog categories, we will only accept blog categories in this column.', 'vg_sheet_editor' ); ?></p>
-				<select data-lazy-key="columnsManagerTaxonomies" data-selected="<?php echo esc_attr( $column_settings['taxonomy_filter'] ); ?>" name="column_settings[<?php echo esc_attr( $column_key ); ?>][taxonomy_filter]"></select>
+				<select id="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'taxonomy_filter' ); ?>" data-lazy-key="columnsManagerTaxonomies" data-selected="<?php echo esc_attr( $column_settings['taxonomy_filter'] ); ?>" name="column_settings[<?php echo esc_attr( $column_key ); ?>][taxonomy_filter]"></select>
 			</div>
 			<div class="column-settings-field settings-for-type settings-for-currency">	
 				<p><?php esc_html_e( 'You will be able to type numbers without formatting, for example: 999999.88 or 100, and we will automatically save them in the formatted way. This conversion will happen when you save and not live when you edit in the cells and you will see the modified values on the next spreadsheet reload.', 'vg_sheet_editor' ); ?></p>
-				<label><?php esc_html_e( 'Number of decimals', 'vg_sheet_editor' ); ?></label>	
-				<input name="column_settings[<?php echo esc_attr( $column_key ); ?>][currency_decimals]" value="<?php echo (int) $column_settings['currency_decimals']; ?>">
+				<label for="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'currency_decimals' ); ?>"><?php esc_html_e( 'Number of decimals', 'vg_sheet_editor' ); ?></label>	
+				<input id="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'currency_decimals' ); ?>" name="column_settings[<?php echo esc_attr( $column_key ); ?>][currency_decimals]" value="<?php echo (int) $column_settings['currency_decimals']; ?>">
 				<br>
-				<label><?php esc_html_e( 'Decimals separator', 'vg_sheet_editor' ); ?></label>	
-				<input name="column_settings[<?php echo esc_attr( $column_key ); ?>][decimal_separator]" value="<?php echo esc_attr( $column_settings['decimal_separator'] ); ?>">
+				<label for="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'decimal_separator' ); ?>"><?php esc_html_e( 'Decimals separator', 'vg_sheet_editor' ); ?></label>	
+				<input id="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'decimal_separator' ); ?>" name="column_settings[<?php echo esc_attr( $column_key ); ?>][decimal_separator]" value="<?php echo esc_attr( $column_settings['decimal_separator'] ); ?>">
 				<br>
-				<label><?php esc_html_e( 'Thousands separator', 'vg_sheet_editor' ); ?></label>	
-				<input name="column_settings[<?php echo esc_attr( $column_key ); ?>][thousands_separator]" value="<?php echo esc_attr( $column_settings['thousands_separator'] ); ?>">
+				<label for="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'thousands_separator' ); ?>"><?php esc_html_e( 'Thousands separator', 'vg_sheet_editor' ); ?></label>	
+				<input id="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'thousands_separator' ); ?>" name="column_settings[<?php echo esc_attr( $column_key ); ?>][thousands_separator]" value="<?php echo esc_attr( $column_settings['thousands_separator'] ); ?>">
 			</div>
 			<div class="column-settings-field settings-for-type settings-for-post">	
 				<p><?php esc_html_e( 'You will be able to type the post title in the cell and the cell will show a dropdown with suggestions.', 'vg_sheet_editor' ); ?></p>
-				<label><?php esc_html_e( 'How is the post saved in the database?', 'vg_sheet_editor' ); ?></label>	
-				<select data-lazy-key="columnsManagerPostSavedFormat" data-selected="<?php echo esc_attr( $column_settings['post_saved_format'] ); ?>" name="column_settings[<?php echo esc_attr( $column_key ); ?>][post_saved_format]">
+				<label for="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'post_saved_format' ); ?>"><?php esc_html_e( 'How is the post saved in the database?', 'vg_sheet_editor' ); ?></label>	
+				<select id="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'post_saved_format' ); ?>" data-lazy-key="columnsManagerPostSavedFormat" data-selected="<?php echo esc_attr( $column_settings['post_saved_format'] ); ?>" name="column_settings[<?php echo esc_attr( $column_key ); ?>][post_saved_format]">
 				</select>
 				<br>
 				<label><input  <?php checked( $column_settings['allow_multiple_posts'], 'yes' ); ?> value="yes" type="checkbox" name="column_settings[<?php echo esc_attr( $column_key ); ?>][allow_multiple_posts]"> <?php esc_html_e( 'Allow multiple posts per field?', 'vg_sheet_editor' ); ?></label>
 
-				<label><?php esc_html_e( 'How do you want to save the multiple posts?', 'vg_sheet_editor' ); ?></label>
-				<select data-lazy-key="columnsManagerMultipleTermsFormat" data-selected="<?php echo esc_attr( $column_settings['multiple_posts_format'] ); ?>" name="column_settings[<?php echo esc_attr( $column_key ); ?>][multiple_posts_format]">
+				<label for="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'multiple_posts_format' ); ?>"><?php esc_html_e( 'How do you want to save the multiple posts?', 'vg_sheet_editor' ); ?></label>
+				<select id="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'multiple_posts_format' ); ?>" data-lazy-key="columnsManagerMultipleTermsFormat" data-selected="<?php echo esc_attr( $column_settings['multiple_posts_format'] ); ?>" name="column_settings[<?php echo esc_attr( $column_key ); ?>][multiple_posts_format]">
 				</select>
-				<label><?php esc_html_e( 'Accept post from this post type', 'vg_sheet_editor' ); ?></label>	
+				<label for="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'post_type_filter' ); ?>"><?php esc_html_e( 'Accept post from this post type', 'vg_sheet_editor' ); ?></label>	
 				<p><?php esc_html_e( 'For example, if you select the post type "product", we will only accept product titles.', 'vg_sheet_editor' ); ?></p>
-				<select  data-lazy-key="columnsManagerPostTypes"  data-selected="<?php echo esc_attr( $column_settings['post_type_filter'] ); ?>" name="column_settings[<?php echo esc_attr( $column_key ); ?>][post_type_filter]"></select>
+				<select id="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'post_type_filter' ); ?>"  data-lazy-key="columnsManagerPostTypes"  data-selected="<?php echo esc_attr( $column_settings['post_type_filter'] ); ?>" name="column_settings[<?php echo esc_attr( $column_key ); ?>][post_type_filter]"></select>
 			</div>
 			<div class="column-settings-field settings-for-type settings-for-file">
-				<label><?php esc_html_e( 'How is the file saved in the database?', 'vg_sheet_editor' ); ?></label>	
+				<label for="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'file_saved_format' ); ?>"><?php esc_html_e( 'How is the file saved in the database?', 'vg_sheet_editor' ); ?></label>	
 				<p><?php _e( 'The cell will display the values as URLs and you can edit in the cells using full URLs, file ID, or file name.<br>External URLs are automatically imported into the media library.<br>We will save the value in the format selected here', 'vg_sheet_editor' ); ?></p>
-				<select data-lazy-key="columnsManagerFileSavedFormat" data-selected="<?php echo esc_attr( $column_settings['file_saved_format'] ); ?>" name="column_settings[<?php echo esc_attr( $column_key ); ?>][file_saved_format]">					
+				<select id="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'file_saved_format' ); ?>" data-lazy-key="columnsManagerFileSavedFormat" data-selected="<?php echo esc_attr( $column_settings['file_saved_format'] ); ?>" name="column_settings[<?php echo esc_attr( $column_key ); ?>][file_saved_format]">					
 				</select>
 				<br>
 				<label><input  <?php checked( $column_settings['allow_multiple_files'], 'yes' ); ?> value="yes" type="checkbox" name="column_settings[<?php echo esc_attr( $column_key ); ?>][allow_multiple_files]"> <?php esc_html_e( 'Allow multiple files per field?', 'vg_sheet_editor' ); ?></label>
-				<label><?php esc_html_e( 'How do you want to save the multiple files?', 'vg_sheet_editor' ); ?></label>
-				<select data-lazy-key="columnsManagerMultipleTermsFormat" data-selected="<?php echo esc_attr( $column_settings['multiple_files_format'] ); ?>"  name="column_settings[<?php echo esc_attr( $column_key ); ?>][multiple_files_format]">
+				<label for="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'multiple_files_format' ); ?>"><?php esc_html_e( 'How do you want to save the multiple files?', 'vg_sheet_editor' ); ?></label>
+				<select id="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'multiple_files_format' ); ?>" data-lazy-key="columnsManagerMultipleTermsFormat" data-selected="<?php echo esc_attr( $column_settings['multiple_files_format'] ); ?>"  name="column_settings[<?php echo esc_attr( $column_key ); ?>][multiple_files_format]">
 				</select>
 			</div>
-			<div class="column-settings-field settings-for-type settings-for-date">					
-				<p><?php esc_html_e( 'The cells will display the date in the format: YYYY-MM-DD', 'vg_sheet_editor' ); ?></p>
-				<label><?php esc_html_e( 'What date format do you want to save in the database?', 'vg_sheet_editor' ); ?></label>	
+			<div class="column-settings-field settings-for-type settings-for-date">	
+				<label for="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'date_format_display' ); ?>"><?php esc_html_e( 'What date format do you want to display in the spreadsheet?', 'vg_sheet_editor' ); ?></label>	
+				<p><?php _e( 'Enter a date format. <a href="https://www.php.net/date#refsect1-function.date-parameters" target="_blank">List of formats</a>. If you leave it empty, we\'ll use the default: Y-m-d', 'vg_sheet_editor' ); ?></p>
+				<input id="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'date_format_display' ); ?>" value="<?php echo esc_attr( $column_settings['date_format_display'] ); ?>" type="text" name="column_settings[<?php echo esc_attr( $column_key ); ?>][date_format_display]">
+
+				<label for="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'date_format_save' ); ?>"><?php esc_html_e( 'What date format do you want to save in the database?', 'vg_sheet_editor' ); ?></label>	
 				<p><?php _e( 'Enter a date format. <a href="https://www.php.net/date#refsect1-function.date-parameters" target="_blank">List of formats</a>. Example: Y-m-d', 'vg_sheet_editor' ); ?></p>
-				<input value="<?php echo esc_attr( $column_settings['date_format_save'] ); ?>" type="text" name="column_settings[<?php echo esc_attr( $column_key ); ?>][date_format_save]">
+				<input id="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'date_format_save' ); ?>" value="<?php echo esc_attr( $column_settings['date_format_save'] ); ?>" type="text" name="column_settings[<?php echo esc_attr( $column_key ); ?>][date_format_save]">
 			</div>
-			<div class="column-settings-field settings-for-type settings-for-date_time">					
-				<p><?php esc_html_e( 'The cells will display the value in the format: YYYY-MM-DD H:i:s. For example, 2021-12-12 08:00:00', 'vg_sheet_editor' ); ?></p>
-				<label><?php esc_html_e( 'What date format do you want to save in the database?', 'vg_sheet_editor' ); ?></label>	
+			<div class="column-settings-field settings-for-type settings-for-date_time">	
+				<label for="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'date_time_format_display' ); ?>"><?php esc_html_e( 'What date time format do you want to display in the spreadsheet?', 'vg_sheet_editor' ); ?></label>	
+				<p><?php _e( 'Enter a date format. <a href="https://www.php.net/date#refsect1-function.date-parameters" target="_blank">List of formats</a>. If you leave it empty, we\'ll use the default: Y-m-d H:i:s', 'vg_sheet_editor' ); ?></p>
+				<input id="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'date_time_format_display' ); ?>" value="<?php echo esc_attr( $column_settings['date_time_format_display'] ); ?>" type="text" name="column_settings[<?php echo esc_attr( $column_key ); ?>][date_time_format_display]">
+
+				<label for="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'date_time_format_save' ); ?>"><?php esc_html_e( 'What date format do you want to save in the database?', 'vg_sheet_editor' ); ?></label>	
 				<p><?php _e( 'Enter a date format. <a href="https://www.php.net/date#refsect1-function.date-parameters" target="_blank">List of formats</a>. Example: Y-m-d H:i:s', 'vg_sheet_editor' ); ?></p>
-				<input value="<?php echo esc_attr( $column_settings['date_time_format_save'] ); ?>" type="text" name="column_settings[<?php echo esc_attr( $column_key ); ?>][date_time_format_save]">
+				<input id="<?php echo sanitize_html_class( 'column_settings' . $column_key . 'date_time_format_save' ); ?>" value="<?php echo esc_attr( $column_settings['date_time_format_save'] ); ?>" type="text" name="column_settings[<?php echo esc_attr( $column_key ); ?>][date_time_format_save]">
 			</div>
 			<?php
 		}
@@ -1321,11 +1363,13 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns_Manager' ) ) {
 		function __get( $name ) {
 			return $this->$name;
 		}
-
 	}
 
 	add_action( 'vg_sheet_editor/initialized', 'vgse_columns_manager_init' );
 
+	/**
+	 * @return WP_Sheet_Editor_Columns_Manager
+	 */
 	function vgse_columns_manager_init() {
 		return WP_Sheet_Editor_Columns_Manager::get_instance();
 	}

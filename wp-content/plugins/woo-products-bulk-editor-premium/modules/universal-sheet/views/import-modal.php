@@ -19,7 +19,7 @@
 			?>
 			<?php do_action( 'vg_sheet_editor/import/before_form', $post_type ); ?>
 			<form class="import-csv-form vgse-modal-form " id="import-csv-form" action="<?php echo esc_url( admin_url( 'admin.php?page=vgse_import_page' ) ); ?>" method="POST">
-				<ul class="unstyled-list">
+				<ul>
 					<li class="step current">
 						<h3><?php _e( 'Import csv', 'vg_sheet_editor' ); ?></h3>
 						<?php do_action( 'vg_sheet_editor/import/before_data_sources', $post_type ); ?>
@@ -67,6 +67,9 @@
 							<div class="field">
 								<label><?php _e( 'Separator', 'vg_sheet_editor' ); ?></label><br>
 								<input type="text" name="separator" class="separator" value="," />
+							</div>
+							<div class="field">
+								<label><input type="checkbox" name="auto_column_names" class="auto_column_names" value="yes" /> <?php _e( 'Automatically add column names to the CSV file?', 'vg_sheet_editor' ); ?></label>								
 							</div>
 						</div>
 						<?php if ( empty( VGSE()->options['enable_simple_mode'] ) ) { ?>

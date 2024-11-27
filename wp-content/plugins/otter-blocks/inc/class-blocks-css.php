@@ -15,7 +15,7 @@ class Blocks_CSS {
 	/**
 	 * The main instance var.
 	 *
-	 * @var Blocks_CSS
+	 * @var Blocks_CSS|null
 	 */
 	public static $instance = null;
 
@@ -31,7 +31,7 @@ class Blocks_CSS {
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_assets' ), 1 );
 		add_action( 'wp_head', array( $this, 'render_server_side_css' ) );
 		add_action( 'wp_loaded', array( $this, 'add_attributes_to_blocks' ) );
-		add_filter( 'otter_blocks_css', array( $this, 'add_css_to_otter' ), 10, 1 );
+		add_filter( 'otter_blocks_css', array( $this, 'add_css_to_otter' ) );
 	}
 
 	/**
@@ -49,8 +49,8 @@ class Blocks_CSS {
 
 		wp_enqueue_code_editor( array( 'type' => 'text/css' ) );
 
-		wp_add_inline_script( 
-			'wp-codemirror', 
+		wp_add_inline_script(
+			'wp-codemirror',
 			'window.CodeMirror = wp.CodeMirror;'
 		);
 
@@ -72,11 +72,21 @@ class Blocks_CSS {
 			'otter-css',
 			'blocksCSS',
 			array(
-				'hasOtter' => defined( 'OTTER_BLOCKS_VERSION' ),
+				'hasOtter'     => defined( 'OTTER_BLOCKS_VERSION' ),
+				'installOtter' => wp_nonce_url(
+					add_query_arg(
+						array(
+							'action' => 'install-plugin',
+							'plugin' => 'otter-blocks',
+						),
+						admin_url( 'update.php' )
+					),
+					'install-plugin_otter-blocks'
+				),
 			)
 		);
 
-		wp_set_script_translations( 'otter-css', 'otter-blocks' );
+		wp_set_script_translations( 'otter-css', 'blocks-css' );
 
 		wp_enqueue_style(
 			'otter-css',
@@ -88,7 +98,7 @@ class Blocks_CSS {
 
 	/**
 	 * Render server-side CSS
-	 * 
+	 *
 	 * @since   1.0.0
 	 * @access  public
 	 */
@@ -100,7 +110,40 @@ class Blocks_CSS {
 				return;
 			}
 
-			$blocks = parse_blocks( $post->post_content );
+			$content = '';
+
+			if (
+				! defined( 'OTTER_BLOCKS_VERSION' ) &&
+				get_queried_object() === null &&
+				function_exists( 'wp_is_block_theme' ) &&
+				wp_is_block_theme() &&
+				current_theme_supports( 'block-templates' )
+			) {
+				global $_wp_current_template_content;
+
+				$slugs           = array();
+				$template_blocks = parse_blocks( $_wp_current_template_content );
+
+				foreach ( $template_blocks as $template_block ) {
+					if ( 'core/template-part' === $template_block['blockName'] ) {
+						$slugs[] = $template_block['attrs']['slug'];
+					}
+				}
+
+				$templates_parts = get_block_templates( array( 'slugs__in' => $slugs ), 'wp_template_part' );
+
+				foreach ( $templates_parts as $templates_part ) {
+					if ( ! empty( $templates_part->content ) && ! empty( $templates_part->slug ) && in_array( $templates_part->slug, $slugs ) ) {
+						$content .= $templates_part->content;
+					}
+				}
+
+				$content .= $_wp_current_template_content;
+			} else {
+				$content = $post->post_content;
+			}
+
+			$blocks = parse_blocks( $content );
 
 			if ( ! is_array( $blocks ) || empty( $blocks ) ) {
 				return;
@@ -121,16 +164,17 @@ class Blocks_CSS {
 	}
 
 	/**
-	 * Cycle thorugh Blocks
+	 * Cycle through Blocks
 	 *
 	 * @param array $inner_blocks Array of blocks.
 	 * @param int   $id Post ID.
-	 * 
+	 *
 	 * @since   1.0.0
 	 * @access  public
 	 */
 	public function cycle_through_blocks( $inner_blocks, $id ) {
 		$style = '';
+
 		foreach ( $inner_blocks as $block ) {
 			$file_name  = get_post_meta( $id, '_themeisle_gutenberg_block_stylesheet', true );
 			$render_css = empty( $file_name ) || strpos( $file_name, 'post-v2' ) === false;
@@ -145,11 +189,11 @@ class Blocks_CSS {
 				$reusable_block = get_post( $block['attrs']['ref'] );
 
 				if ( ! $reusable_block || 'wp_block' !== $reusable_block->post_type ) {
-					return;
+					return '';
 				}
 
 				if ( 'publish' !== $reusable_block->post_status || ! empty( $reusable_block->post_password ) ) {
-					return;
+					return '';
 				}
 
 				$blocks = parse_blocks( $reusable_block->post_content );
@@ -157,10 +201,11 @@ class Blocks_CSS {
 				$style .= $this->cycle_through_blocks( $blocks, $reusable_block->ID );
 			}
 
-			if ( isset( $block['innerBlocks'] ) && ! empty( $block['innerBlocks'] ) && is_array( $block['innerBlocks'] ) ) {
+			if ( ! empty( $block['innerBlocks'] ) && is_array( $block['innerBlocks'] ) ) {
 				$style .= $this->cycle_through_blocks( $block['innerBlocks'], $id );
 			}
 		}
+
 		return $style;
 	}
 
@@ -174,7 +219,7 @@ class Blocks_CSS {
 	public function add_attributes_to_blocks() {
 		$registered_blocks = \WP_Block_Type_Registry::get_instance()->get_all_registered();
 
-		foreach ( $registered_blocks as $name => $block ) {
+		foreach ( $registered_blocks as $block ) {
 			$block->attributes['hasCustomCSS'] = array(
 				'type'    => 'boolean',
 				'default' => false,
@@ -188,9 +233,9 @@ class Blocks_CSS {
 	}
 
 	/**
-	 * Append Block CSS to Otter's CSS file..
+	 * Append Block CSS to Otter's CSS file.
 	 *
-	 * @param int $block Block.
+	 * @param array $block Block.
 	 *
 	 * @since   1.1.4
 	 * @access  public
@@ -236,7 +281,7 @@ class Blocks_CSS {
 	 */
 	public function __clone() {
 		// Cloning instances of the class is forbidden.
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'otter-blocks' ), '1.0.0' );
+		_doing_it_wrong( __FUNCTION__, 'Cheatin&#8217; huh?', '1.0.0' );
 	}
 
 	/**
@@ -248,6 +293,6 @@ class Blocks_CSS {
 	 */
 	public function __wakeup() {
 		// Unserializing instances of the class is forbidden.
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'otter-blocks' ), '1.0.0' );
+		_doing_it_wrong( __FUNCTION__, 'Cheatin&#8217; huh?', '1.0.0' );
 	}
 }

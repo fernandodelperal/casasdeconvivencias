@@ -7,6 +7,8 @@
 
 namespace ThemeIsle\GutenbergBlocks\Server;
 
+use ThemeIsle\GutenbergBlocks\Tracker;
+
 /**
  * Class Dashboard_Server
  */
@@ -15,21 +17,21 @@ class Dashboard_Server {
 	/**
 	 * The main instance var.
 	 *
-	 * @var Dashboard_Server
+	 * @var Dashboard_Server|null
 	 */
 	public static $instance = null;
 
 	/**
 	 * Rest route namespace.
 	 *
-	 * @var Dashboard_Server
+	 * @var string
 	 */
 	public $namespace = 'otter/';
 
 	/**
 	 * Rest route version.
 	 *
-	 * @var Dashboard_Server
+	 * @var string
 	 */
 	public $version = 'v1';
 
@@ -38,6 +40,7 @@ class Dashboard_Server {
 	 */
 	public function init() {
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
+		add_action( 'after_switch_theme', array( $this, 'regenerate_styles_on_theme_change' ), 10, 2 );
 	}
 
 	/**
@@ -65,13 +68,39 @@ class Dashboard_Server {
 	 * Regenerate styles.
 	 *
 	 * @param \WP_REST_Request $request The request.
-	 * 
+	 *
 	 * @return \WP_REST_Response
 	 * @since   2.0.9
 	 * @access  public
 	 */
 	public function rest_regenerate_styles( \WP_REST_Request $request ) {
 		return self::regenerate_styles();
+	}
+
+	/**
+	 * Regenerate styles on theme change.
+	 * 
+	 * @param string $new_name New theme name.
+	 * @param string $new_theme New theme object.
+	 *
+	 * @since 2.3
+	 */
+	public function regenerate_styles_on_theme_change( $new_name, $new_theme ) {
+		self::regenerate_styles();
+
+		if ( ! Tracker::has_consent() ) {
+			return;
+		}
+
+		Tracker::track(
+			array(
+				array(
+					'feature'          => 'system',
+					'featureComponent' => 'theme-change',
+					'featureValue'     => $new_name,
+				),
+			)
+		);
 	}
 
 	/**

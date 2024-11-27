@@ -145,5 +145,4 @@ class Archives {
 		}
 		return self::$instance;
 	}
-
 }

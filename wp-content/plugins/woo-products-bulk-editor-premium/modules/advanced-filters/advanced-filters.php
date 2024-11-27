@@ -12,7 +12,6 @@ if ( ! class_exists( 'WP_Sheet_Editor_Advanced_Filters' ) ) {
 		var $favorite_search_fields = 'vgse_favorite_search_fields';
 
 		private function __construct() {
-
 		}
 
 		function init() {
@@ -23,7 +22,8 @@ if ( ! class_exists( 'WP_Sheet_Editor_Advanced_Filters' ) ) {
 			add_action( 'vg_sheet_editor/after_enqueue_assets', array( $this, 'register_assets' ) );
 			add_action( 'vg_sheet_editor/filters/after_fields', array( $this, 'add_filters_fields' ), 10, 2 );
 			add_action( 'vg_sheet_editor/filters/before_form_closing', array( $this, 'add_advanced_filters_fields' ), 10, 2 );
-			add_filter( 'vg_sheet_editor/load_rows/wp_query_args', array( $this, 'filter_posts' ), 10, 2 );
+			// Priority 12 because this needs to run after the filters.php module added its own query parameters, otherwise the post__in parameter doesn't work well
+			add_filter( 'vg_sheet_editor/load_rows/wp_query_args', array( $this, 'filter_posts' ), 12, 2 );
 			add_filter( 'vg_sheet_editor/filters/allowed_fields', array( $this, 'register_filters' ), 10, 2 );
 			add_filter( 'posts_clauses', array( $this, 'exclude_by_keyword' ), 10, 2 );
 			add_filter( 'posts_clauses', array( $this, 'add_advanced_post_data_query' ), 10, 2 );
@@ -130,7 +130,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Advanced_Filters' ) ) {
 			?>
 			<div class="save-search-wrapper">
 				<label class="save-search"><?php _e( 'Save this search', 'vg_sheet_editor' ); ?></label>
-				<input name="search_name" placeholder="<?php esc_attr_e( 'Enter a name...', 'vg_sheet_editor' ); ?>" class="save-search-input">
+				<input name="search_name" placeholder="<?php esc_attr_e( 'Enter a name...', 'vg_sheet_editor' ); ?>" class="save-search-input" type="text">
 			</div>
 			<?php
 		}
@@ -179,8 +179,8 @@ if ( ! class_exists( 'WP_Sheet_Editor_Advanced_Filters' ) ) {
 
 				if ( $post_data_parameters['compare'] === 'OR' ) {
 					$post_data_parameters['compare'] = 'REGEXP';
-					$keywords                        = array_map( 'trim', explode( ';', $post_data_parameters['value'] ) );
-					$post_data_parameters['value']   = '(' . implode( '|', $keywords ) . ')';
+					$keywords                        = array_filter( array_map( 'preg_quote', array_map( 'trim', explode( ';', $post_data_parameters['value'] ) ) ) );
+					$post_data_parameters['value']   = '^(' . implode( '|', $keywords ) . ')$';
 				}
 				if ( $post_data_parameters['compare'] === 'starts_with' ) {
 					$post_data_parameters['compare'] = 'LIKE';
@@ -229,10 +229,45 @@ GROUP BY tr.object_id';
 		}
 
 		function _parse_meta_query_args( $meta_query_args, $allowed_source = 'meta', &$query_args = array() ) {
+			// Cache variable that will hold the unfiltered columns that we get and use below
+			$columns   = null;
+			$post_type = VGSE()->helpers->get_provider_from_query_string();
+
 			foreach ( $meta_query_args as $index => $meta_query ) {
 				if ( $allowed_source && $meta_query['source'] !== $allowed_source ) {
 					unset( $meta_query_args[ $index ] );
 					continue;
+				}
+				if ( in_array( $meta_query['compare'], array( 'last_hours', 'last_days', 'last_weeks', 'last_months', 'older_than_hours', 'older_than_days', 'older_than_weeks', 'older_than_months' ), true ) ) {
+					if ( is_null( $columns ) ) {
+						$columns = VGSE()->helpers->get_unfiltered_provider_columns( $post_type );
+					}
+					$is_date_filter = isset( $columns[ $meta_query['key'] ] ) && $columns[ $meta_query['key'] ]['value_type'] === 'date';
+					if ( $is_date_filter ) {
+						$date_format_for_db = isset( $columns[ $meta_query['key'] ]['formatted']['customDatabaseFormat'] ) ? $columns[ $meta_query['key'] ]['formatted']['customDatabaseFormat'] : $columns[ $meta_query['key'] ]['formatted']['dateFormatPhp'];
+					}
+					if ( empty( $date_format_for_db ) ) {
+						$date_format_for_db = 'Y-m-d H:i:s';
+					}
+				}
+
+				if ( in_array( $meta_query['compare'], array( 'last_hours', 'last_days', 'last_weeks', 'last_months' ), true ) ) {
+					$time_unit             = str_replace( 'last_', '', $meta_query['compare'] );
+					$meta_query['compare'] = '>=';
+					$meta_query['value']   = date( $date_format_for_db, strtotime( '-' . (int) $meta_query['value'] . ' ' . $time_unit ) );
+					$meta_query_args[ $index ] = $meta_query;
+				}
+				if ( in_array( $meta_query['compare'], array( 'older_than_hours', 'older_than_days', 'older_than_weeks', 'older_than_months' ), true ) ) {
+					$time_unit             = str_replace( 'older_than_', '', $meta_query['compare'] );
+					$meta_query['compare'] = '<';
+					$meta_query['value']   = date( $date_format_for_db, strtotime( '-' . (int) $meta_query['value'] . ' ' . $time_unit ) );
+					$meta_query_args[ $index ] = $meta_query;
+				}
+
+				// When searching for non-empty featured images, it's more accurate the query field > 0
+				if ( $meta_query['key'] === '_thumbnail_id' && $meta_query['compare'] === '!=' && $meta_query['value'] === '' ) {
+					$meta_query['compare'] = '>';
+					$meta_query['value']   = '0';
 				}
 
 				if ( $meta_query['compare'] === 'length_less' ) {
@@ -251,8 +286,8 @@ GROUP BY tr.object_id';
 				}
 				if ( $meta_query['compare'] === 'OR' ) {
 					$meta_query_args[ $index ]['compare'] = 'REGEXP';
-					$keywords                             = array_map( 'trim', explode( ';', $meta_query['value'] ) );
-					$meta_query_args[ $index ]['value']   = '(' . implode( '|', $keywords ) . ')';
+					$keywords                             = array_filter( array_map( 'trim', explode( ';', $meta_query['value'] ) ) );
+					$meta_query_args[ $index ]['value']   = '^(' . implode( '|', $keywords ) . ')$';
 				}
 				if ( $meta_query['compare'] === 'starts_with' ) {
 					$meta_query_args[ $index ]['compare'] = 'REGEXP';
@@ -261,6 +296,13 @@ GROUP BY tr.object_id';
 				if ( $meta_query['compare'] === 'ends_with' ) {
 					$meta_query_args[ $index ]['compare'] = 'REGEXP';
 					$meta_query_args[ $index ]['value']  .= '$';
+				}
+
+				if ( class_exists( 'WooCommerce' ) && in_array( $meta_query['key'], array( '_sale_price_dates_from', '_sale_price_dates_to' ), true ) && ! empty( $meta_query['value'] ) ) {
+					if ( $meta_query['key'] === '_sale_price_dates_to' ) {
+						$meta_query['value'] .= ' 23:59:59';
+					}
+					$meta_query_args[ $index ]['value'] = wp_date( 'U', get_gmt_from_date( $meta_query['value'], 'U' ) );
 				}
 
 				if ( in_array( $meta_query['compare'], array( '>', '>=', '<', '<=' ) ) && is_numeric( $meta_query['value'] ) ) {
@@ -278,9 +320,31 @@ GROUP BY tr.object_id';
 
 				if ( ! empty( $meta_query_args[ $index ]['value'] ) ) {
 					$meta_query_args[ $index ]['value'] = $this->_maybe_convert_username_to_user_id( 'meta', $meta_query_args[ $index ] );
+					$meta_query_args[ $index ]['value'] = $this->_maybe_convert_post_to_ids( $meta_query_args[ $index ] );
 				}
 			}
 			return $meta_query_args;
+		}
+
+		/**
+		 * This function is necessary to convert the friendly post titles received from the search form into the post IDs saved in the database to be used for the searches.
+		 * Ideally, this function should work automatically on any column with "post dropdown" format, however we have many columns with post dropdowns that don't use the columns manager and we need to update all those columns to use the columns manager for this to work on all the post dropdown columns.
+		 * We're hardcoding support for 2 meta keys for now as a workaround.
+		 *
+		 * @param  array $meta_query
+		 * @return string
+		 */
+		function _maybe_convert_post_to_ids( $meta_query ) {
+			global $wpdb;
+			$cell_key = $meta_query['key'];
+			if ( $cell_key === '_EventVenueID' ) {
+				$meta_query['value'] = (int) $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_title = %s AND post_type = 'tribe_venue'", html_entity_decode( $meta_query['value'] ) ) );
+			}
+			if ( $cell_key === '_EventOrganizerID' ) {
+				$meta_query['value'] = (int) $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_title = %s AND post_type = 'tribe_organizer'", html_entity_decode( $meta_query['value'] ) ) );
+			}
+
+			return $meta_query['value'];
 		}
 
 		function _maybe_convert_username_to_user_id( $allowed_source, $meta_query ) {
@@ -304,6 +368,10 @@ GROUP BY tr.object_id';
 		}
 
 		function _build_sql_wheres_for_data_table( $post_data_query, $table_name ) {
+			// Cache variable that will hold the unfiltered columns that we get and use below
+			$columns   = null;
+			$post_type = VGSE()->helpers->get_provider_from_query_string();
+
 			$wheres = array();
 			foreach ( $post_data_query as $post_data_parameters ) {
 				if ( empty( $post_data_parameters['key'] ) || empty( $post_data_parameters['compare'] ) ) {
@@ -311,6 +379,29 @@ GROUP BY tr.object_id';
 				}
 				if ( ! is_string( $post_data_parameters['key'] ) || ! is_string( $post_data_parameters['compare'] ) ) {
 					continue;
+				}
+				if ( in_array( $post_data_parameters['compare'], array( 'last_hours', 'last_days', 'last_weeks', 'last_months', 'older_than_hours', 'older_than_days', 'older_than_weeks', 'older_than_months' ), true ) ) {
+					if ( is_null( $columns ) ) {
+						$columns = VGSE()->helpers->get_unfiltered_provider_columns( $post_type );
+					}
+					$is_date_filter = isset( $columns[ $post_data_parameters['key'] ] ) && $columns[ $post_data_parameters['key'] ]['value_type'] === 'date';
+					if ( $is_date_filter ) {
+						$date_format_for_db = isset( $columns[ $post_data_parameters['key'] ]['formatted']['customDatabaseFormat'] ) ? $columns[ $post_data_parameters['key'] ]['formatted']['customDatabaseFormat'] : $columns[ $post_data_parameters['key'] ]['formatted']['dateFormatPhp'];
+					}
+					if ( empty( $date_format_for_db ) ) {
+						$date_format_for_db = 'Y-m-d H:i:s';
+					}
+				}
+
+				if ( in_array( $post_data_parameters['compare'], array( 'last_hours', 'last_days', 'last_weeks', 'last_months' ), true ) ) {
+					$time_unit             = str_replace( 'last_', '', $post_data_parameters['compare'] );
+					$post_data_parameters['compare'] = '>=';
+					$post_data_parameters['value']   = date( $date_format_for_db, strtotime( '-' . (int) $post_data_parameters['value'] . ' ' . $time_unit ) );
+				}
+				if ( in_array( $post_data_parameters['compare'], array( 'older_than_hours', 'older_than_days', 'older_than_weeks', 'older_than_months' ), true ) ) {
+					$time_unit             = str_replace( 'older_than_', '', $post_data_parameters['compare'] );
+					$post_data_parameters['compare'] = '<';
+					$post_data_parameters['value']   = date( $date_format_for_db, strtotime( '-' . (int) $post_data_parameters['value'] . ' ' . $time_unit ) );
 				}
 				if ( in_array( $post_data_parameters['compare'], array( 'LIKE', 'NOT LIKE' ) ) ) {
 					$post_data_parameters['value'] = '%' . $post_data_parameters['value'] . '%';
@@ -332,8 +423,8 @@ GROUP BY tr.object_id';
 				}
 				if ( $post_data_parameters['compare'] === 'OR' ) {
 					$post_data_parameters['compare'] = 'REGEXP';
-					$keywords                        = array_map( 'trim', explode( ';', $post_data_parameters['value'] ) );
-					$post_data_parameters['value']   = '(' . implode( '|', $keywords ) . ')';
+					$keywords                        = array_filter( array_map( 'trim', explode( ';', $post_data_parameters['value'] ) ) );
+					$post_data_parameters['value']   = '^(' . implode( '|', $keywords ) . ')$';
 				}
 				if ( $post_data_parameters['compare'] === 'starts_with' ) {
 					$post_data_parameters['compare'] = 'LIKE';
@@ -392,7 +483,7 @@ GROUP BY tr.object_id';
 					}
 					if ( in_array( $post_data_query_single['value'], $allowed_statuses, true ) ) {
 						$has_allowed_post_status_filter = true;
-					} else {
+					} elseif ( $wp_query->query['post_type'] !== 'shop_order' ) {
 						unset( $post_data_query[ $index ] );
 					}
 				}
@@ -462,7 +553,7 @@ GROUP BY tr.object_id';
 			}
 			usort(
 				$saved_items[ $post_type ],
-				function( $a, $b ) {
+				function ( $a, $b ) {
 					return strcmp( $a['search_name'], $b['search_name'] );
 				}
 			);
@@ -573,19 +664,7 @@ GROUP BY tr.object_id';
 					);
 				}
 				if ( ! empty( $filters['post__in'] ) ) {
-					$post_ids_parts = preg_split( '/\r\n|\r|\n|\t|\s|,/', $filters['post__in'] );
-					$post_ids       = array();
-					foreach ( $post_ids_parts as $post_ids_part ) {
-						if ( strpos( $post_ids_part, '-' ) !== false ) {
-							$range_parts = array_filter( explode( '-', $post_ids_part ) );
-							if ( count( $range_parts ) === 2 ) {
-								$post_ids = array_merge( $post_ids, range( (int) $range_parts[0], (int) $range_parts[1] ) );
-							}
-						} else {
-							$post_ids[] = $post_ids_part;
-						}
-					}
-					$post_ids               = array_map( 'intval', $post_ids );
+					$post_ids               = VGSE()->helpers->get_ids_from_text_list( $filters['post__in'] );
 					$query_args['post__in'] = ( ! empty( $query_args['post__in'] ) ) ? array_intersect( $query_args['post__in'], $post_ids ) : $post_ids;
 				}
 				if ( ! empty( $filters['post_name__in'] ) ) {
@@ -742,8 +821,10 @@ GROUP BY tr.object_id';
 										$field_label = $columns[ $field_key ]['title'];
 									} elseif ( isset( $default_field_labels[ $field_key ] ) ) {
 										$field_label = $default_field_labels[ $field_key ];
+									} else {
+										$field_label = VGSE()->helpers->convert_key_to_label( $field_key );
 									}
-									$label = ( $field_label ) ? $field_label . " ($field_key)" : $field_key;
+									$label = ( $field_label && $field_label !== $field_key ) ? $field_label . " ($field_key)" : $field_key;
 
 									echo '<option ' . selected( $selected_values['key'], $field_key, false ) . ' value="' . esc_attr( $field_key ) . '" data-source="' . esc_attr( $group_key ) . '" ';
 									echo '>' . esc_html( $label ) . '</option>';
@@ -765,7 +846,7 @@ GROUP BY tr.object_id';
 				</div>
 				<div class="field-wrap search-value-wrap">
 					<label><?php _e( 'Value', 'vg_sheet_editor' ); ?></label>
-					<input name="meta_query[][value]" class=" wpse-advanced-filters-value-selector" value="<?php echo esc_attr( $selected_values['value'] ); ?>"/>
+					<input name="meta_query[][value]" type="text" class=" wpse-advanced-filters-value-selector" value="<?php echo esc_attr( $selected_values['value'] ); ?>"/>
 				</div>
 
 				<div class="fields-wrap search-row-add-new">
@@ -836,18 +917,24 @@ GROUP BY tr.object_id';
 			<option value="<=" <?php selected( $selected, '<=' ); ?> ><=</option>
 			<option value=">"  <?php selected( $selected, '>' ); ?>>></option>
 			<option value=">="  <?php selected( $selected, '>=' ); ?>>>=</option>
-			<option value="OR"  <?php selected( $selected, 'OR' ); ?> data-custom-label="ANY"><?php _e( 'Any of these values (Enter multiple values separated by ;)', 'vg_sheet_editor' ); ?></option>
+			<option value="OR" data-value-field-type="text"  <?php selected( $selected, 'OR' ); ?> data-custom-label="ANY"><?php _e( 'Any of these values (Enter multiple values separated by ;)', 'vg_sheet_editor' ); ?></option>
 			<option value="LIKE"  <?php selected( $selected, 'LIKE' ); ?>><?php _e( 'CONTAINS', 'vg_sheet_editor' ); ?></option>
 			<option value="NOT LIKE"  <?php selected( $selected, 'NOT LIKE' ); ?>><?php _e( 'NOT CONTAINS', 'vg_sheet_editor' ); ?></option>
 			<option value="starts_with" <?php selected( $selected, 'starts_with' ); ?> ><?php _e( 'STARTS WITH', 'vg_sheet_editor' ); ?></option>
 			<option value="ends_with"  <?php selected( $selected, 'ends_with' ); ?>><?php _e( 'ENDS WITH', 'vg_sheet_editor' ); ?></option>
 			<option value="length_less"  <?php selected( $selected, 'length_less' ); ?>><?php _e( 'CHARACTER LENGTH <', 'vg_sheet_editor' ); ?></option>
 			<option value="length_higher"  <?php selected( $selected, 'length_higher' ); ?>><?php _e( 'CHARACTER LENGTH >', 'vg_sheet_editor' ); ?></option>
-			<option value="REGEXP"  <?php selected( $selected, 'REGEXP' ); ?>><?php _e( 'REGEXP', 'vg_sheet_editor' ); ?></option>
+			<option data-value-field-type="text" value="REGEXP"  <?php selected( $selected, 'REGEXP' ); ?>><?php _e( 'REGEXP', 'vg_sheet_editor' ); ?></option>
 			<option data-value-field-type="number" data-value-type="date" value="last_hours"  <?php selected( $selected, 'last_hours' ); ?>><?php _e( 'In the last x hours', 'vg_sheet_editor' ); ?></option>
 			<option data-value-field-type="number" data-value-type="date" value="last_days"  <?php selected( $selected, 'last_days' ); ?>><?php _e( 'In the last x days', 'vg_sheet_editor' ); ?></option>
 			<option data-value-field-type="number" data-value-type="date" value="last_weeks"  <?php selected( $selected, 'last_weeks' ); ?>><?php _e( 'In the last x weeks', 'vg_sheet_editor' ); ?></option>
-			<option data-value-field-type="number" data-value-type="date" value="last_months"  <?php selected( $selected, 'last_months' ); ?>><?php _e( 'In the last x years', 'vg_sheet_editor' ); ?></option>
+			<option data-value-field-type="number" data-value-type="date" value="last_months"  <?php selected( $selected, 'last_months' ); ?>><?php _e( 'In the last x months', 'vg_sheet_editor' ); ?></option>
+			
+			<option data-value-field-type="number" data-value-type="date" value="older_than_hours"  <?php selected( $selected, 'older_than_hours' ); ?>><?php _e( 'Older than x hours', 'vg_sheet_editor' ); ?></option>
+			<option data-value-field-type="number" data-value-type="date" value="older_than_days"  <?php selected( $selected, 'older_than_days' ); ?>><?php _e( 'Older than x days', 'vg_sheet_editor' ); ?></option>
+			<option data-value-field-type="number" data-value-type="date" value="older_than_weeks"  <?php selected( $selected, 'older_than_weeks' ); ?>><?php _e( 'Older than x weeks', 'vg_sheet_editor' ); ?></option>
+			<option data-value-field-type="number" data-value-type="date" value="older_than_months"  <?php selected( $selected, 'older_than_months' ); ?>><?php _e( 'Older than x months', 'vg_sheet_editor' ); ?></option>
+
 			<?php
 		}
 
@@ -869,7 +956,6 @@ GROUP BY tr.object_id';
 		function __get( $name ) {
 			return $this->$name;
 		}
-
 	}
 
 	add_action( 'vg_sheet_editor/initialized', 'vgse_advanced_filters_init' );

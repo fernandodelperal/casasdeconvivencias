@@ -42,7 +42,7 @@ class Base_CSS {
 	/**
 	 * The namespace under which the block classees are saved.
 	 *
-	 * @var string
+	 * @var array
 	 */
 	protected static $blocks_classes = array();
 
@@ -88,6 +88,7 @@ class Base_CSS {
 			'\ThemeIsle\GutenbergBlocks\CSS\Blocks\Form_CSS',
 			'\ThemeIsle\GutenbergBlocks\CSS\Blocks\Form_Input_CSS',
 			'\ThemeIsle\GutenbergBlocks\CSS\Blocks\Form_Textarea_CSS',
+			'\ThemeIsle\GutenbergBlocks\CSS\Blocks\Form_Multiple_Choice_CSS',
 			'\ThemeIsle\GutenbergBlocks\CSS\Blocks\Flip_CSS',
 			'\ThemeIsle\GutenbergBlocks\CSS\Blocks\Progress_Bar_CSS',
 			'\ThemeIsle\GutenbergBlocks\CSS\Blocks\Popup_CSS',
@@ -96,6 +97,8 @@ class Base_CSS {
 			'\ThemeIsle\GutenbergBlocks\CSS\Blocks\Tabs_CSS',
 			'\ThemeIsle\GutenbergBlocks\CSS\Blocks\Posts_CSS',
 			'\ThemeIsle\GutenbergBlocks\CSS\Blocks\Sharing_Icons_CSS',
+			'\ThemeIsle\GutenbergBlocks\CSS\Blocks\Timeline_CSS',
+			'\ThemeIsle\GutenbergBlocks\CSS\Blocks\Timeline_Item_CSS',
 		);
 
 		self::$blocks_classes = apply_filters( 'otter_blocks_register_css', self::$blocks_classes );
@@ -158,8 +161,8 @@ class Base_CSS {
 	/**
 	 * Convert HEX to RGBA.
 	 *
-	 * @param string $color Color data.
-	 * @param bool   $opacity Opacity status.
+	 * @param string   $color Color data.
+	 * @param bool|int $opacity Opacity status.
 	 *
 	 * @return mixed
 	 * @since   1.3.0
@@ -202,60 +205,57 @@ class Base_CSS {
 	 * Get Blocks CSS
 	 *
 	 * @param int $post_id Post id.
-	 * @return string
+	 * @return string|void
 	 * @since   1.3.0
 	 * @access  public
 	 */
 	public function get_blocks_css( $post_id ) {
-		if ( function_exists( 'has_blocks' ) ) {
-			$content = get_post_field( 'post_content', $post_id );
-			$blocks  = parse_blocks( $content );
-
-			if ( ! is_array( $blocks ) || empty( $blocks ) ) {
-				return;
-			}
-
-			$animations = boolval( preg_match( '/\banimated\b/', $content ) );
-
-			return $this->cycle_through_static_blocks( $blocks, $animations );
+		if ( ! function_exists( 'has_blocks' ) ) {
+			return;
 		}
+
+		$content = get_post_field( 'post_content', $post_id );
+		$blocks  = parse_blocks( $content );
+
+		if ( ! is_array( $blocks ) || empty( $blocks ) ) {
+			return;
+		}
+
+		$animations = boolval( preg_match( '/\banimated\b/', $content ) );
+
+		return $this->cycle_through_static_blocks( $blocks, $animations );
 	}
 
 	/**
 	 * Get Widgets CSS
 	 *
-	 * @return string
+	 * @return string|void
 	 * @since   1.7.0
 	 * @access  public
 	 */
 	public function get_widgets_css() {
-		if ( function_exists( 'has_blocks' ) ) {
-			$content = '';
-			$widgets = get_option( 'widget_block', array() );
-
-			foreach ( $widgets as $widget ) {
-				if ( is_array( $widget ) && isset( $widget['content'] ) ) {
-					$content .= $widget['content'];
-				}
-			}
-
-			$blocks = parse_blocks( $content );
-
-			if ( ! is_array( $blocks ) || empty( $blocks ) ) {
-				return;
-			}
-
-			$animations = boolval( preg_match( '/\banimated\b/', $content ) );
-
-			return $this->cycle_through_static_blocks( $blocks, $animations );
+		if ( ! function_exists( 'has_blocks' ) ) {
+			return;
 		}
+
+		$content = Registration::get_active_widgets_content();
+
+		$blocks = parse_blocks( $content );
+
+		if ( ! is_array( $blocks ) || empty( $blocks ) ) {
+			return '';
+		}
+
+		$animations = boolval( preg_match( '/\banimated\b/', $content ) );
+
+		return $this->cycle_through_static_blocks( $blocks, $animations );
 	}
 
 	/**
 	 * Get Reusable Blocks CSS
 	 *
 	 * @param int $post_id Post id.
-	 * @return string
+	 * @return string|void
 	 * @since   1.3.0
 	 * @access  public
 	 */
@@ -293,7 +293,7 @@ class Base_CSS {
 			foreach ( self::$blocks_classes as $classname ) {
 				$path = new $classname();
 
-				if ( method_exists( $path, 'render_css' ) ) {
+				if ( method_exists( $path, 'render_css' ) && isset( $path->block_prefix ) ) {
 					if ( ( isset( $path->library_prefix ) ? $path->library_prefix : $this->library_prefix ) . '/' . $path->block_prefix === $block['blockName'] ) {
 						$style .= $path->render_css( $block );
 					}
@@ -352,10 +352,10 @@ class Base_CSS {
 			} else {
 				$parser = new Parser( file_get_contents( OTTER_BLOCKS_PATH . '/build/animation/index.css' ) ); // phpcs:ignore WordPressVIPMinimum.Performance.FetchingRemoteData.FileGetContentsUnknown
 			}
-	
+
 			$content = $parser->parse()->getContents();
 
-			set_transient( 'otter_animations_parsed', $content, MONTH_IN_SECONDS ); 
+			set_transient( 'otter_animations_parsed', $content, MONTH_IN_SECONDS );
 		}
 
 		$format = OutputFormat::createCompact();
@@ -369,7 +369,7 @@ class Base_CSS {
 				}
 				continue;
 			}
-		
+
 			/*
 			 * This is used to get the reduced-motion animation styles.
 			 */
@@ -377,7 +377,7 @@ class Base_CSS {
 				if ( false === in_array( $rule->atRuleArgs(), array( '(prefers-reduced-motion:reduce),print', 'screen' ) ) ) {
 					continue;
 				}
-		
+
 				$style .= $rule->render( $format );
 				continue;
 			}

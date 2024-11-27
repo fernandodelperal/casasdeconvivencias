@@ -7,15 +7,15 @@ if ( ! class_exists( 'WP_Sheet_Editor_Formulas' ) ) {
 	 */
 	class WP_Sheet_Editor_Formulas {
 
-		private static $instance = false;
-		var $plugin_url          = null;
-		var $plugin_dir          = null;
-		var $documentation_url   = '';
-		static $regex_flag       = '[::regex::]';
-		var $sequential_number   = 1;
+		private static $instance     = false;
+		public $plugin_url           = null;
+		public $plugin_dir           = null;
+		public $documentation_url    = '';
+		static $regex_flag           = '[::regex::]';
+		public $sequential_number    = 1;
+		public $current_bulk_edit_id = null;
 
 		private function __construct() {
-
 		}
 
 		function init() {
@@ -76,8 +76,8 @@ if ( ! class_exists( 'WP_Sheet_Editor_Formulas' ) ) {
 						$search  = ( WP_Sheet_Editor_Helpers::current_user_can( 'unfiltered_html' ) ) ? $result[1][0] : wp_kses_post( $result[1][0] );
 						$replace = ( WP_Sheet_Editor_Helpers::current_user_can( 'unfiltered_html' ) ) ? $result[2][0] : wp_kses_post( $result[2][0] );
 
-						$out['set1'] = $search;
-						$out['set2'] = $replace;
+						$out['set1'] = html_entity_decode( $search );
+						$out['set2'] = html_entity_decode( $replace );
 					}
 				} else {
 					return new WP_Error( VGSE()->options_key, __( 'Invalid #898AJSI. The replace requires 2 parameters, we received one', 'vg_sheet_editor' ) );
@@ -142,9 +142,9 @@ if ( ! class_exists( 'WP_Sheet_Editor_Formulas' ) ) {
 				return $formula;
 			}
 			$formula = str_replace( '$current_value$', $data, $formula );
-			$formula = str_replace( '$current_value_capitalize_each_word$', trim( ucwords( strtolower( $data ) ) ), $formula );
-			$formula = str_replace( '$current_value_lowercase$', strtolower( $data ), $formula );
-			$formula = str_replace( '$current_value_uppercase$', strtoupper( $data ), $formula );
+			$formula = str_replace( '$current_value_capitalize_each_word$', trim( ucwords( mb_strtolower( $data ) ) ), $formula );
+			$formula = str_replace( '$current_value_lowercase$', mb_strtolower( $data ), $formula );
+			$formula = str_replace( '$current_value_uppercase$', mb_strtoupper( $data ), $formula );
 			$formula = str_replace( '$random_number$', mt_rand( 10000, 999999 ), $formula );
 			$formula = str_replace( '$random_letters$', wp_generate_password( 6, false ), $formula );
 			$formula = str_replace( '$uuid$', VGSE()->helpers->get_uuid(), $formula );
@@ -153,8 +153,9 @@ if ( ! class_exists( 'WP_Sheet_Editor_Formulas' ) ) {
 			$formula = str_replace( '$current_time_friendly$', current_time( 'H:i:s', false ), $formula );
 			$formula = str_replace( '$current_date$', date( 'd-m-Y' ), $formula );
 			if ( strpos( $formula, '$sequential_number$' ) !== false ) {
-				$formula = str_replace( '$sequential_number$', $this->sequential_number, $formula );
-				$this->sequential_number++;
+				$current_sequence = (int) get_transient( 'vgse_sequence' . $this->current_bulk_edit_id );
+				$formula          = str_replace( '$sequential_number$', $current_sequence, $formula );
+				set_transient( 'vgse_sequence' . $this->current_bulk_edit_id, $current_sequence + 1, WEEK_IN_SECONDS );
 			}
 			$formula = str_replace( '$random_date$', VGSE()->helpers->get_random_date_in_range( strtotime( 'January 1st, -2 years' ), time() ), $formula );
 
@@ -324,7 +325,8 @@ if ( ! class_exists( 'WP_Sheet_Editor_Formulas' ) ) {
 
 				//              $parser = new VG_Math_Calculator();
 				//              $formula_result = $parser->calculate($formula);
-				$roundup = ! empty( VGSE()->options['math_formula_roundup_decimals'] ) ? VGSE()->options['math_formula_roundup_decimals'] : 2;
+
+				$roundup = isset( VGSE()->options['math_formula_roundup_decimals'] ) && is_numeric( VGSE()->options['math_formula_roundup_decimals'] ) ? intval( VGSE()->options['math_formula_roundup_decimals'] ) : 2;
 				$data    = round( $formula_result, (int) $roundup );
 
 				if ( $data === $formula ) {
@@ -818,15 +820,16 @@ if ( ! class_exists( 'WP_Sheet_Editor_Formulas' ) ) {
 
 		function bulk_execute_formula( $request_data = array() ) {
 			global $wpdb;
-			$column                  = $request_data['column'];
-			$raw_form_data           = $request_data['raw_form_data'];
-			$formula                 = wp_unslash( $request_data['formula'] );
-			$post_type               = $request_data['post_type'];
-			$page                    = (int) $request_data['page'];
-			$per_page                = ! empty( $request_data['per_page'] ) ? (int) $request_data['per_page'] : VGSE()->get_option( 'be_posts_per_page_save', 4 );
-			$bulk_edit_id            = 'wpsebe' . $request_data['wpse_job_id'];
-			$editor                  = VGSE()->helpers->get_provider_editor( $post_type );
-			VGSE()->current_provider = $editor->provider;
+			$column                     = $request_data['column'];
+			$raw_form_data              = $request_data['raw_form_data'];
+			$formula                    = wp_unslash( $request_data['formula'] );
+			$post_type                  = $request_data['post_type'];
+			$page                       = (int) $request_data['page'];
+			$per_page                   = ! empty( $request_data['per_page'] ) ? (int) $request_data['per_page'] : VGSE()->get_option( 'be_posts_per_page_save', 8 );
+			$bulk_edit_id               = 'wpsebe' . $request_data['wpse_job_id'];
+			$editor                     = VGSE()->helpers->get_provider_editor( $post_type );
+			VGSE()->current_provider    = $editor->provider;
+			$this->current_bulk_edit_id = $bulk_edit_id;
 
 			$meta_table = $editor->provider->key === 'custom_table' ? false : $editor->provider->get_meta_table_name( $post_type );
 
@@ -837,21 +840,36 @@ if ( ! class_exists( 'WP_Sheet_Editor_Formulas' ) ) {
 			$is_fast_post_delete = false;
 			if ( post_type_exists( $post_type ) && $raw_form_data['action_name'] === 'set_value' && in_array( 'delete', $raw_form_data['formula_data'] ) && empty( $raw_form_data['use_slower_execution'] ) && empty( VGSE()->options['delete_attached_images_when_post_delete'] ) ) {
 				$is_fast_post_delete = true;
-				$per_page            = ( ! empty( VGSE()->options['delete_posts_per_page'] ) ) ? (int) VGSE()->options['delete_posts_per_page'] : 500;
+			}
+			$is_fast_post_delete = apply_filters( 'vg_sheet_editor/formulas/is_fast_post_delete', $is_fast_post_delete, $post_type, $raw_form_data );
+
+			if ( $is_fast_post_delete ) {
+				$per_page = ( ! empty( VGSE()->options['delete_posts_per_page'] ) ) ? (int) VGSE()->options['delete_posts_per_page'] : 500;
 			}
 
 			if ( $page > 1 && ! $is_fast_post_delete ) {
 				if ( $meta_table ) {
-					$request_data['filters'] = 'meta_query%5B1%5D%5Bsource%5D=meta&meta_query%5B1%5D%5Bkey%5D=' . $bulk_edit_id . '&meta_query%5B1%5D%5Bcompare%5D=%253D&meta_query%5B1%5D%5Bvalue%5D=1';
+					$request_data['filters'] = array(
+						'meta_query' => array(
+							array(
+								'source'  => 'meta',
+								'key'     => $bulk_edit_id,
+								'compare' => '=',
+								'value'   => '1',
+							),
+						),
+					);
 				} else {
 					$all_ids                 = implode( ',', array_filter( explode( ',', get_option( 'vgse_' . $bulk_edit_id ) ) ) );
-					$request_data['filters'] = 'post__in=' . $all_ids;
+					$request_data['filters'] = array(
+						'post__in' => $all_ids,
+					);
 				}
-				if ( strpos( $_REQUEST['filters'], 'wc_display_variations=yes' ) !== false ) {
-					$request_data['filters'] .= '&wc_display_variations=yes';
+				if ( vgse_filters_init()->has_filter( 'wc_display_variations', 'yes' ) ) {
+					$request_data['filters']['wc_display_variations'] = 'yes';
 				}
-				if ( strpos( $_REQUEST['filters'], 'search_variations=yes' ) !== false ) {
-					$request_data['filters'] .= '&search_variations=yes';
+				if ( vgse_filters_init()->has_filter( 'search_variations', 'yes' ) ) {
+					$request_data['filters']['search_variations'] = 'yes';
 				}
 				$_REQUEST['filters'] = $request_data['filters'];
 			}
@@ -913,8 +931,6 @@ if ( ! class_exists( 'WP_Sheet_Editor_Formulas' ) ) {
 				VGSE()->helpers->remove_all_post_actions( $post_type );
 			}
 
-			$updated_items = array();
-
 			$get_rows_args = apply_filters(
 				'vg_sheet_editor/formulas/search_query/get_rows_args',
 				array(
@@ -959,9 +975,13 @@ if ( ! class_exists( 'WP_Sheet_Editor_Formulas' ) ) {
 
 					$main_sql = str_replace( array( "SQL_CALC_FOUND_ROWS  $wpdb->posts.ID", 'SQL_CALC_FOUND_ROWS' ), array( "$wpdb->posts.*", '' ), substr( $query->request, 0, strripos( $query->request, 'ORDER BY' ) ) );
 
+					$remove_duplicates_meta_keys = array_filter( array_map( 'trim', explode( ',', VGSE()->get_option( 'allow_formula_remove_duplicates_meta_keys', '' ) ) ) );
 					if ( $raw_form_data['action_name'] === 'remove_duplicates_title_content' ) {
 						// We don't select the sample value in the query ('value') because it might be very large here
 						$get_items_sql = 'SELECT  count(p.' . esc_sql( $column ) . ") 'count', GROUP_CONCAT(p.ID SEPARATOR ',') as post_ids FROM ($main_sql) p WHERE p.post_title <> '' AND p.post_content <> '' GROUP BY CONCAT(p.post_title, p.post_content)  having count(*) >= 2";
+					} elseif ( ! empty( $remove_duplicates_meta_keys ) && in_array( $column, $remove_duplicates_meta_keys, true ) ) {
+						$main_sql      = str_replace( "SELECT $wpdb->posts.*", "SELECT $wpdb->posts.ID", $main_sql );
+						$get_items_sql = $wpdb->prepare( "SELECT meta_value 'value', count(meta_value) 'count', GROUP_CONCAT(post_id SEPARATOR ',') as post_ids  FROM $wpdb->postmeta pm WHERE post_id IN ($main_sql) AND meta_key = %s AND meta_value <> '' GROUP BY meta_value having count(*) >= 2", $column );
 					} else {
 						$get_items_sql = 'SELECT p.' . esc_sql( $column ) . " 'value', count(p." . esc_sql( $column ) . ") 'count', GROUP_CONCAT(p.ID SEPARATOR ',') as post_ids FROM ($main_sql) p WHERE p." . esc_sql( $column ) . " <> '' GROUP BY p." . esc_sql( $column ) . ' having count(*) >= 2';
 					}
@@ -1002,6 +1022,10 @@ if ( ! class_exists( 'WP_Sheet_Editor_Formulas' ) ) {
 			}
 
 			if ( ! empty( $query->posts ) ) {
+
+				if ( strpos( $formula, '$sequential_number$' ) !== false && $page === 1 ) {
+					set_transient( 'vgse_sequence' . $bulk_edit_id, 1, WEEK_IN_SECONDS );
+				}
 				$count = 0;
 				do_action( 'vg_sheet_editor/formulas/execute_formula/before_execution', $column, $formula, $post_type, $spreadsheet_columns );
 
@@ -1011,14 +1035,18 @@ if ( ! class_exists( 'WP_Sheet_Editor_Formulas' ) ) {
 				}
 
 				$editions_count = apply_filters( 'vg_sheet_editor/formulas/execute_formula', null, $raw_form_data, $query->posts, $column_settings );
+				$processed_ids  = array();
+				$updated_ids    = array();
 
 				if ( is_null( $editions_count ) ) {
 					if ( $can_execute_formula_as_sql ) {
 						$sql_updated_count = $this->execute_formula_as_sql( $query->posts, $formula, $column_settings, $post_type );
 						$sql_updated       = ( ! empty( $sql_updated ) ) ? $sql_updated + $sql_updated_count : $sql_updated_count;
-						$updated_items     = $sql_updated;
+						$updated_ids       = $query->posts;
+						$processed_ids     = $query->posts;
+						$updated_count     = $sql_updated;
 						$editions_count    = $sql_updated;
-						VGSE()->helpers->increase_counter( 'editions', $updated_items );
+						VGSE()->helpers->increase_counter( 'editions', $updated_count );
 						do_action( 'vg_sheet_editor/formulas/execute_formula/after_sql_execution', $column, $formula, $post_type, $spreadsheet_columns, $query->posts );
 					} else {
 						// Mark the items in batches of 2000 to prevent memory leaks
@@ -1030,7 +1058,8 @@ if ( ! class_exists( 'WP_Sheet_Editor_Formulas' ) ) {
 						if ( $is_fast_post_delete ) {
 							$this->_fast_wp_delete_post( $query->posts, $post_type, $bulk_edit_id );
 							$editions_count = count( $query->posts );
-							$updated_items  = wp_list_pluck( $query->posts, 'ID' );
+							$processed_ids  = wp_list_pluck( $query->posts, 'ID' );
+							$updated_ids    = $processed_ids;
 						} else {
 
 							// Loop through all the posts
@@ -1052,11 +1081,12 @@ if ( ! class_exists( 'WP_Sheet_Editor_Formulas' ) ) {
 									do_action( 'vg_sheet_editor/formulas/execute_formula/after_execution_on_field', $post->ID, $results['initial_data'], $results['modified_data'], $column, $formula, $post_type, $column_settings, $spreadsheet_columns );
 
 									if ( $results['initial_data'] !== $results['modified_data'] ) {
-										$editions_count++;
-										$updated_items[] = $post->ID;
+										++$editions_count;
+										$updated_ids[]   = $post->ID;
+										$processed_ids[] = $post->ID;
 									}
 
-									$count++;
+									++$count;
 									continue;
 								}
 
@@ -1068,7 +1098,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Formulas' ) ) {
 										if ( $raw_form_data['formula_data'][3] === 'per_user' ) {
 											$emails_sent = file( $email_sent_log_path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
 											if ( is_array( $emails_sent ) && in_array( $email_to, $emails_sent, true ) ) {
-												$count++;
+												++$count;
 												continue;
 											}
 											// Save the email_to in the file
@@ -1089,12 +1119,12 @@ if ( ! class_exists( 'WP_Sheet_Editor_Formulas' ) ) {
 										}
 										$email_sent = wp_mail( $email_to, $email_subject, $email_body, $headers );
 										if ( $email_sent ) {
-											$editions_count++;
-											$updated_items[] = $post->ID;
+											++$editions_count;
+											$processed_ids[] = $post->ID;
 										}
 									}
 
-									$count++;
+									++$count;
 									continue;
 								}
 
@@ -1145,88 +1175,92 @@ if ( ! class_exists( 'WP_Sheet_Editor_Formulas' ) ) {
 
 								if ( $initial_data !== $data ) {
 
-									// Same filter is available on save_rows
-									$item = apply_filters(
-										'vg_sheet_editor/save_rows/row_data_before_save',
-										array(
-											'ID'      => $post->ID,
-											$cell_key => $data,
-										),
-										$post_id,
-										$post_type,
-										$spreadsheet_columns,
-										$request_data
-									);
+									try {
+										// Same filter is available on save_rows
+										$item = apply_filters(
+											'vg_sheet_editor/save_rows/row_data_before_save',
+											array(
+												'ID'      => $post->ID,
+												$cell_key => $data,
+											),
+											$post_id,
+											$post_type,
+											$spreadsheet_columns,
+											$request_data
+										);
 
-									if ( is_wp_error( $item ) ) {
-										return $item;
-									}
-									if ( empty( $item ) ) {
-										$updated_items[] = $post->ID;
-										$editions_count++;
-										continue;
-									}
+										if ( is_wp_error( $item ) ) {
+											return $item;
+										}
+										if ( empty( $item ) ) {
+											$processed_ids[] = $post->ID;
+											++$editions_count;
+											continue;
+										}
 
-									do_action(
-										'vg_sheet_editor/save_rows/before_saving_cell',
-										array(
-											'ID'      => $post->ID,
-											$cell_key => $data,
-										),
-										$post_type,
-										$cell_args,
-										$cell_key,
-										$spreadsheet_columns,
-										$post_id
-									);
+										do_action(
+											'vg_sheet_editor/save_rows/before_saving_cell',
+											array(
+												'ID'      => $post->ID,
+												$cell_key => $data,
+											),
+											$post_type,
+											$cell_args,
+											$cell_key,
+											$spreadsheet_columns,
+											$post_id
+										);
 
-									$data_to_save = $this->_prepare_data_for_saving( $data, $cell_args );
+										$data_to_save = $this->_prepare_data_for_saving( $data, $cell_args );
 
-									// If the value should be prepared using a callback before we save
-									if ( ! empty( $cell_args['prepare_value_for_database'] ) ) {
-										$data_to_save = call_user_func( $cell_args['prepare_value_for_database'], $post->ID, $cell_key, $data_to_save, $post_type, $cell_args, $spreadsheet_columns );
-									}
+										// If the value should be prepared using a callback before we save
+										if ( ! empty( $cell_args['prepare_value_for_database'] ) ) {
+											$data_to_save = call_user_func( $cell_args['prepare_value_for_database'], $post->ID, $cell_key, $data_to_save, $post_type, $cell_args, $spreadsheet_columns );
+										}
 
-									// Use column callback to save the cell value
-									if ( ! empty( $cell_args['save_value_callback'] ) && is_callable( $cell_args['save_value_callback'] ) ) {
-										call_user_func( $cell_args['save_value_callback'], $post->ID, $cell_key, $data_to_save, $post_type, $cell_args, $spreadsheet_columns );
-										$updated_items[] = $post->ID;
-										$editions_count++;
-									} else {
+										// Use column callback to save the cell value
+										if ( ! empty( $cell_args['save_value_callback'] ) && is_callable( $cell_args['save_value_callback'] ) ) {
+											call_user_func( $cell_args['save_value_callback'], $post->ID, $cell_key, $data_to_save, $post_type, $cell_args, $spreadsheet_columns );
+											$updated_ids[]   = $post->ID;
+											$processed_ids[] = $post->ID;
+											++$editions_count;
+										} else {
 
-										if ( $cell_args['data_type'] === 'post_data' ) {
+											$updated_ids[]   = $post->ID;
+											$processed_ids[] = $post->ID;
+											++$editions_count;
 
-											// If the modified data is different, we save it
-											$update = array();
+											if ( $cell_args['data_type'] === 'post_data' ) {
 
-											$final_key = $cell_key;
-											if ( VGSE()->helpers->get_current_provider()->is_post_type ) {
-												if ( ! in_array( $cell_key, array( 'comment_status', 'menu_order', 'comment_count', 'ID' ) ) && strpos( $cell_key, 'post_' ) === false ) {
-													$final_key = 'post_' . $cell_key;
+												// If the modified data is different, we save it
+												$update = array();
+
+												$final_key = $cell_key;
+												if ( VGSE()->helpers->get_current_provider()->is_post_type ) {
+													if ( ! in_array( $cell_key, array( 'comment_status', 'menu_order', 'comment_count', 'ID' ) ) && strpos( $cell_key, 'post_' ) === false ) {
+														$final_key = 'post_' . $cell_key;
+													}
 												}
+												$update[ $final_key ] = $data_to_save;
+
+												if ( empty( $update['ID'] ) ) {
+													$update['ID'] = $post->ID;
+												}
+												$post_id = $editor->provider->update_item_data( $update, true );
+
 											}
-											$update[ $final_key ] = $data_to_save;
-
-											if ( empty( $update['ID'] ) ) {
-												$update['ID'] = $post->ID;
+											if ( $cell_args['data_type'] === 'meta_data' || $cell_args['data_type'] === 'post_meta' ) {
+												$data   = $data_to_save;
+												$update = $editor->provider->update_item_meta( $post->ID, $cell_key, $data );
 											}
-											$post_id = $editor->provider->update_item_data( $update, true );
-
-											$updated_items[] = $post->ID;
-
-											$editions_count++;
+											if ( $cell_args['data_type'] === 'post_terms' ) {
+												$update = $editor->provider->set_object_terms( $post->ID, $data_to_save, $cell_key );
+											}
 										}
-										if ( $cell_args['data_type'] === 'meta_data' || $cell_args['data_type'] === 'post_meta' ) {
-											$editions_count++;
-											$data            = $data_to_save;
-											$update          = $editor->provider->update_item_meta( $post->ID, $cell_key, $data );
-											$updated_items[] = $post->ID;
-										}
-										if ( $cell_args['data_type'] === 'post_terms' ) {
-											$editions_count++;
-											$update          = $editor->provider->set_object_terms( $post->ID, $data_to_save, $cell_key );
-											$updated_items[] = $post->ID;
-										}
+									} catch ( Exception $e ) {
+										$exception_message = $e->getMessage();
+										do_action( 'vg_sheet_editor/formulas/fatal_error_handler', $e, $post->ID, $initial_data, $data, $column, $formula, $post_type, $cell_args, $spreadsheet_columns );
+										return new WP_Error( 'vgse', sprintf( __( 'Error: %s', 'vg_sheet_editor' ), $exception_message ) );
 									}
 								} else {
 									// if the data is the same after running the formula, we don't save it.
@@ -1235,7 +1269,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Formulas' ) ) {
 
 								$modified_data = $data;
 								do_action( 'vg_sheet_editor/formulas/execute_formula/after_execution_on_field', $post->ID, $initial_data, $modified_data, $column, $formula, $post_type, $cell_args, $spreadsheet_columns );
-								$count++;
+								++$count;
 
 								if ( ! empty( VGSE()->options['run_save_post_action_always'] ) && VGSE()->helpers->get_current_provider()->is_post_type ) {
 									do_action( 'save_post', $post->ID, get_post( $post->ID ), true );
@@ -1243,9 +1277,14 @@ if ( ! class_exists( 'WP_Sheet_Editor_Formulas' ) ) {
 							}
 						}
 						VGSE()->helpers->increase_counter( 'editions', $editions_count );
+						$updated_count = count( $processed_ids );
+					}
+
+					if ( method_exists( VGSE()->helpers->get_current_provider(), 'update_modified_date' ) && $column !== 'post_modified' ) {
+						VGSE()->helpers->get_current_provider()->update_modified_date( $updated_ids );
 					}
 				} else {
-					$updated_items = $editions_count;
+					$updated_count = $editions_count;
 
 					// Mark the items in batches of 2000 to prevent memory leaks
 					if ( $page === 1 && ! $is_fast_post_delete ) {
@@ -1258,9 +1297,19 @@ if ( ! class_exists( 'WP_Sheet_Editor_Formulas' ) ) {
 
 				if ( $page === 1 ) {
 
-					return new WP_Error( 'vgse', __( 'Bulk edit not executed. No items found matching the criteria.', 'vg_sheet_editor' ) );
+					return new WP_Error(
+						'vgse',
+						__( 'Bulk edit not executed. No items found matching the criteria.', 'vg_sheet_editor' ),
+						array(
+							'rows_not_found' => true,
+							'status'         => 404,
+						)
+					);
 				} else {
 
+					if ( strpos( $formula, '$sequential_number$' ) !== false ) {
+						delete_transient( 'vgse_sequence' . $bulk_edit_id );
+					}
 					// Remove list flag
 					if ( $meta_table ) {
 						$editor->provider->delete_meta_key( $bulk_edit_id, $post_type );
@@ -1282,7 +1331,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Formulas' ) ) {
 			// Send final message indicating the number of posts updated.
 			$processed = ( ! $can_execute_formula_as_sql && $total > ( $per_page * $page ) ) ? $per_page * $page : $total;
 			VGSE()->helpers->increase_counter( 'processed', $processed );
-			$total_updated = ( is_array( $updated_items ) ) ? count( $updated_items ) : $updated_items;
+			$total_updated = $updated_count;
 
 			// If the post has orphan meta data, it might update more rows than the posts total
 			// so make sure the total updated is not higher than the total of posts
@@ -1293,6 +1342,10 @@ if ( ! class_exists( 'WP_Sheet_Editor_Formulas' ) ) {
 
 			// Remove list flag
 			if ( (int) $processed === (int) $total ) {
+
+				if ( strpos( $formula, '$sequential_number$' ) !== false ) {
+					delete_transient( 'vgse_sequence' . $bulk_edit_id );
+				}
 				if ( $meta_table ) {
 					$editor->provider->delete_meta_key( $bulk_edit_id, $post_type );
 				} else {
@@ -1311,7 +1364,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Formulas' ) ) {
 				'processed_rows'   => (int) $processed,
 				'updated'          => $total_updated,
 				'processed_posts'  => ( ! empty( $base_query['fields'] ) && $base_query['fields'] === 'ids' ) ? $query->posts : wp_list_pluck( $query->posts, 'ID' ),
-				'updated_posts'    => $updated_items,
+				'updated_posts'    => $updated_ids,
 				'force_complete'   => ( $can_execute_formula_as_sql ) ? true : false,
 				'execution_method' => ( $can_execute_formula_as_sql ) ? 'sql_formula' : 'php_formula',
 			);
@@ -1359,11 +1412,13 @@ if ( ! class_exists( 'WP_Sheet_Editor_Formulas' ) ) {
 		function __get( $name ) {
 			return $this->$name;
 		}
-
 	}
 
 	add_action( 'vg_sheet_editor/initialized', 'vgse_formulas_init' );
 
+	/**
+	 * @return WP_Sheet_Editor_Formulas
+	 */
 	function vgse_formulas_init() {
 		return WP_Sheet_Editor_Formulas::get_instance();
 	}

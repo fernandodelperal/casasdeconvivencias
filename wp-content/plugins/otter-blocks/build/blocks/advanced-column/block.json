@@ -12,7 +12,13 @@
 			"type": "string"
 		},
 		"padding": {
-			"type": "object"
+			"type": "object",
+			"default": {
+				"top": "0px",
+				"right": "0px",
+				"bottom": "0px",
+				"left": "0px"
+			}
 		},
 		"paddingTablet": {
 			"type": "object"
@@ -21,7 +27,13 @@
 			"type": "object"
 		},
 		"margin": {
-			"type": "object"
+			"type": "object",
+			"default": {
+				"top": "0px",
+				"right": "0px",
+				"bottom": "0px",
+				"left": "0px"
+			}
 		},
 		"marginTablet": {
 			"type": "object"

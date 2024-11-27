@@ -33,8 +33,8 @@ if ( ! class_exists( 'WPSE_Formulas_UI' ) ) {
 			$args['columnsUnformat'] = array_merge( $new_columns, $args['columnsUnformat'] );
 			$args['columnsFormat']   = array_merge( $new_columns, $args['columnsFormat'] );
 			$args['startCols']++;
-			$args['colWidths']  = array_merge( array( 40 ), $args['colWidths'] );
-			$args['colHeaders'] = array_merge( array( '<input type="checkbox" class="bulk-selector" data-row="0" data-col="0" />' ), $args['colHeaders'] );
+			$args['colWidths']  = array_merge( array( 'wpseBulkSelector' => 40 ), $args['colWidths'] );
+			$args['colHeaders'] = array_merge( array( 'wpseBulkSelector' => '<input type="checkbox" class="bulk-selector" data-row="0" data-col="0" />' ), $args['colHeaders'] );
 			if ( ! empty( $args['custom_handsontable_args'] ) ) {
 				$args['custom_handsontable_args'] = json_decode( $args['custom_handsontable_args'], true );
 			}
@@ -170,7 +170,7 @@ if ( ! class_exists( 'WPSE_Formulas_UI' ) ) {
 						'type'                  => 'button',
 						'allow_in_frontend'     => true,
 						// Removed tooltip because there's no position that works well
-						// Top: it displays it below on top of the dropdown when the header is fixed
+						// Top: it displays it below the dropdown when the header is fixed
 						// At the sides, it hides the other toolbar items
 						//                  'help_tooltip' => __('Edit thousands of rows at once', 'vg_sheet_editor' ),
 						'content'               => __( 'Bulk Edit', 'vg_sheet_editor' ),
@@ -236,20 +236,6 @@ if ( ! class_exists( 'WPSE_Formulas_UI' ) ) {
 					);
 				}
 
-				// We could add support for bulk actions registered for the wp tables
-				// but some of them require JS for custom handling and they would be broken
-				// so we will enable specific actions through extensions as needed
-				/* $actions_from_wp_list = apply_filters('bulk_actions-edit-' . $post_type, array());
-				  foreach ($actions_from_wp_list as $bulk_action => $label) {
-				  $quick_actions[$bulk_action] = array(
-				  'label' => sprintf(__('%s (third party)', 'vg_sheet_editor' ), $label),
-				  'columns' => array(),
-				  'allow_to_select_column' => false,
-				  'type_of_edit' => null,
-				  'values' => array(),
-				  'wp_handler' => true,
-				  );
-				  } */
 				$quick_actions         = apply_filters( 'vg_sheet_editor/formulas/quick_actions', $quick_actions, $post_type, $editor );
 				$quick_actions['more'] = array(
 					'label'                  => __( 'More options', 'vg_sheet_editor' ),
@@ -259,17 +245,17 @@ if ( ! class_exists( 'WPSE_Formulas_UI' ) ) {
 					'values'                 => array(),
 					'wp_handler'             => false,
 				);
-				$action_links          = array();
+				$i = 0;
 				foreach ( $quick_actions as $bulk_action => $action ) {
-					$action_links[] = '<div class="button-container"><button class="quick-bulk-action button" type="button" data-action="' . htmlentities( json_encode( $action ), ENT_QUOTES, 'UTF-8' ) . '"  data-action="' . esc_attr( $bulk_action ) . '">' . esc_html( $action['label'] ) . '</button></div>';
-				}
+					$i++;
+					$action_link = '<button class="quick-bulk-action button" type="button" data-action="' . htmlentities( json_encode( $action ), ENT_QUOTES, 'UTF-8' ) . '"  data-action="' . esc_attr( $bulk_action ) . '">' . esc_html( $action['label'] ) . '</button>';
 
-				if ( ! empty( $action_links ) ) {
+					
 					$editor->args['toolbars']->register_item(
-						'quick_bulk_edits',
+						'quick_bulk_edits' . $i,
 						array(
 							'type'              => 'html',
-							'content'           => implode( '', $action_links ),
+							'content'           => $action_link,
 							'allow_in_frontend' => true,
 							'parent'            => 'run_formula',
 						),
@@ -295,6 +281,8 @@ if ( ! class_exists( 'WPSE_Formulas_UI' ) ) {
 		function get_formulas_data() {
 			$current_post = VGSE()->helpers->get_provider_from_query_string();
 
+			$remove_duplicates_meta_keys = array_filter( array_map( 'trim', explode( ',', VGSE()->get_option( 'allow_formula_remove_duplicates_meta_keys', '' ) ) ) );
+
 			$formulas_data = array(
 				'texts'           => array(
 					'formula_required'          => __( 'The bulk edit is missing important information, please fill the form.', 'vg_sheet_editor' ),
@@ -314,7 +302,16 @@ if ( ! class_exists( 'WPSE_Formulas_UI' ) ) {
 						'input_fields'           =>
 						array(
 							array(
-								'tag' => 'textarea',
+								'tag'        => 'select',
+								'html_attrs' => array(
+									'data-placeholder' => '--',
+									'data-tags'        => true,
+									'multiple'         => 'multiple',
+									'class'            => 'select2',
+									'data-remote'      => 'true',
+									'data-action'      => 'vgse_get_taxonomy_terms',
+									'data-extra_ajax_parameters' => '{"taxonomy_key": "{column_key}"}',
+								),
 							),
 						),
 					),
@@ -341,7 +338,7 @@ if ( ! class_exists( 'WPSE_Formulas_UI' ) ) {
 								array(
 									'multiple' => false,
 								),
-								'options'    => '<option value="hour">' . __( 'Hours', 'vg_sheet_editor' ) . '</option><option value="day">' . __( 'Days', 'vg_sheet_editor' ) . '</option><option value="week">' . __( 'Weeks', 'vg_sheet_editor' ) . '</option><option value="month">' . __( 'Months', 'vg_sheet_editor' ) . '</option><option value="year">' . __( 'Years', 'vg_sheet_editor' ) . '</option>',
+								'options'    => '<option value="minute">' . __( 'Minutes', 'vg_sheet_editor' ) . '</option><option value="day">' . __( 'Days', 'vg_sheet_editor' ) . '</option><option value="week">' . __( 'Weeks', 'vg_sheet_editor' ) . '</option><option value="month">' . __( 'Months', 'vg_sheet_editor' ) . '</option><option value="year">' . __( 'Years', 'vg_sheet_editor' ) . '</option>',
 								'label'      => __( 'Time unit', 'vg_sheet_editor' ),
 							),
 						),
@@ -369,7 +366,7 @@ if ( ! class_exists( 'WPSE_Formulas_UI' ) ) {
 								array(
 									'multiple' => false,
 								),
-								'options'    => '<option value="hour">' . __( 'Hours', 'vg_sheet_editor' ) . '</option><option value="day">' . __( 'Days', 'vg_sheet_editor' ) . '</option><option value="week">' . __( 'Weeks', 'vg_sheet_editor' ) . '</option><option value="month">' . __( 'Months', 'vg_sheet_editor' ) . '</option><option value="year">' . __( 'Years', 'vg_sheet_editor' ) . '</option>',
+								'options'    => '<option value="minute">' . __( 'Minutes', 'vg_sheet_editor' ) . '</option><option value="day">' . __( 'Days', 'vg_sheet_editor' ) . '</option><option value="week">' . __( 'Weeks', 'vg_sheet_editor' ) . '</option><option value="month">' . __( 'Months', 'vg_sheet_editor' ) . '</option><option value="year">' . __( 'Years', 'vg_sheet_editor' ) . '</option>',
 								'label'      => __( 'Time unit', 'vg_sheet_editor' ),
 							),
 						),
@@ -643,7 +640,7 @@ if ( ! class_exists( 'WPSE_Formulas_UI' ) ) {
 						'description'            => sprintf( __( '<a class="formulas-action-tip-link" href="%s" target="_blank">Read more</a>', 'vg_sheet_editor' ), 'https://wpsheeteditor.com/blog/?s=duplicate' ),
 						'fields_relationship'    => 'AND',
 						'jsCallback'             => 'vgseGenerateClearValueFormula',
-						'allowed_column_keys'    => array( 'post_title', 'post_author', 'post_content', 'post_date', 'post_excerpt', '_sku' ),
+						'allowed_column_keys'    => array_merge( $remove_duplicates_meta_keys, array( 'post_title', 'post_author', 'post_content', 'post_date', 'post_excerpt', '_sku' ) ),
 						'disallowed_column_keys' => array(),
 						'input_fields'           =>
 						array(
@@ -1075,14 +1072,30 @@ if ( ! class_exists( 'WPSE_Formulas_UI' ) ) {
 							'input_fields'        =>
 							array(
 								array(
-									'tag'         => 'input',
 									'label'       => __( 'Replace this', 'vg_sheet_editor' ),
 									'description' => __( 'You must enter the full hierarchy like parent > child', 'vg_sheet_editor' ),
+									'tag'         => 'select',
+									'html_attrs'  => array(
+										'data-placeholder' => '--',
+										'data-tags'        => true,
+										'class'            => 'select2',
+										'data-remote'      => 'true',
+										'data-action'      => 'vgse_get_taxonomy_terms',
+										'data-extra_ajax_parameters' => '{"taxonomy_key": "{column_key}"}',
+									),
 								),
 								array(
-									'tag'         => 'input',
 									'label'       => __( 'With this', 'vg_sheet_editor' ),
 									'description' => __( 'You must enter the full hierarchy like parent > child', 'vg_sheet_editor' ),
+									'tag'         => 'select',
+									'html_attrs'  => array(
+										'data-placeholder' => '--',
+										'data-tags'        => true,
+										'class'            => 'select2',
+										'data-remote'      => 'true',
+										'data-action'      => 'vgse_get_taxonomy_terms',
+										'data-extra_ajax_parameters' => '{"taxonomy_key": "{column_key}"}',
+									),
 								),
 							),
 						),
@@ -1091,9 +1104,18 @@ if ( ! class_exists( 'WPSE_Formulas_UI' ) ) {
 							'input_fields' =>
 							array(
 								array(
-									'tag'         => 'input',
 									'label'       => __( 'Terms', 'vg_sheet_editor' ),
 									'description' => __( 'Enter the full hierarchy like parent > child', 'vg_sheet_editor' ),
+									'tag'         => 'select',
+									'html_attrs'  => array(
+										'data-placeholder' => '--',
+										'data-tags'        => true,
+										'class'            => 'select2',
+										'data-remote'      => 'true',
+										'data-action'      => 'vgse_get_taxonomy_terms',
+										'data-extra_ajax_parameters' => '{"taxonomy_key": "{column_key}"}',
+										'multiple'         => 'multiple',
+									),
 								),
 							),
 						),

@@ -2,8 +2,8 @@
 Contributors: britner
 Tags: 
 Requires at least: 4.5
-Tested up to: 6.0
-Stable tag: 4.9.7
+Tested up to: 6.1
+Stable tag: 4.9.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,6 +42,10 @@ Install the plugin into the `/wp-content/plugins/` folder, and activate it.
 
 
 == Changelog ==
+
+= 4.9.8 =
+* Update: Show 6.1 Support.
+* Fix: Possible notice from php8
 
 = 4.9.7 =
 * Update: 6.0 Support.

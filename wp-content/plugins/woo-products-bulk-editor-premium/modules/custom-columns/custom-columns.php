@@ -14,6 +14,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Custom_Columns' ) ) {
 		public $required_column_settings                = null;
 		public $found_columns                           = array();
 		public $bool_column_settings                    = null;
+		public $true_default_column_settings            = null;
 		public $automatic_column_post_types_initialized = array();
 		public $serialized_field_templates              = array();
 
@@ -188,7 +189,6 @@ if ( ! class_exists( 'WP_Sheet_Editor_Custom_Columns' ) ) {
 						$column_settings = array(
 							'data_type'           => 'meta_data',
 							'unformatted'         => array( 'data' => $meta_key ),
-							'column_width'        => (int) ( 6.1 * strlen( $label ) ) + 75, // Set the width based on the label length+the locked icon length
 							'title'               => $label,
 							'type'                => '',
 							'supports_formulas'   => true,
@@ -259,6 +259,10 @@ if ( ! class_exists( 'WP_Sheet_Editor_Custom_Columns' ) ) {
 			// If we have multiple post types to check, we'll use the sample values from the first post type that has values
 			foreach ( $post_types_for_sample_values as $post_type ) {
 				$post_type_values = array_map( 'maybe_unserialize', $editor->provider->get_meta_field_unique_values( $meta_key, $post_type ) );
+				$non_empty_values = VGSE()->helpers->array_remove_empty( $post_type_values );
+				if($post_type === 'product' && empty($non_empty_values)){
+					$post_type_values = array_map( 'maybe_unserialize', $editor->provider->get_meta_field_unique_values( $meta_key, 'product_variation' ) );
+				}
 				if ( ! empty( $post_type_values ) ) {
 					$values = $post_type_values;
 					break;
@@ -363,6 +367,9 @@ if ( ! class_exists( 'WP_Sheet_Editor_Custom_Columns' ) ) {
 			return apply_filters( 'vg_sheet_editor/custom_columns/column_type', $out, $meta_key, $editor );
 		}
 
+		/**
+		 * @deprecated Use VGSE()->helpers->array_depth_uniform instead
+		 */
 		public function _array_depth_uniform( array $array ) {
 			$first_item = current( $array );
 			if ( ! is_array( $first_item ) ) {
@@ -384,6 +391,9 @@ if ( ! class_exists( 'WP_Sheet_Editor_Custom_Columns' ) ) {
 			return $out;
 		}
 
+		/**
+		 * @deprecated Use VGSE()->helpers->array_depth instead
+		 */
 		public function _array_depth( array $array ) {
 			$max_depth = 1;
 
@@ -480,10 +490,10 @@ if ( ! class_exists( 'WP_Sheet_Editor_Custom_Columns' ) ) {
 						'unformatted'         => array(
 							'data'     => $column_settings['key'],
 							'readOnly' => ( $column_settings['read_only'] === 'yes' ) ? true : false,
-						), //Array (Valores admitidos por el plugin de handsontable)
-						'column_width'        => $column_settings['width'], //int (Ancho de la columna)
-						'title'               => $column_settings['name'], //String (Titulo de la columna)
-						'type'                => $column_settings['cell_type'], // String (Es para saber si será un boton que abre popup, si no dejar vacio) boton_tiny|boton_gallery|boton_gallery_multiple|(vacio)
+						),
+						'column_width'        => $column_settings['width'], 
+						'title'               => $column_settings['name'],
+						'type'                => $column_settings['cell_type'],
 						'supports_formulas'   => ( $column_settings['allow_formulas'] === 'yes' ) ? true : false,
 						'allow_to_hide'       => ( $column_settings['allow_hide'] === 'yes' ) ? true : false,
 						'allow_to_save'       => ( $column_settings['read_only'] === 'yes' && ! in_array( $column_settings['cell_type'], array( 'boton_gallery', 'boton_gallery_multiple' ) ) ) ? false : true,
@@ -509,7 +519,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Custom_Columns' ) ) {
 							$column_args['unformatted'],
 							array(
 								'type'             => 'date',
-								'dateFormatPhp'       => 'Y-m-d',
+								'dateFormatPhp'    => 'Y-m-d',
 								'correctFormat'    => true,
 								'defaultDate'      => date( 'Y-m-d' ),
 								'datePickerConfig' => array(
@@ -526,7 +536,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Custom_Columns' ) ) {
 							$column_args['formatted'],
 							array(
 								'type'             => 'date',
-								'dateFormatPhp'       => 'Y-m-d',
+								'dateFormatPhp'    => 'Y-m-d',
 								'correctFormat'    => true,
 								'defaultDate'      => date( 'Y-m-d' ),
 								'datePickerConfig' => array(
@@ -626,19 +636,22 @@ if ( ! class_exists( 'WP_Sheet_Editor_Custom_Columns' ) ) {
 				wp_send_json_error( array( 'message' => __( 'You are not allowed to do this action. Please reload the page or log in again.', 'vg_sheet_editor' ) ) );
 			}
 
-			$post_type  = VGSE()->helpers->sanitize_table_key( $_POST['post_type'] );
-			$column_key = sanitize_text_field( $_POST['column_key'] );
-			$result     = VGSE()->helpers->get_current_provider()->delete_meta_key( $column_key, $post_type );
+			$post_type = VGSE()->helpers->sanitize_table_key( $_POST['post_type'] );
 
-			if ( is_numeric( $result ) ) {
-				wp_send_json_success(
-					array(
-						'message' => __( 'The meta field was deleted successfully', 'vg_sheet_editor' ),
-					)
-				);
+			if ( is_string( $_POST['column_key'] ) ) {
+				$column_keys = array( sanitize_text_field( $_POST['column_key'] ) );
 			} else {
-				wp_send_json_error( array( 'message' => __( 'The meta field could not be deleted.', 'vg_sheet_editor' ) ) );
+				$column_keys = array_map( 'sanitize_text_field', $_POST['column_key'] );
 			}
+			foreach ( $column_keys as $column_key ) {
+				$result = VGSE()->helpers->get_current_provider()->delete_meta_key( $column_key, $post_type );
+			}
+
+			wp_send_json_success(
+				array(
+					'message' => __( 'The meta field was deleted successfully', 'vg_sheet_editor' ),
+				)
+			);
 		}
 
 		public function rename_meta_key() {

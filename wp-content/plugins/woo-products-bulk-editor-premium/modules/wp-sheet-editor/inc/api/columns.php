@@ -4,9 +4,10 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns' ) ) {
 
 	class WP_Sheet_Editor_Columns {
 
-		private $registered_items = array();
+		private static $registered_items = array();
 		private $rejected_items   = array();
 		private $prepared_items   = array();
+		public static $skip_cache = false;
 
 		function __construct() {
 
@@ -16,7 +17,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns' ) ) {
 			if ( empty( $provider ) ) {
 				$provider = 'post';
 			}
-			return isset( $this->registered_items[ $provider ][ $key ] );
+			return isset( self::$registered_items[ $provider ][ $key ] );
 		}
 
 		/**
@@ -67,15 +68,15 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns' ) ) {
 			);
 
 			// Converts escaped characters.
-			foreach ( $replacements as $from => $to ) { 
+			foreach ( $replacements as $from => $to ) {
 				$replacements[ '\\' . $from ] = '[' . $from . ']';
 			}
 
-			return strtr( $phpFormat, $replacements ); 
+			return strtr( $phpFormat, $replacements );
 		}
 
 		function get_blacklisted_column_keywords( $provider ) {
-			$blacklisted_keys = apply_filters( 'vg_sheet_editor/columns/blacklisted_columns', array( 'nxs_snap', '_edit_lock', '_edit_last', '_wp_old_slug', '_wpcom_is_markdown', 'vgse_column_sizes', 'wxr_import', '^_oembed', '^\d+_\d+_\d+$', '_user_wished_', '_user_wished_user', '_rehub_views_date', '-wpfoof-', '^_transient_tribe', '_learndash_memberpress_enrolled_courses_access', 'course_\d+_access_from', 'ld_sent_notification_enroll_course_', 'learndash_last_known_course_', 'learndash_group_users_', '_badgeos_achievements_', 'learndash_group_leaders_', 'course_timer_completed_', 'course_completed_', 'screen_layout_', 'enrolled_courses_access_counter_', '_sfwd-quizzes_', '_uo-course-cert-', 'screen_options_per_page', 'gform_recent_forms_', '^manage.+columnshidden_', '^edit_.+_per_page', 'uo_timer_', '_screen_options_default', '_edd_download_limit_override', '_wcj_product_input_fields', 'seopress_pro_rich_snippets', 'seopress_analysis_data', '[a-zA-Z0-9]{28,}', '_wvs_product_attributes', 'wcml_sync_hash', 'product_tabel_', '_wp_attachment_backup_sizes', '_wp_attached_file', 'thb_postviews_count_', '_wcct_goaldeal_', 'amazonS3_cache_', '_wcct_product_taxonomy_term_ids', '_eg_gallery_data_gallery', '_eg_gallery_data_config', '_user_IP', '_wds_readability', 'kc_data_', '_wds_analysis_checks', '_user_liked_', 'wpsebe', '^snap', 'better-related-', '_count-views_', '_ywcp_component_data_list', '_userwish_IP', '_fv_flowplayer_http', '_heateor_sss_shares_meta', '_wpas_skip_', 'cred_user_notification_data', 'googlesitekit_survey_timeouts_', 'yoast_test_helper_notifications' ), $provider, $this );
+			$blacklisted_keys = apply_filters( 'vg_sheet_editor/columns/blacklisted_columns', array( 'nxs_snap', '_edit_lock', '_edit_last', '_wp_old_slug', '_wpcom_is_markdown', 'vgse_column_sizes', 'wxr_import', '^_oembed', '^\d+_\d+_\d+$', '_user_wished_', '_user_wished_user', '_rehub_views_date', '-wpfoof-', '^_transient_tribe', '_learndash_memberpress_enrolled_courses_access', 'course_\d+_access_from', 'ld_sent_notification_enroll_course_', 'learndash_last_known_course_', 'learndash_group_users_', '_badgeos_achievements_', 'learndash_group_leaders_', 'course_timer_completed_', 'course_completed_', 'screen_layout_', 'enrolled_courses_access_counter_', '_sfwd-quizzes_', '_uo-course-cert-', 'screen_options_per_page', 'gform_recent_forms_', '^manage.+columnshidden_', '^edit_.+_per_page', 'uo_timer_', '_screen_options_default', '_edd_download_limit_override', '_wcj_product_input_fields', 'seopress_pro_rich_snippets', 'seopress_analysis_data', '[a-zA-Z0-9]{28,}$', '_wvs_product_attributes', 'wcml_sync_hash', 'product_tabel_', '_wp_attachment_backup_sizes', '_wp_attached_file', 'thb_postviews_count_', '_wcct_goaldeal_', 'amazonS3_cache_', '_wcct_product_taxonomy_term_ids', '_eg_gallery_data_gallery', '_user_IP', '_wds_readability', 'kc_data_', '_wds_analysis_checks', '_user_liked_', 'wpsebe', '^snap', 'better-related-', '_count-views_', '_ywcp_component_data_list', '_userwish_IP', '_fv_flowplayer_http', '_heateor_sss_shares_meta', '_wpas_skip_', 'cred_user_notification_data', 'googlesitekit_survey_timeouts_', 'yoast_test_helper_notifications', '_mylisting_stats_cache_', 'wpil_links_inbound_internal_count_data' ), $provider, $this );
 			if ( ! empty( VGSE()->options['blacklist_columns'] ) ) {
 				$blacklisted_keys = array_merge( $blacklisted_keys, array_map( 'trim', explode( ',', VGSE()->options['blacklist_columns'] ) ) );
 			}
@@ -130,7 +131,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns' ) ) {
 
 		function columns_limit_reached( $provider ) {
 			$out = false;
-			if ( ! empty( $this->registered_items[ $provider ] ) && count( $this->registered_items[ $provider ] ) > VGSE()->helpers->get_columns_limit() ) {
+			if ( ! empty( self::$registered_items[ $provider ] ) && count( self::$registered_items[ $provider ] ) > VGSE()->helpers->get_columns_limit() ) {
 
 				$out = true;
 			}
@@ -191,24 +192,24 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns' ) ) {
 				$provider = 'post';
 			}
 
-			if ( ! isset( $this->registered_items[ $provider ] ) ) {
-				$this->registered_items[ $provider ] = array();
+			if ( ! isset( self::$registered_items[ $provider ] ) ) {
+				self::$registered_items[ $provider ] = array();
 			}
-			$this->registered_items[ $provider ][ $key ] = $args;
+			self::$registered_items[ $provider ][ $key ] = $args;
 		}
 
 		function remove_item( $key, $provider ) {
-			if ( isset( $this->registered_items[ $provider ][ $key ] ) ) {
+			if ( isset( self::$registered_items[ $provider ][ $key ] ) ) {
 				$this->add_rejection( $key, 'removed_programmatically', $provider );
-				unset( $this->registered_items[ $provider ][ $key ] );
+				unset( self::$registered_items[ $provider ][ $key ] );
 			}
 		}
 
 		function _register_item( $key, $args = array() ) {
 			$defaults = array(
-				'data_type'                         => 'post_data', // (post_data,post_meta|meta_data|post_terms)
-				'column_width'                      => 100,
-				'title'                             => ucwords( str_replace( array( '-', '_' ), ' ', $key ) ),
+				'data_type'                         => 'post_data', // (post_data|meta_data|post_terms)
+				'column_width'                      => null,
+				'title'                             => trim( ucwords( str_replace( array( '-', '_' ), ' ', $key ) ) ),
 				'type'                              => '', // String boton_gallery|boton_gallery_multiple|view_post|handsontable|metabox|(empty)
 				'unformatted'                       => array(), // column args allowed by handsontable
 				'formatted'                         => array(), // column args allowed by handsontable
@@ -265,9 +266,20 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns' ) ) {
 				'custom_sanitization_before_saving' => null, // Default sanitization is wp_kses_post.
 				'user_capabilities_can_read'        => null,
 				'user_capabilities_can_edit'        => null,
+				'allow_to_prefetch_value'           => true,
+				'external_button_template'          => '',
+				'gallery_cell_html_template_readonly'        => null, 
+				'gallery_cell_html_template_editable'        => null, 
+				'allow_for_global_sort' => true,
+				'allow_role_restrictions_in_columns_manager' => true,
+				'allow_readonly_option_in_columns_manager' => true,
 			);
 
 			$args = wp_parse_args( $args, $defaults );
+
+			if ( empty( $args['column_width'] ) ) {
+				$args['column_width'] = (int) ( 6.1 * strlen( $args['title'] ) ) + 75;
+			}
 
 			if ( empty( $args['key'] ) ) {
 				$args['key'] = $key;
@@ -324,6 +336,9 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns' ) ) {
 			if ( empty( $args['default_title'] ) ) {
 				$args['default_title'] = $args['title'];
 			}
+
+			// Remove double spaces from column titles, because double spaces are removed by sanitize_text_field and causes column mismatch during import
+			$args['title'] = str_replace( '  ', ' ', $args['title'] );
 
 			if ( empty( $args['unformatted'] ) ) {
 				$args['unformatted'] = array(
@@ -401,7 +416,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns' ) ) {
 		 */
 		function get_items( $skip_filters = false ) {
 			// Order columns by default, to show the enabled columns first and locked columns after
-			foreach ( $this->registered_items as $post_type => $columns ) {
+			foreach ( self::$registered_items as $post_type => $columns ) {
 				$enabled_columns    = wp_list_filter(
 					$columns,
 					array(
@@ -416,12 +431,12 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns' ) ) {
 					)
 				);
 
-				$this->registered_items[ $post_type ] = array_merge( $enabled_columns, $locked_pro_columns );
+				self::$registered_items[ $post_type ] = array_merge( $enabled_columns, $locked_pro_columns );
 			}
 
-			$this->registered_items = $this->_enforce_unique_titles( $this->registered_items );
+			self::$registered_items = $this->_enforce_unique_titles( self::$registered_items );
 
-			$spreadsheet_columns = ( $skip_filters ) ? $this->registered_items : apply_filters( 'vg_sheet_editor/columns/all_items', $this->registered_items );
+			$spreadsheet_columns = ( $skip_filters ) ? self::$registered_items : apply_filters( 'vg_sheet_editor/columns/all_items', self::$registered_items );
 
 			// We run this after the hook to allow other modules/plugins to change the args
 			$spreadsheet_columns = self::_filter_by_require_capabilities( $spreadsheet_columns );
@@ -433,7 +448,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns' ) ) {
 			$spreadsheet_columns = $this->_enforce_unique_titles( $spreadsheet_columns );
 
 			// Detect registered columns that were filtered out
-			foreach ( $this->registered_items as $post_type => $columns ) {
+			foreach ( self::$registered_items as $post_type => $columns ) {
 				foreach ( $columns as $key => $column ) {
 					if ( ! isset( $spreadsheet_columns[ $post_type ] ) || ! isset( $spreadsheet_columns[ $post_type ][ $key ] ) ) {
 						$this->add_rejection( $key, 'removed_with_filter:all_items', $post_type );
@@ -454,7 +469,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns' ) ) {
 					}
 					if ( ! empty( $column['formatted']['dateFormatPhp'] ) ) {
 						$spreadsheet_columns[ $post_type ][ $column_key ]['formatted']['dateFormatJs'] = $this->convert_php_to_js_format( $column['formatted']['dateFormatPhp'] );
-						$spreadsheet_columns[ $post_type ][ $column_key ]['formatted']['dateFormat'] = $spreadsheet_columns[ $post_type ][ $column_key ]['formatted']['dateFormatJs'];
+						$spreadsheet_columns[ $post_type ][ $column_key ]['formatted']['dateFormat']   = $spreadsheet_columns[ $post_type ][ $column_key ]['formatted']['dateFormatJs'];
 					}
 				}
 			}
@@ -464,14 +479,15 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns' ) ) {
 		function _enforce_unique_titles( $spreadsheet_columns ) {
 			// Make sure all the column titles are unique, append a number if needed, useful during imports
 			foreach ( $spreadsheet_columns as $post_type => $columns ) {
-				$post_type_titles = array_fill_keys( wp_list_pluck( $columns, 'title' ), 0 );
+				$post_type_titles = array_fill_keys( array_map( 'strtolower', wp_list_pluck( $columns, 'title' ) ), 0 );
 				foreach ( $columns as $key => $column ) {
 					if ( empty( $column['title'] ) ) {
 						continue;
 					}
-					$post_type_titles[ $column['title'] ]++;
-					if ( $post_type_titles[ $column['title'] ] > 1 ) {
-						$spreadsheet_columns[ $post_type ][ $key ]['title'] .= ' ' . $post_type_titles[ $column['title'] ];
+					$column_title = strtolower( $column['title'] );
+					$post_type_titles[ $column_title ]++;
+					if ( $post_type_titles[ $column_title ] > 1 ) {
+						$spreadsheet_columns[ $post_type ][ $key ]['title'] .= ' ' . $post_type_titles[ $column_title ];
 					}
 				}
 			}
@@ -483,8 +499,8 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns' ) ) {
 			if ( ! empty( VGSE()->options['dont_show_readonly_columns_in_advanced_search'] ) ) {
 				$column['allow_direct_search'] = false;
 			}
-			if( $set_supports_formulas ){
-				$column['supports_formulas']       = false;
+			if ( $set_supports_formulas ) {
+				$column['supports_formulas'] = false;
 			}
 			$column['formatted']['readOnly']   = true;
 			$column['unformatted']['readOnly'] = true;
@@ -501,10 +517,10 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns' ) ) {
 			$keys = array();
 
 			foreach ( $columns as $column ) {
-				$keys = array_merge( $keys, array_keys( $column ) );
+				$keys = array_unique( array_merge( $keys, array_keys( $column ) ) );
 			}
 
-			return array_values( array_unique( $keys ) );
+			return array_values( $keys );
 		}
 		static function _filter_by_require_capabilities( $spreadsheet_columns ) {
 			foreach ( $spreadsheet_columns as $post_type => $columns ) {
@@ -590,12 +606,24 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns' ) ) {
 			return $items;
 		}
 
+		function clear_cache( $provider ) {
+			if ( isset( $this->prepared_items[ $provider ] ) ) {
+				unset( $this->prepared_items[ $provider ] );
+			}
+			if ( isset( $this->prepared_items[ $provider . '1' ] ) ) {
+				unset( $this->prepared_items[ $provider . '1' ] );
+			}
+			if ( isset( $this->prepared_items[ $provider . '0' ] ) ) {
+				unset( $this->prepared_items[ $provider . '0' ] );
+			}
+		}
+
 		/**
 		 * Get all spreadsheet columns by post type
 		 * @return array
 		 */
 		function get_provider_items( $provider, $run_callbacks = false, $skip_filters = false ) {
-			if ( isset( $this->prepared_items[ $provider . $skip_filters ] ) ) {
+			if ( isset( $this->prepared_items[ $provider . $skip_filters ] ) && ! self::$skip_cache ) {
 				$out = $this->prepared_items[ $provider . $skip_filters ];
 			} else {
 				$items = $this->get_items( $skip_filters );
@@ -603,7 +631,9 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns' ) ) {
 				if ( isset( $items[ $provider ] ) ) {
 					$out = $items[ $provider ];
 				}
-				$this->prepared_items[ $provider . $skip_filters ] = $out;
+				if ( ! self::$skip_cache ) {
+					$this->prepared_items[ $provider . $skip_filters ] = $out;
+				}
 			}
 
 			if ( $run_callbacks ) {

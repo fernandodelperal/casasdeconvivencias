@@ -23,7 +23,7 @@ if ( ! class_exists( 'WPSE_Extension_Notifier' ) ) {
 			if ( ! $suggested_extensions ) {
 				return;
 			}
-			add_action( 'vg_sheet_editor/editor/before_init', array( $this, 'register_toolbar' ) );
+			add_action( 'vg_sheet_editor/editor/before_init', array( $this, 'register_toolbar' ), 20 );
 		}
 
 		/**
@@ -39,6 +39,23 @@ if ( ! class_exists( 'WPSE_Extension_Notifier' ) ) {
 				'desc'  => __( 'We show a popup asking you to install free extensions when we detect that you are using a third-party plugin that requires special compatibility, which helps us prevent errors.', VGSE()->textname ),
 			);
 			return $sections;
+		}
+
+		public function is_extension_outdated( $folder_name, $official_version ) {
+			if ( ! function_exists( 'get_plugin_data' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/plugin.php';
+			}
+			$php_files = VGSE()->helpers->get_files_list( WP_PLUGIN_DIR . '/' . $folder_name );
+			$out       = false;
+			foreach ( $php_files as $php_file ) {
+				$plugin_data = get_plugin_data( $php_file );
+
+				if ( ! empty( $plugin_data['Version'] ) && version_compare( $official_version, $plugin_data['Version'] ) === 1 ) {
+					$out = true;
+					break;
+				}
+			}
+			return $out;
 		}
 
 		public function get_suggested_extensions() {
@@ -57,9 +74,18 @@ if ( ! class_exists( 'WPSE_Extension_Notifier' ) ) {
 			$extensions = json_decode( file_get_contents( $file_path ), true );
 
 			foreach ( $extensions as $extension ) {
-				// Skip extensions that are installed already
-				if ( class_exists( $extension['className'] ) ) {
+				if ( ! isset( $extension['file_name'] ) ) {
 					continue;
+				}
+				// Skip extensions that are installed already if they are up to date
+				if ( class_exists( $extension['className'] ) ) {
+					if ( $this->is_extension_outdated( $extension['file_name'], $extension['version'] ) ) {
+						$extension['requires_update'] = true;
+					} else {
+						continue;
+					}
+				} else {
+					$extension['requires_update'] = false;
 				}
 				$extension_key = $extension['file_name'];
 				if ( $extension['status'] !== 'publish' || empty( $extension['name'] ) || empty( $extension['description'] ) ) {
@@ -206,19 +232,46 @@ if ( ! class_exists( 'WPSE_Extension_Notifier' ) ) {
 			if ( empty( $suggested_extensions ) ) {
 				return;
 			}
+			$extensions_to_update  = wp_list_filter( $suggested_extensions, array( 'requires_update' => true ) );
+			$extensions_to_install = wp_list_filter( $suggested_extensions, array( 'requires_update' => false ) );
 			?>
 
 
 			<div class="remodal suggested-extensions-modal" data-remodal-id="modal-suggested-extensions" data-remodal-options="closeOnOutsideClick: false">
 
 				<div class="modal-content">
-					<h3><?php _e( 'Important extensions', VGSE()->textname ); ?></h3>
-					<p><?php _e( 'Some of your plugins require special compatibility, and we have created these extensions that you can download for free if you purchased our plugin.', VGSE()->textname ); ?></p>
-					<p><?php _e( 'It\'s important that you install them to prevent errors, but you can do it later if you want. Find this popup in the toolbar > extensions > Integrations.', VGSE()->textname ); ?></p>
-					<p><?php _e( 'If you click on the "download" button, we will download the file from the official website: wpsheeteditor.com.', VGSE()->textname ); ?></p>
+					<?php if ( ! empty( $extensions_to_install ) ) { ?>
+						<h3><?php _e( 'Important extensions', VGSE()->textname ); ?></h3>
+						<p><?php _e( 'Some of your plugins require special compatibility, and we have created these extensions that you can download for free if you purchased our plugin.', VGSE()->textname ); ?></p>
+						<p><?php _e( 'It\'s important that you install them to prevent errors, but you can do it later if you want. Find this popup in the toolbar > extensions > Integrations.', VGSE()->textname ); ?></p>
+						<p><?php _e( 'If you click on the "download" button, we will download the file from the official website: wpsheeteditor.com.', VGSE()->textname ); ?></p>
+						<p><?php _e( 'If you don\'t want to install these extensinos, you can go to our advanced settings and enable the option "Disable the popup that asks you to install important extensions?".', VGSE()->textname ); ?></p>
 
-					<?php do_action( 'vg_sheet_editor/suggested_extensions/above_list', $suggested_extensions, $current_post_type ); ?>
+						<?php do_action( 'vg_sheet_editor/suggested_extensions/above_list', $extensions_to_install, $current_post_type ); ?>
 
+						<table>
+							<thead>
+								<tr>
+									<th class="extension-name"><?php _e( 'Extension name', VGSE()->textname ); ?></th>
+									<th><?php _e( 'Description', VGSE()->textname ); ?></th>
+									<th><?php _e( 'Action', VGSE()->textname ); ?></th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php foreach ( $extensions_to_install as $extension_key => $extension ) { ?>
+									<tr>
+										<td class="extension-name"><?php echo esc_html( str_replace( 'WP Sheet Editor - ', '', $extension['name'] ) ); ?></td>
+										<td><?php echo esc_html( $extension['description'] ); ?></td>
+										<td><button data-success-text="<?php echo esc_attr( __( 'Already downloaded', VGSE()->textname ) ); ?>" data-license-id="<?php echo esc_attr( $fs->_get_license()->id ); ?>" data-extension-key="<?php echo esc_attr( $extension_key ); ?>" class="download-extension button"><?php _e( 'Download', VGSE()->textname ); ?></button></td>
+									</tr>
+								<?php } ?>
+							</tbody>
+						</table>
+
+					<?php } ?>
+
+					<?php if ( ! empty( $extensions_to_update ) ) { ?>
+					<h3><?php _e( 'Extensions that require update', VGSE()->textname ); ?></h3>
 					<table>
 						<thead>
 							<tr>
@@ -228,15 +281,16 @@ if ( ! class_exists( 'WPSE_Extension_Notifier' ) ) {
 							</tr>
 						</thead>
 						<tbody>
-							<?php foreach ( $suggested_extensions as $extension_key => $extension ) { ?>
+							<?php foreach ( $extensions_to_update as $extension_key => $extension ) { ?>
 								<tr>
 									<td class="extension-name"><?php echo esc_html( str_replace( 'WP Sheet Editor - ', '', $extension['name'] ) ); ?></td>
 									<td><?php echo esc_html( $extension['description'] ); ?></td>
-									<td><button data-success-text="<?php echo esc_attr( __( 'Already downloaded', VGSE()->textname ) ); ?>" data-email="<?php echo esc_attr( $email ); ?>" data-extension-key="<?php echo esc_attr( $extension_key ); ?>" class="download-extension button"><?php _e( 'Download', VGSE()->textname ); ?></button></td>
+									<td><button data-success-text="<?php echo esc_attr( __( 'Already downloaded', VGSE()->textname ) ); ?>" data-license-id="<?php echo esc_attr( $fs->_get_license()->id ); ?>" data-extension-key="<?php echo esc_attr( $extension_key ); ?>" class="download-extension button"><?php _e( 'Download update', VGSE()->textname ); ?></button></td>
 								</tr>
 							<?php } ?>
 						</tbody>
 					</table>
+					<?php } ?>
 					<p><?php _e( 'When you finish downloading the plugins, you need to go to wp-admin > plugins > add new and install them.', VGSE()->textname ); ?></p>
 					<p><?php _e( 'Do you need help?.', VGSE()->textname ); ?> <a target="_blank" href="<?php echo esc_url( VGSE()->get_support_links( 'contact_us', 'url', 'required-extension' ) ); ?>"><?php _e( 'Contact us', VGSE()->textname ); ?></a></p>
 
@@ -252,12 +306,12 @@ if ( ! class_exists( 'WPSE_Extension_Notifier' ) ) {
 					var $buttons = jQuery('.suggested-extensions-modal .download-extension');
 					$buttons.each(function() {
 						var $button = jQuery(this);
-						var apiUrl = 'https://wpsheeteditor.com/wp-json/vgfs/v1/downloads/download-file';
+						var apiUrl = 'https://wpsheeteditor.com/wp-json/vgfs/v1/downloads/download-file-by-license-id';
 						$button.data('original-text', $button.text());
-						$button.click(function(e) {
+						$button.on('click', function(e) {
 							$button.text('...');
 							jQuery.post(apiUrl, {
-								email: $button.data('email'),
+								license_id: $button.data('license-id'),
 								file_name: $button.data('extension-key'),
 							}, function(response) {
 								if (response.success) {

@@ -67,5 +67,4 @@ class Archives {
 
 		return $text;
 	}
-
 }

@@ -7,6 +7,8 @@
 
 namespace ThemeIsle\GutenbergBlocks;
 
+use ThemeIsle\GutenbergBlocks\Plugins\LimitedOffers;
+
 /**
  * Class Pro
  */
@@ -14,7 +16,7 @@ class Pro {
 	/**
 	 * Singleton.
 	 *
-	 * @var Pro Class object.
+	 * @var Pro|null Class object.
 	 */
 	protected static $instance = null;
 
@@ -51,6 +53,8 @@ class Pro {
 		add_action( 'otter_montly_scheduled_events', array( $this, 'reset_dashboard_notice' ) );
 		add_action( 'admin_init', array( $this, 'should_show_dashboard_upsell' ), 11 );
 		add_filter( 'plugin_action_links_' . plugin_basename( OTTER_BLOCKS_BASEFILE ), array( $this, 'add_pro_link' ) );
+
+		add_action( 'admin_init', array( $this, 'load_offers' ), 11 );
 	}
 
 	/**
@@ -84,6 +88,16 @@ class Pro {
 	 */
 	public static function get_url() {
 		return 'https://themeisle.com/plugins/otter-blocks/upgrade/';
+	}
+
+	/**
+	 * Get Otter Pro Patterns URL
+	 *
+	 * @access  public
+	 * @return  string
+	 */
+	public static function get_patterns_url() {
+		return 'https://themeisle.com/plugins/otter-blocks/patterns/';
 	}
 
 	/**
@@ -149,6 +163,10 @@ class Pro {
 	 * @access  public
 	 */
 	public function should_show_dashboard_upsell() {
+		if ( defined( 'OTTER_PRO_VERSION' ) ) {
+			return;
+		}
+
 		$show_upsell = false;
 
 		$installed     = get_option( 'otter_blocks_install' );
@@ -164,6 +182,12 @@ class Pro {
 
 		if ( defined( 'OTTER_BLOCKS_SHOW_NOTICES' ) && true === OTTER_BLOCKS_SHOW_NOTICES ) {
 			$show_upsell = true;
+		}
+
+		$offers = new LimitedOffers();
+
+		if ( $offers->is_active() ) {
+			$show_upsell = false;
 		}
 
 		if ( $show_upsell ) {
@@ -226,7 +250,7 @@ class Pro {
 					<li><?php _e( 'Priority Support', 'otter-blocks' ); ?></li>
 				</ul>
 
-				<a href="<?php echo esc_url_raw( tsdk_utmify( self::get_url(), 'woobuilder', 'wooproducteditor' ) ); ?>" target="_blank" class="button button-primary">
+				<a href="<?php echo esc_url_raw( tsdk_translate_link( tsdk_utmify( self::get_url(), 'woobuilder', 'wooproducteditor' ) ) ); ?>" target="_blank" class="button button-primary">
 					<?php _e( 'Discover Otter Pro', 'otter-blocks' ); ?>
 				</a>
 			</div>
@@ -238,7 +262,7 @@ class Pro {
 		<div class="clear">
 			<p><?php _e( 'Unlock the full power of WooCommerce Builder by activating Otter Pro license.', 'otter-blocks' ); ?></p>
 
-			<a href="<?php echo esc_url( admin_url( 'options-general.php?page=otter' ) ); ?>" target="_blank" class="button button-primary">
+			<a href="<?php echo esc_url( admin_url( 'admin.php?page=otter' ) ); ?>" target="_blank" class="button button-primary">
 				<?php _e( 'Activate License', 'otter-blocks' ); ?>
 			</a>
 		</div>
@@ -388,6 +412,11 @@ class Pro {
 	 * @access public
 	 */
 	public function add_pro_link( $links ) {
+
+		if ( defined( 'OTTER_PRO_VERSION' ) ) {
+			return $links;
+		}
+
 		$links[] = sprintf(
 			'<a href="%s" target="_blank" style="color:#ed6f57;font-weight:bold;">%s</a>',
 			esc_url_raw( tsdk_utmify( self::get_url(), 'pluginspage', 'action' ) ),
@@ -398,11 +427,25 @@ class Pro {
 	}
 
 	/**
+	 * Load offers.
+	 *
+	 * @return void
+	 */
+	public function load_offers() {
+		if ( ! self::is_pro_installed() ) {
+			$offer = new LimitedOffers();
+			if ( $offer->can_show_dashboard_banner() && $offer->is_active() ) {
+				$offer->load_dashboard_hooks();
+			}
+		}
+	}
+
+	/**
 	 * Singleton method.
 	 *
 	 * @static
 	 *
-	 * @return  GutenbergBlocks
+	 * @return  Pro
 	 * @since   2.0.3
 	 * @access  public
 	 */

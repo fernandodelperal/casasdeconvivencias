@@ -7,7 +7,6 @@ if ( ! class_exists( 'WPSE_WPML_Posts' ) ) {
 		private static $instance = false;
 
 		private function __construct() {
-
 		}
 
 		public function init() {
@@ -30,7 +29,96 @@ if ( ! class_exists( 'WPSE_WPML_Posts' ) ) {
 			add_filter( 'vg_sheet_editor/woocommerce/wc_rest_api_product_args', array( $this, 'add_current_language_to_wc_rest_api_requests' ) );
 			add_action( 'vg_sheet_editor/add_new_posts/after_all_posts_created', array( $this, 'set_current_language_to_new_rows' ), 10, 2 );
 			add_filter( 'vg_sheet_editor/import/save_rows_args', array( $this, 'remove_sku_from_wc_product_translations_import' ) );
+
+			add_action( 'vg_sheet_editor/save_rows/after_saving_post', array( $this, 'product_updated_on_spreadsheet' ), 10, 4 );
+			add_action( 'vg_sheet_editor/formulas/execute_formula/after_execution_on_field', array( $this, 'product_updated_with_formula' ), 10, 8 );
+			add_action( 'vg_sheet_editor/formulas/execute_formula/after_sql_execution', array( $this, 'product_updated_with_sql_formula' ), 10, 5 );
+			add_filter( 'vg_sheet_editor/options_page/options', array( $this, 'add_settings_page_options' ) );
 		}
+		/**
+		 * Add fields to options page
+		 * @param array $sections
+		 * @return array
+		 */
+		function add_settings_page_options( $sections ) {
+			$sections['misc']['fields'][] = array(
+				'id'      => 'wpml_use_post_ids_instead_titles',
+				'type'    => 'switch',
+				'title'   => __( 'WPML - Use IDs in the column "Translation of" instead of Titles?', 'vg_sheet_editor' ),
+				'desc'    => __( 'By default, we use post titles to connect translations with the default language, but it can cause issues if you have duplicate titles, so you can enable this option to display IDs and save using IDs. This applies to all the spreadsheets related to a post type.', 'vg_sheet_editor' ),
+				'default' => false,
+			);
+			return $sections;
+		}
+
+		function product_updated_with_sql_formula( $column, $formula, $post_type, $spreadsheet_columns, $post_ids ) {
+			if ( $post_type !== VGSE()->WC->post_type ) {
+				return;
+			}
+
+			foreach ( $post_ids as $post_id ) {
+				$this->_trigger_wpml_hook_after_wc_prices_updated( $post_id, array( $column ) );
+			}
+		}
+
+		function product_updated_with_formula( $post_id, $initial_data, $modified_data, $column, $formula, $post_type, $cell_args, $spreadsheet_columns ) {
+			if ( $post_type !== VGSE()->WC->post_type ) {
+				return;
+			}
+
+			$this->_trigger_wpml_hook_after_wc_prices_updated( $post_id, array( $column ) );
+		}
+
+		function product_updated_on_spreadsheet( $product_id, $item, $data, $post_type ) {
+			if ( ! in_array( $post_type, array( VGSE()->WC->post_type, 'product_variation' ), true ) ) {
+				return;
+			}
+
+			$this->_trigger_wpml_hook_after_wc_prices_updated( $product_id, array_keys( $item ) );
+		}
+
+		function _trigger_wpml_hook_after_wc_prices_updated( $post_id, $updated_keys ) {
+			global $woocommerce_wpml;
+
+			if ( ! is_object( $woocommerce_wpml ) || ! is_object( $woocommerce_wpml->multi_currency ) ) {
+				return;
+			}
+
+			$keywords_that_require_sync_regex = '/(sale_price|regular_price|wcml_schedule|sale_price_dates_from|sale_price_dates_to)/';
+			if ( ! preg_match( $keywords_that_require_sync_regex, implode( ',', $updated_keys ) ) ) {
+				return;
+			}
+
+			$currencies = $woocommerce_wpml->multi_currency->get_currencies();
+			foreach ( $currencies as $code => $currency ) {
+				$sale_price    = wc_format_decimal( get_post_meta( $post_id, '_sale_price_' . $code, true ) );
+				$regular_price = wc_format_decimal( get_post_meta( $post_id, '_regular_price_' . $code, true ) );
+
+				$schedule  = get_post_meta( $post_id, '_wcml_schedule_' . $code, true );
+				$date_from = get_post_meta( $post_id, '_sale_price_dates_from_' . $code, true );
+				$date_to   = get_post_meta( $post_id, '_sale_price_dates_to_' . $code, true );
+
+				$date_from = $schedule && ! empty( $date_from ) ? $date_from : '';
+				$date_to   = $schedule && ! empty( $date_to ) ? $date_to : '';
+
+				$custom_prices = apply_filters(
+					'wcml_update_custom_prices_values',
+					array(
+						'_regular_price'         => $regular_price,
+						'_sale_price'            => $sale_price,
+						'_wcml_schedule'         => $schedule,
+						'_sale_price_dates_from' => $date_from,
+						'_sale_price_dates_to'   => $date_to,
+					),
+					$code,
+					$post_id
+				);
+				$product_price = $woocommerce_wpml->multi_currency->custom_prices->update_custom_prices( $post_id, $custom_prices, $code );
+
+				do_action( 'wcml_after_save_custom_prices', $post_id, $product_price, $custom_prices, $code );
+			}
+		}
+
 
 		/**
 		 * Don't import SKUs on WooCommerce product translations
@@ -143,7 +231,6 @@ if ( ! class_exists( 'WPSE_WPML_Posts' ) ) {
 						</li>
 
 						<?php
-
 		}
 
 		public function add_lang_to_new_variations( $variation_ids ) {
@@ -177,20 +264,26 @@ if ( ! class_exists( 'WPSE_WPML_Posts' ) ) {
 			$wpml_custom_fields  = array_merge( $wpml_custom_fields, $wpml_taxonomies );
 			$current_post        = get_post( $row['ID'] );
 			$excluded_keys       = array( 'ID' );
-			$spreadsheet_columns = VGSE()->helpers->get_unfiltered_provider_columns( $row['post_type'] );
+			$row_post_type       = empty( $row['post_type'] ) ? $current_post->post_type : $row['post_type'];
+			$spreadsheet_columns = VGSE()->helpers->get_unfiltered_provider_columns( $row_post_type );
 
-			if ( $row['post_type'] === $current_post->post_type ) {
+			if ( $row_post_type === $current_post->post_type ) {
 				$excluded_keys[] = 'post_type';
 			}
 
 			foreach ( $row as $field_key => $value ) {
 				$is_meta_column = isset( $spreadsheet_columns[ $field_key ] ) && in_array( $spreadsheet_columns[ $field_key ]['data_type'], array( 'post_meta', 'meta_data' ), true );
 
+				$wpml_field_key = $field_key;
+				if ( isset( $spreadsheet_columns[ $field_key ] ) && ! empty( $spreadsheet_columns[ $field_key ]['serialized_field_original_key'] ) ) {
+					$wpml_field_key = $spreadsheet_columns[ $field_key ]['serialized_field_original_key'];
+				}
+
 				// Exclude if it's a meta column and it's not found in the WPML config
-				if ( ( $is_meta_column && ! isset( $wpml_custom_fields[ $field_key ] ) ) ||
+				if ( ( $is_meta_column && ! isset( $wpml_custom_fields[ $wpml_field_key ] ) ) ||
 				// Exclude if the field exists in the WPML config and it's marked as ignore
 				// or translate (they don't require syncing because they're translated separately in each post)
-				( isset( $wpml_custom_fields[ $field_key ] ) && in_array( (int) $wpml_custom_fields[ $field_key ], array( 0, 2 ), true ) ) ||
+				( isset( $wpml_custom_fields[ $wpml_field_key ] ) && in_array( (int) $wpml_custom_fields[ $wpml_field_key ], array( 0, 2 ), true ) ) ||
 				// Exclude if the field is found in our manual exclusion list
 				in_array( $field_key, $excluded_keys, true ) ) {
 					continue;
@@ -311,6 +404,10 @@ if ( ! class_exists( 'WPSE_WPML_Posts' ) ) {
 				if ( get_post_type( $post_id ) === 'product_variation' ) {
 					$post_id = get_post_field( 'post_parent', $post_id );
 				}
+				if ( is_null( $woocommerce_wpml->sync_product_data ) ) {
+					$woocommerce_wpml->sync_product_data = new WCML_Synchronize_Product_Data( $woocommerce_wpml, $sitepress, $wpml_post_translations, $wpdb );
+					$woocommerce_wpml->sync_product_data->add_hooks();
+				}
 				$product_save_actions = new \WCML\Rest\ProductSaveActions( $sitepress->get_settings(), $wpdb, $sitepress, $woocommerce_wpml->sync_product_data );
 				$product_save_actions->run( wc_get_product( $post_id ), null, $current_language_code, $main_id );
 
@@ -366,11 +463,8 @@ if ( ! class_exists( 'WPSE_WPML_Posts' ) ) {
 							'data_type'             => 'meta_data',
 							'column_width'          => 150,
 							'title'                 => __( 'WPML - Duplicate', 'vg_sheet_editor' ),
-							'type'                  => '',
 							'supports_formulas'     => true,
 							'supports_sql_formulas' => false,
-							'allow_to_hide'         => true,
-							'allow_to_rename'       => true,
 							'allow_plain_text'      => true,
 							'formatted'             => array(
 								'comment' => array( 'value' => __( 'Enter multiple language codes separated by commas and we will create copies of the main language. For example: en, es. Existing languages will be skipped.', 'vg_sheet_editor' ) ),
@@ -386,11 +480,8 @@ if ( ! class_exists( 'WPSE_WPML_Posts' ) ) {
 						'data_type'             => 'meta_data',
 						'column_width'          => 200,
 						'title'                 => __( 'WPML - Translation of', 'vg_sheet_editor' ),
-						'type'                  => '',
 						'supports_formulas'     => true,
 						'supports_sql_formulas' => false,
-						'allow_to_hide'         => true,
-						'allow_to_rename'       => true,
 						'allow_plain_text'      => true,
 						'get_value_callback'    => array( $this, 'get_translation_of_cell' ),
 						'save_value_callback'   => array( $this, 'update_translation_of_cell' ),
@@ -405,11 +496,8 @@ if ( ! class_exists( 'WPSE_WPML_Posts' ) ) {
 						'data_type'             => 'meta_data',
 						'column_width'          => 150,
 						'title'                 => __( 'WPML - Relationship', 'vg_sheet_editor' ),
-						'type'                  => '',
 						'supports_formulas'     => true,
 						'supports_sql_formulas' => false,
-						'allow_to_hide'         => true,
-						'allow_to_rename'       => true,
 						'allow_plain_text'      => true,
 						'formatted'             => array(
 							'editor'        => 'select',
@@ -432,13 +520,10 @@ if ( ! class_exists( 'WPSE_WPML_Posts' ) ) {
 						'data_type'             => 'meta_data',
 						'column_width'          => 150,
 						'title'                 => __( 'WPML - Language', 'vg_sheet_editor' ),
-						'type'                  => '',
 						'supports_formulas'     => true,
 						'supports_sql_formulas' => false,
-						'allow_to_hide'         => true,
-						'allow_to_rename'       => true,
 						'allow_plain_text'      => true,
-						'allow_to_save'         => ( WP_Sheet_Editor_WPML_Obj()->is_the_default_language() ) ? false : true,
+						'allow_to_save'         => true,
 						'formatted'             => array(
 							'editor'        => 'select',
 							'selectOptions' => wp_list_pluck( $sitepress->get_active_languages(), 'display_name', 'code' ),
@@ -455,14 +540,11 @@ if ( ! class_exists( 'WPSE_WPML_Posts' ) ) {
 						'data_type'         => 'post_terms',
 						'column_width'      => 150,
 						'title'             => __( 'WPML - Translation priority', 'vg_sheet_editor' ),
-						'type'              => '',
 						'supports_formulas' => true,
 						'formatted'         => array(
 							'type'   => 'autocomplete',
 							'source' => 'loadTaxonomyTerms',
 						),
-						'allow_to_hide'     => true,
-						'allow_to_rename'   => true,
 					)
 				);
 			}
@@ -482,7 +564,8 @@ if ( ! class_exists( 'WPSE_WPML_Posts' ) ) {
 
 		public function get_translation_of_cell( $post, $cell_key, $cell_args ) {
 			$main_id = (int) $this->get_main_post_id( $post->ID );
-			$value   = ( $main_id && $main_id !== $post->ID ) ? get_the_title( $main_id ) : '';
+			$value   = ( $main_id && $main_id !== $post->ID ) ? $main_id : '';
+			$value   = VGSE()->get_option( 'wpml_use_post_ids_instead_titles' ) ? $value : get_the_title( $value );
 			return $value;
 		}
 
@@ -578,18 +661,23 @@ if ( ! class_exists( 'WPSE_WPML_Posts' ) ) {
 			global $wpdb, $sitepress;
 
 			$new_language = strtolower( $data_to_save );
-			if ( ! icl_is_language_active( $data_to_save ) ) {
-				return;
-			}
+			// This if was preventing us from being able to move translations from one language to another
+			// if ( ! icl_is_language_active( $data_to_save ) ) {
+			//  return;
+			// }
 
+			// Exit if there is a translation in the new language already
 			$translation_for_new_language_exists = (int) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM ' . $wpdb->prefix . 'icl_translations WHERE language_code = %s AND element_type = %s AND element_id = %d ', $new_language, 'post_' . $post_type, $post_id ) );
 			if ( $translation_for_new_language_exists ) {
 				return;
 			}
 
+			$current_lang = $this->get_post_language( get_post( $post_id ), null, null );
+
 			$args = array(
 				'language_code'        => $new_language,
-				'source_language_code' => ( $new_language === $sitepress->get_default_language() ) ? null : $sitepress->get_default_language(),
+				// Don't set a source lang if the new language is the default language, or we're moving from the default lang into another lang
+				'source_language_code' => ( $new_language === $sitepress->get_default_language() || $current_lang === $sitepress->get_default_language() ) ? null : $sitepress->get_default_language(),
 			);
 
 			$wpdb->update(
@@ -600,6 +688,13 @@ if ( ! class_exists( 'WPSE_WPML_Posts' ) ) {
 					'element_id'   => (int) $post_id,
 				)
 			);
+
+			// If we change the language of a parent post, automatically change the language of the children.
+			// I.e. if we change the language of a WC product, change it in the variations too
+			$children = $wpdb->get_results( $wpdb->prepare( 'SELECT ID,post_type FROM %i WHERE post_parent = %d', $wpdb->posts, $post_id ), ARRAY_A );
+			foreach ( $children as $child ) {
+				$this->save_post_language( (int) $child['ID'], $cell_key, $data_to_save, $child['post_type'], $cell_args, $spreadsheet_columns );
+			}
 		}
 
 		/**
@@ -620,7 +715,6 @@ if ( ! class_exists( 'WPSE_WPML_Posts' ) ) {
 		public function __get( $name ) {
 			return $this->$name;
 		}
-
 	}
 
 }

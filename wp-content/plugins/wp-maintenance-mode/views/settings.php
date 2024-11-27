@@ -8,80 +8,39 @@
 defined( 'ABSPATH' ) || exit;
 
 $is_old_version = version_compare( $GLOBALS['wp_version'], '5.8', '<' );
+if ( ! isset( $this->plugin_settings['design']['page_id'] ) ) {
+	$this->plugin_settings['design']['page_id'] = 0;
+}
+
+$is_otter_active   = is_plugin_active( 'otter-blocks/otter-blocks.php' ) || defined( 'OTTER_BLOCKS_VERSION' );
+$is_hyve_installed = file_exists( ABSPATH . 'wp-content/plugins/hyve-lite/hyve-lite.php' ) || defined( 'HYVE_LITE_VERSION' );
+$is_min_php_8_1    = version_compare( PHP_VERSION, '8.1', '>=' );
+
+$hyve_url = add_query_arg(
+	array(
+		'tab'       => 'plugin-information',
+		'plugin'    => 'hyve-lite',
+		'TB_iframe' => true,
+		'width'     => 800,
+		'height'    => 800,
+	),
+	network_admin_url( 'plugin-install.php' )
+);
 ?>
 <div class="wrap">
 	<h2 class="wpmm-title"><?php echo esc_html( get_admin_page_title() ); ?>
 		<?php
 		if ( get_option( 'wpmm_fresh_install', false ) ) {
 			?>
-			<span id="wizard-exit"><img src="<?php echo esc_attr( WPMM_IMAGES_URL . 'external.svg' ); ?>" alt="exit"></span><?php } ?>
+			<span id="wizard-exit"><img src="<?php echo esc_attr( WPMM_IMAGES_URL . 'exit.svg' ); ?>" alt="exit"></span><?php } ?>
 	</h2>
 
 	<div class="wpmm-wrapper">
 		<?php
 		if ( get_option( 'wpmm_fresh_install', false ) ) {
-			$maintenance_slug = 'maintenance-modern';
-			$coming_soon_slug = 'coming-soon-modern';
-
-			$maintenance_thumbnail = WPMM_TEMPLATES_URL . 'maintenance/' . $maintenance_slug . '/screenshot.png';
-			$coming_soon_thumbnail = WPMM_TEMPLATES_URL . 'coming-soon/' . $coming_soon_slug . '/screenshot.png';
+			include 'wizard.php';
+		} else {
 			?>
-			<div id="wpmm-wizard-wrapper">
-				<div class="slider-wrap">
-					<div class="step-wrap">
-						<div class="step import-step">
-							<h4 class="header"><?php esc_html_e( 'Get started with a free template.', 'wp-maintenance-mode' ); ?></h4>
-							<p class="description"><?php esc_html_e( 'Just click on one of the pre-written templates below to get started. You can always edit and customize later, so these are a perfect starting point!', 'wp-maintenance-mode' ); ?></p>
-							<div class="templates-radio">
-								<form>
-									<div>
-										<h6 class="tag"><?php esc_html_e( 'Maintenance', 'wp-maintenance-mode' ); ?></h6>
-										<input id="<?php echo esc_attr( $maintenance_slug ); ?>" type="radio" name="wizard-template" value="<?php echo esc_attr( $maintenance_slug ); ?>" data-category="maintenance" checked="checked">
-										<label for="<?php echo esc_attr( $maintenance_slug ); ?>" class="template">
-											<img src="<?php echo esc_url( $maintenance_thumbnail ); ?>" alt="<?php echo esc_attr( $maintenance_slug ); ?>"/>
-										</label>
-									</div>
-									<div>
-										<h6 class="tag"><?php esc_html_e( 'Coming Soon', 'wp-maintenance-mode' ); ?></h6>
-										<input id="<?php echo esc_attr( $coming_soon_slug ); ?>" type="radio" name="wizard-template" value="<?php echo esc_attr( $coming_soon_slug ); ?>" data-category="coming-soon">
-										<label for="<?php echo esc_attr( $coming_soon_slug ); ?>" class="template">
-											<img src="<?php echo esc_url( $coming_soon_thumbnail ); ?>" alt="<?php echo esc_attr( $coming_soon_slug ); ?>"/>
-										</label>
-									</div>
-								</form>
-							</div>
-							<div id="wizard-import-button" class="import-button">
-								<input type="button" class="button button-big button-primary disabled button-import" value="<?php esc_html_e( 'Continue', 'wp-maintenance-mode' ); ?>"/>
-							</div>
-							<p class="import-text"><i><?php esc_html_e( 'This template uses Otter Blocks plugin which will be installed on import.', 'wp-maintenance-mode' ); ?></i></p>
-						</div>
-					</div>
-					<div class="step-wrap">
-						<div class="step subscribe-step" aria-hidden="true" style="display: none">
-							<img width="250px" src="<?php echo WPMM_IMAGES_URL . 'subscribe.svg'; ?>" alt="subscribe"/>
-							<h4><?php esc_html_e( 'Stay in the loop!', 'wp-maintenance-mode' ); ?></h4>
-							<p><?php esc_html_e( 'Keep up with feature announcements, promotions, tutorials, and new template releases.', 'wp-maintenance-mode' ); ?></p>
-							<div id="email-input-wrap">
-								<input type="text" value="<?php echo esc_attr( get_bloginfo( 'admin_email' ) ); ?>" />
-								<input type="button" class="button button-primary button-big subscribe-button" value="<?php esc_attr_e( 'Sign me up', 'wp-maintenance-mode' ); ?>" />
-							</div>
-							<input id="skip-subscribe" type="button" class="button button-link skip-link" value="<?php esc_attr_e( 'I\'ll skip for now, thanks!', 'wp-maintenance-mode' ); ?>" />
-						</div>
-					</div>
-					<div class="step-wrap">
-						<div class="step finish-step" aria-hidden="true" style="display: none">
-							<img width="250px" src="<?php echo WPMM_IMAGES_URL . 'finish-setup.svg'; ?>" alt="finish-setup"/>
-							<h4 class="heading"><?php esc_html_e( 'Your page is ready!', 'wp-maintenance-mode' ); ?></h4>
-							<p><?php esc_html_e( 'Head over to the settings page to activate your Coming soon page', 'wp-maintenance-mode' ); ?></p>
-							<div class="buttons-wrap">
-								<input id="view-page-button" type="button" class="button-big button" value="<?php esc_attr_e( 'View page', 'wp-maintenance-mode' ); ?>"/>
-								<input id="refresh-button" type="button" class="button-big button button-primary" value="<?php esc_attr_e( 'Go to settings', 'wp-maintenance-mode' ); ?>"/>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		<?php } else { ?>
 		<div id="content" class="wrapper-cell">
 			<div class="nav-tab-wrapper">
 				<a class="nav-tab nav-tab-active" href="#general">
@@ -126,7 +85,7 @@ $is_old_version = version_compare( $GLOBALS['wp_version'], '5.8', '<' );
 					<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
 						<table class="form-table">
 							<tbody>
-								<tr valign="top">
+								<tr valign="top" class="<?php echo ! empty( $this->plugin_settings['general']['network_mode'] ) ? 'wpmm_status_disable' : ''; ?>">
 									<th scope="row">
 										<label for="options[general][status]"><?php esc_html_e( 'Status', 'wp-maintenance-mode' ); ?></label>
 									</th>
@@ -203,7 +162,7 @@ $is_old_version = version_compare( $GLOBALS['wp_version'], '5.8', '<' );
 										$exclude_list = ! empty( $this->plugin_settings['general']['exclude'] ) && is_array( $this->plugin_settings['general']['exclude'] ) ? $this->plugin_settings['general']['exclude'] : array();
 										?>
 										<textarea rows="7" name="options[general][exclude]" style="width: 625px;"><?php echo esc_textarea( implode( "\n", $exclude_list ) ); ?></textarea>
-										<p class="description"><?php esc_html_e( 'Exclude feed, pages, archives or IPs from maintenance mode. Add one slug / IP per line!', 'wp-maintenance-mode' ); ?></p>
+										<p class="description"><?php esc_html_e( 'Exclude feed, pages, archives or IPs from maintenance mode. Add one slug / IP per line! Comments start with # and can be appended at the end of a line.', 'wp-maintenance-mode' ); ?></p>
 									</td>
 								</tr>
 								<tr valign="top">
@@ -244,7 +203,13 @@ $is_old_version = version_compare( $GLOBALS['wp_version'], '5.8', '<' );
 					<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
 						<?php
 						if ( get_option( 'wpmm_new_look' ) ) {
-							if ( ( ! get_post( $this->plugin_settings['design']['page_id'] ) || get_post_status( $this->plugin_settings['design']['page_id'] ) === 'trash' ) && $this->plugin_settings['general']['status'] === 1 ) {
+							$overrideable_template = wpmm_get_template_path( 'maintenance.php', true );
+
+							if ( WPMM_VIEWS_PATH . 'maintenance.php' !== $overrideable_template ) {
+								?>
+								<p class="notice notice-info"><?php esc_html_e( 'You are using a custom template from your theme/child theme folder.', 'wp-maintenance-mode' ); ?></p>
+								<?php
+							} elseif ( ( ! get_post( $this->plugin_settings['design']['page_id'] ) || get_post_status( $this->plugin_settings['design']['page_id'] ) === 'trash' ) && $this->plugin_settings['general']['status'] === 1 ) {
 								?>
 								<p class="notice notice-error"><?php esc_html_e( 'You don\'t have a maintenance page or your Maintenance Page has been deleted. Please select another one from the dropdown below or import a template and a new one will be created.', 'wp-maintenance-mode' ); ?></p><?php } ?>
 							<table class="form-table">
@@ -257,35 +222,45 @@ $is_old_version = version_compare( $GLOBALS['wp_version'], '5.8', '<' );
 											<?php
 											wp_dropdown_pages(
 												array(
-													'selected' => $this->plugin_settings['design']['page_id'],
+													'selected' => isset( $this->plugin_settings['design']['page_id'] ) ? $this->plugin_settings['design']['page_id'] : 0,
 													'name' => 'options[design][page_id]',
 													'id'   => 'design_page_id',
 													'option_none_value' => '',
-													'show_option_no_change' => 'Select page',
+													'show_option_no_change' => __( 'Select page', 'wp-maintenance-mode' ),
 													'post_status' => array( 'publish', 'private' ),
 												)
 											);
 
-											$page_status = get_post_status( $this->plugin_settings['design']['page_id'] );
+											$page_status = get_post_status( isset( $this->plugin_settings['design']['page_id'] ) ? $this->plugin_settings['design']['page_id'] : 0 );
 											if ( $page_status && $page_status !== 'trash' ) {
 												?>
 												<a href="<?php echo get_edit_post_link( $this->plugin_settings['design']['page_id'] ); ?>"><?php esc_html_e( 'Edit page', 'wp-maintenance-mode' ); ?></a> <?php } ?>
-											<p class="description"><?php esc_html_e( 'Select the page that will be used as your maintenance or coming soon page', 'wp-maintenance-mode' ); ?></p>
 										</td>
 									</tr>
 								</tbody>
+							</table>
+							<table>
+								<tbody><tr valign="top">
+									<p class="description"><?php esc_html_e( 'Select the page that will be used as the Maintenance, Coming Soon or Landing page.', 'wp-maintenance-mode' ); ?></p>
+								</tr></tbody>
 							</table>
 							<table class="form-table">
 								<tbody>
 									<tr valign="top">
 										<th scope="row">
-											<label for="dashboard-template"><?php esc_html_e( 'Pick a template', 'wp-maintenance-mode' ); ?></label>
+											<label for="dashboard-template" class="wpmm-templates-gallery__label"><?php esc_html_e( 'Pick a template', 'wp-maintenance-mode' ); ?></label>
 										</th>
 										<td class="category-select-wrap">
 											<select name="options[design][template_category]" id="template-category">
 												<option value="all"<?php selected( $this->plugin_settings['design']['template_category'], 'all' ); ?>><?php esc_html_e( 'All Templates', 'wp-maintenance-mode' ); ?></option>
-												<option value="coming-soon"<?php selected( $this->plugin_settings['design']['template_category'], 'coming-soon' ); ?>><?php esc_html_e( 'Coming Soon', 'wp-maintenance-mode' ); ?></option>
-												<option value="maintenance"<?php selected( $this->plugin_settings['design']['template_category'], 'predefined' ); ?>><?php esc_html_e( 'Maintenance Mode', 'wp-maintenance-mode' ); ?></option>
+												<?php
+												$categories = WP_Maintenance_Mode::get_page_categories();
+												foreach ( $categories as $category => $label ) {
+													?>
+														<option value="<?php echo esc_attr( $category ); ?>"<?php selected( $this->plugin_settings['design']['template_category'], $category ); ?>><?php echo esc_html( $label ); ?></option>
+													<?php
+												}
+												?>
 											</select>
 										</td>
 									</tr>
@@ -294,11 +269,18 @@ $is_old_version = version_compare( $GLOBALS['wp_version'], '5.8', '<' );
 							<?php if ( $is_old_version ) { ?>
 								<p class="description"><i><?php echo __( '<b>Note</b>: You need at least WP 5.8 to use new generation maintenance pages.', 'wp-maintenance-mode' ); ?></i></p>
 							<?php } else { ?>
-								<p class="description"><?php esc_html_e( 'Pick one of our starter templates for your maintenance or coming soon page. You can always customize them based on your needs.  Stay in the loop for more templates!', 'wp-maintenance-mode' ); ?></p>
-								<br/>
-								<p class="description"><i><?php esc_html_e( 'This templates use Otter Blocks plugin which will be installed on import.', 'wp-maintenance-mode' ); ?></i></p>
+								<p class="wpmm-templates-gallery__description">
+									<?php esc_html_e( 'Pick one of our starter templates for your maintenance or coming soon page. You can always customize them based on your needs.', 'wp-maintenance-mode' ); ?>
+									<br/>
+									<?php esc_html_e( 'Stay in the loop for more templates!', 'wp-maintenance-mode' ); ?>
+								</p>
+								<?php
+								if ( ! $is_otter_active ) {
+									echo $this->get_otter_notice( 'settings' );
+								}
+								?>
 							<?php } ?>
-							<div class="templates">
+							<div class="wpmm-templates">
 								<?php
 								if ( ! isset( $this->plugin_settings['design']['template_category'] ) ) {
 									$this->plugin_settings['design']['template_category'] = 'all';
@@ -306,22 +288,22 @@ $is_old_version = version_compare( $GLOBALS['wp_version'], '5.8', '<' );
 								}
 
 								$selected_category = $this->plugin_settings['design']['template_category'];
-								$categories        = array();
+								$categories        = WP_Maintenance_Mode::get_page_categories();
 
-								if ( $selected_category === 'maintenance' || $selected_category === 'all' ) {
-									$categories['maintenance'] = __( 'Maintenance', 'wp-maintenance-mode' );
+								if ( $selected_category !== 'all' ) {
+									$categories = array( $selected_category => array( $selected_category ) );
 								}
 
-								if ( $selected_category === 'coming-soon' || $selected_category === 'all' ) {
-									$categories['coming-soon'] = __( 'Coming Soon', 'wp-maintenance-mode' );
-								}
-
-								$will_replace = ! ( ! get_post( $this->plugin_settings['design']['page_id'] ) ||
+								$will_replace = isset( $this->plugin_settings['design']['page_id'] ) &&
+												! ( ! get_post( $this->plugin_settings['design']['page_id'] ) ||
 													empty( trim( get_post( $this->plugin_settings['design']['page_id'] )->post_content ) ) ||
 													get_post( $this->plugin_settings['design']['page_id'] )->post_status === 'trash' );
 
 								foreach ( $categories as $category => $label ) {
 									$templates = list_files( WPMM_TEMPLATES_PATH . $category . '/', 1 );
+
+									natsort( $templates );
+
 									foreach ( $templates as $template ) {
 										$name      = basename( $template );
 										$thumbnail = WPMM_TEMPLATES_URL . $category . '/' . $name . '/screenshot.png';
@@ -329,8 +311,8 @@ $is_old_version = version_compare( $GLOBALS['wp_version'], '5.8', '<' );
 
 										$template_label = json_decode( file_get_contents( $content ) )->label;
 										?>
-										<div class="template-wrap">
-											<div class="template-image-wrap <?php echo $is_old_version ? '' : 'can-import'; ?>">
+										<div class="wpmm-template-wrap">
+											<div class="wpmm-template-image-wrap <?php echo $is_old_version ? '' : 'can-import'; ?>">
 												<img src="<?php echo $thumbnail; ?>" alt="<?php echo $name; ?>"/>
 												<?php if ( ! $is_old_version ) { ?>
 													<button type="button" class="button button-primary button-import" data-tab="design" data-slug="<?php echo esc_attr( $name ); ?>" data-category="<?php echo esc_attr( $category ); ?>" data-replace="<?php echo (int) $will_replace; ?>"><?php esc_html_e( 'Import template', 'wp-maintenance-mode' ); ?></button>
@@ -759,34 +741,34 @@ $is_old_version = version_compare( $GLOBALS['wp_version'], '5.8', '<' );
 							</tbody>
 						</table>
 						<?php } ?>
+						<?php if ( get_option( 'wpmm_new_look' ) ) { ?>
+							<h3>&raquo; <?php esc_html_e( 'Subscribe', 'wp-maintenance-mode' ); ?></h3>
 
-						<h3>&raquo; <?php esc_html_e( 'Subscribe', 'wp-maintenance-mode' ); ?></h3>
+							<table class="form-table">
+								<tbody>
+								<tr valign="top">
+									<th scope="row">
+										<label for="options[modules][stats]"><?php esc_html_e( 'Stats', 'wp-maintenance-mode' ); ?></label>
+									</th>
+									<td id="subscribers_wrap">
+										<?php
+										$subscribers_no = wpmm_get_subscribers_count();
 
-						<table class="form-table">
-							<tbody>
-							<tr valign="top">
-								<th scope="row">
-									<label for="options[modules][stats]"><?php esc_html_e( 'Stats', 'wp-maintenance-mode' ); ?></label>
-								</th>
-								<td id="subscribers_wrap">
-									<?php
-									$subscribers_no = wpmm_get_subscribers_count();
+										/* translators: number of subscribers */
+										echo esc_html( sprintf( _nx( 'You have %d subscriber', 'You have %d subscribers', $subscribers_no, 'settings page', 'wp-maintenance-mode' ), $subscribers_no ) );
 
-									/* translators: number of subscribers */
-									echo esc_html( sprintf( _nx( 'You have %d subscriber', 'You have %d subscribers', $subscribers_no, 'settings page', 'wp-maintenance-mode' ), $subscribers_no ) );
-
-									if ( current_user_can( wpmm_get_capability( 'subscribers' ) ) && $subscribers_no > 0 ) {
-										?>
-										<div class="buttons">
-											<a class="button button-primary" id="subscribers-export" href="javascript:void(0);"><?php esc_html_e( 'Export as CSV', 'wp-maintenance-mode' ); ?></a>
-											<a class="button button-secondary" id="subscribers-empty-list" href="javascript:void(0);"><?php esc_html_e( 'Empty subscribers list', 'wp-maintenance-mode' ); ?></a>
-										</div>
-									<?php } ?>
-								</td>
-							</tr>
-							</tbody>
-						</table>
-
+										if ( current_user_can( wpmm_get_capability( 'subscribers' ) ) && $subscribers_no > 0 ) {
+											?>
+											<div class="buttons">
+												<a class="button button-primary" id="subscribers-export" href="javascript:void(0);"><?php esc_html_e( 'Export as CSV', 'wp-maintenance-mode' ); ?></a>
+												<a class="button button-secondary" id="subscribers-empty-list" href="javascript:void(0);"><?php esc_html_e( 'Empty subscribers list', 'wp-maintenance-mode' ); ?></a>
+											</div>
+										<?php } ?>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						<?php } ?>
 						<h3>&raquo; <?php esc_html_e( 'Google Analytics', 'wp-maintenance-mode' ); ?></h3>
 
 						<table class="form-table">
@@ -849,6 +831,15 @@ $is_old_version = version_compare( $GLOBALS['wp_version'], '5.8', '<' );
 							<tbody>
 								<tr valign="top">
 									<td colspan="2">
+										<?php if ( ! $is_hyve_installed && $is_min_php_8_1 ) : ?>
+											<div class="wpmm-notice">
+												<div class="wpmm-notice-content">
+													<h3><?php esc_html_e( 'Enhance Your WordPress Site with Hyve AI Chatbot', 'wp-maintenance-mode' ); ?></h3>
+													<p><?php esc_html_e( 'Hyve is an AI chatbot plugin for WordPress, ideal for sites in maintenance mode. It enhances user experience by turning your content into interactive conversations, helping visitors access information while your site is under development.', 'wp-maintenance-mode' ); ?></p>
+												</div>
+												<a target="_black" href="<?php echo esc_url( $hyve_url ); ?>" class="button button-primary"><?php esc_html_e( 'Install Hyve', 'wp-maintenance-mode' ); ?></a>
+											</div>
+										<?php endif; ?>
 										<h4><?php esc_html_e( 'Setup the conversation steps to capture more subscribers with this friendly way of asking email addresses.', 'wp-maintenance-mode' ); ?></h4>
 										<p><?php esc_html_e( 'You may also want to use these wildcards: {bot_name} and {visitor_name} to make the conversation even more realistic.', 'wp-maintenance-mode' ); ?></p>
 										<p><?php esc_html_e( 'It is also ok if you don\'t fill in all the conversation steps if you don\'t need to.', 'wp-maintenance-mode' ); ?></p>
