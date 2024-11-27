@@ -79,7 +79,7 @@ $orders = wc_get_orders( array(
     'posts_per_page' => 300,
 ) );
 
-$total_orders = count($orders);
+$total_orders = sizeof($orders); // Alternativa a count()
 
 // Display total number of orders
 echo '<p>Total de pedidos: ' . esc_html($total_orders) . '</p>';
