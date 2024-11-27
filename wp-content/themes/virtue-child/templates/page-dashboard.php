@@ -43,7 +43,7 @@ get_header();
                     $active = (get_current_blog_id() == $site->blog_id) ? 'active' : '';
                     ?>
                     <li class="<?php echo $active; ?>">
-                        <a href="<?php echo esc_url($site_details->siteurl); ?>">
+                        <a href="<?php echo esc_url('/dashboard/?section=dashboard-products'); ?>">
                             <?php echo esc_html($site_details->blogname); ?>
                         </a>
                     </li>
