@@ -7,9 +7,11 @@ if (!is_user_logged_in()) {
     wp_redirect(site_url('/mi-cuenta/'));
     exit;
 }
-if (!current_user_can('manage_woocommerce')) {
+// ... (código anterior)
+if (!current_user_can('manage_woocommerce') || !current_user_can('edit_posts')) {
     wp_die('Esta página es privada, si necesitas acceso comunícate con el administrador');
 }
+// ... (código posterior)
 get_header();
 ?>
 <style>
