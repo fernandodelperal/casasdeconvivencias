@@ -73,16 +73,10 @@ if ( isset( $_GET['filter_product'] ) && ! empty( $_GET['filter_product'] ) ) {
 
 $orders = wc_get_orders( array(
     'status'   => 'any',
-    'limit'    => 200,
     'meta_query' => $meta_query,
 ) );
 
-// If $product_id is not empty, simply count the number of orders
-if (!empty($product_id)) {
-    $total_orders = count($orders);
-} else {
-    $total_orders = null;
-}
+$total_orders = count($orders);
 
 // Display total number of orders
 echo '<p>Total de pedidos: ' . esc_html($total_orders) . '</p>';
