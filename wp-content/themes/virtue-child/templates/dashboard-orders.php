@@ -74,6 +74,7 @@ if ( isset( $_GET['filter_product'] ) && ! empty( $_GET['filter_product'] ) ) {
 $orders = wc_get_orders( array(
     'status'   => 'any',
     'meta_query' => $meta_query,
+    'posts_per_page' => -1,
 ) );
 
 $total_orders = count($orders);
