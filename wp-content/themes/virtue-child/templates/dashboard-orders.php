@@ -22,7 +22,7 @@ $columns = array(
 
 // Create a form with a dropdown list of products
 ?>
-    <h1>Pedidos</h1>
+    <h1>Inscripciones</h1>
     <form action="<?php echo esc_url( get_permalink() ); ?>" method="get">
         <select name="filter_product" id="filter_product">
             <?php
