@@ -68,13 +68,15 @@ if ( isset( $_GET['filter_product'] ) && ! empty( $_GET['filter_product'] ) ) {
     );
 } else {
     $product_id = '';
-    $meta_query = array(); // No meta query if no product filter
+    $meta_query = array(
+
+    ); // No meta query if no product filter
 }
 
 $orders = wc_get_orders( array(
     'status'   => 'any',
     'meta_query' => $meta_query,
-    'posts_per_page' => -1,
+    'posts_per_page' => 300,
 ) );
 
 $total_orders = count($orders);
