@@ -8,7 +8,7 @@ if (!is_user_logged_in()) {
     exit;
 }
 // ... (código anterior)
-if (!current_user_can('manage_woocommerce') || !current_user_can('edit_posts')) {
+if (!current_user_can('manage_woocommerce') && !current_user_can('edit_posts')) {
     wp_die('Esta página es privada, si necesitas acceso comunícate con el administrador');
 }
 // ... (código posterior)
