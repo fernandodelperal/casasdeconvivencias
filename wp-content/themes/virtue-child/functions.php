@@ -755,48 +755,5 @@ function agregar_checkbox_ajustes_woocommerce($settings) {
         }
     }
     return $new_settings;
-// }
-// add_filter('woocommerce_general_settings', 'agregar_checkbox_ajustes_woocommerce');
 
-// // Change new order email subject 
-// function wc_change_admin_new_order_email_subject( $subject, $order ) {
-
-//     //$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
-//     //$subject = sprintf( '[%s] New Customer Order (%s) from %s %s', $blogname, $order->get_order_number(), $order->billing_first_name, $order->billing_last_name );
-//     $subject = 'Recibimos tu inscripción ' . $order->billing_first_name. ' ' . $order->billing_last_name;
-
-// return $subject;
 }
-
-add_filter('woocommerce_email_subject_new_order', 'wc_change_admin_new_order_email_subject', 1, 2);
-
-// Change new order email recipient
-function wc_change_admin_new_order_email_recipient( $recipient, $order ) {
-    
-$items = $order->get_items(); 
-    foreach ( $items as $item ) {
-     
-        $product = wc_get_product( $item['product_id'] );
-        $Notificaciones = get_post_meta( $product->get_id(), 'Notificaciones', true );
-        if ( !empty($Notificaciones)) {
-            $recipient = $recipient. ', '. $Notificaciones;
-
-        }
-    }
-return $recipient;
-}
-
-add_filter('woocommerce_email_recipient_new_order', 'wc_change_admin_new_order_email_recipient', 1, 2);
-
-
-// Agregar la función custom_payment_complete y la acción para llamar a esta función
-function custom_payment_complete( $order, $transaction, $message ) {
-    // Modificar el correo electrónico que se envía al cliente
-    $subject = 'Tu inscripción ha sido recibida';
-    $email_content = 'Gracias por inscribirte. Tu inscripción ha sido recibida con éxito.';
-
-    $template = wc_get_template( 'emails/customer-processing-order.php', array( 'order' => $order, 'subject' => $subject, 'email_content' => $email_content ) );
-    wp_mail( $order->get_billing_email(), $subject, $template );
-}
-
-add_action( 'woocommerce_payment_complete', 'custom_payment_complete', 10, 3 );
