@@ -85,16 +85,25 @@ $orders = wc_get_orders( array(
 ) );
 
 // Calculate total orders for the filtered product
-$total_orders = 0;
+$total_orders = array();
+foreach ( $statuses as $status ) {
+    $total_orders[$status] = 0;
+}
 foreach ( $orders as $order ) {
     $items = $order->get_items();
     foreach ( $items as $item ) {
         if (empty($product_id) || $item->get_product_id() == $product_id) {
-            $total_orders++;
-            break; // Count each order only once
+            $total_orders[$order->get_status()]++;
         }
     }
 }
+?>
+<div style="border: 1px solid #ddd; padding: 10px; background-color: #f8f9fa;">
+    <?php foreach ( $total_orders as $status => $count ) : ?>
+        <span><?php echo esc_html( $status ); ?>: <?php echo esc_html( $count ); ?></span>
+    <?php endforeach; ?>
+</div>
+<?php
 
 // Mostrar el enlace con la URL modificada
 echo '<a href="' . esc_url(add_query_arg('statuses', 'any', home_url(add_query_arg(array(),$_SERVER['REQUEST_URI'])))) . '">Todos</a> | ';
