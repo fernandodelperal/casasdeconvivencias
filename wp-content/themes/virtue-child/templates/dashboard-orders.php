@@ -73,8 +73,13 @@ if ( isset( $_GET['filter_product'] ) && ! empty( $_GET['filter_product'] ) ) {
     ); // No meta query if no product filter
 }
 
+$statuses = array('processing', 'completed', 'cancelled', 'trash');
+if (isset($_GET['statuses'])) {
+    $statuses = explode(',', $_GET['statuses']);
+}
+
 $orders = wc_get_orders( array(
-    'status'   => 'any',
+    'status'   => $statuses,
     'meta_query' => $meta_query,
     'posts_per_page' => 300,
 ) );
@@ -91,8 +96,18 @@ foreach ( $orders as $order ) {
     }
 }
 
-// Display total number of orders
 echo '<p>Total de pedidos: ' . esc_html($total_orders) . '</p>';
+echo '<a href="?section=dashboard-orders">Todos los pedidos</a> | ';
+echo '<a href="?section=dashboard-orders&statuses=processing">Pedidos en proceso</a> | ';
+echo '<a href="?section=dashboard-orders&statuses=completed">Pedidos completados</a> | ';
+echo '<a href="?section=dashboard-orders&statuses=cancelled">Pedidos cancelados</a> | ';
+echo '<a href="?section=dashboard-orders&statuses=trash">Pedidos eliminados</a>';
+
+
+
+
+
+
 
 // Check if $orders is not empty
 if ( $orders ) { ?>
