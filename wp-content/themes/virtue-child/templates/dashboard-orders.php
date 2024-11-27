@@ -96,17 +96,12 @@ foreach ( $orders as $order ) {
     }
 }
 
-echo '<p>Total de pedidos: ' . esc_html($total_orders) . '</p>';
-echo '<a href="?section=dashboard-orders">Todos los pedidos</a> | ';
-echo '<a href="?section=dashboard-orders&statuses=processing">Pedidos en proceso</a> | ';
-echo '<a href="?section=dashboard-orders&statuses=completed">Pedidos completados</a> | ';
-echo '<a href="?section=dashboard-orders&statuses=cancelled">Pedidos cancelados</a> | ';
-echo '<a href="?section=dashboard-orders&statuses=trash">Pedidos eliminados</a>';
-
-
-
-
-
+// Mostrar el enlace con la URL modificada
+echo '<a href="' . esc_url(add_query_arg('statuses', 'any', home_url(add_query_arg(array(),$_SERVER['REQUEST_URI'])))) . '">Todos</a> | ';
+echo '<a href="' . esc_url(add_query_arg('statuses', 'processing', home_url(add_query_arg(array(),$_SERVER['REQUEST_URI'])))) . '">En Proceso</a> | ';
+echo '<a href="' . esc_url(add_query_arg('statuses', 'completed', home_url(add_query_arg(array(),$_SERVER['REQUEST_URI'])))) . '">Completados</a> | ';
+echo '<a href="' . esc_url(add_query_arg('statuses', 'cancelled', home_url(add_query_arg(array(),$_SERVER['REQUEST_URI'])))) . '">Cancelados</a> | ';
+echo '<a href="' . esc_url(add_query_arg('statuses', 'trash', home_url(add_query_arg(array(),$_SERVER['REQUEST_URI'])))) . '">Eliminados</a>';
 
 
 // Check if $orders is not empty
