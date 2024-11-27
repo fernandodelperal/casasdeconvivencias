@@ -79,7 +79,16 @@ $orders = wc_get_orders( array(
     'posts_per_page' => 300,
 ) );
 
-$total_orders = sizeof($orders); // Alternativa a count()
+// Calculate total orders for the filtered product
+$total_orders = 0;
+foreach ( $orders as $order ) {
+    $items = $order->get_items();
+    foreach ( $items as $item ) {
+        if (empty($product_id) || $item->get_product_id() == $product_id) {
+            $total_orders++;
+            break; // Count each order only once
+        }
+    }
 
 // Display total number of orders
 echo '<p>Total de pedidos: ' . esc_html($total_orders) . '</p>';
