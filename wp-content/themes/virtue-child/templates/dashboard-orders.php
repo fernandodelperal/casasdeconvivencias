@@ -23,7 +23,29 @@ $columns = array(
 // Create a form with a dropdown list of products
 ?>
     <h1>Inscripciones</h1>
-    <form action="<?php echo esc_url( get_permalink() ); ?>" method="get" style="display: flex; justify-content: flex-end;">
+    <?php
+        if ( isset( $_GET['filter_product'] ) && ! empty( $_GET['filter_product'] ) ) {
+            $product_id = $_GET['filter_product'];
+            $meta_query = array(
+                array(
+                    'key'     => '_line_items',
+                    'value'   => $product_id,
+                    'compare' => '='
+                )
+            );
+        } else {
+            $product_id = '';
+            $meta_query = array(
+        
+            ); // No meta query if no product filter
+        }
+        
+        if ($product_id) {
+            $product = wc_get_product($product_id);
+        }
+        
+    ?>
+    <form action="<?php echo esc_url( get_permalink() ); ?>" method="get" style="display: flex; flex-direction: row; align-items: center;">
         <select name="filter_product" id="filter_product" style="margin-right: 10px;" onchange="this.form.submit()">
             <?php
                 $args = array(
@@ -50,27 +72,14 @@ $columns = array(
                 </option>
             <?php endwhile; wp_reset_query(); ?>
         </select>
+        <?php if ($product) : ?>
+            <h2 style="margin-left: 10px;"><?php echo esc_html($product->get_name()); ?></h2>
+        <?php endif; ?>
         <input type="hidden" name="paged" value="<?php echo $paged; ?>">
         <input type="hidden" name="section" value="dashboard-orders">
     </form>
 
 <?php
-// Get the orders
-if ( isset( $_GET['filter_product'] ) && ! empty( $_GET['filter_product'] ) ) {
-    $product_id = $_GET['filter_product'];
-    $meta_query = array(
-        array(
-            'key'     => '_line_items',
-            'value'   => $product_id,
-            'compare' => '='
-        )
-    );
-} else {
-    $product_id = '';
-    $meta_query = array(
-
-    ); // No meta query if no product filter
-}
 
 $statuses = array('processing', 'completed', 'cancelled', 'trash');
 if (isset($_GET['statuses'])) {
@@ -133,7 +142,9 @@ if ( $orders ) { ?>
             $items = $order->get_items();
             foreach ( $items as $item ) {
                 if (empty($product_id) || $item->get_product_id() == $product_id) { 
-                    $num++;
+                    if ($order->get_status() != 'trash' && $order->get_status() != 'cancelled') {
+                        $num++;
+                    }
                     ?>
                     <tr <?php if ($order->get_status() == 'trash') { echo 'style="background-color: #ccc;"'; } ?>>
                         <td><?php echo esc_html( $num ); ?></td>
