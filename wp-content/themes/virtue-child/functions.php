@@ -787,21 +787,36 @@ function agregar_checkbox_ajustes_woocommerce($settings) {
 }
 
 
+
 function menu_usuario_superior() {
-    if (is_user_logged_in()) {
-        $current_user = wp_get_current_user();
-        $menu = '<div class="menu-usuario">';
-        $menu .= '<span class="nombre-usuario">' . esc_html($current_user->display_name) . '</span>';
-        $menu .= '<a href="' . esc_url(site_url('/dashboard')) . '">Panel</a>';
-        $menu .= '<a href="' . esc_url(wp_logout_url(home_url())) . '">Cerrar sesión</a>';
-        $menu .= '</div>';
-    } else {
-        $menu = '<div class="menu-usuario">';
-        $menu .= '<a href="' . esc_url(wp_login_url(get_permalink())) . '">Iniciar sesión</a>';
-        $menu .= '</div>';
-    }
-    
-    return $menu;
+    ob_start(); // Iniciamos el buffer de salida
+    ?>
+    <div class="barra-superior">
+        <div class="contenedor-barra">
+            <div class="logo-sitio">
+                <?php 
+                if (function_exists('the_custom_logo')) {
+                    the_custom_logo();
+                } else {
+                    echo '<a href="' . esc_url(home_url('/')) . '">' . get_bloginfo('name') . '</a>';
+                }
+                ?>
+            </div>
+            <div class="menu-usuario">
+                <?php if (is_user_logged_in()) : 
+                    $current_user = wp_get_current_user();
+                ?>
+                    <span class="nombre-usuario"><?php echo esc_html($current_user->display_name); ?></span>
+                    <a href="<?php echo esc_url(admin_url('index.php')); ?>" class="boton-menu">Admin</a>
+                    <a href="<?php echo esc_url(wp_logout_url(home_url())); ?>" class="boton-menu">Cerrar sesión</a>
+                <?php else : ?>
+                    <a href="<?php echo esc_url(wp_login_url(get_permalink())); ?>" class="boton-menu">Iniciar sesión</a>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+    <?php
+    return ob_get_clean(); // Retornamos el contenido del buffer
 }
 
 function agregar_menu_usuario() {
@@ -811,80 +826,119 @@ function agregar_menu_usuario() {
 function agregar_estilos_menu_usuario() {
     ?>
     <style>
-        .menu-usuario {
-            position: absolute;
+        .barra-superior {
+            background-color: #1a4731; /* Verde oscuro */
+            position: fixed;
             top: 0;
-            height: 30px;
-            line-height: 80px;
-            right: 90px;
+            left: 0;
+            right: 0;
             z-index: 999999;
-            background-color: rgba(255, 255, 255, 0.95);
-            padding: 8px 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .contenedor-barra {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 40px; /* Reducida de 60px a 40px */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-sitio {
+            font-size: 1em;
+            font-weight: bold;
+        }
+
+        .logo-sitio a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .logo-sitio img {
+            max-height: 30px; /* Reducido de 40px a 30px */
+            width: auto;
+        }
+
+        .menu-usuario {
             display: flex;
             align-items: center;
-            gap: 15px;
-            font-size: 14px;
-            border-bottom-left-radius: 4px;
-            box-shadow: -2px 2px 4px rgba(0,0,0,0.1);
+            gap: 10px;
         }
-        
-        .menu-usuario a {
-            color: #333;
+
+        .nombre-usuario {
+            color: #a3cfbb;
+            font-size: 0.85em;
+        }
+
+        .boton-menu {
+            padding: 4px 10px;
+            border-radius: 4px;
             text-decoration: none;
-            padding: 5px 10px;
-            border-radius: 3px;
-            transition: all 0.2s ease;
+            color: #ffffff;
+            font-size: 0.85em;
+            transition: all 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.1);
         }
-        
-        .menu-usuario a:hover {
-            background-color: rgba(0,0,0,0.05);
-            color: #000;
+
+        .boton-menu:hover {
+            background-color: rgba(255, 255, 255, 0.2);
         }
-        
-        .menu-usuario .nombre-usuario {
-            color: #666;
-        }
-        
-        /* Ajuste para la barra de administración */
-        .admin-bar .menu-usuario {
+
+        /* Ajustes para la barra de administración de WordPress */
+        .admin-bar .barra-superior {
             top: 32px;
         }
-        
+
+        /* Ajustes responsive */
         @media screen and (max-width: 782px) {
-            .admin-bar .menu-usuario {
+            .admin-bar .barra-superior {
                 top: 46px;
             }
-            
-            .menu-usuario {
-                padding: 6px 10px;
-                font-size: 13px;
-                gap: 10px;
+
+            .contenedor-barra {
+                padding: 0 10px;
+                height: 36px; /* Aún más reducida en móviles */
+            }
+
+            .nombre-usuario {
+                display: none; /* Ocultamos el nombre en móviles */
+            }
+
+            .boton-menu {
+                padding: 3px 8px;
+                font-size: 0.8em;
             }
         }
-        
-        /* Ajuste para móviles pequeños */
-        @media screen and (max-width: 480px) {
-            .menu-usuario {
-                padding: 5px 8px;
-                gap: 8px;
-            }
-            
-            .menu-usuario a {
-                padding: 4px 8px;
+
+        /* Ajuste para el contenido principal */
+        body {
+            padding-top: 40px; /* Igual a la nueva altura de la barra */
+        }
+
+        .admin-bar body {
+            padding-top: 72px; /* 40px + 32px de la barra de admin */
+        }
+
+        @media screen and (max-width: 782px) {
+            .admin-bar body {
+                padding-top: 82px; /* 36px + 46px de la barra de admin en móvil */
             }
         }
     </style>
     <?php
 }
 
+// Agregamos las acciones
 add_action('wp_footer', 'agregar_menu_usuario');
 add_action('wp_head', 'agregar_estilos_menu_usuario');
 
-// Agregar clase al body para manejar la barra de administración
-function agregar_clase_admin_bar($classes) {
-    if (is_admin_bar_showing()) {
-        $classes[] = 'admin-bar';
+// Agregamos soporte para logo personalizado si el tema no lo tiene
+add_action('after_setup_theme', function() {
+    if (!current_theme_supports('custom-logo')) {
+        add_theme_support('custom-logo');
     }
-    return $classes;
-}
-add_filter('body_class', 'agregar_clase_admin_bar');
+});
+
+add_filter('show_admin_bar', '__return_false');
