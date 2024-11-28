@@ -810,11 +810,69 @@ function menu_usuario_superior() {
                     <a href="<?php echo esc_url('/dashboard/?section=dashboard-products'); ?>" class="boton-menu">Panel</a>
                     <a href="<?php echo esc_url(wp_logout_url(home_url())); ?>" class="boton-menu">Cerrar sesión</a>
                 <?php else : ?>
-                    <a href="<?php echo esc_url(wp_login_url(get_permalink())); ?>" class="boton-menu">Iniciar sesión</a>
+                    <?php if (is_main_site()) : ?>
+                        <div class="submenu-login">
+    <span class="boton-menu">Iniciar sesión</span>
+    <ul class="lista-sitios">
+        <?php
+        // Obtener todos los subsitios del multisitio
+        $sites = get_sites();
+        foreach ($sites as $site) {
+            // Excluir el sitio principal
+            if ($site->blog_id == 1) {
+                continue; // Salta al siguiente ciclo si es el sitio principal
+            }
+            $blog_details = get_blog_details($site->blog_id);
+            $site_url = get_home_url($site->blog_id); // La URL base del subsitio
+
+            // Construir la URL de login con la redirección
+            $redirect_url = esc_url($site_url . '/dashboard/?section=dashboard-products');
+            $login_url = wp_login_url($redirect_url); // Generar la URL de login para ese subsitio
+
+            // Mostrar el enlace con redirección después del login
+            echo '<li><a href="' . esc_url($login_url) . '">' . esc_html($blog_details->blogname) . '</a></li>';
+        }
+        ?>
+    </ul>
+</div>
+                    <?php else : ?>
+                        <a href="<?php echo esc_url(wp_login_url(get_permalink())); ?>" class="boton-menu">Iniciar sesión</a>
+                    <?php endif; ?>
                 <?php endif; ?>
             </div>
         </div>
     </div>
+    <style>
+        /* Estilos para el submenú */
+        .submenu-login {
+            position: relative;
+            display: inline-block;
+        }
+        .submenu-login .lista-sitios {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            z-index: 1000;
+        }
+        .submenu-login:hover .lista-sitios {
+            display: block;
+        }
+        .lista-sitios li {
+            padding: 10px;
+        }
+        .lista-sitios li a {
+            text-decoration: none;
+            color: #333;
+        }
+        .lista-sitios li a:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
     <?php
     return ob_get_clean(); // Retornamos el contenido del buffer
 }
