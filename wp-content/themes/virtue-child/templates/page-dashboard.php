@@ -3,14 +3,15 @@
 /*
 Template Name: Dashboard
 */
-if (!is_user_logged_in()) {
-    wp_redirect(site_url('/mi-cuenta/'));
-    exit;
-}
-// ... (código anterior)
+
+
 if (!current_user_can('manage_woocommerce') && !current_user_can('edit_posts')) {
     wp_redirect(site_url('/mi-cuenta/'));
     // wp_die('Esta página es privada, si necesitas acceso comunícate con el administrador');
+} elseif (current_user_can('manage_woocommerce') || current_user_can('edit_posts') || !is_user_logged_in())  {
+    $pagina_actual = esc_url(home_url($_SERVER['REQUEST_URI']));
+    wp_redirect(wp_login_url($pagina_actual));
+    exit;
 }
 // ... (código posterior)
 get_header();
