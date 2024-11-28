@@ -807,7 +807,7 @@ function menu_usuario_superior() {
                     $current_user = wp_get_current_user();
                 ?>
                     <span class="nombre-usuario"><?php echo esc_html($current_user->display_name); ?></span>
-                    <a href="<?php echo esc_url(admin_url('index.php')); ?>" class="boton-menu">Admin</a>
+                    <a href="<?php echo esc_url('/dashboard/?section=dashboard-products'); ?>" class="boton-menu">Panel</a>
                     <a href="<?php echo esc_url(wp_logout_url(home_url())); ?>" class="boton-menu">Cerrar sesión</a>
                 <?php else : ?>
                     <a href="<?php echo esc_url(wp_login_url(get_permalink())); ?>" class="boton-menu">Iniciar sesión</a>
