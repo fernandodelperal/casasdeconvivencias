@@ -9,7 +9,8 @@ if (!is_user_logged_in()) {
 }
 // ... (código anterior)
 if (!current_user_can('manage_woocommerce') && !current_user_can('edit_posts')) {
-    wp_die('Esta página es privada, si necesitas acceso comunícate con el administrador');
+    wp_redirect(site_url('/mi-cuenta/'));
+    // wp_die('Esta página es privada, si necesitas acceso comunícate con el administrador');
 }
 // ... (código posterior)
 get_header();
@@ -54,7 +55,7 @@ get_header();
         </ul>
     </div>
     <div class="user-menu" style="text-align: right;">
-        <button class="btn btn-primary" style="margin-left: 10px;" onclick="window.location.href='<?php echo site_url('/mi-cuenta'); ?>'">Panel Personal</button>
+        <button class="btn btn-primary" style="margin-left: 10px;" onclick="window.location.href='<?php echo site_url('/mi-cuenta'); ?>'">Ir a Panel Personal</button>
     </div>
 </div>
 <div class="dashboard-container">
