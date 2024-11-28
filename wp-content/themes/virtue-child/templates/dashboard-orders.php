@@ -24,7 +24,7 @@ $columns = array(
 ?>
     <h1>Inscripciones</h1>
     <form action="<?php echo esc_url( get_permalink() ); ?>" method="get" style="display: flex; justify-content: flex-end;">
-        <select name="filter_product" id="filter_product" style="margin-right: 10px;">
+        <select name="filter_product" id="filter_product" style="margin-right: 10px;" onchange="this.form.submit()">
             <?php
                 $args = array(
                     'post_type'      => 'product',
@@ -52,7 +52,6 @@ $columns = array(
         </select>
         <input type="hidden" name="paged" value="<?php echo $paged; ?>">
         <input type="hidden" name="section" value="dashboard-orders">
-        <button type="submit">Filter</button>
     </form>
 
 <?php
