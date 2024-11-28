@@ -50,6 +50,7 @@ Thumbs.db
 
 wp-config.php
 wp-content/uploads
+wp-content/themes/virtue-child
 
 .hcflag
 error_log
