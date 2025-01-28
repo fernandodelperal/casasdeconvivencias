@@ -3,6 +3,22 @@ require 'tucuota.php';
 
 class WC_TuCuota extends WC_Payment_Gateway
 {
+    private $sandbox_mode;
+    private $token_tucuota_live;
+    private $token_tucuota_sandbox;
+    private $interest_quota_0;
+    private $interest_quota_1;
+    private $interest_quota_2;
+    private $interest_quota_3;
+    private $interest_quota_4;
+    private $interest_quota_5;
+    private $interest_quota_6;
+    private $interest_quota_7;
+    private $interest_quota_8;
+    private $interest_quota_9;
+    private $interest_quota_10;
+    private $interest_quota_11;
+    private $interest_quota_12;
 
     public function __construct()
     {
