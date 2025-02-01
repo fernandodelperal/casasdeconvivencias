@@ -453,7 +453,13 @@ if ( ! class_exists( 'WPSE_WPML_Posts' ) ) {
 			if ( ! $editor->provider->is_post_type ) {
 				return;
 			}
-			$post_types = $editor->args['enabled_post_types'];
+			$post_types     = $editor->args['enabled_post_types'];
+			$languages      = wp_list_pluck( $sitepress->get_active_languages(), 'display_name', 'code' );
+			$term_separator = VGSE()->helpers->get_term_separator();
+			$default_lang   = $sitepress->get_default_language();
+			if ( isset( $languages[ $default_lang ] ) ) {
+				unset( $languages[ $default_lang ] );
+			}
 			foreach ( $post_types as $post_type ) {
 				if ( WP_Sheet_Editor_WPML_Obj()->is_the_default_language() ) {
 					$editor->args['columns']->register_item(
@@ -467,7 +473,13 @@ if ( ! class_exists( 'WPSE_WPML_Posts' ) ) {
 							'supports_sql_formulas' => false,
 							'allow_plain_text'      => true,
 							'formatted'             => array(
-								'comment' => array( 'value' => __( 'Enter multiple language codes separated by commas and we will create copies of the main language. For example: en, es. Existing languages will be skipped.', 'vg_sheet_editor' ) ),
+								'editor'        => 'wp_chosen',
+								'selectOptions' => $languages,
+								'chosenOptions' => array(
+									'multiple'        => true,
+									'search_contains' => true,
+								),
+								'comment'       => array( 'value' => sprintf( __( 'Enter multiple language codes separated by %1$s and we will create copies of the main language. For example: en%2$s es. Existing languages will be skipped.', 'vg_sheet_editor' ), $term_separator, $term_separator ) ),
 							),
 							'save_value_callback'   => array( $this, 'duplicate_to_language' ),
 						)
@@ -643,7 +655,7 @@ if ( ! class_exists( 'WPSE_WPML_Posts' ) ) {
 				'duplicate_to' => array(),
 			);
 			$mdata['iclpost']            = array( $post_id );
-			$new_langs                   = array_filter( array_map( 'trim', explode( ',', strtolower( $data_to_save ) ) ) );
+			$new_langs                   = array_filter( array_map( 'trim', explode( VGSE()->helpers->get_term_separator(), strtolower( $data_to_save ) ) ) );
 			$existing_languages_for_post = $wpdb->get_col( $wpdb->prepare( "SELECT language_code FROM {$wpdb->prefix}icl_translations WHERE trid IN (SELECT trid FROM {$wpdb->prefix}icl_translations WHERE element_id = %d AND element_type LIKE %s)", $post_id, 'post\_%' ) );
 			$new_langs                   = array_diff( $new_langs, $existing_languages_for_post );
 			if ( empty( $new_langs ) ) {

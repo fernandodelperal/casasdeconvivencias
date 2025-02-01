@@ -1,8 +1,8 @@
 {
     "name": "wp-sheet-editor-woocommerce-products",
-    "version": "1.8.15",
+    "version": "1.8.17",
     "vgDistName": "woo-bulk-edit-products",
-    "vgPreviousVersion": "1.8.15-beta.1",
+    "vgPreviousVersion": "1.8.17-beta.1",
     "sheetEditorModules": {
         "free": [
             "autofill-cells",

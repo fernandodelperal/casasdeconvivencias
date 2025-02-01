@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Virtue/Ascend/Pinnacle Toolkit
  * Description: Custom Portfolio and Shortcode functionality for free Virtue, Ascend, and Pinnacle WordPress themes.
- * Version: 4.9.8
+ * Version: 4.9.9
  * Author: Kadence WP
  * Author URI: https://kadencewp.com/
  * License: GPLv2 or later

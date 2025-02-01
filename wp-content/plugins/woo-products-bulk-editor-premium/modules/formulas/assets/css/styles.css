@@ -1,26 +1,20 @@
-.formula-builder .action-fields .relationship:first-child,
-.formula-builder .action-fields .relationship-and {
-    display: none;
+.remodal-bulk-edit label {
+    display: block;
+    margin: 5px 0 10px;
 }
 
-.formula-builder label {
-    display: block;
-}
-.formula-builder input,.formula-builder select, .formula-builder textarea {
-    display: block;
-    margin: 8px auto;
-    width: 53%;
-}
-.formula-builder textarea {
-    height: 27px;
+.remodal-bulk-edit .selected-files {
+    margin-top: 10px;
 }
 
-/*Simplify formulas modal*/
-.modal-formula ul.vgse-simple-tabs,
-.modal-formula .formula-field,
-.modal-formula .formula-textarea {
-    display: none;
+.remodal-bulk-edit .selected-files .image-preview {
+    position: relative;
+    display: inline-block;
 }
-.formula-builder .action-title,.formula-builder .action-description {
-    margin: 0;
+
+.remodal-bulk-edit .selected-files .image-preview .remove-file {
+    position: absolute;
+    right: 0;
+    padding: 2px 8px !important;
+    line-height: 20px;    
 }

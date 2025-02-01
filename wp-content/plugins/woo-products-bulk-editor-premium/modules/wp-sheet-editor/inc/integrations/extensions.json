@@ -386,7 +386,7 @@
         "dependencyConstants": [],
         "status": "publish",
         "requiresThirdPartyPlugin": true,
-        "version": "1.0.3",
+        "version": "1.0.4",
         "description": "Support for the Attribute Swatches plugin created by IconicWP",
         "name": "WP Sheet Editor - IconicWP Attribute Swatches",
         "file_name": "wp-sheet-editor-iconic-attribute-swatches"
@@ -494,7 +494,7 @@
         "dependencyConstants": [],
         "status": "publish",
         "requiresThirdPartyPlugin": true,
-        "version": "1.1.1",
+        "version": "1.1.3",
         "description": "Add columns for custom fields created with JetEngine with automatic formatting",
         "name": "WP Sheet Editor - JetEngine",
         "file_name": "wp-sheet-editor-jetengine"
@@ -663,7 +663,7 @@
         "dependencyConstants": [],
         "status": "publish",
         "requiresThirdPartyPlugin": true,
-        "version": "1.0.0",
+        "version": "1.0.1",
         "description": "Add a column to the post types and taxonomies spreadsheets to edit the permalinks managed by the plugin Permalink Manager",
         "name": "WP Sheet Editor - Permalink Manager",
         "file_name": "wp-sheet-editor-permalink-manager"
@@ -689,7 +689,7 @@
         ],
         "status": "publish",
         "requiresThirdPartyPlugin": true,
-        "version": "1.0.3",
+        "version": "1.0.4",
         "description": "Add columns to edit the membership restrictions of PMPro in all post types and add columns to edit the membership plan in the users spreadsheet",
         "name": "WP Sheet Editor - Paid Membership Pro",
         "file_name": "wp-sheet-editor-pm-membership-pro"
@@ -1389,6 +1389,29 @@
         "description": "Add columns to the post types spreadsheets to apply membership restrictions to specific posts",
         "name": "WP Sheet Editor - WooCommerce Memberships",
         "file_name": "wp-sheet-editor-woocommerce-memberships"
+    },
+    {
+        "className": "WPSE_WC_POS",
+        "freemiusFunctionName": "",
+        "requiredWPSEPlugin": [
+            [
+                1010,
+                2812
+            ]
+        ],
+        "dependencyClasses": [
+            "WP_Sheet_Editor_WooCommerce"
+        ],
+        "dependencyFunctions": [],
+        "dependencyConstants": [
+            "WCPOS\\WooCommercePOS\\VERSION"
+        ],
+        "status": "publish",
+        "requiresThirdPartyPlugin": true,
+        "version": "1.0.0",
+        "description": "Update the POS synchronization when the column changes.",
+        "name": "WP Sheet Editor - WooCommerce POS",
+        "file_name": "wp-sheet-editor-woocommerce-pos"
     },
     {
         "className": "WPSE_WC_Simple_Auctions",

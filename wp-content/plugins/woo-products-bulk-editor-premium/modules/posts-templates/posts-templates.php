@@ -22,6 +22,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Post_Templates' ) ) {
 
 		/**
 		 * Creates or returns an instance of this class.
+		 * @return WP_Sheet_Editor_Post_Templates
 		 */
 		static function get_instance() {
 			if ( null == self::$instance ) {

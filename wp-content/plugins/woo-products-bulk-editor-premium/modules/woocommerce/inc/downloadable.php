@@ -255,6 +255,7 @@ if ( ! class_exists( 'WPSE_WC_Products_Downloadable' ) ) {
 			if ( $post_type !== VGSE()->WC->post_type ) {
 				return $settings;
 			}
+			$settings['columns_disallowed_preview'][]             = '_downloadable_files';
 			$settings['columns_actions']['wc_downloadable_files'] = array(
 				'replace'     => 'default',
 				'clear_value' => 'default',

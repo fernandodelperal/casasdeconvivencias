@@ -460,7 +460,7 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 				'total'         => $total,
 				'file_position' => $file_content['file_position'],
 			);
-			return $out;
+			return apply_filters( 'vg_sheet_editor/csv/file_data', $out, $file_path, $settings );
 		}
 
 		function import_csv() {
@@ -538,8 +538,8 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 					'meta_query' => array(),
 				);
 				// If the row has all the wp fields required for the search and they're not empty, make the search
+				$rows[ $row_index ]['ID'] = null;
 				if ( count( $search_args ) === count( $check_wp_fields ) && ! empty( $check_wp_fields ) ) {
-					$rows[ $row_index ]['ID'] = null;
 					foreach ( $check_wp_fields as $field_key ) {
 						// Allow to search by post name for the update
 						if ( $field_key === 'post_name__in' && ! empty( $row[ $field_key ] ) ) {
@@ -648,6 +648,8 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 				WPSE_Logger_Obj()->entry( sprintf( 'We found %d rows for this batch', count( $rows ) ), sanitize_text_field( $settings['wpse_job_id'] ) );
 			}
 
+			$delete_file_after_import = true;
+
 			$out = array(
 				'message'        => null,
 				'updated'        => 0,
@@ -667,7 +669,7 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 				do_action( 'vg_sheet_editor/import/completed', $out, $settings );
 
 				// Delete import file after the import finished when it was a manual import
-				if ( $total === $processed && ! empty( $settings['source'] ) && in_array( $settings['source'], array( 'csv_upload', 'paste', 'csv_url' ), true ) && file_exists( $this->imports_dir . $settings['import_file'] ) ) {
+				if ( $delete_file_after_import && $total === $processed && ! empty( $settings['source'] ) && in_array( $settings['source'], array( 'csv_upload', 'paste', 'csv_url' ), true ) && file_exists( $this->imports_dir . $settings['import_file'] ) ) {
 					unlink( $this->imports_dir . $settings['import_file'] );
 				}
 
@@ -819,7 +821,7 @@ if ( ! class_exists( 'WPSE_CSV_API' ) ) {
 			);
 
 			// Delete import file after the import finished when it was a manual import
-			if ( $total === $processed && ! empty( $settings['source'] ) && in_array( $settings['source'], array( 'csv_upload', 'paste', 'csv_url' ), true ) && file_exists( $this->imports_dir . $settings['import_file'] ) ) {
+			if ( $delete_file_after_import && $total === $processed && ! empty( $settings['source'] ) && in_array( $settings['source'], array( 'csv_upload', 'paste', 'csv_url' ), true ) && file_exists( $this->imports_dir . $settings['import_file'] ) ) {
 				unlink( $this->imports_dir . $settings['import_file'] );
 			}
 

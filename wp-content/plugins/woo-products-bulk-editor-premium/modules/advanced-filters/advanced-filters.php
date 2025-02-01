@@ -6,10 +6,10 @@ if ( ! class_exists( 'WP_Sheet_Editor_Advanced_Filters' ) ) {
 	 */
 	class WP_Sheet_Editor_Advanced_Filters {
 
-		private static $instance    = false;
-		var $plugin_url             = null;
-		var $plugin_dir             = null;
-		var $favorite_search_fields = 'vgse_favorite_search_fields';
+		private static $instance    = null;
+		public $plugin_url             = null;
+		public $plugin_dir             = null;
+		public $favorite_search_fields = 'vgse_favorite_search_fields';
 
 		private function __construct() {
 		}
@@ -940,6 +940,7 @@ GROUP BY tr.object_id';
 
 		/**
 		 * Creates or returns an instance of this class.
+		 * @return WP_Sheet_Editor_Advanced_Filters
 		 */
 		static function get_instance() {
 			if ( ! self::$instance ) {

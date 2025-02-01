@@ -2,8 +2,8 @@
 Contributors: britner
 Tags: 
 Requires at least: 4.5
-Tested up to: 6.1
-Stable tag: 4.9.8
+Tested up to: 6.7
+Stable tag: 4.9.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,8 +40,14 @@ Not intended to work with any other themes.
 
 Install the plugin into the `/wp-content/plugins/` folder, and activate it.
 
+== Frequently Asked Questions ==
+= Where do I report security bugs found in this plugin? =
+Please report security bugs found in the source code of the Virtue Toolkit plugin through the [Patchstack Vulnerability Disclosure Program] https://patchstack.com/database/vdp/virtue-toolkit. The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
 
 == Changelog ==
+
+= 4.9.9 =
+* Update: Show 6.7 Support.
 
 = 4.9.8 =
 * Update: Show 6.1 Support.

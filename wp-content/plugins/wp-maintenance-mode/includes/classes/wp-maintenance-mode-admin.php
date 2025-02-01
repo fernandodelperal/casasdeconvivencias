@@ -23,12 +23,8 @@ if ( ! class_exists( 'WP_Maintenance_Mode_Admin' ) ) {
 		 * 3, 2, 1... Start!
 		 */
 		private function __construct() {
-			$plugin                        = WP_Maintenance_Mode::get_instance();
-			$this->plugin_slug             = $plugin->get_plugin_slug();
-			$this->plugin_settings         = $plugin->get_plugin_settings();
-			$this->plugin_network_settings = $plugin->get_plugin_network_settings();
-			$this->plugin_default_settings = $plugin->default_settings();
-			$this->plugin_basename         = plugin_basename( WPMM_PATH . $this->plugin_slug . '.php' );
+			// Init.
+			add_action( 'init', array( $this, 'load_default_settings' ) );
 
 			// Load admin style sheet and JavaScript.
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
@@ -96,6 +92,18 @@ if ( ! class_exists( 'WP_Maintenance_Mode_Admin' ) ) {
 		}
 
 		/**
+		 * Load default settings.
+		 */
+		public function load_default_settings() {
+			$plugin                        = WP_Maintenance_Mode::get_instance();
+			$this->plugin_slug             = $plugin->get_plugin_slug();
+			$this->plugin_settings         = $plugin->get_plugin_settings();
+			$this->plugin_network_settings = $plugin->get_plugin_network_settings();
+			$this->plugin_basename         = plugin_basename( WPMM_PATH . $this->plugin_slug . '.php' );
+			$this->plugin_default_settings = $plugin->default_settings();
+		}
+
+		/**
 		 * Load CSS files
 		 *
 		 * @since 2.0.0
@@ -157,8 +165,6 @@ if ( ! class_exists( 'WP_Maintenance_Mode_Admin' ) ) {
 						'isOtterActive'          => is_plugin_active( 'otter-blocks/otter-blocks.php' ),
 						'isOptimoleInstalled'    => file_exists( ABSPATH . 'wp-content/plugins/optimole-wp/optimole-wp.php' ),
 						'isOptimoleActive'       => is_plugin_active( 'optimole-wp/optimole-wp.php' ),
-						'isHyveInstalled'        => file_exists( ABSPATH . 'wp-content/plugins/hyve-lite/hyve-lite.php' ),
-						'isHyveActive'           => is_plugin_active( 'hyve-lite/hyve-lite.php' ),
 						'errorString'            => __( 'Something went wrong, please try again.', 'wp-maintenance-mode' ),
 						'loadingString'          => __( 'Doing some magic...', 'wp-maintenance-mode' ),
 						'importingText'          => __( 'Importing', 'wp-maintenance-mode' ),
@@ -186,16 +192,6 @@ if ( ! class_exists( 'WP_Maintenance_Mode_Admin' ) ) {
 								'plugin_status' => 'all',
 								'paged'         => '1',
 								'_wpnonce'      => wp_create_nonce( 'activate-plugin_optimole-wp/optimole-wp.php' ),
-							),
-							esc_url( network_admin_url( 'plugins.php' ) )
-						),
-						'hyveActivationLink'     => add_query_arg(
-							array(
-								'action'        => 'activate',
-								'plugin'        => rawurlencode( 'hyve-lite/hyve-lite.php' ),
-								'plugin_status' => 'all',
-								'paged'         => '1',
-								'_wpnonce'      => wp_create_nonce( 'activate-plugin_hyve-lite/hyve-lite.php' ),
 							),
 							esc_url( network_admin_url( 'plugins.php' ) )
 						),
@@ -1181,7 +1177,7 @@ if ( ! class_exists( 'WP_Maintenance_Mode_Admin' ) ) {
 		 * @return string
 		 */
 		public function add_wizard_classes( $classes ) {
-			if ( ! get_option( 'wpmm_fresh_install', false ) ) {
+			if ( get_option( 'wpmm_fresh_install', false ) ) {
 				$classes .= ' wpmm-wizard-fullscreen';
 			}
 

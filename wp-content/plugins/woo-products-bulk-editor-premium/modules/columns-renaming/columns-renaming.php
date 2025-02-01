@@ -24,7 +24,8 @@ if (!class_exists('WP_Sheet_Editor_Columns_Renaming')) {
 		}
 
 		function init() {
-			add_filter('vg_sheet_editor/columns/all_items', array($this, 'filter_columns_for_rename'), 10, 2);
+			// Priority 15 so the custom names are applied to the columns after the other filters applied their default names.
+			add_filter('vg_sheet_editor/columns/all_items', array($this, 'filter_columns_for_rename'), 15, 2);
 			add_action('vg_sheet_editor/columns_visibility/enabled/after_column_action', array($this, 'render_rename_button'), 10, 2);
 			add_action('vg_sheet_editor/after_enqueue_assets', array($this, 'enqueue_assets'));
 			add_action('wp_ajax_vgse_rename_column', array($this, 'rename_column'));

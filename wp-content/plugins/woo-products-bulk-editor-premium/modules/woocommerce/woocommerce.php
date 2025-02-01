@@ -342,7 +342,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_WooCommerce' ) ) {
 						'id'    => 'wc_products_custom_attribute_names',
 						'type'  => 'text',
 						'title' => __( 'Custom attribute names', 'vg_sheet_editor' ),
-						'desc'  => __( 'We will create columns for these custom attributes.', 'vg_sheet_editor' ),
+						'desc'  => __( 'We will create columns for these custom attributes. Enter multiple names separated with commas', 'vg_sheet_editor' ),
 					),
 					array(
 						'id'      => 'allow_to_see_variation_url_slug',
@@ -801,6 +801,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_WooCommerce' ) ) {
 					// We must use the slow execution method to sync with the lookup table
 					'supports_sql_formulas' => false,
 					'save_value_callback'   => array( WPSE_WC_Products_Data_Formatting_Obj(), 'save_sale_date' ),
+					'prepare_value_for_display' => array( WPSE_WC_Products_Data_Formatting_Obj(), 'prepare_sale_dates_for_display' ),
 				)
 			);
 
@@ -828,6 +829,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_WooCommerce' ) ) {
 					// We must use the slow execution method to sync with the lookup table
 					'supports_sql_formulas' => false,
 					'save_value_callback'   => array( WPSE_WC_Products_Data_Formatting_Obj(), 'save_sale_date' ),
+					'prepare_value_for_display' => array( WPSE_WC_Products_Data_Formatting_Obj(), 'prepare_sale_dates_for_display' ),
 				)
 			);
 			$editor->args['columns']->register_item(

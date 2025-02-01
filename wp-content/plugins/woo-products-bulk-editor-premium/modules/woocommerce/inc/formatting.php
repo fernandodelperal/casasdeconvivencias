@@ -18,7 +18,6 @@ if ( ! class_exists( 'WPSE_WC_Products_Data_Formatting' ) ) {
 			add_action( 'vg_sheet_editor/save_rows/after_saving_cell', array( $this, 'product_cell_updated_on_spreadsheet' ), 10, 7 );
 			add_action( 'vg_sheet_editor/save_rows/after_saving_post', array( $this, 'product_updated_on_spreadsheet' ), 10, 4 );
 			add_action( 'vg_sheet_editor/formulas/execute_formula/after_execution_on_field', array( $this, 'product_updated_with_formula' ), 10, 8 );
-			add_filter( 'vg_sheet_editor/load_rows/output', array( $this, 'format_sale_dates' ), 10, 3 );
 			add_filter( 'vg_sheet_editor/provider/post/update_item_meta', array( $this, 'filter_cell_data_for_saving' ), 10, 3 );
 
 			if ( version_compare( WC()->version, '3.9.0' ) >= 0 ) {
@@ -593,21 +592,11 @@ if ( ! class_exists( 'WPSE_WC_Products_Data_Formatting' ) ) {
 			}
 			return $out;
 		}
-
-		function format_sale_dates( $data, $query, $spreadsheet_columns ) {
-			if ( $query['post_type'] !== VGSE()->WC->post_type || ( ! isset( $spreadsheet_columns['_sale_price_dates_from'] ) && ! isset( $spreadsheet_columns['_sale_price_dates_to'] ) ) ) {
-				return $data;
+		public function prepare_sale_dates_for_display( $value, $post, $key, $column_settings ) {
+			if ( is_numeric( $value ) ) {
+				return wp_date( 'Y-m-d', $value );
 			}
-
-			foreach ( $data as $row_index => $row ) {
-				if ( ! empty( $row['_sale_price_dates_from'] ) && is_numeric( $row['_sale_price_dates_from'] ) ) {
-					$data[ $row_index ]['_sale_price_dates_from'] = wp_date( 'Y-m-d', $row['_sale_price_dates_from'] );
-				}
-				if ( ! empty( $row['_sale_price_dates_to'] ) && is_numeric( $row['_sale_price_dates_to'] ) ) {
-					$data[ $row_index ]['_sale_price_dates_to'] = wp_date( 'Y-m-d', $row['_sale_price_dates_to'] );
-				}
-			}
-			return $data;
+			return $value;
 		}
 
 		/**

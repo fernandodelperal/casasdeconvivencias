@@ -14,7 +14,6 @@ if ( ! class_exists( 'WP_Sheet_Editor_WooCommerce_Attrs' ) ) {
 		var $cell_key            = '_vgse_create_attribute';
 
 		private function __construct() {
-
 		}
 
 		function init() {
@@ -118,7 +117,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_WooCommerce_Attrs' ) ) {
 					}
 					$attributes[ $attribute ][ $subfield_key ] = $new_value;
 					update_post_meta( $row['post_id'], '_product_attributes', $attributes );
-					$update_count++;
+					++$update_count;
 				}
 			}
 			return $update_count;
@@ -189,7 +188,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_WooCommerce_Attrs' ) ) {
 				}
 
 				update_post_meta( $row['post_id'], '_default_attributes', $attributes );
-				$update_count++;
+				++$update_count;
 			}
 			return $update_count;
 		}
@@ -416,7 +415,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_WooCommerce_Attrs' ) ) {
 							}
 						}
 
-						$i++;
+						++$i;
 					}
 				}
 			} elseif ( $post->post_type === 'product_variation' ) {
@@ -697,6 +696,12 @@ if ( ! class_exists( 'WP_Sheet_Editor_WooCommerce_Attrs' ) ) {
 				$chosen_options[] = array(
 					'id'    => $attribute_label,
 					'label' => $attribute_label,
+				);
+			}
+			foreach ( $all_attributes['custom'] as $custom_attribute_label ) {
+				$chosen_options[] = array(
+					'id'    => $custom_attribute_label,
+					'label' => $custom_attribute_label,
 				);
 			}
 
@@ -1123,7 +1128,6 @@ if ( ! class_exists( 'WP_Sheet_Editor_WooCommerce_Attrs' ) ) {
 		function __get( $name ) {
 			return $this->$name;
 		}
-
 	}
 
 }

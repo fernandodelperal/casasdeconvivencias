@@ -54,36 +54,36 @@ if ( ! class_exists( 'WP_Sheet_Editor_WooCommerce_Variations' ) ) {
 				$this->post_type
 			);
 
-					$editor->args['toolbars']->register_item(
-						'display_all_variations',
-						array(
-							'type'              => 'button', // html | switch | button
-							'content'           => __( 'Display all the variations', 'vg_sheet_editor' ),
-							'allow_in_frontend' => true,
-							'parent'            => 'display_variations',
-						),
-						$this->post_type
-					);
-					$editor->args['toolbars']->register_item(
-						'display_selected_products_variations',
-						array(
-							'type'              => 'button', // html | switch | button
-							'content'           => __( 'Display the variations of selected products', 'vg_sheet_editor' ),
-							'allow_in_frontend' => true,
-							'parent'            => 'display_variations',
-						),
-						$this->post_type
-					);
-					$editor->args['toolbars']->register_item(
-						'only_display_selected_products_variations',
-						array(
-							'type'              => 'button', // html | switch | button
-							'content'           => __( 'Only display the selected products with variations', 'vg_sheet_editor' ),
-							'allow_in_frontend' => true,
-							'parent'            => 'display_variations',
-						),
-						$this->post_type
-					);
+			$editor->args['toolbars']->register_item(
+				'display_all_variations',
+				array(
+					'type'              => 'button', // html | switch | button
+					'content'           => __( 'Display all the variations', 'vg_sheet_editor' ),
+					'allow_in_frontend' => true,
+					'parent'            => 'display_variations',
+				),
+				$this->post_type
+			);
+			$editor->args['toolbars']->register_item(
+				'display_selected_products_variations',
+				array(
+					'type'              => 'button', // html | switch | button
+					'content'           => __( 'Display the variations of selected products', 'vg_sheet_editor' ),
+					'allow_in_frontend' => true,
+					'parent'            => 'display_variations',
+				),
+				$this->post_type
+			);
+			$editor->args['toolbars']->register_item(
+				'only_display_selected_products_variations',
+				array(
+					'type'              => 'button', // html | switch | button
+					'content'           => __( 'Only display the selected products with variations', 'vg_sheet_editor' ),
+					'allow_in_frontend' => true,
+					'parent'            => 'display_variations',
+				),
+				$this->post_type
+			);
 		}
 
 		/**
@@ -561,10 +561,10 @@ if ( ! class_exists( 'WP_Sheet_Editor_WooCommerce_Variations' ) ) {
 			}
 			?>
 			<li class="run-on-variations-field">
-				<select name="wpse_run_on_variations">
+				<select @change="extra.runOnVariationsChanged" x-model="extra.wcRunBulkEditOnVariations" name="wpse_run_on_variations">
 					<option value=""><?php _e( 'Edit only parent products', 'vg_sheet_editor' ); ?></option>
 					<option value="on"><?php _e( 'Edit only variations', 'vg_sheet_editor' ); ?></option>
-				</select>		
+				</select>
 			</li>
 			<?php
 		}

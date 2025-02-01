@@ -528,6 +528,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns_Manager' ) ) {
 					'data' => $key,
 				);
 				$out['custom_sanitization_before_saving'] = 'strval';
+				$out['columns_manager_settings']          = $column_settings;
 			} elseif ( $column_settings['field_type'] === 'number' ) {
 				$out['formatted']                         = array(
 					'data' => $key,
@@ -870,7 +871,7 @@ if ( ! class_exists( 'WP_Sheet_Editor_Columns_Manager' ) ) {
 			);
 			$settings['prepare_value_for_database'] = array( $this, 'prepare_date_for_database' );
 			$settings['prepare_value_for_display']  = array( $this, 'format_date_for_cell' );
-			$settings['value_type'] = 'date';
+			$settings['value_type']                 = 'date';
 
 			return $settings;
 		}

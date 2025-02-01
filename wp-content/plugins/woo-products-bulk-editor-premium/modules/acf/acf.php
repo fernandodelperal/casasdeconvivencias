@@ -90,6 +90,12 @@ if ( ! class_exists( 'WP_Sheet_Editor_ACF' ) ) {
 				'title' => __( 'ACF: Show checkboxes as multi select dropdowns?', 'vg_sheet_editor' ),
 				'desc'  => __( 'By default, we show every checkbox as a separate column, but if you have checkboxes with many options you might want to use one column with a dropdown instead.', 'vg_sheet_editor' ),
 			);
+			$sections['misc']['fields'][] = array(
+				'id'    => 'acf_manage_page_links_as_slugs',
+				'type'  => 'switch',
+				'title' => __( 'ACF: Manage values of "page links" and "post object" fields as slugs instead of titles?', 'vg_sheet_editor' ),
+				'desc'  => __( 'By default, we show and save post titles as values, but it can cause issues if you use duplicate titles. Enable this option to use post slugs for better accuracy.', 'vg_sheet_editor' ),
+			);
 			return $sections;
 		}
 
@@ -922,36 +928,58 @@ if ( ! class_exists( 'WP_Sheet_Editor_ACF' ) ) {
 						$acf_field_post_type = is_array( $acf_field['post_type'] ) ? current( $acf_field['post_type'] ) : $acf_field['post_type'];
 					}
 
-					$formatted = array(
-						'type'           => 'autocomplete',
-						'source'         => 'searchPostByKeyword',
-						'searchPostType' => $acf_field_post_type,
-						'comment'        => array( 'value' => __( 'Enter a title', 'vg_sheet_editor' ) ),
-					);
-					if ( ! empty( $acf_field['multiple'] ) && $acf_field_post_type ) {
-						$posts_count = array_sum( (array) wp_count_posts() );
-						if ( $posts_count < 500 ) {
+					if ( VGSE()->get_option( 'acf_manage_page_links_as_slugs' ) ) {
+						if ( ! empty( $acf_field['multiple'] ) ) {
 							$formatted = array(
-								'editor'        => 'wp_chosen',
-								'selectOptions' => array(),
-								'chosenOptions' => array(
-									'multiple'        => true,
-									'search_contains' => true,
-									'create_option'   => true,
-									'skip_no_results' => true,
-									'persistent_create_option' => true,
-									'data'            => array(),
-									'ajaxParams'      => array(
-										'action'           => 'vgse_list_post_titles',
-										'search_post_type' => $acf_field_post_type,
+								'comment' => array(
+									'value' => sprintf(
+										__( 'Enter slugs separated by %s', 'vg_sheet_editor' ),
+										VGSE()->helpers->get_term_separator()
 									),
 								),
 							);
 						} else {
-							$formatted = array(
-								'comment' => array( 'value' => sprintf( __( 'Enter titles separated by %s', 'vg_sheet_editor' ), VGSE()->helpers->get_term_separator() ) ),
-							);
+							$formatted = array();
 						}
+					} else {
+						$formatted = array(
+							'type'           => 'autocomplete',
+							'source'         => 'searchPostByKeyword',
+							'searchPostType' => $acf_field_post_type,
+							'comment'        => array( 'value' => __( 'Enter a title', 'vg_sheet_editor' ) ),
+						);
+						if ( ! empty( $acf_field['multiple'] ) && $acf_field_post_type ) {
+							$posts_count = array_sum( (array) wp_count_posts() );
+							if ( $posts_count < 500 ) {
+								$formatted = array(
+									'editor'        => 'wp_chosen',
+									'selectOptions' => array(),
+									'chosenOptions' => array(
+										'multiple'        => true,
+										'search_contains' => true,
+										'create_option'   => true,
+										'skip_no_results' => true,
+										'persistent_create_option' => true,
+										'data'            => array(),
+										'ajaxParams'      => array(
+											'action' => 'vgse_list_post_titles',
+											'search_post_type' => $acf_field_post_type,
+										),
+									),
+								);
+							} else {
+								$formatted = array(
+									'comment' => array(
+										'value' => sprintf(
+											__( 'Enter titles separated by %s', 'vg_sheet_editor' ),
+											VGSE()->helpers->get_term_separator()
+										),
+									),
+								);
+							}
+						}
+					}
+					if ( ! empty( $acf_field['multiple'] ) ) {
 						$this->excluded_serialized_keys[ $post_type ][] = $acf_field['name'];
 					}
 					$editor->args['columns']->register_item(
@@ -1333,18 +1361,49 @@ if ( ! class_exists( 'WP_Sheet_Editor_ACF' ) ) {
 		}
 
 		public function _prepare_posts_for_database( $post_id, $cell_key, $data_to_save, $post_type, $cell_args, $spreadsheet_columns ) {
+			global $wpdb;
 			$out = '';
 			if ( empty( $data_to_save ) ) {
 				return $out;
 			}
+			// Split the data by the term separator
+			$terms = array_filter( array_map( 'trim', explode( VGSE()->helpers->get_term_separator(), $data_to_save ) ) );
 
-			if ( empty( $cell_args['acf_field']['multiple'] ) ) {
-				$out = is_numeric( $data_to_save ) ? $data_to_save : VGSE()->data_helpers->get_post_id_from_title( $data_to_save, $cell_args['acf_field_search_post_type'] );
+			$manage_as_slugs = VGSE()->get_option( 'acf_manage_page_links_as_slugs' );
+
+			// Check if manage as slugs is enabled and data_to_save is not empty
+			if ( ! empty( $manage_as_slugs ) ) {
+
+				// Split the data by the term separator
+				$slugs = $terms;
+
+				// Prepare an IN clause for multiple slugs
+				$placeholders = implode( ',', array_fill( 0, count( $slugs ), '%s' ) );
+				$sql          = "SELECT ID FROM {$wpdb->posts} WHERE post_name IN ($placeholders) AND post_type = %s";
+
+				// Execute the query with sanitized slugs and post type
+				$post_ids = $wpdb->get_col(
+					$wpdb->prepare(
+						$sql,
+						array_merge( $slugs, array( $cell_args['acf_field_search_post_type'] ) )
+					)
+				);
+
+				if ( ! empty( $post_ids ) ) {
+					$out = array_map( 'intval', $post_ids );
+				}
+				if ( empty( $cell_args['acf_field']['multiple'] ) ) {
+					$out = empty( $out ) ? '' : current( $out );
+				}
 			} else {
-				$titles = array_map( 'trim', explode( VGSE()->helpers->get_term_separator(), $data_to_save ) );
-				$out    = array();
-				foreach ( $titles as $title ) {
-					$out[] = VGSE()->data_helpers->get_post_id_from_title( $title, $cell_args['acf_field_search_post_type'] );
+				if ( empty( $cell_args['acf_field']['multiple'] ) ) {
+					$out = is_numeric( $data_to_save ) ? $data_to_save : VGSE()->data_helpers->get_post_id_from_title( $data_to_save, $cell_args['acf_field_search_post_type'] );
+				} else {
+					$titles = $terms;
+					$out    = array();
+					foreach ( $titles as $title ) {
+						$out[] = VGSE()->data_helpers->get_post_id_from_title( $title, $cell_args['acf_field_search_post_type'] );
+					}
 				}
 			}
 			return $out;
@@ -1352,15 +1411,16 @@ if ( ! class_exists( 'WP_Sheet_Editor_ACF' ) ) {
 
 		public function _prepare_posts_for_display( $value, $post, $column_key, $column_settings ) {
 			global $wpdb;
-			$out = '';
+			$out             = '';
+			$manage_as_slugs = VGSE()->get_option( 'acf_manage_page_links_as_slugs' );
 			if ( ! empty( $value ) ) {
 				if ( empty( $column_settings['acf_field']['multiple'] ) && is_numeric( $value ) ) {
-					$out = html_entity_decode( get_the_title( (int) $value ) );
+					$out = $manage_as_slugs ? get_post_field( 'post_name', (int) $value, 'edit' ) : html_entity_decode( get_the_title( (int) $value ) );
 				} elseif ( ! empty( $column_settings['acf_field']['multiple'] ) && is_array( $value ) ) {
 
 					$ids                       = array_filter( array_map( 'intval', $value ) );
 					$ids_in_query_placeholders = implode( ', ', array_fill( 0, count( $ids ), '%d' ) );
-					$raw_titles                = $wpdb->get_col( $wpdb->prepare( "SELECT post_title FROM $wpdb->posts WHERE ID IN ($ids_in_query_placeholders)", $ids ) );
+					$raw_titles                = $wpdb->get_col( $wpdb->prepare( "SELECT %i FROM $wpdb->posts WHERE ID IN ($ids_in_query_placeholders)", array_merge( array( $manage_as_slugs ? 'post_name' : 'post_title' ), $ids ) ) );
 					$titles                    = ! empty( $raw_titles ) ? array_map( 'html_entity_decode', $raw_titles ) : array();
 					$out                       = implode( VGSE()->helpers->get_term_separator() . ' ', $titles );
 				}

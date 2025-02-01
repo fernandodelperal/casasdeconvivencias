@@ -2,7 +2,7 @@
 /*
   Plugin Name: WP Sheet Editor - WooCommerce Products (Premium)
   Description: Edit WooCommerce products in spreadsheet.
-  Version: 1.8.15
+  Version: 1.8.17
   Update URI: https://api.freemius.com
   Author:      WP Sheet Editor
   Author URI:  http://wpsheeteditor.com/?utm_source=wp-admin&utm_medium=plugins-list&utm_campaign=products
@@ -10,7 +10,7 @@
   License:     GPL2
   License URI: https://www.gnu.org/licenses/gpl-2.0.html
   WC requires at least: 4.0
-  WC tested up to: 9.3
+  WC tested up to: 9.5
   Text Domain: vg_sheet_editor_wc_products
   Domain Path: /lang
   @fs_premium_only /modules/user-path/send-user-path.php, /modules/advanced-filters/, /modules/columns-renaming/, /modules/formulas/, /modules/custom-columns/, /modules/spreadsheet-setup/, /modules/woocommerce/, /modules/acf/, /modules/posts-templates/, /modules/universal-sheet/, /modules/yoast-seo/, /modules/wpml/, /modules/columns-manager/,  /modules/wp-sheet-editor/inc/integrations/notifier.php,/modules/wp-sheet-editor/inc/integrations/extensions.json,

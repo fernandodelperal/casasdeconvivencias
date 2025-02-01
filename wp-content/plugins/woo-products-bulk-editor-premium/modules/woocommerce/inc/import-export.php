@@ -521,7 +521,9 @@ if ( ! class_exists( 'WPSE_WC_Products_Universal_Sheet' ) ) {
 				if ( isset( $columns['_sku'] ) ) {
 					$new_columns['sku'] = str_replace( '_sku', 'sku', $columns['_sku'] );
 				}
-				$columns = $new_columns;
+				$columns = array_diff_key( $columns, VGSE()->WC->core_to_woo_importer_columns_list );
+
+				$columns = array_diff_key( array_merge( $new_columns, $columns ), array_flip( array( 'post_title', '_sku' ) ) );
 			}
 			return $columns;
 		}
@@ -533,16 +535,16 @@ if ( ! class_exists( 'WPSE_WC_Products_Universal_Sheet' ) ) {
 		public function find_product_id_for_import( $post_id, $row, $post_type, $meta_query, $writing_type, $check_wp_fields ) {
 
 			if ( $post_type === VGSE()->WC->post_type ) {
-				$post_id = 0;
-
-				if ( ! empty( $row['ID'] ) && in_array( 'ID', $check_wp_fields ) ) {
-					$post_id = get_post_status( $row['ID'] ) ? (int) $row['ID'] : 0;
-				} elseif ( ! empty( $row['sku'] ) && in_array( 'sku', $check_wp_fields ) ) {
-					$post_id = (int) wc_get_product_id_by_sku( $row['sku'] );
-				} elseif ( ! empty( $row['name'] ) && in_array( 'name', $check_wp_fields ) ) {
-					$post = VGSE()->helpers->get_page_by_title( $row['name'], $post_type );
+				if ( in_array( 'ID', $check_wp_fields ) ) {
+					$post_id = ! empty( $row['ID'] ) && get_post_status( $row['ID'] ) ? (int) $row['ID'] : 0;
+				} elseif ( in_array( 'sku', $check_wp_fields ) ) {
+					$post_id = ! empty( $row['sku'] ) ? (int) wc_get_product_id_by_sku( $row['sku'] ) : 0;
+				} elseif ( in_array( 'name', $check_wp_fields ) ) {
+					$post = ! empty( $row['name'] ) ? VGSE()->helpers->get_page_by_title( $row['name'], $post_type ) : 0;
 					if ( $post ) {
 						$post_id = $post->ID;
+					} else {
+						$post_id = 0;
 					}
 				}
 			}
@@ -556,7 +558,7 @@ if ( ! class_exists( 'WPSE_WC_Products_Universal_Sheet' ) ) {
 			}
 			?>
 
-			<p><?php printf( __( 'Here is a <a href="%s" target="_blank">sample CSV</a> containing all types of products.', 'vg_sheet_editor' ), 'https://github.com/woocommerce/woocommerce/blob/master/sample-data/sample_products.csv' ); ?></p>
+			<p><?php printf( __( 'Here is a <a href="%s" target="_blank">sample CSV</a> containing all types of products.', 'vg_sheet_editor' ), 'https://github.com/woocommerce/woocommerce/blob/trunk/plugins/woocommerce/sample-data/sample_products.csv' ); ?></p>
 			<?php
 		}
 
@@ -654,8 +656,8 @@ if ( ! class_exists( 'WPSE_WC_Products_Universal_Sheet' ) ) {
 				return $data;
 			}
 
-			$original_data   = $data;
-			$product_type    = null;
+			$original_data = $data;
+			$product_type  = null;
 
 			if ( ! empty( $data['wpse_mark_outofstock'] ) && $data['wpse_mark_outofstock'] === 'yes' ) {
 				unset( $data['wpse_mark_outofstock'] );
@@ -686,12 +688,12 @@ if ( ! class_exists( 'WPSE_WC_Products_Universal_Sheet' ) ) {
 					unset( $data[ $key ] );
 				}
 
-				// Make sure there is a default attribute always, otherwise WC won't save the variations
+				// Make sure there is a default attribute always, otherwise WC won't save the variations. No longer needed, I guess WC fixed it on their importer
 				if ( strpos( $key, 'attributes:value' ) !== false && $product_type === 'variable' ) {
 					$default_attribute_key = str_replace( 'attributes:value', 'attributes:default', $key );
 
 					if ( empty( $data[ $default_attribute_key ] ) ) {
-						$data[ $default_attribute_key ] = current( array_map( 'trim', explode( ',', $value ) ) );
+						// $data[ $default_attribute_key ] = current( array_map( 'trim', explode( ',', $value ) ) );
 					}
 
 					$attribute_name_column_key = str_replace( 'attributes:value', 'attributes:name', $key );
@@ -964,7 +966,7 @@ if ( ! class_exists( 'WPSE_WC_Products_Universal_Sheet' ) ) {
 						unset( $new_data['person_types'] );
 					}
 					foreach ( $new_data as $column_id => $column_value ) {
-						$new_data[ $column_id ] = $exporter->format_data( $column_value );
+						$new_data[ $column_id ] = html_entity_decode( $exporter->format_data( $column_value ) );
 					}
 					$all_exported_keys                  = array_unique( array_merge( $all_exported_keys, array_keys( $new_data ) ) );
 					$cleaned_rows[ $cleaned_row_index ] = array_merge( $cleaned_row, $new_data );
