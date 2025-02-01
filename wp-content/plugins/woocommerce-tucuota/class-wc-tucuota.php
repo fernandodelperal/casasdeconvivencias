@@ -502,14 +502,14 @@ class WC_TuCuota extends WC_Payment_Gateway
                         <?php }
 
                         // actividades con plan de pago especial
-                        //OJO PONER ID de las variaciones. Por ej 1609 y 10 es combo elcasco varones 2021, indiv y compartida. 261 es test product
-                        if (in_array($product_id, [261, 1609, 1610, 2125, 2124])) {
+                        //OJO PONER ID de las variaciones o si es producto simple, poner el id del producto. Por ej 1609 y 10 es combo elcasco varones 2021, indiv y compartida. 261 es test product
+                        if (in_array($product_id, [261, 1609, 1610, 2125, 2124, 5462, 3744])) {
                             $special_interest = 0;
-                            $special_installment = 9;
+                            $special_installment = 12;
                             $final_amount = number_format($amount + $amount * $special_interest / 100, 2, ',', ' ');
                             $final_quota = number_format($amount / $special_installment + $amount * $special_interest / $special_installment / 100, 2, ',', ' ')
                         ?>
-                            <?php echo ("<option value=". $special_installment. ">".$special_installment . " cuotas de $ " . $final_quota . " ($ " . $final_amount) . ")"; ?>
+                            <?php echo ("<option value=". $special_installment. ">".$special_installment . " cuotas de $ " . $final_quota . " ($ " . $final_amount) . "). PLAN COMBO."; ?>
                             </option>
                         <?php }
 
