@@ -507,11 +507,13 @@ class WC_TuCuota extends WC_Payment_Gateway
                             $special_interest = 0;
                             $special_installment = 12;
                             $final_amount = number_format($amount + $amount * $special_interest / 100, 2, ',', ' ');
-                            $final_quota = number_format($amount / $special_installment + $amount * $special_interest / $special_installment / 100, 2, ',', ' ')
-                        ?>
-                            <?php echo ("<option value=". $special_installment. ">".$special_installment . " cuotas de $ " . $final_quota . " ($ " . $final_amount) . "). PLAN COMBO."; ?>
+                            $final_quota = number_format($amount / $special_installment + $amount * $special_interest / $special_installment / 100, 2, ',', ' ');
+                            ?>
+                            <option value="<?php echo $special_installment; ?>">
+                                <?php echo $special_installment . " cuotas de $ " . $final_quota . " ($ " . $final_amount . "). PLAN COMBO."; ?>
                             </option>
-                        <?php }
+                            <?php
+                        }
 
                         ?>
 
