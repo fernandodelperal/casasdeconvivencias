@@ -245,7 +245,7 @@ class WC_TuCuota extends WC_Payment_Gateway
         $quotas = $_POST[$this->id . '-cuotas'];
         $nid_property = 'interest_quota_' . $quotas;
         $interest = $this->{$nid_property};
-        $final_price = $order->get_total() + ($order->get_total() * $interest / 100);
+        $final_price = (float)$order->get_total() + ((float)$order->get_total() * (float)$interest / 100);
         $marca_tarjeta = $_POST[$this->id . '-marca'];
         $DNIoCUIL = sanitize_text_field($_POST['DNI/CUIL']);
         $number = $_POST[$this->id . '-admin-note'];
