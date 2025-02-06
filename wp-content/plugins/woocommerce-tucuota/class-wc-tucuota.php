@@ -503,7 +503,7 @@ class WC_TuCuota extends WC_Payment_Gateway
 
                         // actividades con plan de pago especial
                         //OJO PONER ID de las variaciones o si es producto simple, poner el id del producto. Por ej 1609 y 10 es combo elcasco varones 2021, indiv y compartida. 261 es test product
-                        if (in_array($product_id, [261, 1609, 1610, 2125, 2124, 5462, 3744])) {
+                        if (in_array($product_id, [261, 1609, 1610, 2125, 2124, 5462, 5496, 3744])) {
                             $special_interest = 0;
                             $special_installment = 12;
                             $final_amount = number_format($amount + $amount * $special_interest / 100, 2, ',', ' ');
